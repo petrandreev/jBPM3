@@ -1,0 +1,4 @@
+<hibernate-configuration>
+    <!-- hql queries and type defs -->
+    <mapping resource="org/jbpm/db/hibernate.queries.hbm.xml" />
+</hibernate-configuration>

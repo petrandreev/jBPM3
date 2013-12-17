@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition name="raceCondition" xmlns="urn:jbpm.org:jpdl-3.3">
+
+  <start-state name="start">
+    <transition to="fork1"></transition>
+  </start-state>
+
+  <fork name="fork1">
+    <transition to="node2" name="2"></transition>
+    <transition to="node3" name="3"></transition>
+    <transition to="node1" name="1"></transition>
+  </fork>
+
+  <join name="join1">
+    <transition to="end"></transition>
+  </join>
+
+  <node name="node2" async="true">
+    <transition to="join1"></transition>
+  </node>
+
+  <node name="node3" async="true">
+    <transition to="join1"></transition>
+  </node>
+
+  <node name="node1" async="true">
+    <transition to="join1"></transition>
+  </node>
+
+  <end-state name="end"></end-state>
+
+  <event type="process-end">
+    <action expression="${eventCallback.processEnd}"></action>
+  </event>
+
+</process-definition>

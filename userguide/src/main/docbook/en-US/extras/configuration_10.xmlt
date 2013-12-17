@@ -1,0 +1,16 @@
+<beans>
+    <bean name="taskFactory" 
+        class="org.jbpm.UnexistingTaskInstanceFactory" 
+        singleton="true"/>
+
+    <bean name="task" class="org.jbpm.taskmgmt.exe.TaskInstance" >
+        <constructor factory="taskFactory" method="createTask" >
+            <parameter class="java.lang.String">
+                <string>do dishes</string>
+            </parameter>
+            <parameter class="java.lang.String">
+                <string>theotherguy</string>
+            </parameter>
+        </constructor>
+    </bean>
+</beans>

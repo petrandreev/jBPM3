@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.taskmgmt.def.TaskMgmtDefinition" 
+            extends="org.jbpm.module.def.ModuleDefinition" 
+            discriminator-value="T">
+    <map name="swimlanes" inverse="true" cascade="all">
+      <key column="TASKMGMTDEFINITION_" />
+      <index column="NAME_" type="string"/>
+      <one-to-many class="org.jbpm.taskmgmt.def.Swimlane" />
+    </map>
+    <map name="tasks" inverse="true" cascade="all">
+      <key column="TASKMGMTDEFINITION_" />
+      <index column="NAME_" type="string"/>
+      <one-to-many class="org.jbpm.taskmgmt.def.Task" />
+    </map>
+    <many-to-one name="startTask" 
+                 column="STARTTASK_" 
+                 foreign-key="FK_TSKDEF_START"
+                 cascade="all"
+                 index="IDX_TSKDEF_START" />
+
+  </subclass>
+
+</hibernate-mapping>

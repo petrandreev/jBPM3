@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.2" name="jbpm2959">
+
+  <start-state name="Start">
+    <transition to="Keep Going?" >
+			<script>
+				executionContext.setVariable(&quot;count&quot;, 0);
+			</script>
+		</transition>
+  </start-state>
+
+  <state name="Sleep">
+    <timer duedate="1 second" name="sleep_timer_1" transition="Done" />
+    <transition to="Keep Going?" name="Done" />
+  </state>
+
+  <decision name="Keep Going?">
+    <transition to="Sleep" name="Yes">
+			<condition expression="${count &lt; 5}" />
+			<script>
+				executionContext.setVariable(&quot;count&quot;, count + 1);
+			</script>
+		</transition>
+		<transition to="End" name="No" />
+  </decision>
+
+	<end-state name="End" />
+
+</process-definition>

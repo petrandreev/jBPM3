@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+  <mbean code="org.jboss.jms.server.destination.QueueService"
+    name="jboss.jbpm.destination:service=Queue,name=JbpmDLQ"
+    xmbean-dd="xmdesc/Queue-xmbean.xml">
+    <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+    <depends>jboss.messaging:service=PostOffice</depends>
+    <attribute name="Clustered">true</attribute>
+  </mbean>
+
+  <mbean code="org.jboss.jms.server.destination.QueueService"
+    name="jboss.jbpm.destination:service=Queue,name=JbpmCommandQueue"
+    xmbean-dd="xmdesc/Queue-xmbean.xml">
+    <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+    <depends>jboss.messaging:service=PostOffice</depends>
+    <attribute name="Clustered">true</attribute>
+    <attribute name="RedeliveryDelay">60000</attribute>
+    <attribute name="DLQ">jboss.jbpm.destination:service=Queue,name=JbpmDLQ</attribute>
+  </mbean>
+
+  <mbean code="org.jboss.jms.server.destination.QueueService"
+    name="jboss.jbpm.destination:service=Queue,name=JbpmJobQueue"
+    xmbean-dd="xmdesc/Queue-xmbean.xml">
+    <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+    <depends>jboss.messaging:service=PostOffice</depends>
+    <attribute name="Clustered">true</attribute>
+    <attribute name="RedeliveryDelay">60000</attribute>
+    <attribute name="DLQ">jboss.jbpm.destination:service=Queue,name=JbpmDLQ</attribute>
+  </mbean>
+</server>

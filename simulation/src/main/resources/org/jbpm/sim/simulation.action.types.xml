@@ -1,0 +1,13 @@
+<action-types>
+  <action-type element="action"             class="org.jbpm.sim.jpdl.SimAction" />
+  <action-type element="simulation-action"  class="org.jbpm.sim.jpdl.SimAction" />
+  
+  <!-- TODO: script should get the same treatment as simulation action -->
+  <action-type element="script"             class="org.jbpm.sim.jpdl.SimScript" />
+  <action-type element="simulation-script"  class="org.jbpm.sim.jpdl.SimScript" />
+  
+  <!-- following action types are skipped during simulation -->
+  <action-type element="create-timer" class="org.jbpm.sim.action.EmptyAction" />
+  <action-type element="cancel-timer" class="org.jbpm.sim.action.EmptyAction" />
+  <action-type element="mail"         class="org.jbpm.sim.action.EmptyAction" />
+</action-types>

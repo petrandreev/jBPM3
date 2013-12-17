@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>jBPM3 - GPD Deployer</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>gpd-deployer</artifactId>
+  <packaging>war</packaging>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jbpm.jbpm3</groupId>
+    <artifactId>jsf-console-parent</artifactId>
+    <version>3.2.14</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+
+    <!-- Provided Dependencies -->
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>

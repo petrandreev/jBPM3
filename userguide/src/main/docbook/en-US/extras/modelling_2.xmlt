@@ -1,0 +1,10 @@
+<process-definition name="yearly evaluation">
+  <state name="fire employee">
+    <transition to="collect badge">
+      <action class="com.nomercy.hr.RemoveEmployeeUpdate" />
+    </transition>
+  </state>
+  
+  <state name="collect badge">
+  
+</process-definition>

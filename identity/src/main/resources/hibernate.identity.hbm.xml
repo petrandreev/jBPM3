@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <class name="org.jbpm.identity.User" table="JBPM_ID_USER" discriminator-value="U">
+    <id name="id" column="ID_">
+      <generator class="native" />
+    </id>
+    <discriminator type="char" column="CLASS_" />
+    <property name="name" column="NAME_" />
+    <property name="email" column="EMAIL_" />
+    <property name="password" column="PASSWORD_" />
+    <set name="memberships" cascade="all">
+      <key column="USER_" />
+      <one-to-many class="org.jbpm.identity.Membership" />
+    </set>
+    <set name="permissions" cascade="all" table="JBPM_ID_PERMISSIONS">
+      <key column="ENTITY_" foreign-key="none" />
+      <element type="org.jbpm.identity.hibernate.PermissionUserType">
+        <column name="CLASS_" />
+        <column name="NAME_" />
+        <column name="ACTION_" />
+      </element>
+    </set>
+  </class>
+
+  <class name="org.jbpm.identity.Group" table="JBPM_ID_GROUP" discriminator-value="G">
+    <id name="id" column="ID_">
+      <generator class="native" />
+    </id>
+    <discriminator type="char" column="CLASS_" />
+    <property name="name" column="NAME_" />
+    <property name="type" column="TYPE_" />
+    <many-to-one name="parent" column="PARENT_" foreign-key="FK_ID_GRP_PARENT" />
+    <set name="children" cascade="all">
+      <key column="PARENT_" />
+      <one-to-many class="org.jbpm.identity.Group" />
+    </set>
+    <set name="memberships" cascade="all">
+      <key column="GROUP_" />
+      <one-to-many class="org.jbpm.identity.Membership" />
+    </set>
+    <set name="permissions" cascade="all" table="JBPM_ID_PERMISSIONS">
+      <key column="ENTITY_" foreign-key="none" />
+      <element type="org.jbpm.identity.hibernate.PermissionUserType">
+        <column name="CLASS_" />
+        <column name="NAME_" />
+        <column name="ACTION_" />
+      </element>
+    </set>
+  </class>
+
+  <class name="org.jbpm.identity.Membership" table="JBPM_ID_MEMBERSHIP" discriminator-value="M">
+    <id name="id" column="ID_">
+      <generator class="native" />
+    </id>
+    <discriminator type="char" column="CLASS_" />
+    <property name="name" column="NAME_" />
+    <property name="role" column="ROLE_" />
+    <many-to-one name="user" column="USER_" cascade="save-update" foreign-key="FK_ID_MEMSHIP_USR" />
+    <many-to-one name="group" column="GROUP_" cascade="save-update" foreign-key="FK_ID_MEMSHIP_GRP" />
+    <set name="permissions" cascade="all" table="JBPM_ID_PERMISSIONS">
+      <key column="ENTITY_" foreign-key="none" />
+      <element type="org.jbpm.identity.hibernate.PermissionUserType">
+        <column name="CLASS_" />
+        <column name="NAME_" />
+        <column name="ACTION_" />
+      </element>
+    </set>
+  </class>
+
+</hibernate-mapping>

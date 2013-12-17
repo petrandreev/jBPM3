@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- experiment definition for jbpm simulation tutorial 
+     written by Bernd Ruecker (camunda GmbH) -->
+<experiment name='ReturnDefectiveGoods' 
+          time-unit='second'
+          run-time='28800'  
+          real-start-time='30.03.1980 00:00:00:000'
+          currency='€'
+          unutilized-time-cost-factor='0.0'> 
+  <!-- 28800 seconds = 8 hours = 1 working day --> 
+
+<scenario name="status_quo" execute="true">
+  <business-figure name = "defect goods"
+       type = "costs"
+       automatic-calculation = "none"
+       handler = "org.jbpm.sim.tutorial.DefectGoodsCostsCalculator" />
+  <data-source name="return orders" 
+     handler="org.jbpm.sim.tutorial.TutorialDataSource" />
+
+  <distribution name="ReturnDefectiveGoods.start" 
+    sample-type="real" type="erlang" mean="95"/>
+    
+  <distribution name="ReturnDefectiveGoods.wait for parcel" 
+    sample-type="real" type="normal" mean="28" standardDeviation="17"/>
+  <distribution name="ReturnDefectiveGoods.transfer shipping costs"  
+    sample-type="real" type="normal" mean="180" standardDeviation="30"/>
+  <distribution name="ReturnDefectiveGoods.quick test" 
+    sample-type="real" type="normal" mean="180" standardDeviation="60"/>
+  <distribution name="ReturnDefectiveGoods.extended technical test" 
+    sample-type="real" type="normal" mean="732.2485" standardDeviation="448.1038"/>
+  <distribution name="ReturnDefectiveGoods.send back goods" 
+    sample-type="real" type="normal" mean="325.5" standardDeviation="182.0718"/>
+  <distribution name="ReturnDefectiveGoods.refund" 
+    sample-type="real" type="normal" mean="180" standardDeviation="30"/>
+
+  <sim-process path="/org/jbpm/sim/tutorial/business/ReturnDefectiveGoods/processdefinition.xml">
+    <process-overwrite start-distribution="ReturnDefectiveGoods.start">
+    	<use-data-source name="return orders" />
+    </process-overwrite>
+    <state-overwrite state-name="wait for parcel" 
+                     time-distribution="ReturnDefectiveGoods.wait for parcel">
+      <transition name="parcel arrived" probability="195"/>
+    </state-overwrite>
+    <decision-overwrite decision-name="ordered within the last two weeks?">
+      <transition name="YES" probability="100"/>
+      <transition name="NO" probability="95"/>
+    </decision-overwrite>
+    <task-overwrite task-name="transfer shipping costs" 
+                    time-distribution="ReturnDefectiveGoods.transfer shipping costs">
+      <transition name="done" probability="100"/>
+    </task-overwrite>
+    <task-overwrite task-name="quick test" 
+                    time-distribution="ReturnDefectiveGoods.quick test">
+      <transition name="no defect" probability="165"/>
+      <transition name="defect approved" probability="30"/>
+    </task-overwrite>
+    <task-overwrite task-name="extended technical test" 
+                    time-distribution="ReturnDefectiveGoods.extended technical test">
+      <transition name="no defect" probability="20"/>
+      <transition name="defect approved" probability="145"/>
+    </task-overwrite>
+    <task-overwrite task-name="send back goods" 
+                    time-distribution="ReturnDefectiveGoods.send back goods">
+      <transition probability="20"/>
+    </task-overwrite>
+    <task-overwrite task-name="refund" time-distribution="ReturnDefectiveGoods.refund">
+      <calculate-business-figure name='defect goods' />
+      <transition probability="175"/>
+    </task-overwrite>
+  </sim-process>
+
+  <resource-pool name="tester" pool-size="5" costs-per-time-unit="0.025"/>
+  <resource-pool name="clerk" pool-size="2" costs-per-time-unit="0.011111111"/>
+  <resource-pool name="accountant" pool-size="2" costs-per-time-unit="0.022222222"/>
+  <resource-pool name="dispatcher" pool-size="1" costs-per-time-unit="0.013888889"/>
+</scenario>
+
+<scenario name="alternative" execute="true">
+  <business-figure name = "value reduction of returned goods"
+       type = "costs"
+       automatic-calculation = "none"
+       handler = "org.jbpm.sim.tutorial.AlternativeCostsCalculator" />
+  <data-source name="return orders" 
+     handler="org.jbpm.sim.tutorial.TutorialDataSource" />
+  
+  <distribution name="ReturnDefectiveGoods.start" 
+    sample-type="real" type="erlang" mean="95"/>
+    
+  <distribution name="ReturnDefectiveGoods.wait for parcel" 
+    sample-type="real" type="normal" mean="28" standardDeviation="17"/>
+  <distribution name="ReturnDefectiveGoods.transfer shipping costs"  
+    sample-type="real" type="normal" mean="180" standardDeviation="30"/>
+  <distribution name="ReturnDefectiveGoods.extended technical test" 
+    sample-type="real" type="normal" mean="732.2485" standardDeviation="448.1038"/>
+  <distribution name="ReturnDefectiveGoods.send back goods" 
+    sample-type="real" type="normal" mean="325.5" standardDeviation="182.0718"/>
+  <distribution name="ReturnDefectiveGoods.refund" 
+    sample-type="real" type="normal" mean="180" standardDeviation="30"/>
+
+  <sim-process path="/org/jbpm/sim/tutorial/business/ReturnDefectiveGoodsAlternative/processdefinition.xml">
+    <process-overwrite start-distribution="ReturnDefectiveGoods.start">
+    	<use-data-source name="return orders" />
+    </process-overwrite>  
+    <state-overwrite state-name="wait for parcel" 
+                     time-distribution="ReturnDefectiveGoods.wait for parcel">
+      <transition name="parcel arrived" probability="195"/>
+    </state-overwrite>
+    <decision-overwrite decision-name="ordered within the last two weeks?">
+      <transition name="YES" probability="100"/>
+      <transition name="NO" probability="95"/>
+    </decision-overwrite>
+    <task-overwrite task-name="transfer shipping costs" 
+                    time-distribution="ReturnDefectiveGoods.transfer shipping costs">
+      <transition name="done" probability="100"/>
+    </task-overwrite>
+    <task-overwrite task-name="extended technical test" 
+                    time-distribution="ReturnDefectiveGoods.extended technical test">
+      <transition name="no defect" probability="20"/>
+      <transition name="defect approved" probability="145"/>
+    </task-overwrite>
+    <task-overwrite task-name="send back goods" 
+                    time-distribution="ReturnDefectiveGoods.send back goods">
+      <transition probability="20"/>
+    </task-overwrite>
+    <task-overwrite task-name="refund" time-distribution="ReturnDefectiveGoods.refund">
+      <transition probability="175"/>
+    </task-overwrite>
+
+    <!-- overwrite decision to simulate different random check factors -->
+    <decision-overwrite decision-name="should be checked?">
+      <transition name="check"    probability="5"/>
+      <transition name="no check" probability="95"/>
+    </decision-overwrite>   
+    <!-- and calculate "virtual business costs" -->
+    <node-overwrite node-name='unknown goods status'>
+      <calculate-business-figure name='value reduction of returned goods' />
+    </node-overwrite>    
+
+  </sim-process>
+
+  <resource-pool name="tester" pool-size="5" costs-per-time-unit="0.025"/>
+  <resource-pool name="clerk" pool-size="2" costs-per-time-unit="0.011111111"/>
+  <resource-pool name="accountant" pool-size="2" costs-per-time-unit="0.022222222"/>
+  <resource-pool name="dispatcher" pool-size="1" costs-per-time-unit="0.013888889"/>
+</scenario>
+
+</experiment>

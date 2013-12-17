@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.taskmgmt.exe.TaskMgmtInstance" 
+            extends="org.jbpm.module.exe.ModuleInstance" 
+            discriminator-value="T">
+    <many-to-one name="taskMgmtDefinition" 
+                 column="TASKMGMTDEFINITION_"
+                 foreign-key="FK_TASKMGTINST_TMD"
+                 index="IDX_TASKMGTINST_TMD"/>
+    <map name="swimlaneInstances" cascade="all" inverse="true">
+      <!-- add on-delete for optimized deletion 
+      <key column="TASKMGMTINSTANCE_" on-delete="cascade" />
+      -->
+      <key column="TASKMGMTINSTANCE_" />
+      <index column="NAME_" type="string" />
+      <one-to-many class="org.jbpm.taskmgmt.exe.SwimlaneInstance" />
+    </map>
+    <set name="taskInstances" cascade="all" inverse="true">
+      <!-- add on-delete for optimized deletion 
+      <key column="TASKMGMTINSTANCE_" on-delete="cascade" />
+      -->
+      <key column="TASKMGMTINSTANCE_" />
+      <one-to-many class="org.jbpm.taskmgmt.exe.TaskInstance" />
+    </set>
+  </subclass>
+
+</hibernate-mapping>

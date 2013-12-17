@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <class name="org.jbpm.instantiation.Delegation"
+         table="JBPM_DELEGATION">
+    <id name="id" column="ID_"><generator class="native" /></id>
+
+    <property name="className" column="CLASSNAME_" type="longstring" length="4000" />
+    <property name="configuration" column="CONFIGURATION_" type="longstring" length="4000" />
+    <property name="configType" column="CONFIGTYPE_"/>
+    
+    <many-to-one name="processDefinition" 
+                 column="PROCESSDEFINITION_"
+                 foreign-key="FK_DELEGATION_PRCD"
+                 index="IDX_DELEG_PRCD" />
+    
+  </class>
+</hibernate-mapping>

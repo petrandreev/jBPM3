@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project name="db-schema">
+  <target name="init">
+    <taskdef name="jbpmschema"
+             classname="org.jbpm.ant.JbpmSchemaTask"
+             classpathref="maven.test.classpath" />
+    <mkdir dir="${project.output.dir}" />
+  </target>
+
+  <target name="create-schema" depends="init" description="Generate schema create scripts">
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.db2.sql"
+                config="hibernate.cfg.db2.xml"
+                action="create" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.derby.sql"
+                config="hibernate.cfg.derby.xml"
+                action="create" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.hsqldb.sql"
+                config="hibernate.cfg.hsqldb.xml"
+                action="create" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.mssql.sql"
+                config="hibernate.cfg.mssql.xml"
+                action="create" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.mysql.sql"
+                config="hibernate.cfg.mysql.xml"
+                action="create" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.oracle.sql"
+                config="hibernate.cfg.oracle.xml"
+                action="create" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.postgresql.sql"
+                config="hibernate.cfg.postgresql.xml"
+                action="create" />
+    <!-- JBPM-2971 DatabaseInitializer does not support alternate delimiters -->
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.sybase.sql"
+                config="hibernate.cfg.sybase.xml"
+                action="create"
+                delimiter="" />
+  </target>
+
+  <target name="drop-schema" depends="init" description="Generate schema drop scripts">
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.db2.drop.sql"
+                config="hibernate.cfg.db2.xml"
+                action="drop" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.hsqldb.drop.sql"
+                config="hibernate.cfg.hsqldb.xml"
+                action="drop" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.mssql.drop.sql"
+                config="hibernate.cfg.mssql.xml"
+                action="drop" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.mysql.drop.sql"
+                config="hibernate.cfg.mysql.xml"
+                action="drop" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.oracle.drop.sql"
+                config="hibernate.cfg.oracle.xml"
+                action="drop" />
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.postgresql.drop.sql"
+                config="hibernate.cfg.postgresql.xml"
+                action="drop" />
+    <!-- JBPM-2971 DatabaseInitializer does not support alternate delimiters -->
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.sybase.drop.sql"
+                config="hibernate.cfg.sybase.xml"
+                action="drop"
+                delimiter="" />
+  </target>
+
+  <target name="update-schema"
+          depends="init"
+          unless="skip"
+          description="Generate schema update scripts">
+    <!-- JBPM-2971 DatabaseInitializer does not support alternate delimiters -->
+    <jbpmschema output="${project.output.dir}/jbpm.jpdl.${database}.update.sql"
+                config="hibernate.cfg.${database}.xml"
+                action="update"
+                delimiter="${delimiter}" />
+  </target>
+</project>

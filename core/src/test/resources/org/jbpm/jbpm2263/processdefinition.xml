@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="multiple timers" xmlns="urn:jbpm.org:jpdl-3.2">
+
+  <start-state name="start">
+    <transition to="race" />
+  </start-state>
+
+  <state name="race">
+    <event type="timer">
+      <script><![CDATA[
+      calls = executionContext.getVariable("calls");
+      executionContext.setVariable("calls", calls != null ? calls + 1 : 1);
+      ]]></script>
+    </event>
+    <timer duedate="1 second" name="first call" />
+    <timer duedate="2 seconds" name="second call" transition="done" />
+    <transition to="end" name="done" />
+  </state>
+
+  <end-state name="end" />
+
+</process-definition>

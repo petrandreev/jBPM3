@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:tf="http://jbpm.org/jsf/tf"
+	xmlns:jbpm="http://jbpm.org/jsf"
+	xmlns:j4j="http://jbpm.org/jbpm4jsf/core">
+
+<ui:component>
+	<jbpm:dataform>
+		<f:facet name="header">
+			<h:outputText value="#{taskName}" />
+		</f:facet>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Purpose" />
+			</f:facet>
+			<h:inputText value="#{var['purpose']}" required="true"
+				requiredMessage="Please fill in the purpose of the trip" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Description" />
+			</f:facet>
+			<h:inputTextarea value="#{var['description']}" rows="4" cols="40" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Self paid" />
+			</f:facet>
+			<h:selectBooleanCheckbox value="#{var['selfPaid']}" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Departure date" />
+			</f:facet>
+			<h:inputText value="#{var['departureDate']}"
+				validatorMessage="Please enter a valid departure date" required="true"
+				requiredMessage="Departure date cannot be blank">
+				<f:convertDateTime timeZone="#{j4j:getServerTimeZone()}" />
+			</h:inputText>
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Number of days" />
+			</f:facet>
+			<h:inputText value="#{var['daysNum']}"
+				validatorMessage="Trip must span at least one day."
+				required="true"
+				requiredMessage="Number of days cannot be blank"
+				converter="javax.faces.Integer"
+				converterMessage="Please enter a valid number of days">
+				<f:validateLongRange minimum="1"/>
+			</h:inputText>
+		</jbpm:datacell>
+
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Country" />
+			</f:facet>
+			<h:selectOneMenu id="country" value="#{var['country']}">
+				<f:selectItem itemLabel="Afghanistan" itemValue="Afghanistan" />
+				<f:selectItem itemLabel="Albania" itemValue="Albania" />
+				<f:selectItem itemLabel="Algeria" itemValue="Algeria" />
+				<f:selectItem itemLabel="American Samoa" itemValue="American Samoa" />
+				<f:selectItem itemLabel="Andorra" itemValue="Andorra" />
+				<f:selectItem itemLabel="Angola" itemValue="Angola" />
+				<f:selectItem itemLabel="Anguilla" itemValue="Anguilla" />
+				<f:selectItem itemLabel="Antarctica" itemValue="Antarctica" />
+				<f:selectItem itemLabel="Antigua and Barbuda"
+					itemValue="Antigua and Barbuda" />
+				<f:selectItem itemLabel="Argentina" itemValue="Argentina" />
+				<f:selectItem itemLabel="Armenia" itemValue="Armenia" />
+				<f:selectItem itemLabel="Aruba" itemValue="Aruba" />
+				<f:selectItem itemLabel="Australia" itemValue="Australia" />
+				<f:selectItem itemLabel="Austria" itemValue="Austria" />
+				<f:selectItem itemLabel="Azerbaijan" itemValue="Azerbaijan" />
+				<f:selectItem itemLabel="Bahamas" itemValue="Bahamas" />
+				<f:selectItem itemLabel="Bahrain" itemValue="Bahrain" />
+				<f:selectItem itemLabel="Bangladesh" itemValue="Bangladesh" />
+				<f:selectItem itemLabel="Barbados" itemValue="Barbados" />
+				<f:selectItem itemLabel="Belarus" itemValue="Belarus" />
+				<f:selectItem itemLabel="Belgium" itemValue="Belgium" />
+				<f:selectItem itemLabel="Belize" itemValue="Belize" />
+				<f:selectItem itemLabel="Benin" itemValue="Benin" />
+				<f:selectItem itemLabel="Bermuda" itemValue="Bermuda" />
+				<f:selectItem itemLabel="Bhutan" itemValue="Bhutan" />
+				<f:selectItem itemLabel="Bolivia" itemValue="Bolivia" />
+				<f:selectItem itemLabel="Bosnia and Herzegovina"
+					itemValue="Bosnia and Herzegovina" />
+				<f:selectItem itemLabel="Botswana" itemValue="Botswana" />
+				<f:selectItem itemLabel="Bouvet Island" itemValue="Bouvet Island" />
+				<f:selectItem itemLabel="Brazil" itemValue="Brazil" />
+				<f:selectItem itemLabel="British Indian Ocean Territory"
+					itemValue="British Indian Ocean Territory" />
+				<f:selectItem itemLabel="Brunei Darussalam"
+					itemValue="Brunei Darussalam" />
+				<f:selectItem itemLabel="Bulgaria" itemValue="Bulgaria" />
+				<f:selectItem itemLabel="Burkina Faso" itemValue="Burkina Faso" />
+				<f:selectItem itemLabel="Burundi" itemValue="Burundi" />
+				<f:selectItem itemLabel="Cambodia" itemValue="Cambodia" />
+				<f:selectItem itemLabel="Cameroon" itemValue="Cameroon" />
+				<f:selectItem itemLabel="Canada" itemValue="Canada" />
+				<f:selectItem itemLabel="Cape Verde" itemValue="Cape Verde" />
+				<f:selectItem itemLabel="Cayman Islands" itemValue="Cayman Islands" />
+				<f:selectItem itemLabel="Central African Republic"
+					itemValue="Central African Republic" />
+				<f:selectItem itemLabel="Chad" itemValue="Chad" />
+				<f:selectItem itemLabel="Chile" itemValue="Chile" />
+				<f:selectItem itemLabel="China" itemValue="China" />
+				<f:selectItem itemLabel="Christmas Island"
+					itemValue="Christmas Island" />
+				<f:selectItem itemLabel="Cocos Islands" itemValue="Cocos Islands" />
+				<f:selectItem itemLabel="Colombia" itemValue="Colombia" />
+				<f:selectItem itemLabel="Comoros" itemValue="Comoros" />
+				<f:selectItem itemLabel="Congo" itemValue="Congo" />
+				<f:selectItem itemLabel="Congo, Democratic Republic of the"
+					itemValue="Congo, Democratic Republic of the" />
+				<f:selectItem itemLabel="Cook Islands" itemValue="Cook Islands" />
+				<f:selectItem itemLabel="Costa Rica" itemValue="Costa Rica" />
+				<f:selectItem itemLabel="Cote d'Ivoire" itemValue="Cote d'Ivoire" />
+				<f:selectItem itemLabel="Croatia" itemValue="Croatia" />
+				<f:selectItem itemLabel="Cuba" itemValue="Cuba" />
+				<f:selectItem itemLabel="Cyprus" itemValue="Cyprus" />
+				<f:selectItem itemLabel="Czech Republic" itemValue="Czech Republic" />
+				<f:selectItem itemLabel="Denmark" itemValue="Denmark" />
+				<f:selectItem itemLabel="Djibouti" itemValue="Djibouti" />
+				<f:selectItem itemLabel="Dominica" itemValue="Dominica" />
+				<f:selectItem itemLabel="Dominican Republic"
+					itemValue="Dominican Republic" />
+				<f:selectItem itemLabel="Ecuador" itemValue="Ecuador" />
+				<f:selectItem itemLabel="Egypt" itemValue="Egypt" />
+				<f:selectItem itemLabel="El Salvador" itemValue="El Salvador" />
+				<f:selectItem itemLabel="Equatorial Guinea"
+					itemValue="Equatorial Guinea" />
+				<f:selectItem itemLabel="Eritrea" itemValue="Eritrea" />
+				<f:selectItem itemLabel="Estonia" itemValue="Estonia" />
+				<f:selectItem itemLabel="Ethiopia" itemValue="Ethiopia" />
+				<f:selectItem itemLabel="Falkland Islands"
+					itemValue="Falkland Islands" />
+				<f:selectItem itemLabel="Faroe Islands" itemValue="Faroe Islands" />
+				<f:selectItem itemLabel="Fiji" itemValue="Fiji" />
+				<f:selectItem itemLabel="Finland" itemValue="Finland" />
+				<f:selectItem itemLabel="France" itemValue="France" />
+				<f:selectItem itemLabel="French Guiana" itemValue="French Guiana" />
+				<f:selectItem itemLabel="French Polynesia"
+					itemValue="French Polynesia" />
+				<f:selectItem itemLabel="Gabon" itemValue="Gabon" />
+				<f:selectItem itemLabel="Gambia" itemValue="Gambia" />
+				<f:selectItem itemLabel="Georgia" itemValue="Georgia" />
+				<f:selectItem itemLabel="Germany" itemValue="Germany" />
+				<f:selectItem itemLabel="Ghana" itemValue="Ghana" />
+				<f:selectItem itemLabel="Gibraltar" itemValue="Gibraltar" />
+				<f:selectItem itemLabel="Greece" itemValue="Greece" />
+				<f:selectItem itemLabel="Greenland" itemValue="Greenland" />
+				<f:selectItem itemLabel="Grenada" itemValue="Grenada" />
+				<f:selectItem itemLabel="Guadeloupe" itemValue="Guadeloupe" />
+				<f:selectItem itemLabel="Guam" itemValue="Guam" />
+				<f:selectItem itemLabel="Guatemala" itemValue="Guatemala" />
+				<f:selectItem itemLabel="Guinea" itemValue="Guinea" />
+				<f:selectItem itemLabel="Guinea-Bissau" itemValue="Guinea-Bissau" />
+				<f:selectItem itemLabel="Guyana" itemValue="Guyana" />
+				<f:selectItem itemLabel="Haiti" itemValue="Haiti" />
+				<f:selectItem itemLabel="Honduras" itemValue="Honduras" />
+				<f:selectItem itemLabel="Hong Kong" itemValue="Hong Kong" />
+				<f:selectItem itemLabel="Hungary" itemValue="Hungary" />
+				<f:selectItem itemLabel="Iceland" itemValue="Iceland" />
+				<f:selectItem itemLabel="India" itemValue="India" />
+				<f:selectItem itemLabel="Indonesia" itemValue="Indonesia" />
+				<f:selectItem itemLabel="Iran" itemValue="Iran" />
+				<f:selectItem itemLabel="Iraq" itemValue="Iraq" />
+				<f:selectItem itemLabel="Ireland" itemValue="Ireland" />
+				<f:selectItem itemLabel="Israel" itemValue="Israel" />
+				<f:selectItem itemLabel="Italy" itemValue="Italy" />
+				<f:selectItem itemLabel="Jamaica" itemValue="Jamaica" />
+				<f:selectItem itemLabel="Japan" itemValue="Japan" />
+				<f:selectItem itemLabel="Jordan" itemValue="Jordan" />
+				<f:selectItem itemLabel="Kazakhstan" itemValue="Kazakhstan" />
+				<f:selectItem itemLabel="Kenya" itemValue="Kenya" />
+				<f:selectItem itemLabel="Kiribati" itemValue="Kiribati" />
+				<f:selectItem itemLabel="Kuwait" itemValue="Kuwait" />
+				<f:selectItem itemLabel="Kyrgyzstan" itemValue="Kyrgyzstan" />
+				<f:selectItem itemLabel="Laos" itemValue="Laos" />
+				<f:selectItem itemLabel="Latvia" itemValue="Latvia" />
+				<f:selectItem itemLabel="Lebanon" itemValue="Lebanon" />
+				<f:selectItem itemLabel="Lesotho" itemValue="Lesotho" />
+				<f:selectItem itemLabel="Liberia" itemValue="Liberia" />
+				<f:selectItem itemLabel="Libya" itemValue="Libya" />
+				<f:selectItem itemLabel="Liechtenstein" itemValue="Liechtenstein" />
+				<f:selectItem itemLabel="Lithuania" itemValue="Lithuania" />
+				<f:selectItem itemLabel="Luxembourg" itemValue="Luxembourg" />
+				<f:selectItem itemLabel="Macao" itemValue="Macao" />
+				<f:selectItem itemLabel="Macedonia" itemValue="Macedonia" />
+				<f:selectItem itemLabel="Madagascar" itemValue="Madagascar" />
+				<f:selectItem itemLabel="Malawi" itemValue="Malawi" />
+				<f:selectItem itemLabel="Malaysia" itemValue="Malaysia" />
+				<f:selectItem itemLabel="Maldives" itemValue="Maldives" />
+				<f:selectItem itemLabel="Mali" itemValue="Mali" />
+				<f:selectItem itemLabel="Malta" itemValue="Malta" />
+				<f:selectItem itemLabel="Marshall Islands"
+					itemValue="Marshall Islands" />
+				<f:selectItem itemLabel="Martinique" itemValue="Martinique" />
+				<f:selectItem itemLabel="Mauritania" itemValue="Mauritania" />
+				<f:selectItem itemLabel="Mauritius" itemValue="Mauritius" />
+				<f:selectItem itemLabel="Mayotte" itemValue="Mayotte" />
+				<f:selectItem itemLabel="Mexico" itemValue="Mexico" />
+				<f:selectItem itemLabel="Micronesia" itemValue="Micronesia" />
+				<f:selectItem itemLabel="Moldova" itemValue="Moldova" />
+				<f:selectItem itemLabel="Monaco" itemValue="Monaco" />
+				<f:selectItem itemLabel="Mongolia" itemValue="Mongolia" />
+				<f:selectItem itemLabel="Montserrat" itemValue="Montserrat" />
+				<f:selectItem itemLabel="Morocco" itemValue="Morocco" />
+				<f:selectItem itemLabel="Mozambique" itemValue="Mozambique" />
+				<f:selectItem itemLabel="Myanmar" itemValue="Myanmar" />
+				<f:selectItem itemLabel="Namibia" itemValue="Namibia" />
+				<f:selectItem itemLabel="Nauru" itemValue="Nauru" />
+				<f:selectItem itemLabel="Nepal" itemValue="Nepal" />
+				<f:selectItem itemLabel="Netherlands" itemValue="Netherlands" />
+				<f:selectItem itemLabel="Netherlands Antilles"
+					itemValue="Netherlands Antilles" />
+				<f:selectItem itemLabel="New Caledonia" itemValue="New Caledonia" />
+				<f:selectItem itemLabel="New Zealand" itemValue="New Zealand" />
+				<f:selectItem itemLabel="Nicaragua" itemValue="Nicaragua" />
+				<f:selectItem itemLabel="Niger" itemValue="Niger" />
+				<f:selectItem itemLabel="Nigeria" itemValue="Nigeria" />
+				<f:selectItem itemLabel="Norfolk Island" itemValue="Norfolk Island" />
+				<f:selectItem itemLabel="North Korea" itemValue="North Korea" />
+				<f:selectItem itemLabel="Norway" itemValue="Norway" />
+				<f:selectItem itemLabel="Oman" itemValue="Oman" />
+				<f:selectItem itemLabel="Pakistan" itemValue="Pakistan" />
+				<f:selectItem itemLabel="Palau" itemValue="Palau" />
+				<f:selectItem itemLabel="Palestinian Territory"
+					itemValue="Palestinian Territory" />
+				<f:selectItem itemLabel="Panama" itemValue="Panama" />
+				<f:selectItem itemLabel="Papua New Guinea"
+					itemValue="Papua New Guinea" />
+				<f:selectItem itemLabel="Paraguay" itemValue="Paraguay" />
+				<f:selectItem itemLabel="Peru" itemValue="Peru" />
+				<f:selectItem itemLabel="Philippines" itemValue="Philippines" />
+				<f:selectItem itemLabel="Pitcairn" itemValue="Pitcairn" />
+				<f:selectItem itemLabel="Poland" itemValue="Poland" />
+				<f:selectItem itemLabel="Portugal" itemValue="Portugal" />
+				<f:selectItem itemLabel="Puerto Rico" itemValue="Puerto Rico" />
+				<f:selectItem itemLabel="Qatar" itemValue="Qatar" />
+				<f:selectItem itemLabel="Romania" itemValue="Romania" />
+				<f:selectItem itemLabel="Russian Federation"
+					itemValue="Russian Federation" />
+				<f:selectItem itemLabel="Rwanda" itemValue="Rwanda" />
+				<f:selectItem itemLabel="Saint Helena" itemValue="Saint Helena" />
+				<f:selectItem itemLabel="Saint Kitts and Nevis"
+					itemValue="Saint Kitts and Nevis" />
+				<f:selectItem itemLabel="Saint Lucia" itemValue="Saint Lucia" />
+				<f:selectItem itemLabel="Saint Pierre and Miquelon"
+					itemValue="Saint Pierre and Miquelon" />
+				<f:selectItem itemLabel="Saint Vincent and the Grenadines"
+					itemValue="Saint Vincent and the Grenadines" />
+				<f:selectItem itemLabel="Samoa" itemValue="Samoa" />
+				<f:selectItem itemLabel="San Marino" itemValue="San Marino" />
+				<f:selectItem itemLabel="Sao Tome and Principe"
+					itemValue="Sao Tome and Principe" />
+				<f:selectItem itemLabel="Saudi Arabia" itemValue="Saudi Arabia" />
+				<f:selectItem itemLabel="Senegal" itemValue="Senegal" />
+				<f:selectItem itemLabel="Serbia and Montenegro"
+					itemValue="Serbia and Montenegro" />
+				<f:selectItem itemLabel="Seychelles" itemValue="Seychelles" />
+				<f:selectItem itemLabel="Sierra Leone" itemValue="Sierra Leone" />
+				<f:selectItem itemLabel="Singapore" itemValue="Singapore" />
+				<f:selectItem itemLabel="Slovakia" itemValue="Slovakia" />
+				<f:selectItem itemLabel="Slovenia" itemValue="Slovenia" />
+				<f:selectItem itemLabel="Solomon Islands"
+					itemValue="Solomon Islands" />
+				<f:selectItem itemLabel="Somalia" itemValue="Somalia" />
+				<f:selectItem itemLabel="South Africa" itemValue="South Africa" />
+				<f:selectItem itemLabel="South Georgia" itemValue="South Georgia" />
+				<f:selectItem itemLabel="South Korea" itemValue="South Korea" />
+				<f:selectItem itemLabel="Spain" itemValue="Spain" />
+				<f:selectItem itemLabel="Sri Lanka" itemValue="Sri Lanka" />
+				<f:selectItem itemLabel="Sudan" itemValue="Sudan" />
+				<f:selectItem itemLabel="Suriname" itemValue="Suriname" />
+				<f:selectItem itemLabel="Svalbard and Jan Mayen"
+					itemValue="Svalbard and Jan Mayen" />
+				<f:selectItem itemLabel="Swaziland" itemValue="Swaziland" />
+				<f:selectItem itemLabel="Sweden" itemValue="Sweden" />
+				<f:selectItem itemLabel="Switzerland" itemValue="Switzerland" />
+				<f:selectItem itemLabel="Syrian Arab Republic"
+					itemValue="Syrian Arab Republic" />
+				<f:selectItem itemLabel="Taiwan" itemValue="Taiwan" />
+				<f:selectItem itemLabel="Tajikistan" itemValue="Tajikistan" />
+				<f:selectItem itemLabel="Tanzania" itemValue="Tanzania" />
+				<f:selectItem itemLabel="Thailand" itemValue="Thailand" />
+				<f:selectItem itemLabel="Timor-Leste" itemValue="Timor-Leste" />
+				<f:selectItem itemLabel="Togo" itemValue="Togo" />
+				<f:selectItem itemLabel="Tokelau" itemValue="Tokelau" />
+				<f:selectItem itemLabel="Tonga" itemValue="Tonga" />
+				<f:selectItem itemLabel="Trinidad and Tobago"
+					itemValue="Trinidad and Tobago" />
+				<f:selectItem itemLabel="Tunisia" itemValue="Tunisia" />
+				<f:selectItem itemLabel="Turkey" itemValue="Turkey" />
+				<f:selectItem itemLabel="Turkmenistan" itemValue="Turkmenistan" />
+				<f:selectItem itemLabel="Tuvalu" itemValue="Tuvalu" />
+				<f:selectItem itemLabel="Uganda" itemValue="Uganda" />
+				<f:selectItem itemLabel="Ukraine" itemValue="Ukraine" />
+				<f:selectItem itemLabel="United Arab Emirates"
+					itemValue="United Arab Emirates" />
+				<f:selectItem itemLabel="United Kingdom" itemValue="United Kingdom" />
+				<f:selectItem itemLabel="United States" itemValue="United States" />
+				<f:selectItem itemLabel="United States Minor Outlying Islands"
+					itemValue="United States Minor Outlying Islands" />
+				<f:selectItem itemLabel="Uruguay" itemValue="Uruguay" />
+				<f:selectItem itemLabel="Uzbekistan" itemValue="Uzbekistan" />
+				<f:selectItem itemLabel="Vanuatu" itemValue="Vanuatu" />
+				<f:selectItem itemLabel="Vatican City" itemValue="Vatican City" />
+				<f:selectItem itemLabel="Venezuela" itemValue="Venezuela" />
+				<f:selectItem itemLabel="Vietnam" itemValue="Vietnam" />
+				<f:selectItem itemLabel="Virgin Islands, British"
+					itemValue="Virgin Islands, British" />
+				<f:selectItem itemLabel="Virgin Islands, U.S."
+					itemValue="Virgin Islands, U.S." />
+				<f:selectItem itemLabel="Wallis and Futuna"
+					itemValue="Wallis and Futuna" />
+				<f:selectItem itemLabel="Western Sahara" itemValue="Western Sahara" />
+				<f:selectItem itemLabel="Yemen" itemValue="Yemen" />
+				<f:selectItem itemLabel="Zambia" itemValue="Zambia" />
+				<f:selectItem itemLabel="Zimbabwe" itemValue="Zimbabwe" />
+			</h:selectOneMenu>
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="City" />
+			</f:facet>
+			<h:inputText value="#{var['city']}" required="true"
+				requiredMessage="Please fill in the destination city" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Actions" />
+			</f:facet>
+			<tf:saveButton value="Save" />
+			<tf:transitionButton value="Send to manager" transition="submit request" />
+		</jbpm:datacell>
+	</jbpm:dataform>
+</ui:component>
+</html>

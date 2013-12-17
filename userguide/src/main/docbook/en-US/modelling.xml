@@ -1,0 +1,1038 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="processmodelling">
+  <title>
+        Process Modeling
+   </title>
+  
+  <section id="helpfuldefinitions">
+    <title>
+        Some Helpful Definitions
+    </title>
+
+        <para>    
+            Read this section to learn the terminology that you will find
+            used throughout the rest of this book.
+        </para>
+
+    <para>
+        A <firstterm>process definition</firstterm> represents a formal
+        specification of a business process and is based on a
+        <firstterm>directed graph</firstterm>. The graph is composed of
+        nodes and transitions. Every node in the graph is of a specific
+        type. The node type defines the run-time behavior. A process
+        definition only has one start state.
+    </para>
+    
+    <para>
+        A <firstterm>token</firstterm> is one path of execution. A token is
+        the runtime concept that maintains a pointer to a node in the graph.
+    </para>
+    
+    <para>
+        A <firstterm>process instance</firstterm> is one execution of a
+        process definition. When a process instance is created, a token is
+        generated for the main path of execution. This token is called the
+        <firstterm>root token</firstterm> of the process instance and it is
+        positioned in the <firstterm>start state</firstterm> of the process
+        definition.
+    </para>
+    
+    <para>
+        A signal instructs a token to continue to execute the graph. When it
+        receives an unnamed signal, the token will leave its current node
+        over the default <firstterm>leaving transition</firstterm>. When a
+        <firstterm>transition-name</firstterm> is specified in the signal,
+        the token will leave its node over the specified transition. A
+        signal given to the process instance is delegated to the root token.
+    </para>
+ 
+    <para>
+        After the token has entered a node, the node is executed. Nodes
+        themselves are responsible for making the graph execution continue.
+        Continuation of graph execution is achieved by making the token
+        leave the node. Each type of node can implement a different behavior
+        for the continuation of the graph execution. A node that does not
+        pass on the execution will behave as a <firstterm>state</firstterm>.
+    </para>
+    
+    <para>
+        <firstterm>Actions</firstterm> are pieces of Java code that are
+        executed upon events during the process execution. The
+        <firstterm>graph</firstterm> is an important instrument in the
+        communication of software requirements but it is just one view
+        (<firstterm>projection</firstterm>) of the software being produced.
+        It hides many technical details. Actions are a mechanism one uses to
+        add technical details beyond those of the graphical representation.
+        Once the graph is put in place, it can be decorated with actions.
+        The main <firstterm>event types</firstterm> are <systemitem>entering
+        a node</systemitem>, <systemitem>leaving a node</systemitem> and
+        <systemitem>taking a transition</systemitem>.
+    </para>
+    
+    <para>
+       Having learned these definitions, read on to find out how 
+        process modelling works.
+    </para>
+
+  </section>
+  
+  <section id="processgraph">
+    <title>
+        Process Graph
+    </title>
+        
+    <para>
+        A process definition is a graph that is made up of nodes and
+        transitions. This information is expressed in XML and found in a file called
+        <filename>processdefinition.xml</filename>. Each node must have a
+        <firstterm>type</firstterm> (examples being
+        <systemitem>state</systemitem>, <systemitem>decision</systemitem>,
+        <systemitem>fork</systemitem> and <systemitem>join</systemitem>.)
+        Each node has a set of <firstterm>leaving transitions</firstterm>. Names can be given to
+        the transitions that leave a node in order to make them distinct
+        from each other. For example, the following diagram shows a process
+        graph for an auction process.
+    </para>
+
+    <figure id="auction.process.graph.image">
+      <title>The auction process graph</title>
+      <mediaobject><imageobject><imagedata  fileref="images/auction.process.graph.png"/></imageobject></mediaobject>
+    </figure>
+
+    <para>
+        Below is the process graph for the same auction process, albeit
+        represented in XML this time:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/modelling_1.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+  </section>
+
+  <section id="nodes">
+    <title>
+        Nodes
+    </title>
+    
+    <para>
+        A process graph is made up of nodes and transitions. Each node is of
+        a specific type. The node type determines what will happen when an
+        execution arrives in the node at run-time. The Business Process
+        Manager provides a set of node types to use. Alternatively, one
+        can write custom code to implement a specific node behavior.
+    </para>
+    
+    <section id="noderesponsibilities">
+      <title>
+            Node Responsibilities
+      </title>
+      
+      <para>
+          Each node has two main responsibilities: firstly, it can execute
+          plain Java code, code which will normally relate to the function
+          of the node. Its second responsibility is to pass on the
+          process execution.
+      </para>
+      
+        <para>
+            A node may face the following options when it attempts
+            to pass the process execution on. It will follow that course
+            which is most applicable:
+        </para>
+      
+        <orderedlist>
+            <listitem>
+                <para>
+                    it can not propagate the execution. (The node behaves as
+                    a <systemitem>wait state</systemitem>.)
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    it can propagate the execution over one of the node's
+                    <systemitem>leaving transitions</systemitem>. (This
+                    means that the token that originally arrived in the node
+                    is passed over one of the <systemitem>leaving
+                    transitions</systemitem> with the API call
+                    <methodname>executionContext.leaveNode(String)</methodname>.)
+                    The node will now act automatically in the sense that it
+                    will execute some custom programming logic and then
+                    continue the process execution automatically without
+                    waiting.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    a node can "decide" to create new tokens, each of which
+                    will represent a new path of execution. Each of these
+                    new tokens can be launched over the node's
+                    <systemitem>leaving transitions</systemitem>. A good
+                    example of this kind of behavior is the <systemitem>fork
+                    node</systemitem>.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    it can end the path of execution. This means that the
+                    token has concluded.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    it can modify the whole <firstterm>run-time
+                    structure</firstterm> of the process instance. The
+                    run-time structure is a process instance that contains a
+                    tree of tokens, each of which represents a path of
+                    execution. A node can create and end tokens, put each
+                    token in a node of the graph and launch tokens over
+                    transitions.
+                </para>
+            </listitem>
+        </orderedlist>
+
+        <para>
+            The Business Process Manager contains a set of pre-implemented
+            node types, each of which has a specific configuration and
+            behavior. However, one can also write one's own node behavior
+            and use it in a process.
+        </para>
+    </section>
+    
+    <section id="nodetypetasknode">
+      <title>
+            Node Type: Task Node
+      </title>
+      
+      <para>
+          A <firstterm>task node</firstterm> represents one or more tasks
+          that are to be performed by humans. Thus, when the execution
+          process arrives in a node, task instances will be created in
+          the lists belonging to the workflow participants. After that, the node
+          will enter a <systemitem>wait state</systemitem>. When the
+          users complete their tasks, the execution will be triggered,
+          making it resume.          
+      </para>
+      
+    </section>
+    <section id="nodetypetaskstate">
+      <title>
+            Node Type: State
+      </title>
+      
+      <para>
+            A <firstterm>state</firstterm> is a "bare bones"
+            <systemitem>wait state</systemitem>. It differs from a task node
+            in that no task instances will be created for any task list.
+            This can be useful if the process is waiting for an external
+            system. After that, the process will go into a wait state. When
+            the external system send a response message, a
+            <methodname>token.signal()</methodname> is normally invoked,
+            triggering the resumption of the process execution.
+      </para>
+    </section>
+
+    <section id="nodetypedecision">
+        <title>
+            Node Type: Decision
+        </title>
+      
+      <para>
+          There are two ways in which one can model a decision,
+          the choice as to which to use being left to the discretion of
+          the user. The options are:
+      <orderedlist>
+          <listitem>
+              <para>the decision is made by the process, and is therefore
+              specified in the process definition,</para>
+          </listitem>
+          <listitem>
+              <para>an external entity decides.</para>
+          </listitem>
+      </orderedlist>
+      </para>
+
+      <para>
+          When the decision is to be undertaken by the process, use a
+          <systemitem>decision node</systemitem>. Specify the decision
+          criteria in one of two ways, the simplest being to add condition
+          elements to the transitions. (Conditions are EL expressions or
+          beanshell scripts that return a Boolean value.)
+      </para>
+      
+      <para>
+          At run-time, the decision node will, firstly, loop over those
+          <systemitem>leaving transitions</systemitem> on which conditions
+          have been specified. It will evaluate those transitions first in
+          the order specified in the XML. The first transition for which the
+          condition resolves to <code>true</code> will be taken. If the
+          conditions for all transitions resolve to <code>false</code>, the
+          default transition, (the first in the XML), will taken instead.
+      </para>
+
+      <para>
+          The second approach is to use an expression that returns the name
+          of the transition to take. Use the
+          <property>expression</property> attribute to specify an
+          expression on the decision. This will need to resolve to one of the
+          decision node's <systemitem>leaving transitions</systemitem>.
+      </para>
+
+      <para>
+          One can also use the <property>handler</property> element on the
+          decision, as this element can be used to specify an implementation
+          of the <interfacename>DecisionHandler</interfacename> interface
+          that can be specified on the decision node. In this scenario, the
+          decision is calculated by a Java class and the selected
+          <systemitem>leaving transition</systemitem> is returned by the
+          <methodname>decide</methodname> method, which belongs to the
+          <interfacename>DecisionHandler</interfacename> implementation.
+      </para>
+
+      <para>
+          When the decision is undertaken by an external party, always use
+          multiple transitions that will leave a
+          <systemitem>state</systemitem> or <systemitem>wait
+          state</systemitem> node. The leaving transition can then be
+          provided in the external trigger that resumes execution after the
+          <systemitem>wait state</systemitem> is finished (these might, for
+          example, be <methodname>Token.signal(String
+          transitionName)</methodname> or 
+          <methodname>TaskInstance.end(String transitionName)</methodname>.)
+      </para>
+    </section>
+    
+    <section id="nodetypefork">
+
+      <title>
+            Node Type: Fork
+      </title>
+      
+      <para>
+            A fork splits a single path of execution into multiple concurrent
+            ones. By default, the fork creates a child
+            token for each transition that leaves it, (thereby creating a
+            parent-child relation between the tokens that arrives in the
+            fork.)
+      </para>
+      
+      
+    </section>
+    <section id="nodetypejoin">
+      <title>
+            Node Type:  Join
+      </title>
+      
+      <para>
+          By default, the join assumes that all tokens that arrive within
+          itself are children of the same parent. (This situation occurs
+          when using the fork as mentioned above and when all tokens created
+          by a fork arrive in the same join.) 
+     </para>     
+     <para>     
+          A join will end every token
+          that enters it. It will then examine the parent-child relation of
+          those tokens. When all sibling tokens have arrived in
+          the join, the parent token will be passed through to the <systemitem>leaving
+          transition</systemitem>. When there are still sibling tokens active, the join
+          will behave as a <systemitem>wait state</systemitem>.
+      </para>
+      
+    </section>
+    
+    <section id="nodetypenode">
+      <title>
+            Node Type: Node
+      </title>
+      
+      <para>
+          Use this node to avoid writing custom code. It expects only one
+          sub-element action, which will be run when the execution arrives
+          in the node. Custom code written in
+          <systemitem>actionhandler</systemitem> can do anything but be
+          aware that it is also responsible for passing on the execution.
+          (See <xref linkend="noderesponsibilities"/> for more information.)
+      </para>
+      
+      <para>
+          This node can also be used when one is utilizing a Java API to
+          implement some functional logic for a corporate business analyst.
+          It is advantageous to do so this way because the node remains
+          visible in the graphical representation of the process. (Use
+          actions to add code that is invisible in the graphical
+          representation of the process.)
+      </para>
+    </section>
+  </section>
+
+  <section id="transitions">
+    <title>
+        Transitions
+    </title>
+    
+    <para>
+            Transitions have both source and destination nodes. The source
+            node is represented by the property <property>from</property>
+            and the destination is represented by <property>to</property>.
+    </para>
+    
+    <para>
+        A transition can, optionally, be given a name. (Indeed, most features
+        of the Business Process Manager depend on transitions being given
+        unique names.) If more than one transition has the same name, the
+        first of these will be taken. (In case duplicate transition names
+        occur in a node, the <methodname>Map
+        getLeavingTransitionsMap()</methodname> method will return less
+        elements than <methodname>List
+        getLeavingTransitions()</methodname>.)
+    </para>
+    
+  </section>
+
+  <section id="actions">
+    <title>Actions</title>
+    <para>Actions are pieces of java code that are executed upon events in the process 
+    execution. The graph is an important instrument in the communication about software 
+    requirements. But the graph is just one view (projection) of the software being produced.  
+    It hides many technical details.  Actions are a mechanism to add technical details outside 
+    of the graphical representation. Once the graph is put in place, it can be decorated with 
+    actions.  This means that java code can be associated with the graph without changing the 
+    structure of the graph. The main event types are entering a node, leaving a node and taking a 
+    transition.</para>
+    
+ <important>   
+    <para>
+        There is a difference between an action that is placed on an event
+        and an action that is placed in a node. Actions that are put in
+        events are executed when the event fires. They have
+        no way to influence the flow of control of the process. (It is
+        similar to the <firstterm>observer pattern</firstterm>.) By
+        contrast, an action placed on a node has the responsibility
+        of passing on the execution.
+    </para>
+</important>   
+
+    <para>
+        Read this section to study an example of an action on an event. It demonstrates
+        how to undertake a database update on a given
+        transition. (The database update is technically vital but it is not
+        of importance to the business analyst.)
+    </para>
+    
+    <figure id="database.update.example.image">
+      <title>A database update action</title>
+      <mediaobject><imageobject><imagedata  fileref="images/database.update.example.png"/></imageobject></mediaobject>
+    </figure>
+
+    <programlisting language="Java"><xi:include href="extras/modelling_1.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <programlisting language="XML"><xi:include href="extras/modelling_2.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+       
+	<note>    
+	    <para>
+	        To learn more about adding configurations to custom actions, see
+	        <xref linkend="configuringdelegations"/>
+	    </para>
+    </note>	    
+    
+    
+    <section id="actionreferences">
+        <title>
+                Action References
+        </title>
+        
+        <para>
+            Actions can be given names. This allows for them be referenced from
+            other locations in which actions are specified. Named actions
+            can also be added to the process definition as <firstterm>child
+            elements</firstterm>.
+        </para>
+        
+        <para>
+           Use this feature to limit duplication of action configurations.
+           (This is particularly helpful when the action has complicated
+           configurations or when run-time actions have to be scheduled or
+           executed.)
+        </para>
+    </section>
+
+    <section id="events">
+      <title>
+            Events
+      </title>
+      
+      <para>
+            <firstterm>Events</firstterm> are specific moments in the execution
+            of the process. The Business Process Manager's engine will "fire" 
+            events during <firstterm>graph execution</firstterm>, which
+            occurs when the software calculates the next state, (in other
+            words, when it processes a signal.) An event is always relative to an
+            element in the process definition. 
+      </para>      
+      <para>      
+            Most process elements can
+            fire different types of events. A node, for example, can fire both 
+            <systemitem>node-enter</systemitem> and
+            <systemitem>node-leave</systemitem> events. (Events are the
+            "hooks" for actions. Each event has a list of actions. When the
+            jBPM engine fires an event, the list of actions is executed.)
+        </para>
+    </section>
+
+    <section id="eventpropagation">
+      <title>
+            Passing On Events
+        </title>
+      <para>
+          A <firstterm>super-state</firstterm> creates a parent-child
+          relation in the elements of a process definition. (Nodes and
+          transitions contained in a super-state will have that superstate
+          as a parent. Top-level elements have the process definition as their 
+          parent which, itself, does not have a further parent.) When an
+          event is fired, the event will be passed up the parent
+          hierarchy. This allows it both to 
+          capture all transition events in a process and to associate
+          actions with these events via a centralized location.
+    </para>
+    
+    
+    </section>
+
+    <section id="script">
+      <title>
+            Scripts
+      </title>
+      <para>
+            A <firstterm>script</firstterm> is an action that executes a
+            <application>Beanshell</application>  script. (For more information
+            about <application>Beanshell</application>, see <ulink
+            url="http://www.beanshell.org/" />.)
+            By default, all process variables are
+            available as script variables but no script variables will be
+            written to the process variables. The following
+            script-variables are available:
+      </para>
+      
+      <itemizedlist>
+        <listitem><para>executionContext</para></listitem>
+        <listitem><para>token</para></listitem>
+        <listitem><para>node</para></listitem>
+        <listitem><para>task</para></listitem>
+        <listitem><para>taskInstance</para></listitem>
+      </itemizedlist>
+      
+      <programlisting language="XML"><xi:include href="extras/modelling_3.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+      <para>
+            To customize the default behavior of loading and storing
+            variables into the script, use the <property>variable</property>
+            element as a sub-element of script. If doing so, also place the
+            script expression into the script as a sub-element:
+            <property>expression</property>.  
+      </para>
+
+      <programlisting language="XML"><xi:include href="extras/modelling_4.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+      <para>
+            Before the script starts, the process variables
+            <code>YYY</code> and <code>ZZZ</code> will be made
+            available to the script as script-variables <code>b</code>
+            and <code>c</code> respectively. After the script is
+            finished, the value of script-variable <code>a</code> is
+            stored into the process variable <code>XXX</code>.
+      </para>
+
+      <para>
+        If the variable's <property>access</property> attribute contains
+        <code>read</code>, the process variable will be loaded as a script
+        variable before the script is evaluated. If the
+        <property>access</property> attribute contains <code>write</code>,
+        the script variable will be stored as a process variable after
+        evaluation. The <property>mapped-name</property> attribute can make
+        the process variable available under another name in the script.
+        Use this when the process variable names contain spaces or
+        other invalid characters.
+      </para>
+      
+    </section>
+
+    <section id="customevents">
+      <title>
+            Custom Events
+      </title>
+      
+      <para>
+          Run custom events at will during the execution of a process by
+          calling the <methodname>GraphElement.fireEvent(String eventType,
+          ExecutionContext executionContext);</methodname> method. Choose
+          the names of the event types freely.
+      </para>
+    </section>
+  </section>
+
+  <section id="superstates">
+    <title>
+            Super-States
+    </title>
+    
+    <para>
+            A super-state is a group of nodes. They can be nested
+            recursively and are used to add a hierarchy to the process
+            definition. For example, this functionality is useful
+            to group the nodes belonging to a process in phases.
+     </para>       
+     <para>       
+            Actions can be associated with super-state events. Events
+            fired by tokens in nested nodes bubble up the super-state
+            hierarchy up to the process definition. The token therefore
+            acts as being in every node in the hierarchy at the same
+            time. This can be convenient when checking if a process
+            execution is in, for example, the start-up phase.
+    </para>
+    
+    <section id="superstatetransitions">
+      <title>
+            Super-State Transitions
+      </title>
+      
+      <para>
+            Any transition leaving a super-state can be taken by a
+            token positioned in any node within that super-state.
+            One use case for this feature is to model a <emphasis>
+            cancel</emphasis> transition which can be taken at any time.
+      </para>
+      <para>
+            Transitions can also arrive in super-states, in which case the
+            token will be redirected to the first node in document order. 
+            Furthermore, nodes which are outside the super-state can have
+            transitions directly to nodes that are inside it 
+            and viceversa. Finally, as any other node, super-states can
+            also self-transition.
+      </para>
+    </section>
+
+    <section id="superstateevents">
+      <title>
+            Super-State Events
+      </title>
+      
+      <para>
+            Two events are unique to super-states, these being
+            <systemitem>superstate-enter</systemitem> and
+            <systemitem>superstate-leave</systemitem>. They will be
+            fired irrespective of which transitions the node has entered or
+            left. As long as a token takes transitions within the
+            super-state, these events will not be fired.
+      </para>
+   
+   <note>
+      <para>
+            There are separate event types for states and super-states. The
+            software was designed this way in order to make it easy to distinguish
+            between actual super-state events and node events which have
+            been passed from within the super-state.
+      </para>
+   </note>
+    </section>
+
+    <section id="hierarchicalnames">
+      <title>
+            Hierarchical Names
+      </title>
+     
+      <para>
+            Node names have to be unique within their
+            <firstterm>scope</firstterm>. The scope of the node is its
+            <firstterm>node-collection</firstterm>. Both the process
+            definition and the super-state are node collections. To refer
+            to nodes in super-states, specify the relative, slash
+            (<code>/</code>) separated name. The slash separates the node
+            names. Use <code>..</code> to refer to an upper level. The next
+            example shows how to refer to a node in a super-state:
+     </para>
+
+      <programlisting language="XML"><xi:include href="extras/modelling_5.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+      <para>
+            The next example shows how to travel up the super-state
+            hierarchy:
+     </para>
+
+     <programlisting language="XML"><xi:include href="extras/modelling_6.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    </section>
+  </section>
+
+  <section id="exceptionhandling">
+    <title>
+            Exception Handling
+    </title>
+    
+    <para>
+        The Business Process Manager's exception handling mechanism only
+        works for Java exceptions. Graph execution cannot, of itself,
+        result in problems. It is only when <firstterm>delegation
+        classes</firstterm> are executed that exceptions can occur.
+    </para>
+    
+    <para>
+            A list of <systemitem>exception-handler</systemitem>s can be
+            specified on <systemitem>process-definition</systemitem>s,
+            <systemitem>node</systemitem>s and
+            <systemitem>transition</systemitem>s. Each of these exception
+            handlers has a list of actions. When an exception occurs in a
+            delegation class, the process element's parent hierarchy is
+            searched for an appropriate
+            <systemitem>exception-handler</systemitem>, the actions for
+            which are executed.
+    </para>  
+
+  <important>  
+    <para>
+        The Business Process Manager's exception handling differs in some
+        ways from the Java exception handling. In Java, a caught exception
+        can have an influence on the <firstterm>control flow</firstterm>. In
+        the case of jBPM, control flow cannot be changed by the exception
+        handling mechanism. The exception is either caught or it is not.
+        Exceptions which have not been caught are thrown to the client that
+        called the <methodname>token.signal()</methodname> method. For those
+        exceptions that are caught, the graph execution continues as if
+        nothing had occurred.
+  </para>
+</important>    
+
+<note>
+    <para>
+        Use <methodname>Token.setNode(Node node)</methodname> to put the
+        token in an arbitrary node within the graph of an exception-handling
+        <systemitem>action</systemitem>.
+    </para>
+</note>    
+
+  </section>
+    
+  <section id="modelling_processcomposition">
+    <title>
+        Process Composition
+    </title>
+    
+    <para>
+        The Business Process Manager supports <firstterm>process
+        composition</firstterm> by means of the
+        <systemitem>process-state</systemitem>. This is a state that is
+        associated with another process definition. When graph execution
+        arrives in the <systemitem>process-state</systemitem>, a new
+        instance of the sub-process is created. This sub-process is then
+        associated with the path of execution that arrived in the process
+        state. The super-process' path of execution will wait until the
+        sub-process has ended and then leave the process state and continue
+        graph execution in the super-process.
+    </para>
+    
+   <programlisting language="XML"><xi:include href="extras/modelling_7.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        In the example above, the <literal>hire</literal> process contains a
+        <systemitem>process-state</systemitem> that spawns an
+        <literal>interview</literal> process. When execution arrives in the
+        <literal>first interview</literal>, a new execution (that is,
+        process instance) of the <literal>interview</literal> process is
+        created. If a version is not explicitly specified, the latest
+        version of the sub-process is used. To make the Business Process
+        Manager instantiate a specific version, specify the optional
+        <property>version</property> attribute. To postpone binding the
+        specified or latest version until the sub-process is actually
+        created, set the optional <property>binding</property> attribute to
+        <code>late</code>. 
+    </para>    
+    
+    <para>
+        Next, <literal>hire</literal> process variable <code>a</code> is
+        copied into <literal>interview</literal> process variable
+        <code>aa</code>. In the same way, <literal>hire</literal> variable
+        <code>b</code> is copied into interview variable <code>bb</code>. When the
+        interview process finishes, only variable <code>aa</code> is copied
+        back into the <code>a</code> variable.
+    </para>
+
+    <para>
+        In general, when a sub-process is started, all of the variables with
+        read access are read from the super-process and fed into the newly
+        created sub-process. This occurs before the signal is given to leave
+        the start state. When the sub-process instances are finished, all of
+        the variables with write access will be copied from the sub-process
+        to the super-process. Use the variable's
+        <property>mapped-name</property> attribute to specify the variable
+        name that should be used in the sub-process.
+    </para>
+    
+  </section>
+    
+  <section id="customnodebehaviour">
+    <title>
+        Custom Node Behavior
+    </title>
+    
+    <para>
+        Create custom nodes by using a special implementation of the
+        <classname>ActionHandler</classname> that can execute any business
+        logic, but also has the responsibility to pass on the graph
+        execution. Here is an example that reads a value from an ERP system,
+        adds an amount (from the process variables) and stores the result
+        back in the ERP system. Based on the size of the amount, use either the
+        <systemitem>small amounts</systemitem> or the <systemitem>large
+        amounts</systemitem> transition to exit.
+    </para>
+    
+    <figure id="update.erp.example.image">
+      <title>Process Snippet for Updating ERP Example</title>
+      <mediaobject><imageobject><imagedata  fileref="images/update.erp.example.png"/></imageobject></mediaobject>
+    </figure>
+
+    <programlisting language="Java"><xi:include href="extras/modelling_2.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+<note>
+    <para>
+        One can also create and join tokens in custom node implementations.
+        To learn how to do this, study the Fork and Join node implementation
+        in the jBPM source code.
+    </para>
+</note>
+
+  </section>
+
+  <section id="graphexecution">
+    <title>
+        Graph Execution
+    </title>
+
+    <para>
+        The Business Process Manager's graph execution model is based on an
+        interpretation of the process definition and the "chain of command"
+        pattern.
+    </para>
+    
+    <para>
+            The process definition data is stored in the database and is
+            used during process execution.
+     </para>       
+
+    <note>            
+        <para>     
+            Be aware that <application>Hibernate</application>'s second
+            level cache is used so as to avoid loading definition
+            information at run-time. Since the process definitions do not
+            change, <application>Hibernate</application> can cache them in
+            memory.
+        </para>
+    </note>    
+
+    <para>
+        The "chain of command pattern" makes each node in the graph
+        responsible for passing on the process execution. If a node does not
+        pass it on, it behaves as though it were a <systemitem>wait
+        state</systemitem>.
+    </para>
+    
+    <para>
+        Let the execution start on process instances and it will continue
+        until it enters a <systemitem>wait state</systemitem>.
+    </para>
+    
+    <para>
+            A token represents a path of execution. It has a pointer to a
+            node in the process graph. During <systemitem>wait
+            state</systemitem>, the tokens can be made to persist in the
+            database.  
+    </para>
+    
+    <para>
+        This algorithm is used to calculate the execution of a token.
+        Execution starts when a signal is sent to the tokenand it is then
+        passed over the transitions and nodes via the chain of command
+        pattern. These are the relevant methods:
+    </para>
+    
+    <figure id="graph.execution.image">
+      <title>The graph execution-related methods</title>
+      <mediaobject><imageobject><imagedata  fileref="images/graph.execution.png"/></imageobject></mediaobject>
+    </figure>
+    
+    <para>
+            When a token is in a node, signals can be sent to it. A
+            signal is treated as an instruction to start execution and must,
+            therefore, specify a <systemitem>leaving transition</systemitem>
+            from the token's current
+            node. The first transition is the default. In a signal to a
+            token, it takes its current node and calls the
+            <methodname>Node.leave(ExecutionContext,Transition)</methodname>
+            method. (It is best to think of the <methodname>ExecutionContext</methodname> as a token because the
+            main object in it is a token.) The
+            <methodname>Node.leave(ExecutionContext,Transition)</methodname>
+            method will fire the <systemitem>node-leave</systemitem> event and
+            call the <methodname>Transition.take(ExecutionContext)</methodname>.
+            That method will then run the transition event
+            and call the <methodname>Node.enter(ExecutionContext)</methodname> on
+            the transition's destination node. That method will then fire
+            the <systemitem>node-enter</systemitem> event and call the
+            <methodname>Node.execute(ExecutionContext)</methodname>. 
+    </para>        
+    
+    <para>        
+            Every type of node has its own behaviour, these being
+            implemented via the <methodname>execute</methodname> method.
+            Each node is responsible for passing on the graph execution by
+            calling the
+            <methodname>Node.leave(ExecutionContext,Transition)</methodname>
+            again. In summary:
+      </para> 
+    
+    <itemizedlist>
+      <listitem><para><methodname>Token.signal(Transition)</methodname></para></listitem>
+      <listitem><para><methodname>Node.leave(ExecutionContext,Transition)</methodname></para></listitem>
+      <listitem><para><methodname>Transition.take(ExecutionContext)</methodname></para></listitem>
+      <listitem><para><methodname>Node.enter(ExecutionContext)</methodname></para></listitem>
+      <listitem><para><methodname>Node.execute(ExecutionContext)</methodname></para></listitem>
+    </itemizedlist>
+
+<note>
+    <para>
+        The next state, including the invocation of the actions, is
+        calculated via the client's thread. A common misconception is that
+        all calculations must be undertaken in this way. Rather, as is the
+        case with any <firstterm>asynchronous invocation</firstterm>, one
+        can use <firstterm>asynchronous messaging</firstterm> (via Java
+        Message Service) for that. When the message is sent in the same
+        transaction as the process instance update, all synchronization
+        issues are handled correctly. Some workflow systems use asynchronous
+        messaging between all nodes in the graph but, in high throughput
+        environments, this algorithm gives much more control and flexibility
+        to those wishing to maximise business process performance.
+    </para>
+</note>    
+
+  </section>
+  
+    <section id="transactiondemarcation">
+        <title>
+            Transaction Demarcation
+        </title>
+        
+        <para>
+            As explained in <xref linkend="graphexecution" />, the Business
+            Process Manager runs the process in the thread of the client and
+            is, by nature, synchronous. In practice, this means that the
+            <methodname>token.signal()</methodname> or
+            <methodname>taskInstance.end()</methodname> will only return
+            when the process has entered a new <systemitem>wait
+            state</systemitem>.
+        </para>
+
+<note>
+    <para>
+        To learn more about the jPDL feature being described in this
+        section, read <xref linkend="asynchronouscontinuations" />.
+    </para>
+</note>
+
+    <para>
+        In most situations this is the most straightforward approach because
+        one can easily bind the the process execution to server-side
+        transactions: the process moves from one state to the next in the space of one
+        transaction.
+    </para>
+
+    <para>
+        Sometimes, in-process calculations take a lot of time, so this
+        behavior might be undesirable. To cope with this issue, the Business
+        Process Manager includes an asynchronous messaging system that
+        allows it to continue a process in a manner, which is, as the name
+        implies, asynchronous. (Of course, in a Java enterprise environment,
+        jBPM can be configured to use a Java Message Service broker instead
+        of the in-built messaging system.)
+    </para>
+
+    <para>
+        jPDL supports the <code>async=&quot;true&quot;</code> attribute in
+        every node. Asynchronous nodes will not be executed in the thread of
+        the client. Instead, a message is sent over the asynchronous
+        messaging system and the thread is returned to the client (in other
+        words, <methodname>token.signal()</methodname> or
+        <methodname>taskInstance.end()</methodname> will be returned.)
+    </para>
+
+    <para>
+        The Business Process Manager's client code can now commit the
+        transaction. Send messages in the same transaction as that
+        containing the process updates. (The overall result of such a
+        transaction will be that the token is moved to the next node (which
+        has not yet been executed) and a
+        <classname>org.jbpm.command.ExecuteNodeCommand</classname> message
+        will be sent from the asynchronous messaging system to the
+        <systemitem>jBPM Command Executor</systemitem>. This reads the
+        commands from the queue and executes them. In the case of the
+        <classname>org.jbpm.command.ExecuteNodeCommand</classname>, the
+        process will be continued when the node is executed. (Each command
+        is executed in a separate transaction.)
+    </para>
+
+<important>
+    <para>
+        Ensure that a <systemitem>jBPM Command Executor</systemitem> is
+        running so that asynchronous processes can continue. Do so by
+        configuring the web application's
+        <classname>CommandExecutionServlet</classname>.
+    </para>
+</important>
+
+<note>   
+    <para>
+        Process modelers do not need to be excessively concerned with
+        asynchronous messaging. The main point to remember is transaction
+        demarcation: by default, the Business Process Manager will operate
+        in the client transaction, undertaking the whole calculation until
+        the process enters a <systemitem>wait state</systemitem>. (Use
+        <code>async=&quot;true&quot;</code> to demarcate a transaction in
+        the process.)
+    </para>
+</note>    
+
+    <para>
+        Here is an example:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/modelling_8.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+    
+    <para>
+        The client code needed to both start and resume process executions
+        is exactly the same as that needed for normal synchronous processes.
+    </para>
+    
+    <programlisting language="Java"><xi:include href="extras/modelling_3.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        After this first transaction occurs, the process execution's
+        <systemitem>root token</systemitem> will point to <literal>node
+        one</literal> and an <classname>ExecuteNodeCommand</classname>
+        message is sent to the command executor.
+    </para>
+    
+    <para>
+        In a subsequent transaction, the command executor will read the
+        message from the queue and execute <literal>node one</literal>. The
+        action can decide to pass the execution on or enter a
+        <systemitem>wait state</systemitem>. If it chooses to pass it on,
+        the transaction will be ended when the execution arrives at
+        <literal>node two</literal>.
+    </para>
+
+
+  </section>
+    
+</chapter>

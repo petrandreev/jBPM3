@@ -1,0 +1,14 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.jbpm.db.hibernate.SybaseDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <property name="hibernate.connection.driver_class">${jdbc.sybase.driver}</property>
+    <property name="hibernate.connection.url">${jdbc.sybase.url}</property>
+    <property name="hibernate.connection.username">${jdbc.sybase.username}</property>
+    <property name="hibernate.connection.password">${jdbc.sybase.password}</property>
+    <!-- JDBC connection properties (end) -->
+
+    <!-- jConnect does not support retrieving natively generated keys after insert -->
+    <property name="hibernate.jdbc.use_get_generated_keys">false</property>
+

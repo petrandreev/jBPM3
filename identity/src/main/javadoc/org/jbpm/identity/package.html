@@ -1,0 +1,30 @@
+<body>
+<p>the core identity classes User, Membership and Group.  They form
+a domain model for organisational information like users, groups and permissions.
+The structure is like this:
+</p>
+
+<p><center><img src="identity.gif" /></center></p>
+
+<p>So membership models the n-m relation between User and Group.  Property Group.type 
+can be used to have different sets of groups.  E.g. Groups of type "hierarchy" could 
+represent the hierarchical structure of the company in departments, business units and 
+teams.  Groups also have a parent-child relation to model the relation between those 
+hierarchical groups.  The name property in the Membership can indicate the role which 
+a certain user fullfills in that group.  This is a notion that corresponds to a 
+position in a company.  E.g. the manager of business unit A.    That is why also the 
+membership can have permissions associated to it. (currently, the permissions are not 
+used in jbpm)  
+</p>
+
+<p>Another group type example could be "security-role".  In which you define a set of 
+Groups that correspond to security roles that are used in the webapp security.  Then 
+you have to configure a security domain in your servlet container that checks for 
+membership against this group type.  That is how it is done now in jBPM.
+</p>
+
+<p>In later versions (when business calendar becomes persistable), we might also 
+include a link between Users and Groups on the one hand and business calendars on the 
+other hand.  To model different time zones and different business hours in different 
+parts of a global company.
+</p></body>

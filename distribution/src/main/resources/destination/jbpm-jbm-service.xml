@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+  This file defines the default queues that jBPM ships with.
+  The default queues are used by the Command Listener Bean
+  and the producer-consumer pair formed by the JMS Connector Service and
+  the Job/Timer Listener Bean.
+
+  You can add other destinations to this file, or you can create other
+  *-service.xml files to contain your application's destinations.
+-->
+
+<server>
+  <mbean code="org.jboss.jms.server.destination.QueueService"
+    name="jboss.jbpm.destination:service=Queue,name=JbpmDLQ"
+    xmbean-dd="xmdesc/Queue-xmbean.xml">
+    <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+    <depends>jboss.messaging:service=PostOffice</depends>
+  </mbean>
+
+  <mbean code="org.jboss.jms.server.destination.QueueService"
+    name="jboss.jbpm.destination:service=Queue,name=JbpmJobQueue"
+    xmbean-dd="xmdesc/Queue-xmbean.xml">
+    <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+    <depends>jboss.messaging:service=PostOffice</depends>
+    <!-- JBPM-1952 a small redelivery delay goes a long way towards mitigating
+         stale state exceptions and deadlocks under heavy concurrency conditions -->
+    <attribute name="RedeliveryDelay">5000</attribute>
+    <attribute name="DLQ">jboss.jbpm.destination:service=Queue,name=JbpmDLQ</attribute>
+  </mbean>
+
+  <mbean code="org.jboss.jms.server.destination.QueueService"
+    name="jboss.jbpm.destination:service=Queue,name=JbpmCommandQueue"
+    xmbean-dd="xmdesc/Queue-xmbean.xml">
+    <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+    <depends>jboss.messaging:service=PostOffice</depends>
+    <attribute name="RedeliveryDelay">5000</attribute>
+    <attribute name="DLQ">jboss.jbpm.destination:service=Queue,name=JbpmDLQ</attribute>
+  </mbean>
+</server>

@@ -1,0 +1,4 @@
+<jbpm-configuration>
+    ...
+    <string name="jbpm.mail.bcc.address" value="bcc@mycompany.com" />
+</jbpm-configuration>

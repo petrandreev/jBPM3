@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="scripted" xmlns="urn:jbpm.org:jpdl-3.2">
+
+  <start-state name="start">
+    <transition to="esb" />
+  </start-state>
+
+  <node name="esb">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>paybills</esbServiceName>
+      <esbCategoryName>annoyances</esbCategoryName>
+    </action>
+    <transition to="end" />
+  </node>
+
+  <end-state name="end" />
+
+  <event type="node-enter">
+    <action class="org.jbpm.no.such.Class" />
+  </event>
+
+</process-definition>

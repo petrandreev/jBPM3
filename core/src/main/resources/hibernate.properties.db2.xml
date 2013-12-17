@@ -1,0 +1,10 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.DB2Dialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <property name="hibernate.connection.driver_class">${jdbc.db2.driver}</property>
+    <property name="hibernate.connection.url">${jdbc.db2.url}</property>
+    <property name="hibernate.connection.username">${jdbc.db2.username}</property>
+    <property name="hibernate.connection.password">${jdbc.db2.password}</property>
+    <!-- JDBC connection properties (end) -->

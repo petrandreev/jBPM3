@@ -1,0 +1,6 @@
+<beans>
+    <bean name="task" class="org.jbpm.taskmgmt.exe.TaskInstance" >
+        <field name="name"><string>do dishes</string></field>
+        <property name="actorId"><string>theotherguy</string></property>
+    </bean>
+</beans>

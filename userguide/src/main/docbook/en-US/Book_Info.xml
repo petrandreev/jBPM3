@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE bookinfo PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<bookinfo id="book-jBPM_Reference_Guide-jBPM_Reference_Guide">
+	<title>jBPM Reference Guide</title>
+	<subtitle>Guide to using and developing with jBPM 3</subtitle>
+	<productname>jBPM</productname>
+	<productnumber>3.2.10</productnumber>
+	<edition>1</edition>
+	<pubsnumber>1</pubsnumber> <!-- ignore, needed by redhat pubs system -->
+	<abstract>
+		<para>
+		This is the User Guide for jBPM 3. jBPM is a flexible Business Process Management (BPM) Suite that 
+        bridges the gap between non-technical business users and developers by offering both BPM and workflow
+        features.
+		</para>
+	</abstract>
+	<corpauthor>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="Common_Content/images/title_logo.svg" format="SVG" />
+			</imageobject>
+		</inlinemediaobject>
+	</corpauthor>
+
+    <xi:include href="Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+    <!-- <xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /> -->
+
+</bookinfo>
+

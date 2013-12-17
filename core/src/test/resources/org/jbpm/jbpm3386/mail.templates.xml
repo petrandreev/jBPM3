@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mail-templates>
+  <mail-template name='jbpm3386-mail-template'>
+    <to>${to}</to>
+    <subject>Test message for jbpm 3386</subject>
+    <text><![CDATA[Keep up the good work!]]></text>
+  </mail-template>
+</mail-templates>

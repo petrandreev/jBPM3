@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.job.ExecuteNodeJob" 
+            discriminator-value="N" 
+            extends="org.jbpm.job.Job">
+
+    <many-to-one name="node"   
+                 column="NODE_" 
+                 cascade="lock"
+                 foreign-key="FK_JOB_NODE"
+                 index="IDX_JOB_NODE"/>
+
+  </subclass>
+
+</hibernate-mapping>

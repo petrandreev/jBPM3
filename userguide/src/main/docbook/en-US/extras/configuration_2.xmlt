@@ -1,0 +1,11 @@
+<service name="persistence">
+    <factory>
+        <bean class="org.jbpm.persistence.db.DbPersistenceServiceFactory">
+            <field name="dataSourceJndiName">
+                <string value="java:/myDataSource"/>
+            </field>
+            <field name="isCurrentSessionEnabled"><true /></field>
+            <field name="isTransactionEnabled"><false /></field>
+        </bean>
+    </factory>
+</service>

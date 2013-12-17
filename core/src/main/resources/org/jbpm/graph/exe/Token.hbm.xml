@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <class name="org.jbpm.graph.exe.Token" 
+         table="JBPM_TOKEN">
+    <id name="id" column="ID_"><generator class="native" /></id>
+    <version name="version" column="VERSION_" />
+    
+    <property name="name" column="NAME_"/>
+    <property name="start" column="START_"/>
+    <property name="end" column="END_"/>
+    <property name="nodeEnter" column="NODEENTER_"/>
+    <property name="nextLogIndex" column="NEXTLOGINDEX_"/>
+    <property name="isAbleToReactivateParent" column="ISABLETOREACTIVATEPARENT_"/>
+    <property name="isTerminationImplicit" column="ISTERMINATIONIMPLICIT_"/>
+    <property name="isSuspended" column="ISSUSPENDED_" />
+    <property name="lock" column="LOCK_" />
+    
+    <many-to-one name="node" 
+                 column="NODE_" 
+                 foreign-key="FK_TOKEN_NODE"
+                 index="IDX_TOKEN_NODE"/>
+    <many-to-one name="processInstance" 
+                 column="PROCESSINSTANCE_" 
+                 foreign-key="FK_TOKEN_PROCINST"
+                 index="IDX_TOKEN_PROCIN"/>
+    <many-to-one name="parent" 
+                 column="PARENT_"
+                 cascade="lock"
+                 foreign-key="FK_TOKEN_PARENT"
+                 index="IDX_TOKEN_PARENT" />
+    <many-to-one name="subProcessInstance" 
+                 column="SUBPROCESSINSTANCE_" 
+                 foreign-key="FK_TOKEN_SUBPI" 
+                 index="IDX_TOKEN_SUBPI" />
+    <map name="children" inverse="true" cascade="all" >
+      <!-- add on-delete for optimized deletion 
+      <key column="PARENT_" on-delete="cascade" /> 
+      -->
+      <key column="PARENT_" />
+      <index column="NAME_" type="string" />
+      <one-to-many class="org.jbpm.graph.exe.Token" />
+    </map>
+    <list name="comments" cascade="all">
+      <key column="TOKEN_" />
+      <index column="TOKENINDEX_"  />
+      <one-to-many class="org.jbpm.graph.exe.Comment" />
+    </list>
+    
+  </class>
+</hibernate-mapping>

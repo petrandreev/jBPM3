@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <class name="org.jbpm.taskmgmt.def.Swimlane" 
+         table="JBPM_SWIMLANE">
+    <id name="id" column="ID_"><generator class="native" /></id>
+  
+    <property name="name" column="NAME_" />
+    <property name="actorIdExpression" column="ACTORIDEXPRESSION_" />
+    <property name="pooledActorsExpression" column="POOLEDACTORSEXPRESSION_" />
+
+    <many-to-one name="assignmentDelegation" 
+                 column="ASSIGNMENTDELEGATION_" 
+                 foreign-key="FK_SWL_ASSDEL"
+                 cascade="all"
+                 index="IDX_SWL_ASSDEL" />
+    <many-to-one name="taskMgmtDefinition"   
+                 column="TASKMGMTDEFINITION_" 
+                 foreign-key="FK_SWL_TSKMGMTDEF"
+                 index="IDX_SWL_TSKMGMTDEF" />
+
+    <set name="tasks" cascade="all" inverse="true">
+      <key column="SWIMLANE_" />
+      <one-to-many class="org.jbpm.taskmgmt.def.Task"/>
+    </set>
+  </class>
+
+</hibernate-mapping>

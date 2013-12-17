@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <class name="org.jbpm.module.def.ModuleDefinition" 
+         table="JBPM_MODULEDEFINITION"
+         abstract="true" 
+         discriminator-value="M">
+    <id name="id" column="ID_"><generator class="native" /></id>
+    <discriminator type="char" column="CLASS_"/>
+    <!-- M : org.jbpm.module.def.ModuleDefinition -->
+    <!-- C : org.jbpm.context.def.ContextDefinition -->
+    <!-- F : org.jbpm.file.def.FileDefinition -->
+    <!-- L : org.jbpm.logging.def.LoggingDefinition -->
+    <!-- I : org.jbpm.scheduler.def.SchedulerDefinition -->
+    <!-- T : org.jbpm.taskmgmt.def.TaskMgmtDefinition -->
+
+    <property name="name" column="NAME_" type="longstring" length="4000"/>
+    <many-to-one name="processDefinition" 
+                 column="PROCESSDEFINITION_"
+                 foreign-key="FK_MODDEF_PROCDEF"
+                 index="IDX_MODDEF_PROCDF"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="websale" width="590" height="542">
+  <node name="Create new web sale order" x="276" y="36" width="193" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Evaluate web order" x="300" y="108" width="145" height="37">
+    <edge>
+      <label x="9" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-119" y="-24"/>
+      <bendpoint w1="-121" h1="-30" w2="121" h2="-30"/>
+    </edge>
+  </node>
+  <node name="Fix web order data" x="48" y="108" width="140" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="123" h1="30" w2="-119" h2="30"/>
+    </edge>
+  </node>
+  <node name="salefork" x="300" y="180" width="145" height="25">
+    <edge>
+      <label x="9" y="-14"/>
+      <bendpoint w1="96" h1="35" w2="0" h2="-43"/>
+    </edge>
+    <edge>
+      <label x="-62" y="-11"/>
+      <bendpoint w1="-96" h1="33" w2="0" h2="-45"/>
+    </edge>
+  </node>
+  <node name="Wait for money" x="396" y="252" width="145" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="update books" x="408" y="324" width="121" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="0" h1="42" w2="108" h2="-36"/>
+    </edge>
+  </node>
+  <node name="ship item" x="216" y="252" width="121" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="0" h1="113" w2="-84" h2="-37"/>
+    </edge>
+  </node>
+  <node name="salejoin" x="300" y="408" width="145" height="25">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="end" x="300" y="468" width="145" height="37"/>
+  <deployment serverName="localhost" serverPort="8080" serverDeployer="/gpd-deployer">
+    <classesAndResources>
+      <element value="/jbpm-examples/src/test/java/org/jbpm/examples/websale/ShipItem.java"/>
+      <element value="/jbpm-examples/src/test/java/org/jbpm/examples/websale/RemindActor.java"/>
+      <element value="/jbpm-examples/src/test/java/org/jbpm/examples/websale/UpdateBooks.java"/>
+    </classesAndResources>
+    <filesAndFolders>
+      <element value="/jbpm-examples/src/test/resources/websale/form.create.xhtml"/>
+      <element value="/jbpm-examples/src/test/resources/websale/form.evaluate.xhtml"/>
+      <element value="/jbpm-examples/src/test/resources/websale/form.fix.xhtml"/>
+      <element value="/jbpm-examples/src/test/resources/websale/form.money.xhtml"/>
+      <element value="/jbpm-examples/src/test/resources/websale/forms.xml"/>
+      <element value="/jbpm-examples/src/test/resources/websale/gpd.xml"/>
+      <element value="/jbpm-examples/src/test/resources/websale/processdefinition.xml"/>
+      <element value="/jbpm-examples/src/test/resources/websale/processimage.jpg"/>
+    </filesAndFolders>
+  </deployment>
+</root-container>

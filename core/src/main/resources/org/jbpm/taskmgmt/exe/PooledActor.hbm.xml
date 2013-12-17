@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <class name="org.jbpm.taskmgmt.exe.PooledActor" 
+         table="JBPM_POOLEDACTOR">
+    <id name="id" column="ID_"><generator class="native" /></id>
+    <version name="version" column="VERSION_" />
+  
+    <property name="actorId" column="ACTORID_" index="IDX_PLDACTR_ACTID"/>
+
+    <many-to-one name="swimlaneInstance"
+                 column="SWIMLANEINSTANCE_"
+                 foreign-key="FK_TASKINST_SWLANE"
+                 index="IDX_TSKINST_SWLANE"/>
+
+    <set name="taskInstances" inverse="true" table="JBPM_TASKACTORPOOL">
+      <key column="POOLEDACTOR_" foreign-key="FK_TSKACTPOL_PLACT"/>
+      <many-to-many class="org.jbpm.taskmgmt.exe.TaskInstance" column="TASKINSTANCE_" />
+    </set>
+
+  </class>
+
+</hibernate-mapping>

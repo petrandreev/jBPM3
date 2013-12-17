@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.scheduler.def.CancelTimerAction" 
+            extends="org.jbpm.graph.def.Action" 
+            discriminator-value="I">
+
+    <property name="timerName" column="TIMERNAME_" />
+
+  </subclass>
+
+</hibernate-mapping>

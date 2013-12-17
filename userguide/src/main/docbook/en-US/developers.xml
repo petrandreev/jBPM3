@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="developers">
+  <title>Developers</title>
+  <para>This chapter describes the build structure of jbpm for developers.</para>
+  
+  <section id="theantbuildtargets">
+    <title>The ant build targets</title>
+    <para>jBPM is being developed with ant 1.6.2.</para>
+    <itemizedlist>
+      <listitem><emphasis role="bold">TODO</emphasis>: </listitem>
+      <listitem><emphasis role="bold"></emphasis>: </listitem>
+      <listitem><emphasis role="bold"></emphasis>: </listitem>
+      <listitem><emphasis role="bold"></emphasis>: </listitem>
+      <listitem><emphasis role="bold"></emphasis>: </listitem>
+      <listitem><emphasis role="bold"></emphasis>: </listitem>
+      <listitem><emphasis role="bold"></emphasis>: </listitem>
+    </itemizedlist>
+  </section>
+  
+  <section id="buildingthedocs">
+    <title>Building the docs</title>
+    <para>Building the docs requires a separate module to be put 
+    besides the jbpm.3 home directory: <literal>docbook-support</literal>.  
+    This module can be found in the public jboss anonymous accessible 
+    cvs repository : 
+    TODO</para>
+  </section>
+</chapter>

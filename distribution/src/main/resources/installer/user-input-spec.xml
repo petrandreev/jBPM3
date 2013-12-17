@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<userInput>
+  <panel order="0">
+    <createForPack name="JBoss AS Integration" />
+    <field type="radio" variable="jbossSelection">
+      <description align="left" id="jboss.selection" />
+      <spec>
+        <choice txt="JBoss AS 5.1.0" value="jboss510" />
+        <choice txt="JBoss AS 5.0.1" value="jboss501" />
+        <choice txt="JBoss AS 4.2.3" value="jboss423" set="true" />
+        <choice txt="JBoss AS 4.0.5" value="jboss405" />
+      </spec>
+    </field>
+    <field type="space" />
+    <field type="text" variable="jbossTargetServer">
+      <spec id="jboss.configuration" size="10" set="all" />
+    </field>
+  </panel>
+  <panel order="1">
+    <createForPack name="JBoss AS Integration" />
+    <field type="dir" align="left" variable="jbossInstallPath">
+      <spec id="jboss.home" size="20" set="${jboss.home}" />
+    </field>
+  </panel>
+  <panel order="2">
+    <createForPack name="Tomcat Integration" />
+    <field type="radio" variable="tomcatSelection">
+      <description align="left" id="tomcat.selection" />
+      <spec>
+        <choice txt="Tomcat 6.0" value="tomcat60" set="true" />
+        <choice txt="Tomcat 5.5" value="tomcat55" />
+      </spec>
+    </field>
+  </panel>
+  <panel order="3">
+    <createForPack name="Tomcat Integration" />
+    <field type="dir" align="left" variable="tomcatInstallPath">
+      <spec id="tomcat.home" size="20" set="${tomcat.home}" />
+    </field>
+  </panel>
+  <panel order="4">
+    <createForPack name="JBoss AS Integration" />
+    <field type="radio" variable="dbSelection">
+      <description align="left" id="database.selection" />
+      <spec>
+        <choice txt="DB2" value="db2" />
+        <choice txt="HSQL" value="hsqldb" set="true" />
+        <choice txt="SQL Server" value="mssql" />
+        <choice txt="MySQL" value="mysql" />
+        <choice txt="PostgreSQL" value="postgresql" />
+        <choice txt="Sybase" value="sybase" />
+        <choice txt="Oracle" value="oracle" />
+      </spec>
+    </field>
+  </panel>
+</userInput>

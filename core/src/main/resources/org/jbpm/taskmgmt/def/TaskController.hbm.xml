@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <class name="org.jbpm.taskmgmt.def.TaskController" 
+         table="JBPM_TASKCONTROLLER">
+    <id name="id" column="ID_"><generator class="native" /></id>
+  
+    <many-to-one name="taskControllerDelegation" 
+                 column="TASKCONTROLLERDELEGATION_" 
+                 foreign-key="FK_TSKCTRL_DELEG"
+                 cascade="all"
+                 index="IDX_TSKCTRL_DELEG" />
+
+    <list name="variableAccesses" cascade="all">
+      <key column="TASKCONTROLLER_" foreign-key="FK_VARACC_TSKCTRL" />
+      <index column="INDEX_" />
+      <one-to-many class="org.jbpm.context.def.VariableAccess" />
+    </list>
+
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.context.log.variableinstance.ByteArrayUpdateLog" 
+            extends="org.jbpm.context.log.VariableUpdateLog"
+            discriminator-value="B">
+
+    <many-to-one name="oldValue" 
+                 class="org.jbpm.bytes.ByteArray"
+                 column="OLDBYTEARRAY_"
+                 cascade="all"
+                 foreign-key="FK_LOG_OLDBYTES"
+                 index="IDX_LOG_OLDBYTES" />
+    <many-to-one name="newValue" 
+                 class="org.jbpm.bytes.ByteArray"
+                 column="NEWBYTEARRAY_"
+                 cascade="all"
+                 foreign-key="FK_LOG_NEWBYTES"
+                 index="IDX_LOG_NEWBYTES" />
+  </subclass>
+
+</hibernate-mapping>

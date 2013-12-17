@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project>
+
+  <property name="target.dir" value="${basedir}/target" />
+
+  <!--
+    Property initialization
+  -->
+  <target name="init">
+    <!-- Check if ant.properties is available -->
+    <available property="ant.properties.available" file="${basedir}/ant.properties" />
+    <fail message="Cannot find ant.properties. Did you copy/edit ant.example.properties?"
+          unless="ant.properties.available" />
+    <property file="${basedir}/ant.properties" />
+  </target>
+
+  <target name="init-hudson" depends="init">
+    <echo message="hudson.base: ${hudson.base}" />
+
+    <property name="hudson.tomcat" value="${hudson.base}/tomcat" />
+    <property name="hudson.home" value="${hudson.base}/home" />
+
+    <available file="${hudson.tomcat}" property="hudson.tomcat.available" />
+
+    <property name="hudson.username.${hudson.username}" value="true" />
+    <fail message="Cannot use default hudson username: ${hudson.username}"
+          if="hudson.username.changeme" />
+    <property name="hudson.password.${hudson.password}" value="true" />
+    <fail message="Cannot use default hudson password: ${hudson.password}"
+          if="hudson.password.changeme" />
+  </target>
+
+  <target name="init-thirdparty" depends="init-hudson">
+    <property name="thirdparty.dir" value="${target.dir}/thirdparty" />
+    <mkdir dir="${thirdparty.dir}" />
+    <available property="tomcat.available" file="${thirdparty.dir}/tomcat.zip" />
+    <available property="hudson.available" file="${thirdparty.dir}/hudson.war" />
+  </target>
+
+  <target name="init-jboss" depends="init">
+    <property name="hudson.jboss" value="${hudson.base}/jboss" />
+    <mkdir dir="${hudson.jboss}" />
+    <available property="jboss405.available" file="${hudson.jboss}/jboss-4.0.5.GA.zip" />
+    <available property="jboss423.available" file="${hudson.jboss}/jboss-4.2.3.GA.zip" />
+    <available property="jboss501.available" file="${hudson.jboss}/jboss-5.0.1.GA.zip" />
+    <available property="jboss510.available" file="${hudson.jboss}/jboss-5.1.0.GA.zip" />
+  </target>
+
+  <!-- 
+    Get thirdparty dependencies 
+  -->
+  <target name="get-thirdparty"
+          depends="get-tomcat,get-hudson,get-jboss405,get-jboss423,get-jboss501,get-jboss510" />
+  <target name="get-tomcat" depends="init-thirdparty" unless="tomcat.available">
+    <property name="tomcat.zip"
+              value="http://archive.apache.org/dist/tomcat/tomcat-5/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.zip" />
+    <get src="${tomcat.zip}"
+         dest="${thirdparty.dir}/tomcat.zip"
+         usetimestamp="true"
+         verbose="true" />
+  </target>
+  <target name="get-hudson" depends="init-thirdparty" unless="hudson.available">
+    <property name="hudson.war"
+              value="http://hudson-ci.org/download/war/${hudson.version}/hudson.war" />
+    <get src="${hudson.war}"
+         dest="${thirdparty.dir}/hudson.war"
+         usetimestamp="true"
+         verbose="true" />
+  </target>
+  <target name="get-jboss405" depends="init-jboss" unless="jboss405.available">
+    <property name="jboss405.zip"
+              value="http://downloads.sourceforge.net/jboss/jboss-4.0.5.GA.zip" />
+    <get src="${jboss405.zip}"
+         dest="${hudson.jboss}/jboss-4.0.5.GA.zip"
+         usetimestamp="true"
+         verbose="true" />
+  </target>
+  <target name="get-jboss423" depends="init-jboss" unless="jboss423.available">
+    <property name="jboss423.zip"
+              value="http://downloads.sourceforge.net/jboss/jboss-4.2.3.GA.zip" />
+    <get src="${jboss423.zip}"
+         dest="${hudson.jboss}/jboss-4.2.3.GA.zip"
+         usetimestamp="true"
+         verbose="true" />
+  </target>
+  <target name="get-jboss501" depends="init-jboss" unless="jboss501.available">
+    <property name="jboss501.zip"
+              value="http://downloads.sourceforge.net/jboss/jboss-5.0.1.GA.zip" />
+    <get src="${jboss501.zip}"
+         dest="${hudson.jboss}/jboss-5.0.1.GA.zip"
+         usetimestamp="true"
+         verbose="true" />
+  </target>
+  <target name="get-jboss510" depends="init-jboss" unless="jboss510.available">
+    <property name="jboss510.zip"
+              value="http://downloads.sourceforge.net/jboss/jboss-5.1.0.GA-jdk6.zip" />
+    <get src="${jboss510.zip}"
+         dest="${hudson.jboss}/jboss-5.1.0.GA.zip"
+         usetimestamp="true"
+         verbose="true" />
+  </target>
+
+  <!-- 
+    Setup the Hudson Tomcat instance 
+  -->
+  <target name="hudson-tomcat-setup" depends="get-thirdparty" unless="hudson.tomcat.available">
+    <!-- Install Tomcat -->
+    <mkdir dir="${hudson.base}" />
+    <unzip src="${thirdparty.dir}/tomcat.zip" dest="${hudson.base}" />
+    <move file="${hudson.base}/apache-tomcat-${tomcat.version}" tofile="${hudson.tomcat}" />
+    <chmod perm="+x">
+      <fileset dir="${hudson.tomcat}/bin" includes="*.sh" />
+    </chmod>
+
+    <!-- Install Hudson -->
+    <copy todir="${hudson.tomcat}/webapps" file="${thirdparty.dir}/hudson.war" />
+  </target>
+
+  <!-- 
+    Setup the Hudson QA environment
+  -->
+  <target name="setup"
+          depends="init-hudson,hudson-tomcat-setup"
+          description="Set up the Hudson QA environment">
+    <!-- get the svn url -->
+    <exec dir="${basedir}/.."
+          executable="svn"
+          failonerror="true"
+          output="${target.dir}/svn-info.xml">
+      <arg value="info" />
+      <arg value="--xml" />
+    </exec>
+    <replace file="${target.dir}/svn-info.xml" token="https://svn" value="http://anonsvn" />
+    <xmlproperty file="${target.dir}/svn-info.xml" />
+    <property name="hudson.jbpm.url" value="${info.entry.url}" />
+
+    <!-- Configure Tomcat -->
+    <copy todir="${hudson.tomcat}" overwrite="true">
+      <fileset dir="${basedir}/tomcat" />
+      <filterset>
+        <filtersfile file="${basedir}/ant.properties" />
+      </filterset>
+    </copy>
+    <replace file="${hudson.tomcat}/conf/server.xml">
+      <replacefilter token="port=&quot;8005&quot;"
+                     value="port=&quot;${hudson.admin.port}&quot;" />
+      <replacefilter token="port=&quot;8009&quot;"
+                     value="port=&quot;${hudson.ajp.port}&quot;" />
+      <replacefilter token="port=&quot;8080&quot;"
+                     value="port=&quot;${hudson.http.port}&quot;" />
+    </replace>
+
+    <!-- Configure Hudson -->
+    <copy todir="${hudson.home}" overwrite="true">
+      <fileset dir="${basedir}/hudson">
+        <include name="jobs/*/config.xml" />
+        <include name="command.sh" />
+        <include name="*.xml" />
+      </fileset>
+      <filterset>
+        <!-- derived properties -->
+        <filter token="hudson.jbpm.url" value="${hudson.jbpm.url}" />
+        <filter token="hudson.home" value="${hudson.home}" />
+        <filtersfile file="${basedir}/ant.properties" />
+      </filterset>
+    </copy>
+
+    <echo />
+    <echo message="*************************************" />
+    <echo message="* Hudson setup successfully         *" />
+    <echo message="* ant start                         *" />
+    <echo message="*************************************" />
+  </target>
+
+  <target name="stop" depends="init-hudson" description="Stop the Hudson QA environment">
+    <exec executable="${hudson.tomcat}/bin/catalina.sh" failonerror="true">
+      <arg line="stop" />
+    </exec>
+
+    <echo />
+    <echo message="*************************************" />
+    <echo message="* Hudson stopped successfully       *" />
+    <echo message="* ant start                         *" />
+    <echo message="*************************************" />
+  </target>
+
+  <target name="start" depends="init-hudson" description="Start the Hudson QA environment">
+    <property environment="env" />
+    <fail message="unset JBOSS_REPOSITORY=${env.JBOSS_REPOSITORY}" if="env.JBOSS_REPOSITORY" />
+
+    <exec executable="${hudson.tomcat}/bin/catalina.sh"
+          failonerror="true"
+          output="${target.dir}/hudson.log">
+      <env key="CATALINA_OPTS" value="-Djava.awt.headless=true" />
+      <env key="HUDSON_HOME" value="${hudson.home}" />
+      <arg line="start" />
+    </exec>
+
+    <echo />
+    <echo message="*************************************" />
+    <echo message="* Hudson started successfully       *" />
+    <echo message="* http://${hudson.host}:${hudson.http.port}/hudson      *" />
+    <echo message="*************************************" />
+  </target>
+
+  <target name="clean" depends="init" description="Clean up">
+    <delete dir="${target.dir}" failonerror="false" />
+    <delete dir="${hudson.base}" failonerror="false" />
+  </target>
+</project>

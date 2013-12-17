@@ -1,0 +1,4 @@
+<jbpm-configuration>
+  <string name='jbpm.mail.class.name'
+  value='com.your.specific.CustomMail' />
+</jbpm-configuration>

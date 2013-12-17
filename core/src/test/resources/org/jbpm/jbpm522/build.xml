@@ -1,0 +1,33 @@
+<project name="jbpm522" default="testDeployProcess">
+
+  <property name="process.dir" location="${ant.file}/.." />
+  <taskdef name="deployprocess" classname="org.jbpm.ant.DeployProcessTask" />
+
+  <target name="testDeployProcess">
+    <deployprocess process="${process.dir}/timerprocess.zip" />
+  </target>
+
+  <target name="testDeployBadProcess">
+    <deployprocess process="${process.dir}/badprocess.zip" />
+  </target>
+
+  <target name="testDeployProcesses">
+    <deployprocess>
+      <fileset dir="${process.dir}">
+        <include name="timerprocess.zip"/>
+        <include name="classloadingprocess.zip" />
+      </fileset>
+    </deployprocess>
+  </target>
+
+  <target name="testDeployBadProcesses">
+    <deployprocess>
+      <fileset dir="${process.dir}">
+        <include name="timerprocess.zip"/>
+        <include name="badprocess.zip"/>
+        <include name="classloadingprocess.zip" />
+      </fileset>
+    </deployprocess>
+  </target>
+
+</project>

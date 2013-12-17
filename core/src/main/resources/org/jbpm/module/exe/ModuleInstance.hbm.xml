@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <class name="org.jbpm.module.exe.ModuleInstance" 
+         table="JBPM_MODULEINSTANCE"
+         abstract="true" 
+         discriminator-value="M">
+    <id name="id" column="ID_"><generator class="native" /></id>
+    <!-- M : org.jbpm.module.exe.ModuleInstance -->
+    <!-- C : org.jbpm.context.exe.ContextInstance -->
+    <!-- L : org.jbpm.logging.exe.LoggingInstance -->
+    <!-- I : org.jbpm.scheduler.exe.SchedulerInstance -->
+    <!-- T : org.jbpm.taskmgmt.def.TaskMgmtDefinition -->
+    <discriminator type="char" column="CLASS_"/>
+    <version name="version" column="VERSION_" />
+
+    <!-- bidirectional, other side is indexed; make this side inverse -->
+    <many-to-one name="processInstance" 
+                 column="PROCESSINSTANCE_"
+                 foreign-key="FK_MODINST_PRCINST"
+                 index="IDX_MODINST_PRINST"
+                 insert="false" update="false"/>
+  </class>
+</hibernate-mapping>

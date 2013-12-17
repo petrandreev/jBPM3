@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<forms>
+  <form task="Create new web sale order" form="form.create.xhtml"/>
+  <form task="Evaluate web order" form="form.evaluate.xhtml"/>
+  <form task="Fix web order data" form="form.fix.xhtml"/>
+  <form task="Wait for money" form="form.money.xhtml"/>
+</forms>

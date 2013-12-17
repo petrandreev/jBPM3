@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<datasources>
+  <xa-datasource>
+    <jndi-name>JbpmDS</jndi-name>
+
+    <xa-datasource-class>com.microsoft.sqlserver.jdbc.SQLServerXADataSource</xa-datasource-class>
+    <xa-datasource-property name="ServerName">${jdbc.mssql.server}</xa-datasource-property>
+    <xa-datasource-property name="PortNumber">${jdbc.mssql.port}</xa-datasource-property>
+    <xa-datasource-property name="DatabaseName">${jdbc.mssql.database}</xa-datasource-property>
+    <xa-datasource-property name="SelectMethod">cursor</xa-datasource-property>
+    <user-name>${jdbc.mssql.username}</user-name>
+    <password>${jdbc.mssql.password}</password>
+
+    <!-- disable transaction interleaving -->
+    <track-connection-by-tx />
+    <!-- force XAResource.isSameRM(XAResource) to return false -->
+    <isSameRM-override-value>false</isSameRM-override-value>
+
+    <!-- corresponding type-mapping in standardjbosscmp-jdbc.xml -->
+    <type-mapping>MS SQLSERVER2000</type-mapping>
+  </xa-datasource>
+
+</datasources>

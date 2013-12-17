@@ -1,0 +1,10 @@
+<beans>
+    <bean name="task" class="org.jbpm.taskmgmt.exe.TaskInstance"/>
+    <string name="greeting">hello world</string>
+    <int name="answer">42</int>
+    <boolean name="javaisold">true</boolean>
+    <float name="percentage">10.2</float>
+    <double name="salary">100000000.32</double>
+    <char name="java">j</char>
+    <null name="dusttodust" />
+</beans>

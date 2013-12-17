@@ -1,0 +1,113 @@
+<chapter id="scheduler">
+	<title>Scheduler</title>
+	<para>
+	Dieses Kapitel beschreibt, wie man mit dem Timer
+	im jBPM arbeitet.
+	</para>
+	<para>
+	Wie Ereignisse im Proze&szlig;, k&ouml;nnen Timer erzeugt werden. Wenn ein Timer abl&auml;uft, 
+	kann eine Aktion durchgef&uuml;hrt werden, oder kann ein &Uuml;bergang genommen werden.
+	</para>
+	
+	<section id="timers">
+		<title>Timers</title>
+		<para>
+		Die einfachste Weise, ein Timer zu spezifizieren ist, indem
+		Sie ein Timer-Element dem Knote hinzuf&uuml;gt.
+		</para>
+		
+    <programlisting>&lt;state name='catch crooks'&gt;
+  &lt;timer name='reminder' 
+         duedate='3 business hours' 
+         repeat='10 business minutes'
+         transition='time-out-transition' &gt;
+    &lt;action class='the-remainder-action-class-name' /&gt;
+  &lt;/timer&gt;
+&lt;/state&gt;</programlisting>
+		
+		<para>
+		Ein Timer, der auf einem Knoten spezifiziert ist, wird nicht nach dem Verlassen 
+		des Knoten durchgef&uuml;frt. Beide Übergang und Aktion sind optional. Wenn ein Timer 
+		durchgef&uuml;hrt wird, treten die folgenden Ereignisse in Reihenfolge auf:
+		</para>
+		<itemizedlist>
+			<listitem>
+				Ein Ereignis von Type
+				<literal>Timer </literal>
+				wird abgefeuert
+			</listitem>
+			<listitem>
+			Wenn eine Aktion spezifiziert wird, wird die Aktion durchgef&uuml;hrt.				
+			</listitem>
+			<listitem>
+			Wenn ein &Uuml;bergang spezifiziert wird, wird ein Signal gesendet, um die 
+			Durchf&uuml;hrung über den abgegebenen &Uuml;bergang fortzusetzen. 
+			</listitem>
+		</itemizedlist>
+		<para>
+		Jeder Timer mu&szlig; einen eizigen Name haben. Wenn kein Name im
+		<literal>timer</literal>
+		Element spezifiziert wird, wird der Name des Knoten als der Name des Timers
+		genommen.
+		</para>
+		<para>
+		Eine Timer-Aktion kann jedes m&ouml;gliches unterst&uuml;tzte Aktion-Element sein. 
+		Wie z.B.
+		<literal>action</literal>
+		or
+		<literal>script</literal>
+		.
+		</para>
+		<para>
+		Timer werden durch Aktionen erzeugt und abgebrochen. Die 2
+		Aktion-Elemente sind
+		<literal>create-timer</literal>
+		und
+		<literal>cancel-timer</literal>
+		.Eigentlich, das Timer-Element, das oben gezeigt wird, ist nur eine kurze Darstellung 	
+		für eine create-timer Aktion an
+		<literal>node-enter</literal>
+		und eine cancel-timer Aktion an 
+		<literal>node-leave</literal>
+		.
+		</para>
+	</section>
+	<section id="schedulerdeployment">
+		<title>Ausführung eines Schedulers</title>
+		<para>
+			Proze&szlig;durchf&uuml;hrung erzeugt und abbricht Timer. Die Timer werden in Timer-Tabelle persistiert. Eine separate Timer-Runner mu&szlig; die Tabelle &uuml;berprufen 
+			und wenn die Timer f&auml;llig sind, werden die Timer durchgef&uuml;hrt.
+		</para>
+
+		<figure id="scheduler.overview.image">
+			<title>Scheduler Bestandteile &Uuml;berblick</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="images/scheduler.overview.gif" />
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<para>
+			Das folgende Klasse Diagramm zeigt die Klassen, die in die Schedulerentwicklung 
+			miteinbezogen werden. Die Schnittstellen 
+			<literal>SchedulerService</literal>
+			und
+			<literal>TimerExecutor</literal>
+			werden spezifiziert, um den Timer-Durchf&uuml;hrt-Mechanismus steckbar ( pluggable ) zu
+			machen
+		</para>
+
+		<figure id="scheduler.classes.image">
+			<title>Scheduler Klassen &Uuml;berblick</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="images/scheduler.classes.gif" />
+				</imageobject>
+			</mediaobject>
+		</figure>
+	</section>
+
+</chapter>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field" >
+
+  <subclass name="org.jbpm.graph.node.ProcessState" 
+            extends="org.jbpm.graph.def.Node"
+            discriminator-value="C">
+
+    <property name="subProcessName" column="SUBPROCNAME_" />
+    <many-to-one name="subProcessDefinition" 
+                 column="SUBPROCESSDEFINITION_" 
+                 foreign-key="FK_PROCST_SBPRCDEF"
+                 index="IDX_PSTATE_SBPRCDE"/>
+    <set name="variableAccesses" cascade="all">
+      <key column="PROCESSSTATE_" foreign-key="FK_VARACC_PROCST"/>
+      <one-to-many class="org.jbpm.context.def.VariableAccess" />
+    </set>
+
+  </subclass>
+  
+</hibernate-mapping>

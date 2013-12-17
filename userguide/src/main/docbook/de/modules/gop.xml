@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="graphenorientierteprogrammierung">
+  <title>Graphenorientierte Programmierung</title>
+
+  <section id="gopintroduction">
+    <title>Einführung</title>
+
+    <para>Dieses Kapitel kann als Manifest für JBoss jBPM betrachtet. Das gibt
+    uns eine komplette Übersicht von der Vision und Ideen hinter der aktuellen
+    Strategie und der zukünftigen Wegbeschreibungen vom JBoss jBPM Projekt.
+    Diese Vision weicht deutlich vom traditionellen Ansatz ab.</para>
+
+    <para>Erstens von allem, wir halten viel von mehrfachen Prozesssprachen.
+    Es gibt unterschiedliche Umgebungen und unterschiedliche Absicht, die eine
+    ihrer eigenen spezifischen Prozesssprache erfordern.</para>
+
+    <para>Zweitens, graphenorientierte Programmierung ist eine neue
+    Implementierungstechnik, die als eine Basis für alle graphenbasierte
+    Prozesssprachen dient.</para>
+
+    <para>Der hauptsächliche Vorteil von unserem Ansatz ist, dass dieser
+    Ansatz eine Basistechnologie für alle Typen von Prozesssprachen
+    definiert.</para>
+
+    <para>Die aktuelle Softwareentwicklung beruht immer mehr auf
+    domänenspezifische Sprachen. Ein typischer Java Entwickler verwendet
+    ziemlich viele domänenspezifische Sprachen. Die XML-Dateien in einem
+    Projekt, die Eingabe für verschiedene Frameworks sind, können als
+    domänenspezifische Sprachen betrachtet werden.</para>
+
+    <figure id="languages.overview.image">
+      <title>Positionierung von graphenbasierten Sprachen</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata align="center" fileref="images/languages.overview.jpg" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Domänenspezifische Sprachen für Workflow, BPM, Orchestrierung und
+    PageFlow sind auf die Ausführung vom gerichteten Graphen basiert. Andere
+    wie Hibernate Mappingsdateien, IoC-Konfiguration sind nicht.
+    Graphenorientierte Programmierung ist das Fundament für alle
+    Domänenspezifische Sprachen, die auf die Ausfürung eines Graphen basiert
+    sind.</para>
+
+    <para>Graphenorientierte Programmierung ist eine sehr einfache Technik, die
+    beschreibt wie Graphen auf eine einfache OO Programmiersprache definiert
+    und ausgeführt werden können.</para>
+
+    <para>In <xref linkend="applicationdomains" />, werden wir die häufig
+    verwendete Prozesssprachen behandeln, die mit der graphenorientierten
+    Programmierung wie Workflow, BPM, Orchestrierung und PageFlow
+    implementiert werden können</para>
+
+    <section id="domainspecificlanguages">
+      <title>Domänenspezifische Sprachen</title>
+
+      <para>Jede Prozesssprache kann als eine Domänenspezifische Sprache (DSL)
+      betrachtet werden. Die DSL Perspektive gibt die Entwicklern eine gute
+      Einsicht wie Prozesssprachen mit der einfachen OO Programmierung
+      zusammenhängen.</para>
+
+      <para>Dieser Abschnitt könnte den Eindruck geben, dass wir nur auf
+      Programmierungsumgebungen gerichtet sind. Nichts ist weniger wahr.
+      Graphenorientierte Programmierung beinhaltet das ganze
+      BPM-Produktkontinuum von den API-Bibliotheken zu vollständigen BPM
+      Suiteprodukten. BPM Suiteprodukte sind komplette Software
+      Entwicklungsumgebungen, die um Geschäftsprozesse zentriert. In dieser
+      Type von Produkten, wird Codierung in Programmiersprachen möglichst viel
+      vermiedet.</para>
+
+      <para>Ein wichtiger Aspekt der domänenspezifischen Sprachen ist jede
+      Sprache hat bestimmte Grammatik. Diese Grammatik kann als Domänenmodell
+      ausgedrückt werden. Im Falle von Java, diese ist Klasse, Methode, Feld,
+      Konstruktor, ... In jPDL diese ist Knoten, Transition, Aktion, ... In
+      Regeln (=Rules), diese ist Bedingung, Konsequenz, ...</para>
+
+      <para>Die hauptsächliche Idee von DSL ist, dass Entwicklern an jenen
+      Grammatiken denken, wenn Artefakte für eine spezifische Sprache verfasst
+      werden. Der IDE ist rum um die Grammatik von einer Sprache konstruiert.
+      Dann kann es unterschiedliche Editoren sein, um die Artefakte zu
+      verfassen. Z.B. ein jPDL-Prozess hat einen graphischen Editor und ein
+      XML Quellansicht-Editor. Außerdem kann es unterschiedliche Art und Weise
+      geben, um das gleiche Artefakt zu speichern: für jPDL, dieses könnte
+      eine Prozess-XML-Datei oder der serialisierte Objektgraph von Knoten und
+      Transition-Objekten sein. Ein anderes theorethisches Beispiel ist Java:
+      Sie können das Java Klasse-Dateiformat auf dem System benutzen. Wenn ein
+      Benutzer der Editor startet, die Quelltexten werden generiert. Wenn ein
+      Benutzer speichert, wird die übersetzte Klasse gespeichert ....</para>
+
+      <para>Wo vor zehn Jahren, die Hauptaufgabe eines Entwicklers, war nur
+      Code zu schreiben. Heute wird das Lernen und das Benutzen von
+      domänenspezifischen Sprachen bevorzugt. Dieser Trend wird weiter
+      fortgesetzt und das Resultat ist, dass Entwickler eine große Wahl
+      zwischen Frameworks und das Schreiben von Software in der Host-Plattform
+      haben. JBoss SEAM ist ein sehr große Schritt in dieser Richtung.</para>
+
+      <para>Einige von diesen Sprachen sind auf die Ausführung vom Graphen
+      basiert. Z.B jPDL für Workflow in Java, BPEL für Service-Orchestrierung,
+      SEAM für Seite Fluss (= Page flow),... Graphenorientierte Programmierung
+      ist eine allgemeine Basis für alle diese Typen von domänenspezifischen
+      Sprachen. </para>
+
+      <para>In der Zukunft, für jede Sprache, ein Entwickler/in soll in der
+      Lage sein, ein Editor zu wählen, der ihr Bedürfnis mit besten Ergebnisse
+      erfüllt. Z.B. Ein Fortgeschrittener Java-Entwickler wird vermutlich das
+      Editieren von Java in einem Quelledateiformat bevorzugen, um die Datei
+      schnell zu bearbeiten. Aber ein unerfahrener Java-Entwickler wird sich
+      für einen Editor mit automatischer Generierung von Java Klassen
+      entschieden. Das Editieren von Java Quelldatei wird immer mehr
+      flexible.</para>
+
+      <para>Eine andere Weise um diese domänenspezifischen Sprachen
+      (einschließlich die Programmiersprachen) zu betrachten ist aus der
+      Perspektive der strukturierten Software. Objektorientierte
+      Programmierung (OOP) fügt Struktur durch Gruppierungsmethoden mit ihren
+      Daten hinzu. Aspektorientierte Programmierung (AOP) fügt eine Weise, um
+      Interessen zu extrahieren. Dependency Injection (DI) und Inversion of
+      Control (IoC) Frameworks fügt einfache Verdrahtung der Objektgraphen
+      hinzu. Graphbasierte Ausführungssprachen (wie hier behandelt) kann
+      nützlich sein und zwar um die Komplexität vom Strukturieungsteil Ihres
+      Software-Projekts rum um die Ausführung vom Graphen zu
+      bewältigen.</para>
+
+      <para>Eine initiale Erklärung über domänenspezifische Sprachen (DSL)
+      kann bei <ulink
+      url="http://www.martinfowler.com/bliki/DomainSpecificLanguage.html">Martin
+      Fowler's bliki</ulink> gefunden werden. Aber die Vision hinter DSL wird
+      bei <ulink
+      url="http://www.martinfowler.com/articles/languageWorkbench.html">Martin's
+      article about 'Language Workbenches'</ulink> detailliert erklärt.</para>
+    </section>
+
+    <section id="featuresofgraphbasedlanguages">
+      <title>Eigenschaften von graphbasierten Prozesssprachen</title>
+
+      <para>Es existieren zahlreiche graphenbasierte Prozesssprachen. 
+      Es gibt große Unterschiede in der Umgebung und dem Fokus.
+      Zum Beispiel BPEL wird als eine XML-basierte Service-Orchestrierung-Komponente 
+      auf eine Enterprise Service Bus (ESB) Architektur eingesetzt. Und die pageflow 
+      Prozesssprache kann definieren, wie die Seiten einer Webanwendung 
+      gesteuert werden können . Diese sind zwei völlig unterschiedliche Umgebungen.
+      </para>
+
+      <para>Trotz aller diese Unterschiede, es existieren zwei Eigenschaften, die
+      in fast jeder Prozesssprache zu finden sind: Unterstützung für Wartezustände
+      und eine graphische Repräsentation. Das ist kein Zufall, weil es genau
+      die zwei Eigenschaften ist, die in normaler Objektorientierten (OO)
+      Programmiersprachen wie Java nicht ausreichend unterstützt werden 
+      </para>
+
+      <para>Graphenorientierte Programmierung ist eine Technik, um diese zwei Eigenschaften
+      in einer OO Programmiersprachen zu implementieren. Die Abhängigkeit von
+      Graphenorientierter Programmierung in OO Programmierung impliziert, dass 
+      alle konkrete Prozesssprachen, die in Graphenorientierter Programmierung 
+      implementiert sind, müssen in OOP entwickelt werden. Aber das bedeutet 
+      nicht, dass die Prozesssprachen selbst irgendwelche OOP Art ausstellen.
+      Z.B. BPEL hat keine Relation zur OO Programmierung und kann in Graphenorientierter
+      Programmierung implementiert werden.</para>
+
+      <section id="supportforwaitstates">
+        <title>Unterstützung für Wartezustände</title>
+        
+        <para>Eine imperative Programmiersprache wie Java wird verwendet, um eine Folge von
+          Anweisungen auszudrücken, die von einem System ausgeführt wird. Es gibt keine
+          WAIT-Anweisung. Eine imperative Sprache ist perfekt für die Beschreibung z.B. von 
+          einem Request-Response-Zyklus in einem Server. Das System führt ununterbrochen die
+          Folge von Anweisungen aus, bis der Request verarbeitet wird und die Response
+          komplett ist.   
+        </para>
+        
+        <para>Aber ein solcher Request ist gewöhnlich Teil eines größeren Szenarios. Z.B. ein Kunde
+          reicht einen Kaufauftrag ein, Dieser Kaufauftrag soll von einem Kaufautrag-Manager
+          validiert werden. Nach der Zustimmung, müssen die Informationen in das ERP System 
+          eingetragen werden. Viele Requests an Server sind ein Teil des gleichen grösseren
+          Szenarios 
+        </para>
+        
+        <para>So process languages are languages to describe the bigger scenario.  A very 
+          important distinction we must make here is scenarios that are executable on one 
+          system (orchestration) and scenarios that describe the protocol between multiple
+          systems (choreography).  The Graph Oriented Programming implementation technique 
+          is only targets process languages that are executable on one machine 
+          (orchestration).  
+        </para>
+        
+        <para>So beschreibt ein Orchestrierungsprozess das gesamte Szenario in Form von einem System. 
+          Z.B.: Ein Prozess wird gestartet, wenn ein Kunde einen Auftrag einreicht. Der nächste
+          Schritt im Prozess ist die Zustimmung des Auftragsmanagers. So muss das System einen Eintrag
+          in die Auftragsliste des Auftragsmanagers hinzufügen und die <emphasis role="bold">wait</emphasis>, 
+          bis der Auftragsmanager die erforderliche Eingabe zur Verfügung stellt. Wenn die Eingabe empfangen
+          wird, setzt der Prozess die Ausführung fort. Jetzt wird eine Nachricht zum ERP System
+          gesendet und wieder wartet <emphasis role="bold">"wait"</emphasis> dieses System, bis die
+          Antwort zurückkommt. 
+        </para>
+        
+        <para>So um das gesamte Szenario für ein System zu beschreiben, benötigen wir ein Mechanismus,
+          mit Wartezustände zurechtzukommen. 
+        </para>
+        
+        <para>Auf die meistens Anwendungsgebiete, muss die Ausführung während der Wartezustände 
+          dauerhaft geschrieben werden. Das ist, warum, Blockierung von Threads nicht genügend
+          ist. Raffinierte Java-Entwicklern könnten an Object.wait() und Object.notify(); Methoden.
+          Diese können benutzt werden, um die Wartezustände zu simulieren, aber leider können Threads 
+          nicht dauerhaft geschrieben werden.
+        </para>
+        
+        <para>Weiterführung ist eine Technik, um den Thread (und die Kontextvariablen) persistent 
+          zu machen. Diese könnte ausreichend, um das Problem mit Wartezustände zu lösen.
+          Aber, wie wir im nächsten Abschnitt diskutiert haben, auch eine graphische Repräsentation
+          ist für viele der Anwendungsgebieten wichtig. Und Weiterführung ist eine Technik, die
+          auf eine imperative Programmierung basiert ist, deshalb sie ist nicht für die graphische
+          Repräsentation geeignet.
+        </para>
+
+        <para>So ein wichtiger Aspekt von der Unterstützung für Wartezustände ist, dass Ausführungen
+          dauerhaft geschrieben werden sollen. Unterschiedliche Anwendungsgebiete könnten unterschiedliche
+          Anforderungen für dauerhaftes Schreiben haben, wie eine Ausführung. Für die meisten Workflow, 
+          BPM und Orchestrierungsanwendungen, muss die Ausführung dauerhaft in eine relationale
+          Datenbank geschrieben werden. Normalerweise, entspricht ein Zustandsübergang in der
+          Prozessausführung mit einer Transaktion in der Datenbank.
+        </para>
+      </section>
+
+      <section id="graphicalrepresentation">
+        <title>Graphische Repräsentation</title>
+
+        <para>Einige Aspekte in der Softwareentwicklung können sehr gut von einem graphenbasierten Ansatz
+          profitieren. Business Prozess Management ist eine der meist deutlichen Anwendungsdomäne 
+          von graphenbasierten Sprachen. In diesem Beispiel, wird für die Kommunikation zwischen
+          Business Analyst und Entwickler, die Nutzung des graphenbasierten Diagramms vom 
+          Geschäftsprozess als die gemeinsame Sprache verwendet. Siehe auch <xref linkend="bpm" />. 
+        </para>
+        
+        <para>Ein anderer Aspekt, der von einer graphischen Repräsentation profilieren kann, ist pageflow.
+          In diesem Fall, die Seiten, Navigation und Befehlsaktion werden angezeigt und dann zusammen
+          in der graphischen Repräsentation eingebunden. 
+        </para>
+        
+        <para>In der graphenorientierten Programmierung zielen wir genau Graphendiagramme ab, die irgendeine
+          Form von Ausführung darstellt. Dies ist eine klare Unterscheidung mit Z.B. UML Klassendiagramme,
+          die ein statisches Modell der OO Datenstruktur repräsentiert.
+        </para>
+        
+        <para>Also die graphische Repräsentation kann als eine fehlende Eigenschaft in OO Programmierung
+          gesehen werden. Es gibt keine vernünftige Art und Weise in der die Ausführung von einem OO
+          Programm graphisch dargestellt werden kann. So es gibt keine direkte Relation zwischen einem
+          Programm und einer graphischen Darstellung.
+        </para>
+
+        <para>In graphenorientierter Programmierung ist die Beschreibung des Graphen zentral und 
+          sie ist ein reales Software-Artefakt wie Z.B. eine XML Datei, die den Prozessgraphen 
+          beschreibt. Da die graphische Darstellung ein tatsächlicher Teil der Softaware ist, ist
+          sie immer in Sync. Es gibt keine Notwendigkeit für eine manuelle Übersetzung von 
+          den graphischen Anforderungen in ein Softwaredesign. Software wird um den Graphen
+          strukturiert.
+        </para>
+      </section>
+    </section>
+  </section>
+
+   <section id="gop">
+    <title>Graphenorientierte Programmierung</title>
+    <para>Was wir hier präsentieren, ist eine technische Implementierung für graphenbasierte
+    Ausführungssprachen. Die Technik, die hier gezeigt wird, ist auf Laufzeitinterpretation
+    eines Graphen basiert. Andere Techniken für Graphenausführung sind auf Message Queues oder
+    Codegenerierung.
+    </para>
+
+    <para>Dieser Abschnitt beschreibt die Strategie, wie Graphenausführung mittels einer OO 
+      Programmiersprachen implementiert werden kann. Für die, die mit Design Patterns vertraut sind,
+      Ist es eine Kombination von Befehlsmustern und ein Ablauf der Verantwortlichkeitsmuster
+    </para>
+
+    <para>Wir werden mit dem einfachsten möglichen Modell anfangen und dann es bitweise erweitert.
+    </para>
+
+    <section id="thegraphstructure">
+      <title>Die Graphenstruktur</title>
+      <para>Zuerst von allen, wird die Struktur des Graphen mit den Klassen <literal>Node</literal> 
+        und <literal>Transition</literal> repräsentiert. Ein Übergang "transition" hat eine Richtung,
+        die Knoten "nodes" haben Ausgangs- und Eingangsübergang.
+      </para>
+      <figure id="node.transition.classes.image">
+        <title>Node und Transition Klassen</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/node.transition.classes.gif"/></imageobject></mediaobject>
+      </figure>
+      <para>Ein Knoten ist ein Befehl und hat eine <literal>execute</literal> Methode. Unterklassen von 
+        Node sollen die execute-Methode überschreiben, um spezifisches Verhalten für die Art des Knoten
+        zu implementieren.
+      </para>
+    </section>
+
+    <section id="anexecution">
+      <title>Eine Ausführung</title>
+      <para>Das Ausführungsmodell, das wir in dieser Graphenstruktur definieren, sieht genauso
+        wie endliche Automaten oder UML Zustandsdiagrammen. In Wirklichkeit kann die graphenorientierte
+        Programmierung verwendet werden, um jene Arten von Verhalten zu implementieren, aber
+        sie kann noch viel mehr.
+      </para>
+      <para>Eine Ausführung (auch bekannt als ein Marker) wird mit einer Klasse <literal>Execution</literal>.
+        repräsentiert. Eine <literal>Execution</literal> hat eine Referenz auf den aktuellsten Knoten.
+      </para>
+      <figure id="execution.class.image">
+        <title>Die Execution Klasse</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/execution.class.gif"/></imageobject></mediaobject>
+      </figure>
+      <para>Die Übergänge sind in der Lage, die Ausführung mit der Methode <literal>take</literal>
+        von einem Qeullknoten zu einem Zielknoten zu reichen.
+      </para>
+      <figure id="transition.take.method.image">
+        <title>Die take-Methode in Transition</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/transition.take.method.gif"/></imageobject></mediaobject>
+      </figure>
+      <para>Wenn eine Ausführung in einem Knoten ankommt, wird dieser Knoten ausgeführt. Die Methode
+        execute des Knoten "Node" ist auch verantwortlich für die Verbreitung der Ausführung.
+        Die Verbreitung des Ausführung bedeutet, dass ein Knoten die eingetroffene Ausführung über 
+        eine seiner Ausgangsübergänge zum nächsten Knoten weiterreichen kann.   
+      </para>
+      
+      <figure id="node.execute.method.image">
+        <title>Die execute-Methode in Node</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/node.execute.method.gif"/></imageobject></mediaobject>
+      </figure>
+      <para>Wenn eine execute-Methode des Knotens "Node" die Ausführung nicht verbeitet, verhält sie sich
+        wie ein Wartezustand. Wenn auch eine neue Ausführung erzeugt wird, sie wird in irgendeine
+        "start node" initialisiert und dann wartet auf ein Ereignis.
+      </para>
+      <para>
+        Ein Ereignis wird zu einer Ausführung gegeben und es kann die Ausführung veranlassen, 
+        zu starten. Wenn das Ereignis, das zu einem Ausführung gegeben wird, sich auf einen
+        Ausgangsübergang des aktuellsten Knotens bezieht, dann nimmt die Ausführung diese
+        Transition. Dann die Ausführung verbreitet sich solange, bis sie ein Knoten trifft, der sich 
+        wie einen Wartezustand  verhält.
+      </para>
+      <figure id="execution.event.method.image">
+        <title>Die event-Method in Execution</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/execution.event.method.gif"/></imageobject></mediaobject>
+      </figure>
+    </section>
+    
+    <section id="aprocesslanguage">
+      <title>Eine Prozesssprache</title>
+      <para>So jetzt können wir sehen, dass die zwei wesentliche Eigenschaften unterstützt werden:
+        Wartezustände und eine graphische Repräsentation. Während Wartezustände zeigt eine 
+        Ausführung einfach auf einen Knoten in dem Graphen. der Prozessgraph als auch die 
+        Ausführung dauerhaft geschrieben werden: Z.B. in eine relationale Datenbank mit einem
+        O/R Mapper wie Hibernate oder durch Serialiesierung des Objektgraphen in eine Datei.
+        Also Sie können sehen, dass die Knoten und Transitionen darstellt einen Graphen und 
+        deshalb gibt es eine direkte Kopplung mit einer graphischen Repräsentation.
+      </para>
+      <para>Eine Prozesssprache ist nichts anderes als eine Menge von Knoten-Implementationen. Jede
+        Knoten-Implementation übereinstimmt mit einem Prozesskonstrukt. Das richtige Verhalten
+        eines Prozesskonstrukts wird durch die execute-Methode überschrieben.
+      </para>
+      <para>Hier zeigen wir ein Beispiel einer Prozesssprachen mit 4 Prozesskonstrukten: ein start state,
+        eine decision, ein task und ein end state. Dieses Beispiel ist nicht mit der jPDL Prozesssprache
+        verwandt.
+      </para>
+      <figure id="example.process.language.image">
+        <title>Ein Beispiel einer Prozesssprache</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/example.process.language.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Konkrete Knotenobjekte können jetzt benutzt werden, um Prozessgraphen in unserem Beispiel
+        zu erstellen.   
+      </para>
+      <figure id="example.process.image">
+        <title>Ein Beispiel eines Prozesses</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/example.process.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Während der Erstellung eines neuen Ausführung für diesen Prozess, starten wir durch die
+        Positionerung der Ausführung in Anfangsknoten. Solange die Ausführung ein Ereignis nicht
+        bekommt, bleibt die Ausführung weiter in dem Anfangsknoten.
+      </para>
+      <figure id="new.execution.image">
+        <title>Eine neue Ausführung</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/new.execution.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Jetzt schauen wir an was passiert wenn ein Ereignis gefeuert wird. In dieser initialen
+        Situation feuert wir das Default-Ereignis, das mit der Default-Transition übereinstimmt.
+      </para>
+      <para>Dies wird gemacht durch den Aufruf der event-Methode auf das Execution-Objekt. 
+        Die event-Methode verbreitet und sucht nach dem Default-Ausgangsübergang und reicht die 
+        Execution über die Transition weiter und zwar durch den Aufruf der take-Methode in der Transition
+        und dann reicht sich selbst als ein Parameter weiter.
+      </para>
+	      <para>Die Transaktion leitet die Ausführung an den Decision-Knoten weiter und ruft die execute-Methode
+        auf. Nehmen wir an, die Implementierung von execute-Methode der Klasse "Decision" führt
+        eine Berechnung und entscheidet, die Ausführung zu propagieren, indem sie den 'yes'-event 
+        zur Ausführung sendet. Dadurch veranläßt die Ausführung über die 'yes' Transition 
+        und die Ausführung wird in die 'doubleCheck' Task eintreffen.
+      </para>
+      <para>Nehmen wir an, dass die Implementierung der execute-Methode vom doubleCheck Taskknoten
+        fügt ein Eintrag in eine Prüfliste von Aufgaben hinzu und dann wartet auf die Eingabe
+        des Prüfers durch das Stoppen des weitere Propagieren der Ausführung.  
+      </para>
+      <para>Jetzt, bleibt die Ausführung im doubleCheck Taskknoten positioniert. Alle
+        verschachtelte Aufrufe werden anfangen zurückzugeben, bis die originale event-Methode zurückgegeben
+        wird.  
+      </para>
+      <figure id="wait.state.image">
+        <title>Eine Ausführung im 'doubleCheck' Wartezustand</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/wait.state.jpg"/></imageobject></mediaobject>
+      </figure>
+    </section>
+
+    <section id="gopactions">
+      <title>Aktionen</title>
+      <para>In einigen Anwendungsdomänen muss es eine Art und Weise geben, um die Ausführung
+        der Programmierlogik ohne einen neuen Knoten für sie einzuführen. Im
+        Business Process Management zum Beispiel, ist diese ein sehr wichtiger Aspekt.
+        Der Business Analyst ist für die graphische Repräsentation verantwortlich und
+        der Entwickler ist für die Implementierung zuständig. D.h. es ist nicht Akzeptabel, 
+        der Entwickler die graphische Repräsentation ändern muss, um ein technisches
+        Detail einzufügen, an dem der Business Analyst nicht interessiert ist.
+      </para>
+      <para>Eine <literal>Aktion</literal> ist ebenfalls ein Befehl mit einer execute-Methode.
+        Aktionen können mit Ereignisse "events" verknüpft werden.
+      </para>
+      <para>Es gibt 2 wesentliche Ereignisse "events", die durch eine Node-Klasse gefeuert werden,
+        solange eine Ausführung ausgeführt wird: <literal>node-leave</literal> und <literal>node-enter</literal>.
+        Zusammen mit der Ereignisse, die die Durchführung von Transitionen veranlassen, stellt eine einfache
+        Art und Weise die Programmierlogik in die Ausführung eines Graphen einzuführen.
+      </para>
+      <figure id="hidden.actions.image">
+        <title>Aktionen, die normalerweise von der graphischen Darstellung versteckt sind</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/hidden.actions.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Jedes Ereignis kann mit einer Liste von Aktionen verknüpft werden. Alle Aktionen werden
+        mit dem Start eines Ereignisses ausgeführt.
+      </para>
+    </section>
+
+    <section id="synchronousexecution">
+      <title>Synchrone Ausführung</title>
+      <para>Das Default-Propagieren der Ausführung ist synchron. In <xref linkend="asynchronouscontinuations" />, 
+      werden wir sehen, wie dieses Default-Vehalten geändert werden kann.
+      </para>
+      <para>Eine Ausführung startet, wenn ein Ereignis zur Ausführung geschickt wird. Diese Ausführung wird 
+      über eine Transition anfangen zu propagieren und erreicht einen Knoten. Wenn der Knoten sich entscheidet,
+      die Ausführung zu propagieren, wird die take-Methode auf einen Ausgangsübergang aufgerufen und dann
+      propagiert die Ausführung weiter. Im Default-Verhalten, werden alle diese Propagierungen als
+      verschachtelte Methodenaufrufe vorgenommen. D.h. die originale <literal>event</literal>-Methode wird
+      nur dann zurückgegeben, wenn die Ausführung einen neuen Wartezustand erreicht hat. So kann die Ausführung
+      während eines Aufrufs der <literal>event</literal>-Methode über mehrere Knoten navigieren.
+      </para>
+      <para>Normalerweise, wird eine signal-Methode innerhalb einer Transaktion aufgerufen. Das impliziert, dass
+      in einer Transaktion, kann die Ausführung möglicherweise über mehrere Knoten im Prozessgraphen navigieren.
+      Das bringt bedeutende Leistung für Systeme, die eine Transaktion pro Knoten benötigen.
+      </para>
+      <para>Ein anderer Vorteil der synchronen Ausführung  ist mehrere Optionen für die Ausnahmebehandlung.
+      Wenn alle Knoten synchron ausgeführt werden, sind alle Propagierungen von Ausführungen verschachtelte
+      Methodenaufrufe. Der Aufrufer, der die signal-Methode aufgerufen hat, weiß genau dass, einen neuen
+      Wartezustand ohne Problem erreicht wurde, wenn die signal-Methode zurückgegeben wird.
+      </para>
+    </section>
+
+    <section id="codeexample">
+      <title>Code Beispiel</title>
+      <para>Damit die Leute die Prinzipien der graphenorientierten Programmierung kennenlernen, haben wir
+        diese 4 Klassen mit Codelinien kleiner als 130 entwicklet. Sie können einfach den Code lesen, um
+        eine Idee zu bekommen oder Sie können sogar mit den Codes anfangen zu spielen und implementieren
+        Sie Ihre eigene Arten von Knoten.
+      </para>
+      <para>Hier ist das Code Beispiel:</para>
+      <itemizedlist>
+        <listitem><ulink url="http://docs.jboss.com/jbpm/gop/Execution.java.html"><emphasis role="bold"><literal>Execution.java</literal></emphasis></ulink></listitem>
+        <listitem><ulink url="http://docs.jboss.com/jbpm/gop/Node.java.html"><emphasis role="bold"><literal>Node.java</literal></emphasis></ulink></listitem>
+        <listitem><ulink url="http://docs.jboss.com/jbpm/gop/Transition.java.html"><emphasis role="bold"><literal>Transition.java</literal></emphasis></ulink></listitem>
+        <listitem><ulink url="http://docs.jboss.com/jbpm/gop/Action.java.html"><emphasis role="bold"><literal>Action.java</literal></emphasis></ulink></listitem>
+      </itemizedlist>
+      <para>Sie können auch <ulink url="http://docs.jboss.com/jbpm/gop/jbpm.gop.zip">das gesamte Quellprojekt 
+        herunterladen</ulink> und dann beginnen Sie mit ihm zu spielen. Es besteht aus einem Eclipse-Projekt,
+        also um weiter mit dem Projekt zu arbeiten, importieren Sie das Projekt in Ihrem Eclipse. Also
+        es gibt eine Menge von Tests, die grundlegende Prozessausführung zeigen und fortgeschrittene Konzepte
+        der Graphenausführung wird im nächsten Abschnitt behandelt.
+      </para>
+    </section>
+  </section>
+  <section id="extendinggop">
+    <title>Erweiterung der graphenorientierten Programmierung</title>
+    <para>Der vorige Abschnitt führte einfach das Modell der graphenorientierten Programmierung in 
+      ihrer einfachen Form ein. Dieser Abschnitt behandelt verschiedene Aspekte der graphenbasierten
+      Sprachen und wie graphenorientierte Programmierung benutzt werden kann oder erweitert werden
+      kann, um diese Anforderungen zu erfüllen.
+    </para>
+    <section>
+      <title>Prozessvariablen</title>
+      <para>Prozessvariablen erhalten die kontextabhängige Daten von einer Prozessausführung.
+        In einem Schadenprozess, die 'geforderte Summe', die 'bewährte Summe' und 'IstBezahlt'
+        können gute Beispiele von Prozessvariablen sein. Häufig, sind Sie ähnlich Datenfelder einer Klasse.   
+      </para>
+      <para>Graphenorientierte Programmierung kann leicht mit Unterstützung für Prozessvariablen
+        erweitern werden und zwar durch das Assoziieren einer Menge von Schlüssel-Wert Paare, die mit einer
+        Ausführung assoziiert sind. <link linkend="concurrentexecutions">Gleichzeitige Pfaden der Ausführung
+        </link> und <link linkend="processcomposition">Prozesskomposition</link> erschweren ein bisschen
+        die Sachen. Im Fall von gleichtartigen Pfaden oder Unterprozessen, definieren Rahmenregeln die Sichtbarkeit 
+        von Prozessvariablen
+      </para>
+      <para><ulink url="http://is.tm.tue.nl/research/patterns/download/data_patterns%20BETA%20TR.pdf">'Workflow 
+        Data Patterns'</ulink> ist ein umfangreicher Forschungsbericht über die Typen von Rahmen, die an
+        den Prozessvariablen im Kontext von Unterprozessen und gleichzeitigen Ausführungen angewendet
+        werden können.
+      </para>
+    </section>
+
+    <section id="concurrentexecutions">
+      <title>Gleichzeitige Ausführungen</title>
+      <para>Nehmen Sie an, Sie entwickeln ein 'verkauf' Prozess mit einer graphenbasierten Prozesssprachen
+        für Workflow. Nachdem der Kunde den Auftrag beantragte, gibt es eine Sequenz von Aktivitäten
+        für die Abrechnung des Kunden und es gibt auch eine Sequenz von Aktivitäten für den Versand
+        des Artikels zum Kunden.
+      </para>
+      <para>In diesem Fall ist eine Ausführung nicht genügend, um den vollständigen Prozesszustand zu verfolgen.
+        Gehen wir gemeinsam die Schritte durch, um das Modell der graphenorientierten Programmierung zu erweitern
+        und um die Unterstützung für gleichzeitige Ausführungen hinzuzufügen. 
+      </para>
+      <para>Zuerst, benennen wir die Ausführung zu einem Ausführungspfad um. Dann können wir ein neues Konzept
+        vorstellen, das eine Prozessausführung genannt wird. Eine Prozessausführung repräsentiert eine
+        komplette Ausführung eines Prozesses and sie enthält viele Ausführungspfaden. 
+      </para>
+      <para>Die Ausführungspfaden können hierarchisch angeordnet sein. Das bedeutet, dass eine Root-Ausführungspfad
+        erzeugt wird, wenn eine neue Prozessausführung instanziiert wird. Wenn der Root-Ausführungspfad
+        in mehreren gelichzeitigen Ausführungspfaden aufgespaltet wird, der Root ist der Vater und
+        die neue erzeugte Ausführungspfaden sind alle Kinder des Vaters. Auf diese Weise kann die Implementierung
+        einer Join einfach werden: Die Implementierung einer Join muss nur überprüfen, ob alle Geschwister-Ausfürungspfade
+        bereits in den Join-Knoten positioniert sind. Wenn das der Fall ist, dann kann der Vater-Ausführungspfad
+        die Ausführung fortsetzen, die den Join-Knoten verlässt. 
+      </para>
+      <para>Während die hierarchische Ausführungspfade und die Join-Implementierung, die sich auf die Geschwister-
+        Ausführungspfaden basieren, ein großer Teil von Use-Cases abdeckt, könnte anderes parallele
+        Verhalten unter spezifischen Umständen wünschenswert sein. Z.B. wenn mehrere Merges sich auf
+        eine Spalte bezieht. In so einer Situation, sind andere Kombinationen von Laufzeitdaten- und Merge-Implementierung
+        angefordert.   
+      </para>
+      <figure id="concurrent.executions.image">
+        <title>Gleichzeitige Pfaden der Ausführung</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/concurrent.executions.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Mehrere gleichzeitige Pfade von Ausführung sind häufig mit multithreaded-Programmierung gemischt.
+        Besonders im Kontext von Workflow und von BPM, sind diese ziemlich verschieden. Ein Prozess
+        spezifiziert ein endlicher Automat. Betrachten Sie für ein Moment ein endlicher Automat, der immer
+        in einem stabilen Zustand ist und die Zustandsübergänge sind unmittelbar. Dann können Sie parallele Pfade
+        von Ausführungen interpretieren, indem Sie die Ereignisse betrachten, die die Zustandsübergänge
+        verursachen. Parallele Ausführung bedeutet, dass die Ereignisse, die gehandelt werden können, sind unverbunden
+        zwischen den parallelen Pfaden von Ausführung. Nehmen Sie jetzt an, dass die Zustandsübergänge in der Prozessausführung
+        sich auf einen Datenbank-Übergang (wie erklärt in <xref linkend="persistenceandtransactions" />) bezieht, dann Sie sehen, dass
+        multithreaded-Programmierung wird überhaupt nicht angefordert, um die parallele Pfaden der Ausführung
+        zu unterstützen.
+      </para>
+    </section>
+
+    <section id="processcomposition">
+      <title>Prozesskomposition</title>
+      <para>Prozesskomposition ist die Fähigkeit einen Teilprozess als Teil eines Superprozesses einzufügen.
+        Diese fortgeschrittene Eigenschaft macht es möglich Abstraktion der Prozessmodellierung hinzuzufügen.
+        Für den Business Analyst ist diese Eigenschaft wichtig, um große Modelle in kleine Blöcke zu verkleinern.
+      </para>
+      <para>Die hauptsächliche Idee ist, dass der Superprozess einen Knoten in dem Graphen hat, der eine komplette
+        Ausführung des Teilprozesses darstellt. Wenn eine Ausführung den Teilprozess-Knoten in dem 
+        Superprozess betritt, sollen einige Sachen betrachten werden:
+      </para>
+      <itemizedlist>
+        <listitem>Vor allem, wird eine neue Ausführung für den Teilprozess erzeugt.
+        </listitem>
+        <listitem>Einige Information, die in den Prozessvariablen des Superprozesses gespeichert sind, können
+          vom Superprozessausführung in die Teilprozessausführung injiziert werden. Die einfachste Methode
+          ist, dass der Teilprozess-Knoten mit einer Menge von Variablen konfiguriert wird, die einfach
+          Variablen vom Superprozess zu den Variablen vom Teilprozess kopiert.
+        </listitem>
+        <listitem>Der Anfangsknoten vom Teilprozess sollte nur einen Ausgangsübergang haben.
+          Prozesssprachen, die mehrere Ausgangsübergänge unterstützen, müssen einen Mechanismus haben,
+          um eine von diesen Übergänge zu wählen, die sich auf die Prozessvariablen des Superprozesses
+          basiert.
+        </listitem>
+        <listitem>Die Teilprozessausführung wird gestartet, indem man ein Ereignis sendet, das der Default-Ausgangsübergang
+          seines Anfangszustandes entspricht.
+        </listitem>
+      </itemizedlist>
+      
+      <para>Nachdem der Teilprozess einen Wartezustand betreten hat, wird die Superprozessausführung auf 
+        den Teilprozess-Knoten zeigen und die Teilprozessausführung wird auf irgendeinen Wartezustand
+        zeigen.
+      </para>
+      
+      <para>Wenn die Teilprozessausführung endet, kann die Superprozessausführung weitermachen.
+        Die folgende Aspekte müssen zu dieser Zeit betrachtet werden:
+      </para>
+      <itemizedlist>
+        <listitem>Information der Prozessvariable muss von der Teilprozessausführung in die Superprozessausführung
+          zurückkopiert werden.
+        </listitem>
+        <listitem>Die Superprozessausführung sollte weitermachen. Normalerweise, ermöglichen Prozesssprachen
+          nur eine Ausgangsübergang auf einem Teilprozess-Knoten. In diesem Fall, wird die Superprozessausführung
+          über diesen einzigen Default-Ausgangsübergang propagiert.
+        </listitem>
+        <listitem>Falls von einem Teilprozess-Knoten  mehr als einen Ausgangsübergang erlaubt wird, muss ein Mechanismus
+          eingeführt werden, um einen Ausgangsübergang zu wählen. Diese Auswahl entweder auf die Variablen
+          der Teilprozessausführung oder auf den Endzustand des Teilprozesses (Ein typische endlicher Automat
+          kann mehrere Endzustände haben) basiert
+        </listitem>
+      </itemizedlist>
+
+      <para>WS-BPEL hat eine implizite Vorstellung in der Verarbeitung von Teilprozess, anstatt eine explizite.
+        Von einem neuen Teilprozess wird eine <literal>invoke</literal> beginnen. Dann wird der Superprozess
+        eine <literal>receive</literal>-Aktivität haben und diese Aktivität wird warten, bis den Teilprozess
+        endet. So die übliche <literal>invoke</literal> und <literal>receive</literal> werden anstelle von 
+        einer speziellen Aktivität verwendet.
+      </para>
+    </section>
+
+    <section id="asynchronouscontinuations">
+      <title>Asynchrone Weiterführung</title>
+      <para>Oben sahen wir, dass im Default-Verhalten, werden Prozesse synchron ausgeführt, bis es ein Wartezustand
+        gibt. Und normalerweise wird diese gesamte Zustandsänderung in einer Transaktion verpackt.
+        In diesem Abschnitt, werden Sie sehen wie Transaktionsgrenzen in den Prozesssprachen abgegrenzt werden kann.
+        Asynchrone Weiterführungen bedeutet, dass ein Prozess asynchron ausgeführt wird. Also bedeutet, dass 
+        die erste Transaktion eine Nachricht senden wird. Diese Nachricht stellt eine Weiterführung-Anweisung dar.
+        Dann führt der Empfänger der Nachricht die Anweisung in einer zweiten Transaktion aus. Dann hat der Prozess
+        seine automatische Ausführung fortgesetzt, aber sie wurde über 2 Transaktionen aufgespaltet.
+      </para>
+      <para>Um asynchrone Weiterführung in graphenorientierter Programmierung einsetzen zu können, wird eine Messaging-System
+        angefordert. So ein System, das mit ihrer Programmlogik intergriert und ermöglicht transaktionales Senden und 
+        Empfangen von Nachrichten. Messsaging-Systeme werden als Message Oriented Middleware (MOM) und Java Message Service (JMS)
+         ist die Standard-API, die solches System benutzt.
+      </para>
+      <para>Es gibt 3 Plätze, wo Ausführung asynchron eingesetzt werden kann:
+      </para>
+      <itemizedlist>
+        <listitem>Einfach vor der execute-Methode eines Knotens. welche nach Eingang des Knotens ist.</listitem>
+        <listitem>Wenn Ausführung über einen Übergang propagiert wird, Welcher vor dem Ausgang eines Knotens ist.</listitem>
+        <listitem>Jede Aktion kann asynchron ausgeführt werden.</listitem>
+      </itemizedlist>
+      <para>Betrachten Sie die erste Situation im Detail wie sie in der folgenden Abbildung angezeigt wird.
+        Nehmen Sie an, irgendein Ereignis verursacht das Propagieren über den Graphen zu starten und jetzt
+        soll ein Übergang die execute-Methode auf 'generatePdf' Knoten aufrufen. anstatt die execute-Methode
+        auf den 'generatePdf' Knoten direkt aufzurufen, wird eine neue Nachrichtenanweisung mit einem Zeiger
+        auf der Ausführung erzeugt. Die Nachrichtanweisung sollte als "Diese Ausführung fortsetzen, indem
+        den Knoten ausgeführt wird" interpretiert werden. Diese Nachricht wird über die Message Queue dem 
+        Command-Executor geschickt. Der Command-Executor nimmt die Nachricht aus dem Queue und ruft
+        die execute-Methode des Knotens mit der Ausführung als Parameter.
+      </para>
+      <figure id="async.continuation.image">
+        <title>Asynchrone Weiterführung</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/async.continuation.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Notieren Sie, dass jetzt zwei Transaktionen aufgerufen werden. Eine Transaktion, die vom ursprünglichen
+        Ereignis entstand. Diese Transaktion verursacht das Verschieben der Ausführung in den 'generatePdf'
+        Knoten und dann das Senden der Nachrichtanweisung. In einer zweiten Transaktion wurde die Nachrichtanweisung
+        aufgebraucht und die execute-Methode des Knotens wurde mit der Ausführung als Parameter aufgerufen.
+        Zwischen den beiden Transaktionen, sollte die Ausführung für ankommende Ereignisse blockiert werden.
+      </para>
+    </section>
+
+    <section id="persistenceandtransactions">
+      <title>Persistenz und Transaktionen</title>
+      <para>Sowohl Information der Prozessdefinition (wie Knoten, Übergang und Aktion) als auch Information
+        der Ausführung (wie Ausführung) können in eine relationale Datenbank gespeichert werden.
+        Eine ORM-Lösung (wie z.B. Hibernate/EJB3) kann benutzt werden, um die Abbildung zwischen
+        den Datenbankdatensätze und den OOP Objekten auszuführen.
+      </para>
+      <para>Alle Information der Prozessdefinition ist statisch. Daher kann sie In Memory gecacht werden.
+        Dadurch wird die Leistung ernsthaft erhöht. Nur die Daten der Laufzeitausführung
+        müssen aus der DB in jeder Transaktion geladen werden.
+      </para>
+      <para>Eine Transaktion stimmt normalerweise mit der event-Methode in der Ausführung.
+        Eine Transaktion beginnt, wenn ein Ereignis verarbeitet wird. 
+        die event-Methode löst die Ausführung aus, um fortzusetzen, bis ein neuer Wartezustand
+        erreicht wird. Wenn das geschieht, die event-Methode zurückgibt und die Transaktion
+        kann beendet werden.
+      </para>
+      <para>Die gesamte Änderung vom Aufruf der event-Methode ist, dass die Ausführung sein Zeiger
+        von einem Knoten zu anderen bewegt. die ORM-Lösung kann der Unterschied zwischen den
+        originalen Datenbankzustände und den aktualisierten Java Objekten berechnen. 
+        Diese Änderungen werden dann am Ende der event-Methode der Ausführung in die Datenbank 
+        geschrieben. In unserem Beispiel hier, geht es um eine SQL-Update Anweisung auf der Ausführung,
+        die der Knotenzeiger auf den neue (Wartezustand)-Knoten setzt.
+      </para>
+      <para>ORM-Lösungen wie Hibernate/EJB3 arbeiten mit einer unterschiedlichen Menge von Objekten in jeder
+        Sitzung. Dieses impliziert, dass jede Zugriff auf Node-Implementierungen serialisiert wird und
+        entfernt die Notwendigkeit, um Threadsafe-Code zu schreiben, solange der Knoten die Ausführunsgsdaten
+        (und nicht statische Variablen, für Instanz) benutzt.
+      </para>
+    </section>
+
+    <section id="servicesandenvironment">
+      <title>Services und Umgebung</title>
+      <para>Knoten könnten die Nutzung von Pluggable Services benötigen oder die Implementierungen neues Knotens
+        könnten die Nutzung von neuen Services wollen, unbekannt zur Designzeit. Um dieses anzupassen,
+        kann ein Service-Framework zur Graphenorientierten Programmierung hinzugefügt werden, damit 
+        Knoten Services und Konfigurationen arbiträr zutreten können.
+      </para>
+      <para>Grundsätzlich, es gibt 2 Optionen: 
+        <itemizedlist>
+          <listitem>Ein Execution-Context-Objekt wird unter weitergegeben (das würde das Execution-Objekt einwickeln, 
+          das in Erklärungen oben eingereicht wird)</listitem>
+          <listitem>Ein Thread-Local Execution-Context</listitem>
+        </itemizedlist>
+      </para>
+      <para>The execution context contains access to services that are made available 
+        by 'the environment'.  The environment is the client code (the code that invokes
+        the <literal>Execution.event(String)</literal> plus an optional container in which 
+        this client code runs.
+        Der Execution-Context enthält Zugang zu den Services, die durch 'die Umgebung' zur Verfügung
+        gestellt werden. Die Umgebung ist der Client-Code ( der Code, der die <literal>Execution.event(String)</literal>
+        plus ein optionaler Container aufruft, in welchem dieser Client-Code läuft.
+      </para>
+      <para>Beispiele von Services sind eine Timer-Service, eine asynchroner Messaging-Service, eine
+        Datenbank-Service (java.sql.Connection),...
+      </para>
+    </section>
+  </section>
+
+  <section id="considerations">
+    <title>Betrachtungen</title>
+    <section id="runtimedataisolation">
+      <title>Laufzeitdaten-Isolation</title>
+      <para>Graphenorientierte Programmierung trennt offenbar die Daten der Definition (Knoten, Transitionen und Aktionen)
+      von den Laufzeitdaten (Ausführung).
+      </para>
+      <para>So instead of just propagating the execution that entered the node, any node implementation can 
+      decide to rearrange the whole runtime data that represents the execution.   This creates a lot of 
+      flexibility for implementing different flavours of fork.split and join/merge behaviour.
+      So anstatt einfach die Ausführung zu propagieren, die den Knoten betritt, kann jede Knoten-Implementierung
+      entscheiden, die vollständige Laufzeitdaten neu zu ordnen, die die Ausführung darstellt. Dieses erzeugt
+      eine Menge von Flexibilität für die Implementierung der unterschiedlichen Geschmacken des 
+      fork.split und join/merge Verhaltens.
+      </para>
+      <para>Also, die Information der Definition ist statisch und ändert nie. Dieses ist für alle Arten von 
+      Leistungsoptimierungen wichtig. 
+      </para>
+    </section>
+
+    <section id="gopcomparedtoothertechniques">
+      <title>GOP gegenüber anderen Techniken</title>
+      <para>In diesem Abschnitt, beschreiben wir wie sich Graphenorientierte Programmierung mit
+      anderen Implementierungstechniken vergleicht, die für graphenbasierte Ausführungssprachen
+      benutzt werden.
+      </para>
+      <para>In MOM basierte Ausführungsengine, wird eine Ausführung durch eine Nachricht dargestellt, die
+      sich entlang Message-Queues bewegt. Jeder Knoten in einem Prozessgraphen wird durch eine Message-Queue
+      im System dargestellt. Eigentlich, ist graphenorientierte Programmierung eine Superset von MOM
+      basierter Ausführung. In GOP, die Berechnung, um eine Ausführung zu einem Wartezustand zu einem anderen
+      zu bewegen, wird synchron gemacht. Später in diesem Papier, werden wir die Erweiterung mit asynchroner
+      Weiterführung behandeln, die erklärt, wie MOM benutzt werden kann, um einen Schritt in dem asynchronen
+      Prozess zu machen. So MOM basierter Ausführung ist ähnlich zur graphenorientierten Programmierung, wo
+      alle Knoten asynchron ausgeführt werden.
+      </para>
+      <para>Andere Techniken, die verwendet wird, um Workflow, BPM und Orchestrierungssysteme  zu implementieren,
+      ist Code Generierung. In diesem Ansatz, wird der graphenbasierte Prozess in imperative Progammierlogik wie Java
+      übersetzt. Die generierte Programmierlogik hat für jeden externen Auslöser eine Methode, die nach einem Wartezustand
+      gegeben werden kann. Jene Methode werden die Transition zu einem neuen Wartezustand berechnen.
+      Diese Technik ist in Prozessversionierung-Fahigkeiten und in der Praxis begrenzt, die Code Generierung hat gezeigt,
+      unpraktisch und ein Engpass in der Software Entwicklung von Prozess zu sein.
+      </para>
+    </section>
+    
+    <section id="gopcomparedtopetrinets">
+      <title>GOP gegenüber Petri-Netze</title>
+      <para>Für eine lange Zeit hat sich die akademische Welt auf Petri-Netze für Workflow und Geschäftsprozessmodellierung
+      konzentriert und hauptsächlich weil Petri-Netze das einzige definierte Modell waren, dass parallele Pfaden
+      von Ausführung unterstützt. Wegen der mathematischen Grundlagen, könnten viele interessante Algorithmen
+      für Gültigkeit und Vollständigkeit definiert werden.
+      </para>
+      <para>Der größte Unterschied zwischen Petri-Netze und graphenorientierter Programmierung ist ihre Nature.
+      Petri-Netze ist ein mathematisches Modell und graphenorientierte Programmierung eine technische Implementierung
+      oder ein Entwurfsmuster ist.
+      </para>
+      <para>Graphenorientierte Programmierung kann für die Implementierung der Petri-Netze verwendet werden. 
+      Petri-Netz Plätze und Petri-Netz Übergänge können als zwei verschiedene Type von Knoten implementiert werden.
+      Petri-Netz Kanten stimmt mit GOP Transitionen überein. Petri-Netz Token stimmt mit einer GOP Ausführung überein.
+      </para>
+      <para>Die High-Level Erweiterungen, die als Basis von Petri-Netze definiert worden sind, können auch
+	   in der graphenorientierten Programmierung definiert werden.
+      </para>
+      <para>Graphenorientierte Programmierung seinerseits unterstützt nicht analytische Algorithmen wie diese in Petri-Netze
+      definiert sind. Das ist, weil graphenorientierte Programmierung nicht eine konkrete Interpretation hat.
+      Analytische Algorithmen können nur auf Modelle definiert werden, die eine deterministische Entwurfzeit-Interpretation 
+      haben. Graphenorientierte Programmierung unterstützt andererseits auch Knoten, die eine undeterministische
+      Entwurfzeit-Interpretation haben. GOP Knoten-Implementierungen können zur Laufzeit jede Art von Berechnung
+      machen und entscheiden nur dann wie die Ausführung propagiert wird. Analytische Algorithmen können nur auf
+      konkrete Prozesssprachen definiert werden, für die die Knoten-Implementierungen eine deterministische
+      Entwurfzeit-Interpretation zu den Typen von Knoten geben.
+      </para>
+    </section>
+  </section>
+
+  <section id="applicationdomains">
+    <title>Anwendungsdomäne</title>
+
+    <section id="bpm">
+      <title>Business Process Management (BPM)</title>
+
+      <section>
+        <title>Unterschiedliche Aspekte von BPM</title>
+        <para>Das Ziel von BPM ist es eine Organisation viel effizienter zu betreiben.
+          Der erste Schritt ist die Analyse und die Beschreibung wie Arbeit in einer Organistion
+          erledigt wird. Definieren wir einen Geschäftsprozess ist die Beschreibung der Art und Weise,
+          wie Personen und Systeme zusammen arbeiten, um eine besondere Aufgabe zu lösen.
+          Sobald Geschäftsprozesse beschrieben werden, dann kann die Suche nach Optimierungen
+          beginnen.
+        </para>
+
+        <para>Manchmal haben sich Geschäftsprozesse organisch entwickelt und lediglich die Betrachtung 
+          der gesamte Geschäftsprozess zeigt einige deutliche Unfähigkeiten. Die Suche nach Änderungen, die
+          ein Geschäftsprozess viel effizienter macht, wird Business-Prozess-Reengineering (BPR) genannt.
+          Sobald ein großer Teil eines Geschäftsprozesses automatisiert wird, dann können Statistiken
+          und Audit-Trails helfen, um diese Unfähigkeiten zu finden und zu identifizieren.
+        </para>
+      
+        <para>Eine andere Arte und Weise die Effizienz zu verbessern, kann sein, der ganze oder Teile des Geschäftsprozesses
+          zu automatisieren mit Hilfe der Informationtechnologie.
+        </para>
+      
+        <para>Automating and modifying business processes are the most common ways of 
+          making an organisation run more efficient.  Important is to note that those are 
+          parts of business process management in general.
+          Automatisierung und Änderung von Geschäftsprozesse sind die allgemeinste Methoden, um
+          eine Organisation viel effizienter zu betreiben.
+        </para>
+
+        <para>Managern spalten ununterbrochen die Aufgaben in Schritte auf, die vom Gruppenmitglied
+          ausgeführt werden. Z.B. ein Softwareentwicklungsmanager, der Ereignis der Arbeitsgruppe  
+          organisiert. In diesem Fall, könnte die Beschreibung des Geschäftsprozesses nur im Kopf
+          des Managers gemacht werden. Ander Situationen wie Behandlung eines Versicherungsanspruchs
+          für eine große Versicherungsgesellschaft erfordert einen formalen Ansatz von BPM.
+        </para>
+      
+        <para>Der gesamte Gewinn, der aus der Verwaltung von Geschäftsprozesse erreicht werden kann,
+          ist die effiziente Verbesserungen der Zeiten und zwar für die Anzahl der Ausführungen von Prozessen.	
+          Die Kosten für die Verwaltung von Geschäftsprozessen ist formell der spezielle Aufwand, der
+          auf der Analyse, der Beschreibung, der Verbesserung und der Automatisierung verbraucht wird.
+		  So diese Kosten muss in Erwägung gezogen werden, wenn man feststellt, welche Prozesse für das 
+		  formales  Management und/oder Automatisierung gewählt werden. Dieses erklärt die Konzentration
+		  auf Verfahren mit einer hohen Wiederholungsrate.
+        </para>
+      </section>
+      
+      <section>
+        <title>Ziele von BPM Systeme</title>
+        <para>Das wichtigste Ziel von BPM Systemen ist es die Automatisierung von Geschäftsprozessen zu 
+          vereinfachen.
+          In die Softwareentwicklung für Geschäftsprozesse können zwei Rollen differenziert werden:
+          Der Business Analyst und der Entwickler. In kleinen Mannschaften können diese zwei Rollen
+          selbstverständlich von einem Person erfüllt werden. Der Business Analyst studiert und beschreibt
+          den Geschäftsprozess und spezifiziert die Software-Anforderungen, während der Entwickler ausführbare
+          Software herstellt.
+        </para>
+        <para>Traditionale BPM Suiten versuchen aus dem Modell des Business Analyst zu starten und
+          arbeiten so weiter unter bis zur ausführbaren Software. Sie versuchen den Bedarf an
+          technische Fähigkeiten zu minimieren, damit der Business Analyst ausführbare Software 
+          produzieren kann. Das ganze wird sich unvermeidlich rund um die graphische Darstellung
+          zentralisiert und technische Details kräuselt sich in der Analyst-Welt.
+        </para>
+        <figure id="traditional.bpm.approach.image">
+          <title>Traditionaler BPM Ansatz</title> 
+          <mediaobject><imageobject><imagedata align="center" fileref="images/traditional.bpm.approach.jpg"/></imageobject></mediaobject>
+        </figure>
+        <para>In unserer Vision ist die zentrale Idee, dass der Business Analyst und der Entwickler 
+          sich in einer Standardsprachen mit Hilfe von graphische Darstellung des Prozesses verständigen.
+          Technische Fähigkeiten sind immer notwendig, wenn man Software entwickelt. Business Analyst
+          ist für die graphische Darstellung verantwortlich und sollt nicht gezwungen werden, um 
+          sich mit technischen Aspekten des Prozesses zu beschäftigen. Ohne jene technische Aspekte, wird
+          Prozess nicht vollständig definiert und deshalb auch nicht ausführbar. Der Entwickler 
+          ist zuständig für die technische Implementierungsaspekte. Technische Aspekte sollte nicht 
+          die Änderungen von Darstellung erfordern.
+        </para>
+        <figure id="improved.bpm.approach.image">
+          <title>Verbesserter BPM Ansatz</title> 
+          <mediaobject><imageobject><imagedata align="center" fileref="images/improved.bpm.approach.jpg"/></imageobject></mediaobject>
+        </figure>
+      </section>
+    </section>
+
+    <section>
+      <title>Service-Orchestrierung</title>
+      <para>Der anerkannteste Name in der Service-Orchestrierungsprachen ist BPEL.
+        Service-Orchestrierung soll im Kontext von einem Enterprise-Service-Service(ESB) betrachtet
+        werden. Ein Enterprise-Service-Bus ist ein zentrales Kommunikationsbackbone auf
+        einer geschlossenen Ebene. ESB integriert verschiedene Systeme und basiert sich auf
+        XML-Technologie. 
+      </para>
+      <para>Nehmen Sie, dass Sie Services A, B und C in Ihrem Enterprise Service Bus haben. Service-Orchestrierung
+        ist eine graphenbasierte Ausführungssprachen für das Schreiben neuer Services als Funktion der 
+        vorhandenen Services. Z.B. eine neue Service D kann als Funktion von vorhandenen
+        Services A, B und C in einem Orchestrierungsskript geschrieben werden.
+      </para>
+      <figure id="service.orchestration.image">
+        <title>Service</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/service.orchestration.jpg"/></imageobject></mediaobject>
+      </figure>
+    </section>
+
+  </section>
+
+  <section id="embeddinggraphbasedlanguages">
+    <title>Einbettung der graphenbasierten Sprachen</title>
+    <para>Wenn die BPM Engine vollständig in einem Software-Entwicklungsprojekt integriert werden kann und
+      wenn sogar die Datenbank Tabellen einer BPM Engine in einem Datenbank-Projekt integriert werden
+      kann, dann sprechen wir von eine einbettbare BPM Engine. Das ist das Ziel, das wir mit
+      graphenorientierter Programmierung zielen: eine allgemeine Grundlage für die Implementierung
+      von graphenbasierte Sprachen.
+    </para>
+  </section>
+
+  <section id="market">
+    <title>Der Markt</title>
+
+    <section id="theultimateprocesslanguage">
+      <title>Die ultimative Prozesssprache</title>
+      <para>Die Verkäufer haben traditionell nach dem ultimativen Prozesssprache gesucht.
+        Der Ansatz soll eine Prozesssprache als eine Menge von Konstrukten spezifizieren.
+        Jeder Konstrukt hat eine graphische Darstellung und ein Laufzeitverhalten.
+        Mit anderen Worten, jeder Konstrukt ist ein Type eines Knotens in dem Prozessgraphen.
+        And eine Prozesssprachen ist einfach eine Menge von Knoten-Konstrukten.
+      </para>
+      
+      <para>Die Idee war, dass die Verkäufer nach der besten Mengen von Prozesskonstrukten suchten, um
+        eine allgemeine anwendbare Prozesssprache zu formen. Diese Vision wird noch heute hoch geschätzt
+        und wir nennen sie Suche nach den ultimativen Prozesssprachen. 
+      </para>
+      
+      <para>Wir glauben, dass der Fokus nicht auf dem Versuch sein sollte, um die ultimative Prozesssprache
+		zu finden, aber eher eine allgemeine Grundlage zu finden, die als Grundlage für Prozesssprachen
+		in verschiedenen Szenarien und verschiedene Umgebung verwendet werden kann. Graphenorientierte
+		Programmierung, die wir zunächst darstellen, soll als solche Grundlage gesehen werden.         
+      </para>
+    </section>    
+
+    <section id="fragmentation">
+      <title>Fragmentierung</title>
+
+      <para>Die aktuellste Landschaft von Workflow, BPM und Orchestrierungslösungen ist vollständig
+        fragmentiert. In diesem Abschnitt, beschreiben wir zwei Dimensionen in dieser Fragmentierung.
+        Die erste Dimension wird das BPM Produktkontinuum und sie in der folgenden Abbildung gezeigt.
+        Der Ausdruck wurde ursprünglich von Derek Miers und Paul Harmon ''The 2005 BPM Suites 
+        Report' geprägt.
+      </para>
+        
+      <para>Auf der linken Seite, können Sie die Programmiersprachen sehen. Diese Seite des Kontinuums
+        wird in Richtung von IT Entwickler gezielt. Programmiersprachen sind flexibel und kann mit
+        anderen Software integriert werden, die für eine bestimmtes Projekt entwickelt wird. Aber
+        um einen Geschäftsprozess zu implementieren, braucht man viel zu programmieren.
+      </para>
+      
+      <para>Auf der rechten Seite, gibt es die BPM Suiten. Diese BPM Suiten sind komplette Software-Entwicklungsumgebungen, 
+        die von Business Analysts verwendet werden. Software wird rund um die Geschäftsprozesse entwickelt.
+        Keine Programmierung muss gemacht werden, um ausführbare Software in diesen BPM Suiten zu herstellen. 
+      </para>
+      
+      <figure id="bpm.product.continuum">
+        <title>Das BPM Produktkontinuum.</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/bpm.product.continuum.jpg"/></imageobject></mediaobject>
+      </figure>
+      
+      <para>Traditionelle Produkte stellen 1 Spot im BPM Produktkontinuum dar. Um komplett zu sein,
+        tendieren diese Produkte so weit nach Recht des Kontinuums abzuzielen.
+        Dies kann problematisch werden, weil es sich in monolithisches System ergibt, dass es sehr hart ist,
+        in einem Projekt zu integrieren, das einfache OOP Software mit Geschäftsprozessen kombiniert.
+      </para>
+      
+      <para>Graphenorientierte Programmierung kann als eine einfache Bibliothek entwickelt werden, die
+        sich fein mit einfache Programmierungsumgebung integriert. Andererseits, kann diese Bibliothek
+        verpacken und in einen Server ausgeführt werden, um einen BPM Server zu werden. Dann andere
+        Produkte, die zusammen mit dem BPM Server gefügt und verpackt wurde, stellen die komplette
+        BPM Suite dar.
+      </para>
+      
+      <para>Das Nettoergebnis ist, dass die Lösungen, die sich auf graphenorientierte Programmierung
+        basieren, können das ganze Kontinuum zielen. Abhängig von den Anforderungen in einem bestimmten
+        Projekt, kann die BPM Suite abgeschält und in die richtige Ebene der Integration mit einer 
+        Software-Entwicklungsumgebung angepasst werden.
+      </para>
+  
+      <para>Die andere Dimension der Fragmentierung ist die Anwendungsdomäne. Wie oben gezeigt, ist eine
+        BPM Anwendungsdomäne völlig anders von der Service-Orchestrierung oder PageFlow.
+        Auch in dieser Dimension, zielen traditionelle Produkte eine einzelne  Anwendungsdomäne, in dem
+        die graphenorientierte Programmierung den ganzen Bereich umfasst.
+      </para>
+      
+      <para>Wenn wir diese heraus in einem Graphen einstellen, dann gibt diese eine klare Einsicht
+        in der gegenwärtigen Marktfragmentierung. Im Markt von graphenbasierten Sprachen, sind die
+        Preise hoch und die Volumen niedrig. Konsolidierung sind zu merken und die Technologie scheint 
+        eine allgemeine Grundlage zu sein, für was jetzt eine fragmentierte und verwirrte Marktlandschaft ist.
+      </para>
+
+      <figure id="two.dim.fragmentation">
+        <title>Zwei Dimensionen von Fragmentierung.</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/two.dim.fragmentation.jpg"/></imageobject></mediaobject>
+      </figure>
+    </section>
+
+    <section id="otherimplementationtechniques">
+      <title>Andere Implementierungstechniken</title>
+      <para>Basiert auf Message Queues.
+      </para>
+      <para>Basiert auf Codegenerierung.
+      </para>
+    </section>
+  </section>
+
+</chapter>

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <class name="org.jbpm.graph.def.ProcessDefinition" 
+         table="JBPM_PROCESSDEFINITION"
+         discriminator-value="P">
+    <id name="id" column="ID_"><generator class="native" /></id>
+    <discriminator type="char" column="CLASS_" />
+
+    <!-- GRAPHELEMENT -->
+    <!-- base class fields are mapped here -->
+    <property name="name" column="NAME_" />
+    <property name="description" column="DESCRIPTION_" type="longstring" length="4000"/>
+    <map name="events" cascade="all">
+      <key column="PROCESSDEFINITION_" foreign-key="FK_EVENT_PROCDEF" />
+      <index column="EVENTTYPE_" type="string"/>
+      <one-to-many class="org.jbpm.graph.def.Event" />
+    </map>
+    <list name="exceptionHandlers" cascade="all">
+      <key column="PROCESSDEFINITION_" foreign-key="none" />
+      <list-index column="GRAPHELEMENTINDEX_" />
+      <one-to-many class="org.jbpm.graph.def.ExceptionHandler" />
+    </list>
+    <!-- ============ -->
+
+    <property name="version" column="VERSION_"/>
+    <property name="isTerminationImplicit" column="ISTERMINATIONIMPLICIT_"/>
+    <many-to-one name="startState" 
+                 column="STARTSTATE_"
+                 foreign-key="FK_PROCDEF_STRTSTA"
+                 index="IDX_PROCDEF_STRTST" />
+    <list name="nodes" cascade="all" where="SUPERSTATE_ is null">
+      <!-- 
+      replace the key element 
+      <key column="PROCESSDEFINITION_" />
+      below with 
+      <key column="PROCDEF_NODES_" />
+      in case you want the superstates and their nodes to be 
+      persisted correctly.  since this affects the schema 
+      (addition of column PROCDEF_NODES_ to table JBPM_NODE)
+      we can't introduce this fix till 3.3
+      -->
+      <key column="PROCESSDEFINITION_" />
+      <list-index column="NODECOLLECTIONINDEX_" />
+      <one-to-many class="org.jbpm.graph.def.Node" />
+    </list>
+    <map name="actions" cascade="all" inverse="true">
+      <key column="PROCESSDEFINITION_" />
+      <map-key column="NAME_" type="string"/>
+      <one-to-many class="org.jbpm.graph.def.Action" />
+    </map>
+    <map name="definitions" cascade="all" inverse="true">
+      <key column="PROCESSDEFINITION_" />
+      <map-key column="NAME_" type="string"/>
+      <one-to-many class="org.jbpm.module.def.ModuleDefinition" />
+    </map>
+  </class>
+</hibernate-mapping>

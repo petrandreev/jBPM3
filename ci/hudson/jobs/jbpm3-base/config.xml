@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<matrix-project>
+  <description>Basic test suite that developers should run before checking in code</description>
+  <logRotator>
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>10</numToKeep>
+  </logRotator>
+  <properties>
+    <hudson.security.AuthorizationMatrixProperty />
+  </properties>
+  <scm class="hudson.scm.SubversionSCM">
+    <locations>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>@hudson.jbpm.url@</remote>
+        <local>jbpm</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+    </locations>
+    <useUpdate>true</useUpdate>
+    <browser class="hudson.scm.browsers.FishEyeSVN">
+      <url>http://fisheye.jboss.org/browse/jbpm/</url>
+      <rootModule>jbpm3</rootModule>
+    </browser>
+  </scm>
+  <triggers>
+    <hudson.triggers.SCMTrigger>
+      <spec>30 6,12,18 * * *</spec>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <axes>
+    <axis>
+      <name>jdk</name>
+      <values>
+        <string>jdk1.5</string>
+        <string>jdk1.6</string>
+      </values>
+    </axis>
+  </axes>
+  <builders>
+    <hudson.tasks.Shell>
+      <command><![CDATA[
+export DATABASE=hsqldb
+
+cd jbpm
+sh -x ci/standalone.sh
+]]></command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.junit.JUnitResultArchiver>
+      <testResults>jbpm/modules/**/target/surefire-reports/TEST-*.xml</testResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
+    <hudson.tasks.BuildTrigger>
+      <childProjects>jbpm3-db</childProjects>
+      <threshold>
+        <name>UNSTABLE</name>
+        <ordinal>1</ordinal>
+        <color>YELLOW</color>
+      </threshold>
+    </hudson.tasks.BuildTrigger>
+    <hudson.tasks.Mailer>
+      <recipients>@hudson.mail.recipients@</recipients>
+      <sendToIndividuals>true</sendToIndividuals>
+    </hudson.tasks.Mailer>
+  </publishers>
+  <buildWrappers />
+</matrix-project>

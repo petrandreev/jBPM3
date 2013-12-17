@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="soa2010ct" xmlns="urn:jbpm.org:jpdl-3.2">
+
+  <start-state name="start">
+		<transition to="node1" />
+	</start-state>
+
+  <node name="node1">
+    <transition to="true-condition-end" condition="#{AAA == null}" name="to true" />
+    <transition to="false-condition-end" condition="#{AAA != null}" name="to false"/>
+	</node>
+
+  <end-state name="false-condition-end" />
+
+	<end-state name="true-condition-end" />
+
+</process-definition>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:tf="http://jbpm.org/jsf/tf" xmlns:jbpm="http://jbpm.org/jsf"
+	xmlns:j4j="http://jbpm.org/jbpm4jsf/core">
+<ui:component>
+	<jbpm:dataform>
+		<f:facet name="header">
+			<h:outputText value="#{taskName}" />
+		</f:facet>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Purpose" />
+			</f:facet>
+			<h:outputText value="#{var['purpose']}" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Description" />
+			</f:facet>
+			<h:outputText value="#{var['description']}" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Self Paid" />
+			</f:facet>
+			<h:selectBooleanCheckbox value="#{var['selfPaid']}" disabled="true" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Departure date" />
+			</f:facet>
+			<h:outputText value="#{var['departureDate']}">
+				<f:convertDateTime timeZone="#{j4j:getServerTimeZone()}" />
+			</h:outputText>
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Number of days" />
+			</f:facet>
+			<h:outputText value="#{var['daysNum']}" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Country" />
+			</f:facet>
+			<h:outputText value="#{var['country']}" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="City" />
+			</f:facet>
+			<h:outputText value="#{var['city']}" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Budget" />
+			</f:facet>
+			<h:inputText value="#{var['budget']}"
+				validatorMessage="Budget must be a positive amount."
+				required="true"
+				requiredMessage="Number of days cannot be blank"
+				converter="javax.faces.Integer"
+				converterMessage="Please enter a valid number of days">
+				<f:validateLongRange minimum="0"/>
+			</h:inputText>
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Actions" />
+			</f:facet>
+			<tf:saveButton value="Save" />
+			<tf:transitionButton value="Approve" transition="approve" />
+			<tf:transitionButton value="Reject" transition="reject" />
+		</jbpm:datacell>
+	</jbpm:dataform>
+</ui:component>
+</html>

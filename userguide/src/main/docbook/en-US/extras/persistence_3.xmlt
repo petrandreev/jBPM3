@@ -1,0 +1,3 @@
+<property name="hibernate.cache.provider_class">
+    org.hibernate.cache.HashtableCacheProvider
+</property>

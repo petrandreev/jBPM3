@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson.tasks.Mailer_-DescriptorImpl>
+  <hudsonUrl>http://@hudson.host@:@hudson.http.port@/hudson</hudsonUrl>
+  <adminAddress>@hudson.admin.address@</adminAddress>
+  <smtpHost>@hudson.smtp.host@</smtpHost>
+</hudson.tasks.Mailer_-DescriptorImpl>

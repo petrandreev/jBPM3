@@ -1,0 +1,66 @@
+    <!-- DataSource properties (begin) ===
+    <property name="hibernate.connection.datasource">java:comp/env/jdbc/JbpmDataSource</property>
+    ==== DataSource properties (end) -->
+
+    <!-- JTA transaction properties (begin) ===
+    <property name="hibernate.current_session_context_class">jta</property>
+    <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+    <property name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+    ==== JTA transaction properties (end) -->
+
+    <!-- CMT transaction properties (begin) ===
+    <property name="hibernate.current_session_context_class">jta</property>
+    <property name="hibernate.transaction.factory_class">org.hibernate.transaction.CMTTransactionFactory</property>
+    <property name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+    ==== CMT transaction properties (end) -->
+
+    <!-- SQL rendering properties (begin) ===
+    <property name="hibernate.format_sql">true</property>
+    <property name="hibernate.use_sql_comments">true</property>
+    ==== SQL rendering properties (end) -->
+
+    <!-- ################################### -->
+    <!-- # cache settings                  # -->
+    <!-- ################################### -->
+
+    <property name="hibernate.cache.use_second_level_cache">true</property>
+
+    <!-- Memory cache (begin) -->
+    <property name="hibernate.cache.provider_class">
+      org.hibernate.cache.HashtableCacheProvider
+    </property>
+    <!-- Memory cache (end) -->
+
+    <!--
+      The cache provider is for use with Hibernate 3.2 and JBoss Cache 1.4,
+      both included in JBoss AS 4. In this environment, the cache region factory
+      property is not known and simply ignored.
+      http://community.jboss.org/wiki/NewJBossCache14xBasedHibernate32CacheProvider
+
+      The cache region factory is for use with Hibernate 3.3 and JBoss Cache 2,
+      both components of JBoss AS 5. In this environment, the cache region factory
+      takes precedence over the cache provider.
+      http://community.jboss.org/wiki/ReferenceManualJBossCache2asaHibernate33SecondLevelCache
+    -->
+
+    <!-- Clustered cache (begin) ===
+    <property name="hibernate.cache.provider_class">
+      org.jboss.hibernate.jbc.cacheprovider.JmxBoundTreeCacheProvider
+    </property>
+    <property name="hibernate.treecache.mbean.object_name">jboss.jbpm:service=TreeCache</property>
+
+    <property name="hibernate.cache.region.factory_class">
+      org.hibernate.cache.jbc2.JndiMultiplexedJBossCacheRegionFactory
+    </property>
+    <property name="hibernate.cache.region.jbc2.cachefactory">java:CacheManager</property>
+    <property name="hibernate.cache.region_prefix">jbpm3</property>
+    ==== Clustered cache (end) -->
+
+    <!-- ############################################ -->
+    <!-- # mapping files with external dependencies # -->
+    <!-- ############################################ -->
+
+    <!-- Additional mappings defined per module go here -->
+    <mapping resource="hibernate.extra.hbm.xml" />
+    <mapping resource="hibernate.identity.hbm.xml" />
+

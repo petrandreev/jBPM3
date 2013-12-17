@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow-definition name="numberGuess" xmlns="http://jboss.com/products/seam/pageflow"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://jboss.com/products/seam/pageflow
+                      http://jboss.com/products/seam/pageflow-2.2.xsd">
+
+  <start-page name="displayGuess" view-id="/numberGuess.jspx">
+    <transition name="guess" to="evaluateGuess">
+      <action expression="#{numberGuess.guess}" />
+    </transition>
+  </start-page>
+
+  <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
+    <transition name="true" to="win" />
+    <transition name="false" to="evaluateRemainingGuesses" />
+  </decision>
+
+  <decision name="evaluateRemainingGuesses"
+    expression="#{numberGuess.lastGuess}">
+    <transition name="true" to="lose" />
+    <transition name="false" to="displayGuess">
+      <action expression="#{numberGuess.guess}" />
+    </transition>
+  </decision>
+
+  <page name="win" view-id="/win.jspx" />
+
+  <page name="lose" view-id="/lose.jspx" />
+
+</pageflow-definition>

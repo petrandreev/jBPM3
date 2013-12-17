@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <class name="org.jbpm.context.def.VariableAccess" 
+         table="JBPM_VARIABLEACCESS">
+    <id name="id" column="ID_"><generator class="native" /></id>
+    
+    <property name="variableName" column="VARIABLENAME_" />
+    <property name="access" column="ACCESS_" type="org.jbpm.db.hibernate.AccessType" />
+    <property name="mappedName" column="MAPPEDNAME_" />
+  </class>
+
+</hibernate-mapping>

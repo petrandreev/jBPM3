@@ -1,0 +1,33 @@
+<?xml version="1.0"?><!-- iReport connections -->
+<iReportConnectionSet>
+	<iReportConnection name="sim_taskDistribution" connectionClass="it.businesslogic.ireport.connection.JavaBeanDataSourceConnection">
+		<connectionParameter name="Type"><![CDATA[BEAN_ARRAY]]></connectionParameter>
+		<connectionParameter name="MethodToCall"><![CDATA[createTaskDistributionArray]]></connectionParameter>
+		<connectionParameter name="FactoryClass"><![CDATA[org.jbpm.sim.report.jasper.SampleJRDataSourceFactory]]></connectionParameter>
+		<connectionParameter name="UseFieldDescription"><![CDATA[true]]></connectionParameter>
+	</iReportConnection>
+	<iReportConnection name="sim_resourceQueue" connectionClass="it.businesslogic.ireport.connection.JavaBeanDataSourceConnection">
+		<connectionParameter name="Type"><![CDATA[BEAN_ARRAY]]></connectionParameter>
+		<connectionParameter name="MethodToCall"><![CDATA[createQueueStaticsArray]]></connectionParameter>
+		<connectionParameter name="FactoryClass"><![CDATA[org.jbpm.sim.report.jasper.SampleJRDataSourceFactory]]></connectionParameter>
+		<connectionParameter name="UseFieldDescription"><![CDATA[false]]></connectionParameter>
+	</iReportConnection>
+	<iReportConnection name="sim_timedValues" connectionClass="it.businesslogic.ireport.connection.JavaBeanDataSourceConnection">
+		<connectionParameter name="Type"><![CDATA[BEAN_ARRAY]]></connectionParameter>
+		<connectionParameter name="MethodToCall"><![CDATA[createTimedValueArray]]></connectionParameter>
+		<connectionParameter name="FactoryClass"><![CDATA[org.jbpm.sim.report.jasper.SampleJRDataSourceFactory]]></connectionParameter>
+		<connectionParameter name="UseFieldDescription"><![CDATA[false]]></connectionParameter>
+	</iReportConnection>
+	<iReportConnection name="sim_timeSeries" connectionClass="it.businesslogic.ireport.connection.JavaBeanDataSourceConnection">
+		<connectionParameter name="Type"><![CDATA[BEAN_ARRAY]]></connectionParameter>
+		<connectionParameter name="MethodToCall"><![CDATA[createTimeSeriesArray]]></connectionParameter>
+		<connectionParameter name="FactoryClass"><![CDATA[org.jbpm.sim.report.jasper.SampleJRDataSourceFactory]]></connectionParameter>
+		<connectionParameter name="UseFieldDescription"><![CDATA[false]]></connectionParameter>
+	</iReportConnection>
+	<iReportConnection name="sim_resourceUtilization" connectionClass="it.businesslogic.ireport.connection.JavaBeanDataSourceConnection">
+		<connectionParameter name="Type"><![CDATA[BEAN_ARRAY]]></connectionParameter>
+		<connectionParameter name="MethodToCall"><![CDATA[createUtilizationStatatisticsArray]]></connectionParameter>
+		<connectionParameter name="FactoryClass"><![CDATA[org.jbpm.sim.report.jasper.SampleJRDataSourceFactory]]></connectionParameter>
+		<connectionParameter name="UseFieldDescription"><![CDATA[true]]></connectionParameter>
+	</iReportConnection>
+</iReportConnectionSet>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mail-templates>
+  <mail-template name='a-ok'>
+    <to>${technician}</to>
+    <cc>${supervisor}</cc>
+    <bcc>${observer}</bcc>
+    <subject>Reactor temperature normal</subject>
+    <text><![CDATA[Keep up the good work!]]></text>
+  </mail-template>
+</mail-templates>

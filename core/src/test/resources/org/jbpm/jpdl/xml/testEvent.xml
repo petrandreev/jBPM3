@@ -1,0 +1,21 @@
+<process-definition 
+    xmlns="urn:jbpm.org:jpdl-3.2" 
+    name="event process">
+    
+  <event type="my-custom-empty-event-type" />
+  
+  <event type="node-enter">
+    <create-timer duedate="2 seconds"><action class="" /></create-timer>
+    <cancel-timer name="c"/>
+    <script />
+    <action class="a" />
+    <action class="b" />
+    <script />
+    <script />
+    <cancel-timer name="a"/>
+    <cancel-timer name="b"/>
+    <create-timer duedate="2 seconds"><action class="a" /></create-timer>
+    <create-timer duedate="2 seconds"><action class="b" /></create-timer>
+  </event>
+  
+</process-definition>

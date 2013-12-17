@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="process2" xmlns="urn:jbpm.org:jpdl-3.2">
+  <start-state name="start">
+    <transition to="node1" />
+  </start-state>
+
+  <node name="node1">
+    <transition to="end" />
+  </node>
+
+  <end-state name="end" />
+</process-definition>

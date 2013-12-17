@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jbpm-configuration>
+  <!--
+    This file provides the default jBPM configuration. All available services
+    are enabled. Objects described in custom configuration files add to the
+    objects described here and override any object with the same name.
+
+    To customize specific objects, the custom configuration needs only contain
+    descriptions for the custom objects alone. For instance, to load a different
+    Hibernate configuration resource, the configuration document only needs the
+    following content.
+
+    <jbpm-configuration>
+      <string name="resource.hibernate.cfg.xml" value="my.hibernate.cfg.xml" />
+    </jbpm-configuration> 
+  -->
+
+  <jbpm-context>
+    <service name="authentication" factory="org.jbpm.security.authentication.DefaultAuthenticationServiceFactory" />
+    <!-- Logging Service (begin) -->
+    <service name="logging" factory="org.jbpm.logging.db.DbLoggingServiceFactory" />
+    <!-- Logging Service (end) -->
+    <service name="message" factory="org.jbpm.msg.db.DbMessageServiceFactory" />
+    <service name="persistence" factory="org.jbpm.persistence.db.DbPersistenceServiceFactory" />
+    <service name="scheduler" factory="org.jbpm.scheduler.db.DbSchedulerServiceFactory" />
+    <service name="tx" factory="org.jbpm.tx.TxServiceFactory" />
+  </jbpm-context>
+
+  <!-- database persistence configuration
+  <string name="resource.hibernate.cfg.xml" value="hibernate.cfg.xml" />
+  -->
+  <!-- extra database persistence properties
+  <string name="resource.hibernate.properties" value="hibernate.properties" />
+  --> 
+
+  <!-- entries pointing to default configuration resources in jbpm-jpdl.jar -->
+  <string name="resource.business.calendar" value="org/jbpm/calendar/jbpm.business.calendar.properties" />
+  <string name="resource.default.modules" value="org/jbpm/graph/def/jbpm.default.modules.properties" />
+  <string name="resource.converter" value="org/jbpm/db/hibernate/jbpm.converter.properties" />
+  <string name="resource.action.types" value="org/jbpm/graph/action/action.types.xml" />
+  <string name="resource.node.types" value="org/jbpm/graph/node/node.types.xml" />
+  <string name="resource.parsers" value="org/jbpm/jpdl/par/jbpm.parsers.xml" />
+  <string name="resource.varmapping" value="org/jbpm/context/exe/jbpm.varmapping.xml" />
+  <string name="resource.mail.templates" value="jbpm.mail.templates.xml" />
+
+  <set name="jbpm.schema.resources">
+    <string value="org/jbpm/jpdl/xml/jpdl-3.0.xsd" />
+    <string value="org/jbpm/jpdl/xml/jpdl-3.1.xsd" />
+    <string value="org/jbpm/jpdl/xml/jpdl-3.2.xsd" />
+    <string value="org/jboss/seam/pageflow-2.2.xsd" />
+  </set>
+
+  <!-- alternate delegation class loader
+  <string name="jbpm.class.loader" value="context" />
+  -->
+  <bean name="process.class.loader.factory"
+    class="org.jbpm.instantiation.SharedProcessClassLoaderFactory" singleton="true">
+    <field name="jbpmConfiguration"><ref bean="jbpm.configuration" /></field>
+  </bean>
+
+  <!-- make sure the block size matches the length in ByteArray.hbm.xml -->
+  <int name="jbpm.byte.block.size" value="1024" />
+
+  <bean name="jbpm.sub.process.resolver" class="org.jbpm.graph.node.DbSubProcessResolver"
+    singleton="true" />
+
+  <boolean name="jbpm.sub.process.async" value="false" />
+
+
+  <bean name="jbpm.expression.evaluator" class="org.jbpm.jpdl.el.impl.ExpressionEvaluatorImpl"
+    singleton="true" />
+  <bean name="jbpm.variable.resolver" class="org.jbpm.jpdl.el.impl.JbpmVariableResolver"
+    singleton="true" />
+  <!-- custom function mapper
+  <bean name="jbpm.function.mapper" class="org.example.FunctionMapperImpl" />
+  -->
+
+  <!-- custom task instance factory
+  <bean name="jbpm.task.instance.factory" class="org.example.TaskInstanceFactoryImpl" />
+  -->
+  <!-- user code interceptor
+  <bean name="jbpm.user.code.interceptor" class="org.example.UserCodeInterceptorImpl" />
+  -->
+  <!-- custom date generator
+  <bean name="jbpm.date.generator" class="org.example.DateGeneratorImpl" />
+  -->
+
+  <!-- outgoing mail properties
+  <string name="jbpm.mail.smtp.host" value="localhost" />
+  <int name="jbpm.mail.smtp.port" value="25" />
+  -->
+  <string name="jbpm.mail.from.address" value="no-reply@jbpm.org" />
+  <bean name="jbpm.mail.address.resolver" class="org.jbpm.identity.mail.IdentityAddressResolver"
+    singleton="true" />
+
+  <!-- job execution properties -->
+  <bean name="jbpm.job.executor" class="org.jbpm.job.executor.JobExecutor">
+    <property name="jbpmConfiguration">
+      <ref bean="jbpm.configuration" />
+    </property>
+    <property name="name">
+      <string value="JbpmJobExecutor" />
+    </property>
+    <property name="nbrOfThreads">
+      <int value="1" />
+    </property>
+    <property name="idleInterval">
+      <!-- 1 minute -->
+      <int value="60000" />
+    </property>
+    <property name="retryInterval">
+      <!-- 4 seconds -->
+      <int value="4000" />
+    </property>
+    <property name="maxIdleInterval">
+      <!-- 1 hour -->
+      <int value="3600000" />
+    </property>
+    <property name="maxLockTime">
+      <!-- 10 minutes -->
+      <int value="600000" />
+    </property>
+    <property name="lockMonitorInterval">
+      <!-- 1 minute -->
+      <int value="60000" />
+    </property>
+  </bean>
+
+  <!-- job retry count -->
+  <int name="jbpm.job.retries" value="3" />
+</jbpm-configuration>

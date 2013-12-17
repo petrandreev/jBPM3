@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<forms>
+  <form task="Submit trip request" 
+        form="form.trip.submit.xhtml"/>
+        
+  <form task="Manager evaluation"
+        form="form.trip.manager.evaluation.xhtml" />
+        
+  <form task="Purchase tickets" 
+        form="form.trip.ticket.purchase.xhtml" />
+</forms>

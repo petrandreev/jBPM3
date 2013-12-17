@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+<chapter id="context">
+  <title>
+        The Context
+  </title>
+
+  <para>
+    Read this chapter to learn about <firstterm>process
+    variables</firstterm>. Process variables are key-value pairs that
+    maintain process instance-related information.
+  </para>
+  
+  <note>
+    <para>
+        Since one must be able to store the <firstterm>context</firstterm>
+        in a database, some minor limitations apply.
+    </para>
+  </note>
+  
+  <section id="accessingvariables">
+    <title>
+            Accessing Process Variables
+    </title>
+  
+    <para>
+        <interfacename>org.jbpm.context.exe.ContextInstance</interfacename>
+        serves as the central interface for process variables. Obtain the
+        <interfacename>ContextInstance</interfacename> from a process
+        instance in this manner: 
+    </para>
+
+<programlisting language="Java"><xi:include href="extras/context_1.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        These are the basic operations:
+    </para>
+
+<programlisting language="Java"><xi:include href="extras/context_2.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+            The variable name is <classname>java.lang.String</classname>. By
+            default, the Business Process Manager supports the following
+            value types. (It also supports any other class that can be persisted
+            with <application>Hibernate</application>.)
+    </para>
+  
+    <simplelist columns="2" type="horiz">
+        <member><classname>java.lang.String</classname></member>
+        <member><classname>java.lang.Boolean</classname></member>
+        <member><classname>java.lang.Character</classname></member>
+        <member><classname>java.lang.Float</classname></member>
+        <member><classname>java.lang.Double</classname></member>
+        <member><classname>java.lang.Long</classname></member>
+        <member><classname>java.lang.Byte</classname></member>
+        <member><classname>java.lang.Integer</classname></member>
+        <member><classname>java.util.Date</classname></member>
+        <member><classname>byte[]</classname></member>
+        <member><classname>java.io.Serializable</classname></member>
+    </simplelist>
+
+<note>    
+    <para>
+        <firstterm>Untyped null values</firstterm> can also be stored
+        persistently.
+    </para>
+</note>
+
+<warning>      
+    <para>
+            Do not save a process instance if there are any other types
+            stored in the process variables as this
+            will cause an exception error.
+    </para>
+</warning>
+
+  </section>
+ 
+  <section id="variablelifetime">
+    <title>
+        Lifes of Variables
+    </title>
+    
+    <para>
+            Variables do not have to be declared in the process archive. At
+            run-time, simply put any Java object in the variables. If a
+            variable did not exist, it will be created, in the same way as a
+            plain <classname>java.util.Map</classname>. Note that
+            variables can also be deleted.
+    </para>
+
+<programlisting language="Java"><xi:include href="extras/context_3.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        Types can change automatically. This means that a type is allowed to
+        overwrite a variable with a value of a different type. It is
+        important to always try to limit the number of type changes since
+        this generates more comunications with the database than a plain
+        column update.
+      </para>
+  </section>
+  
+  <section id="variablepersistence">
+    <title>
+            Variable Persistence
+    </title>
+    
+    <para>
+        The variables are part of the process instance. Saving the process
+        instance in the database will synchronise the database with the
+        process instance. (The variables are created, updated and deleted by
+        doing this.) For more information, see <xref linkend="persistence"
+        />.
+    </para>
+  </section>
+    
+  <section id="variablescopes">
+    <title>
+        Variable Scopes
+    </title>
+    
+    <para>
+        Each path of execution (also known as a
+        <firstterm>token</firstterm>) has its own set of process variables.
+        Variables are always requested on a path of execution. Process
+        instances have a tree of these paths. If a variable is requested but
+        no path is specified, the <systemitem>root token</systemitem> will
+        be used by default.
+    </para>
+    
+    <para>
+        The variable look-up occurs recursively. It runs
+        over the parents of the given path of execution. (This is
+        similar to the way in which variables are scoped in programming
+        languages.)
+    </para>
+  
+    <para>
+            When a non-existent variable is set on a path of execution, the
+            variable is created on the <systemitem>root token</systemitem>.
+            (Hence, each variable has, by default, a process scope.) To make
+            a variable token "local", create it explicitly, as per this
+            example:
+    </para>
+
+<programlisting language="Java"><xi:include href="extras/context_4.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+      
+    <section id="variableoverloading">
+      <title>
+            Variable Overloading
+      </title>
+      
+      <para>
+            <firstterm>Variable overloading</firstterm> means that each path
+            of execution can have its own copy of a variable with the same
+            name. These copies are all treated independently of each other
+            and can be of different types. Variable overloading can be
+            interesting if one is launching multiple concurrent paths of
+            execution over the same transition. This is because the only
+            thing that will distinguish these paths will be their respective
+            set of variables.
+      </para>
+    </section>
+  
+    <section id="variableoverriding">
+      <title>
+            Variable Over-Riding
+      </title>
+      
+      <para>
+            <firstterm>Variable over-riding</firstterm> simply means that
+            variables in <firstterm>nested paths of execution</firstterm>
+            over-ride variables in more global paths of execution.
+            Generally, "nested paths of execution" relates to concurrency:
+            the paths of execution between a fork and a join are children
+            (nested) of the path of execution that arrived in the fork. For
+            example, ione can over-ride a variable named
+            <literal>contact</literal> in the process instance scope with
+            this variable in the nested paths of execution
+            <literal>shipping</literal> and <literal>billing</literal>.
+      </para>
+    </section>
+
+    <section id="taskinstancevariablescope">
+      <title>
+            Task Instance Variable Scope
+      </title>
+      
+      <para>
+            To learn about task instance variables, read <xref
+            linkend="taskinstancevariables" />.
+      </para>
+      
+    </section>
+  </section>
+  
+  <section id="transientvariables">
+    <title>
+        Transient Variables
+    </title>
+  
+    <para>
+        When a process instance is persisted in the database, so too are
+        normal variables. However, at times one might want to use a
+        variable in a delegation class without storing it in the database.
+        This can be achieved with <firstterm>transient variables</firstterm>.
+    </para>
+
+<note>    
+    <para>
+        The lifespan of a transient variable is the same as that of a 
+        <systemitem>ProcessInstance</systemitem> Java object.
+    </para>
+</note>  
+
+<note>
+    <para>
+        Because of their nature, transient variables are not related to
+        paths of execution. Therefore, a process instance object will have
+        only one map of them.
+    </para>
+</note>    
+
+
+    <para>
+        The transient variables are accessible through their own set of methods
+        in the context instance. They do not need to be declared in the
+        <filename>processdefinition.xml</filename> file.
+    </para>
+      
+<programlisting language="Java"><xi:include href="extras/context_5.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+     
+     <para>
+        This chapter has covered process variables in great detail. The 
+        reader should now be confident that he or she understands this topic.
+    </para>    
+     
+  </section>
+ 
+</chapter>

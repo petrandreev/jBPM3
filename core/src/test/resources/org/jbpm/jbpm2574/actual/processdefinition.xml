@@ -1,0 +1,291 @@
+<?xml version="1.0"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.2" name="CMTE CNND Ingest Content">
+  <event type="process-start">
+    <script>
+      System.out.println(&quot;==========> starting process: &quot;+ node);
+    </script>
+  </event>
+  <event type="node-enter">
+    <script>
+      System.out.println(&quot;==========> entering node: &quot;+node);
+    </script>
+  </event>
+
+  <start-state name="Start Content Ingestion">
+    <transition to="Categorize Content" name="to Categorize Content"/>
+  </start-state>
+
+  <node name="Categorize Content">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbCategoryName>CMTE CNND</esbCategoryName>
+      <esbServiceName>Categorize Content</esbServiceName>
+      <bpmToEsbVars>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+      </bpmToEsbVars>
+      <esbToBpmVars>
+        <mapping bpm="content_category_id" esb="content_category_id"/>
+        <mapping bpm="content_category" esb="content_category"/>
+        <mapping bpm="full_content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_reject_reason" esb="content_reject_reason"/>
+      </esbToBpmVars>
+      <exceptionTransition>exception</exceptionTransition>
+    </action>
+    <event type="node-enter">
+      <script>
+        System.out.println(&quot;entering node: &quot;+node);
+      </script>
+    </event>
+    <transition to="Content mapped to category?" name=""/>
+    <transition name="exception" to="ExceptionHandling"/>
+  </node>
+
+  <node name="ValidateContent">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>Validate Content</esbServiceName>
+      <esbCategoryName>CMTE CNND</esbCategoryName>
+      <bpmToEsbVars>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_category_id" esb="content_category_id"/>
+        <mapping bpm="content_category" esb="content_category"/>
+      </bpmToEsbVars>
+      <esbToBpmVars>
+        <mapping bpm="content_is_valid" esb="content_is_valid"/>
+        <mapping bpm="content_reject_reason" esb="content_reject_reason"/>
+      </esbToBpmVars>
+      <exceptionTransition>exception</exceptionTransition>
+    </action>
+    <transition to="Content is valid?"/>
+    <transition name="exception" to="ExceptionHandling"/>
+  </node>
+
+  <node name="RejectContent">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>Reject Content</esbServiceName>
+      <esbCategoryName>CMTE CNND</esbCategoryName>
+      <bpmToEsbVars>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_reject_reason" esb="content_reject_reason"/>
+      </bpmToEsbVars>
+    </action>
+    <transition to="Content Rejected"/>
+  </node>
+
+  <node name="Diff Content">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbCategoryName>CMTE CNND</esbCategoryName>
+      <esbServiceName>Diff Content</esbServiceName>
+      <bpmToEsbVars>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_category_id" esb="content_category_id"/>
+        <mapping bpm="content_category" esb="content_category"/>
+      </bpmToEsbVars>
+      <esbToBpmVars>
+        <mapping bpm="content_hash_code" esb="content_hash_code"/>
+        <mapping bpm="content_is_diff" esb="content_is_diff"/>
+      </esbToBpmVars>
+      <exceptionTransition>exception</exceptionTransition>
+    </action>
+    <transition to="Content is diff?"/>
+    <transition to="ExceptionHandling" name="exception"/>
+  </node>
+
+  <node name="Store Content">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>Store Content</esbServiceName>
+      <esbCategoryName>CMTE CNND</esbCategoryName>
+      <bpmToEsbVars>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_category_id" esb="content_category_id"/>
+        <mapping bpm="content_category" esb="content_category"/>
+        <mapping bpm="content_hash_code" esb="content_hash_code"/>
+      </bpmToEsbVars>
+      <exceptionTransition>exception</exceptionTransition>
+    </action>
+    <transition to="Split Content"/>
+    <transition to="ExceptionHandling" name="exception"/>
+  </node>
+
+  <decision name="Content is valid?">
+    <transition to="Diff Content" name="Yes">
+      <condition expression="#{content_is_valid == true}"/>
+    </transition>
+    <transition to="RejectContent" name="No">
+      <condition expression="#{content_is_valid != true}"/>
+    </transition>
+  </decision>
+
+  <decision name="Content is diff?">
+    <transition to="Store Content" name="Yes">
+      <condition expression="#{content_is_diff == true}"/>
+    </transition>
+    <transition to="End Content Ingestion" name="No">
+      <condition expression="#{content_is_diff == false}"/>
+    </transition>
+  </decision>
+
+  <decision name="Content mapped to category?">
+    <transition to="Convert to XML" name="Yes">
+      <condition expression="#{content_category != void}"/>
+    </transition>
+    <transition to="RejectContent" name="No">
+      <condition expression="#{content_category == void}"/>
+    </transition>
+  </decision>
+
+  <node name="Split Content">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <bpmToEsbVars>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_category" esb="content_category"/>
+        <mapping bpm="content_category_id" esb="content_category_id"/>
+      </bpmToEsbVars>
+      <esbCategoryName>CMTE CNND</esbCategoryName>
+      <esbServiceName>Split Content</esbServiceName>
+      <esbToBpmVars>
+        <mapping bpm="split_content_map" esb="split_content_map"/>
+      </esbToBpmVars>
+      <exceptionTransition>exception</exceptionTransition>
+    </action>
+    <event type="node-leave">
+      <script name="Count number of items">
+        <expression>
+          num_items = 0;
+          cur_item = 0;
+          if (split_content_map != null)
+          {
+            num_items = split_content_map.size();
+          }
+        </expression>
+        <variable name='split_content_map' access='read' mapped-name='split_content_map'/>
+        <variable name='num_items' access='write' mapped-name='num_items'/>
+        <variable name='cur_item' access='write' mapped-name='cur_item'/>
+      </script>
+    </event>
+    <transition to="More items?"/>
+    <transition to="ExceptionHandling" name="exception"/>
+  </node>
+
+  <decision name="More items?">
+    <transition to="Generate RSS" name="No">
+      <condition expression="#{cur_item == num_items}"/>
+    </transition>
+    <transition to="Diff Item" name="Yes">
+      <condition expression="#{cur_item &lt; num_items}"/>
+    </transition>
+  </decision>
+
+  <node name="Diff Item">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbCategoryName>CMTE CNND</esbCategoryName>
+      <esbServiceName>Diff Content</esbServiceName>
+      <bpmToEsbVars>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_category" esb="content_category"/>
+        <mapping bpm="content_category_id" esb="content_category_id"/>
+        <mapping bpm="content_feed_key" esb="content_feed_key"/>
+      </bpmToEsbVars>
+      <esbToBpmVars>
+        <mapping bpm="content_hash_code" esb="content_hash_code"/>
+        <mapping bpm="content_is_diff" esb="content_is_diff"/>
+      </esbToBpmVars>
+      <exceptionTransition>exception</exceptionTransition>
+    </action>
+    <event type="node-enter">
+      <script name="Get item from list">
+        <expression>
+          content_feed_key = split_content_map.keySet().toArray()[cur_item];
+          content_file_name = split_content_map.get(content_feed_key);
+        </expression>
+        <variable name='content_feed_key' access='write' mapped-name='content_feed_key'/>
+        <variable name='content_file_name' access='write' mapped-name='content_file_name'/>
+        <variable name='split_content_map' access='read' mapped-name='split_content_map'/>
+        <variable name='cur_item' access='read' mapped-name='cur_item'/>
+      </script>
+    </event>
+    <event type="node-leave">
+      <script name="Increment item counter">
+        <expression>cur_item = cur_item + 1;</expression>
+        <variable name='cur_item' access='read' mapped-name='cur_item'/>
+        <variable name='cur_item' access='write' mapped-name='cur_item'/>
+      </script>
+    </event>
+    <transition to="Has item changed?"/>
+    <transition to="ExceptionHandling" name="exception"/>
+  </node>
+
+  <node name="Store Item">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>Store Content</esbServiceName>
+      <esbCategoryName>CMTE CNND</esbCategoryName>
+      <bpmToEsbVars>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_category" esb="content_category"/>
+        <mapping bpm="content_category_id" esb="content_category_id"/>
+        <mapping bpm="content_hash_code" esb="content_hash_code"/>
+        <mapping bpm="content_feed_key" esb="content_feed_key"/>
+      </bpmToEsbVars>
+      <exceptionTransition>exception</exceptionTransition>
+    </action>
+    <transition to="More items?"/>
+    <transition to="ExceptionHandling" name="exception"/>
+  </node>
+
+  <decision name="Has item changed?">
+    <transition to="Store Item" name="Yes">
+      <condition expression="#{content_is_diff == true}"/>
+    </transition>
+    <transition to="More items?" name="No">
+      <condition expression="#{content_is_diff == false}"/>
+    </transition>
+  </decision>
+
+  <node name="Convert to XML">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>Convert Content</esbServiceName>
+      <esbCategoryName>CMTE CNND</esbCategoryName>
+      <bpmToEsbVars>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_category_id" esb="content_category_id"/>
+        <mapping bpm="content_category" esb="content_category"/>
+      </bpmToEsbVars>
+      <esbToBpmVars>
+        <mapping bpm="content_file_name" esb="content_file_name"/>
+        <mapping bpm="content_reject_reason" esb="content_reject_reason"/>
+      </esbToBpmVars>
+      <exceptionTransition>exception</exceptionTransition>
+    </action>
+    <transition to="Error converting ?" name=""/>
+    <transition to="ExceptionHandling" name="exception"/>
+  </node>
+
+  <decision name="Error converting ?">
+    <transition to="ValidateContent">
+      <condition expression="#{content_reject_reason == void}"/>
+    </transition>
+    <transition to="RejectContent" name="Yes">
+      <condition expression="#{content_reject_reason != void}"/>
+    </transition>
+  </decision>
+
+  <node name="Generate RSS">
+    <transition to="End Content Ingestion">
+      <action class="org.jboss.soa.esb.services.jbpm.actionhandlers.EsbNotifier">
+        <esbServiceName>Generate RSS</esbServiceName>
+        <esbCategoryName>CMTE CNND</esbCategoryName>
+        <bpmToEsbVars>
+          <mapping bpm="full_content_file_name" esb="full_content_file_name"/>
+          <mapping bpm="content_category_id" esb="content_category_id"/>
+          <mapping bpm="content_category" esb="content_category"/>
+        </bpmToEsbVars>
+      </action>
+    </transition>
+  </node>
+
+  <end-state name="End Content Ingestion"/>
+
+  <end-state name="Content Rejected"/>
+
+  <end-state name="ExceptionHandling"/>
+</process-definition>

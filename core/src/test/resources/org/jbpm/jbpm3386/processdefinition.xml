@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.2" name="jbpm2852">
+
+  <start-state name="start">
+    <transition to="send mail" />
+  </start-state>
+
+  <state name="send mail">
+    <transition to="end">
+      <mail name="send mail" template="jbpm3386-mail-template" />
+    </transition>
+  </state>
+
+  <end-state name="end" />
+
+</process-definition>

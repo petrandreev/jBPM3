@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE x[
+<!ENTITY name SYSTEM 'file:///etc/passwd'>
+]>
+
+<process-definition xmlns="" name="jbpm3884">
+   <start-state name="start">
+      <transition to="passwd"/>
+   </start-state>
+   <node name="passwd">
+      <script>
+        <expression>
+          System.out.println('&name;');
+        </expression>
+      </script>
+      <transition to="end"/>
+   </node>
+   <end-state name="end"/>
+</process-definition>

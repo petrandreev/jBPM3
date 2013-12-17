@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field" >
+  <subclass name="org.jbpm.graph.def.SuperState" 
+            discriminator-value="U" 
+            extends="org.jbpm.graph.def.Node">
+    <list name="nodes" cascade="all">
+      <key column="SUPERSTATE_" />
+      <list-index column="NODECOLLECTIONINDEX_" />
+      <one-to-many class="org.jbpm.graph.def.Node" />
+    </list>
+  </subclass>
+</hibernate-mapping>

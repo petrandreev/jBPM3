@@ -1,0 +1,181 @@
+<chapter id="einfuehrung">
+  <title>Einführung</title>
+
+  <para>
+  JBoss jBPM ist ein flexibles und erweiterbares Workflow-Management-System. 
+  JBoss jBPM hat eine intuitive Prozesssprache, um die Geschäftsprozessen in Form von Aufgaben (tasks) 
+  , Wartezustände (wait states) für asynchrone Kommunikation, Timer, und automatisierte Aktionen graphisch auszudrücken. 
+  Um diese Operationen zusammen zu binden, besitzt JBoss jBPM ein leistungsfähiger kontrollflussorientierter Mechanismus.
+  </para>
+  
+  <para>
+	JBoss jBPM hat minimale Abhängigkeiten und kann wie eine Java Bibliothek verwendet werden. 
+	Aber es kann auch in Umgebungen wie z.B. Java EE Applikation Server verwendet werden, 
+	wo extremer Durchsatz entscheidend ist.
+  </para>
+  
+  <para>
+	JBoss jBPM kann mit jeder möglicher Datenbank konfiguriert werden und  
+	kann auf beliebigem Applikation Server ausgeführt werden.
+  </para>
+  
+  <section>
+  
+    <title>Überblick</title>
+    
+    <para>
+	Der Kernworkflow und die BPM Funktionalität wird als einfache Java Bibliothek verpackt. 
+	Diese Bibliothek enthält einen Dienst, um Prozessinformationen in der jBPM Datenbank 
+	zu speichern, zu aktualisieren und/oder Prozessinformationen aus dem jBPM Datenbank zurückzuholen.
+    </para>
+    
+    <figure id="overview.image">
+      <title>Überblick über die JBoss jBPM Bestandteile</title>
+      <mediaobject><imageobject><imagedata align="center" fileref="images/overview.gif"/></imageobject></mediaobject>
+    </figure>
+  </section>
+
+  <section>
+    <title>Der JBoss jBPM Starterinstallationssatz</title>
+    <para>
+    Der Starterinstallationssatz ist ein Download, der aus allen gebündelten jBPM Komponenten besteht.
+	Der Download enthält:
+    </para>
+    <itemizedlist>
+      <listitem><emphasis role="bold">jbpm-server</emphasis>, ein vorkonfigurierter JBoss Applikation Server.</listitem>
+      <listitem><emphasis role="bold">jbpm-designer</emphasis>, der EclipsePlugin für die graphische Erstellung von jBPM Prozessen.</listitem>
+      <listitem><emphasis role="bold">jbpm-db</emphasis>, das kompatibele jBPM-Datenbankpaket (Siehe unten).</listitem>
+      <listitem><emphasis role="bold">jbpm</emphasis>, Der Kern von jBPM-Komponenten und einschließlich die Bibiotheken und diese Dokumentation.</listitem>
+      <listitem><emphasis role="bold">jbpm-bpel</emphasis>, ein Referenz von JBoss jBPM BPEL Erweiterung.</listitem>
+    </itemizedlist>
+    
+    <para>
+    Der vorkonfigurierte JBoss Applikation Server besteht aus folgenden Komponenten:
+    </para>
+    <itemizedlist>
+      <listitem><emphasis role="bold">Die jBPM-Kernkomponente</emphasis>, als ein Service Archive (SAR) verpackt</listitem>
+      <listitem><emphasis role="bold">Eine integrierte Datenbank mit jBPM-Tabellen</emphasis>: Die Default-Hypersonic-Datenbank, die 
+      die jBPM-Tabellen enthält, beinhaltet bereits ein Prozess.</listitem>
+      <listitem><emphasis role="bold">Die jBPM-Konsole ( Web-Applikation )</emphasis>, die von Prozessteilnehmern und auch
+        jBPM-Administratoren benutzt werden kann.</listitem>
+      <listitem><emphasis role="bold">Der jBPM-Scheduler</emphasis> für die Ausführung der Timer.  Der Scheduler wird
+      im  Starterinstallationssatz als ein Servlet konfiguriert.  Der Servlet erzeugt ein Thread, um die Timer 
+      zu überwachen und auszuführen.</listitem>
+      <listitem><emphasis role="bold">Ein Prozessbeispiel</emphasis> ist bereits in der jBPM-Datenbank ausgeführt worden.</listitem>
+    </itemizedlist>
+  </section>
+  
+  <section>
+    <title>Der JBoss jBPM Graphische Prozessdesigner</title>
+    <para>
+	JBoss jBPM enthält auch ein graphisches Designwerkzeug. 
+	Der Designer ist ein graphisches Werkzeug für den Entwurf von Geschäftsprozessen.
+    </para>
+    <para>
+       Das graphische JBoss jBPM Werkzeug ist als EclipsePlugin realisiert. 
+       Eine Standalone Version ist in der Entwicklung.
+    </para>
+    <para>
+	Die wichtigste Eigenschaft des graphischen Werkzeugs ist, dass sie Unterstützung 
+	für die Lösung von Aufgaben des Geschäftsanalytikers und die Lösung von Aufgaben 
+	des technischen Entwickler beinhaltet. 
+	Dieses ermöglicht einen glatten Übergang vom Geschäftsprozessmodellierung 
+	zur praktischen Implementierung.
+    </para>
+    <para>
+  	Der Plugin ist als Local-Update-Site (Zip-Datei) vorhanden für die 
+    Installation durch den Standard-Eclipse-Software-Updates Mechanismus.  Und es gibt 
+    auch ein Feature-Paket, das Sie in Eclipse-Home-Verzeichnis entpacken können.
+    </para>
+  </section>
+  
+  <section>
+    <title>Die JBoss jBPM-Kernkomponente</title>
+    <para>
+    Die JBoss jBPM-Kernkomponent ist eine Java(J2SE)-Software für die Verwaltung von Prozessdefinitionen
+    und eine Laufzeitumgebung für die Ausführung von Prozessinstanzen.
+    </para>
+    <para>
+	JBoss jBPM ist eine Java Bibliothek. Als Folge, kann es in jedem möglichem Java Umgebung wie z.B. 
+	einer Web Applikation, Swing Applikation, EJB, Web Service, ... verwendet werden. 
+	Es ist zudem leicht möglich die jBPM Bibliothek über eine Stateless Session Bean zu wrappen. 
+	Dies erlaubt Clustered-Deployment und Skalierbarkeit für extremen hohen Durchsatz. 
+	Die Stateless-Session Bean wird nach der J2EE 1.3 Spezifikationen realisiert. 
+	Somit ist sie auf jedem Applikation Server lauffähig.
+    </para>
+    <para>
+    Die JBoss jBPM-Kernkomponent wird als einfaches Java Bibiothek Archiv verpackt.
+    Abhängig von Funktionalitäten, die Sie benutzen, besitzt die Bibiothek <literal>jbpm-3.1.jar</literal> 
+    einige Abhängigkeit auf anderen Bibiotheken wie z.B. hibernate, dom4j und anderen. Jene Abhängigkeiten
+    werden in <xref linkend="entwicklung" /> dokumentiert.
+    </para>
+    <para>
+	Intern wird für die Persistenz von jBPM, Hibernate benutzt. 
+	Abgesehen von traditionellem O/R Mapping, behebt Hibernate auch die SQL Dialektunterschiede 
+	zwischen den unterschiedlichen Datenbanken und bildet jBPM beweglich 
+	über alle gegenwärtigen Datenbanken ab.
+    </para>
+    <para>
+	Das JBoss jBPM API kann von jeder kundenspezifischen Java Software in ihrem Projekt, 
+	wie z.B. Web-Applikation, in ihren EJBs, in ihren Web-Services-Komponenten, 
+	in ihren MDBs &quot;Message Driven Beans&quot; oder in irgendeiner anderen Java Komponente erreicht werden.
+    </para>
+  </section>
+
+  <section>
+    <title>Die JBoss jBPM Konsole Web Applikation</title>
+    <para>
+	Die jBPM Konsole Web Applikation dient zwei Zwecken. 
+	Zuerst wird als zentrale Benutzerschnittstelle zum Interagieren mit den Laufzeit Aufgaben (tasks) 
+	verwendet, die durch die Prozessdurchführungen erzeugt werden. 
+	Und zweitens, wird sie benutzt für die Administration und die Überwachung der Laufzeitinstanzen, die zudem noch manipuliert 
+	werden können.
+    </para>
+  </section>
+  
+  <section>
+    <title>Die JBoss jBPM Identitätkomponente</title>
+    <para>
+	JBoss jBPM kann mit jedem möglichen Firmaverzeichnis integriert werden, 
+	das Benutzer und andere organisatorische Informationen enthält. Aber für Projekte, 
+	in denen keine organisatorische Information vorhanden ist, enthält JBoss jBPM diese Komponente.
+    Das Modell, das in der Identität Komponente benutzt wird, ist reicher als das traditionelle
+     Servlet-, EJB- und Portlet-Modell.
+    </para>
+    <para>
+    	Für weiteren Informationen, Siehe <xref linkend="identitaetskomponente" />
+    </para>
+  </section>
+  
+  <section>
+    <title>Der JBoss jBPM Scheduler</title>
+    <para>
+    Der JBoss jBPM Scheduler ist eine Komponente für die Überwachung und die Ausführung der Timer, die 
+    während der Prozessdurchführung festgelegt wurden.
+    </para>
+    <para>
+    Die Timer Komponente Software ist in der jBPM-Kernbibiothek verpackt, aber sie muss in einem der folgenden
+    Umgebungen ausgeführt werden:
+    entweder Sie müssen den Scheduler als Servlet konfigurieren, um einen Überwachungsthread zu erzeugen oder Sie müssen
+    eine separate JVM mit dem Scheduler-Main starten.
+    </para>
+  </section>
+  
+  <section>
+    <title>Das kompatibele JBoss jBPM Datenbank Paket</title>
+    <para>
+    Das kompatibele JBoss jBPM Datenbank Paket ist ein Downloadpaket, das alle Informationen, Treiber und
+    Skripten für das Laufen von jBPM auf allen Datenbanken enthält
+    </para>
+  </section>
+  
+  <section>
+    <title>Die JBoss jBPM BPEL Erweiterung</title>
+    <para>
+    Die JBoss jBPM BPEL Erweiterung ist ein separate verpackte Erweiterung, die jBPM mit Unterstützung für BPEL
+    erweitert. Das Wesentliche von BPEL ist eine XML-Skriptsprache für die Erstellung von Web-Services im Sinne von anderen 
+    Web-Services
+    </para>
+  </section>
+  
+</chapter>

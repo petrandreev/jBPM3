@@ -1,0 +1,13 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.jbpm.db.hibernate.MySQLDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <property name="hibernate.connection.driver_class">${jdbc.mysql.driver}</property>
+    <property name="hibernate.connection.url">${jdbc.mysql.url}</property>
+    <property name="hibernate.connection.username">${jdbc.mysql.username}</property>
+    <property name="hibernate.connection.password">${jdbc.mysql.password}</property>
+    <property name="hibernate.connection.isolation">2</property>
+    <property name="hibernate.query.substitutions">true 1, false 0</property>
+    <!-- JDBC connection properties (end) -->
+

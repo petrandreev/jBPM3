@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="jbpm2818" width="842" height="584">
+  <node name="start" x="72" y="36" width="145" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node-container name="super-state1" x="36" y="120" width="217" height="145">
+    <node name="node1" x="33" y="15" width="132" height="36">
+      <edge>
+        <label x="5" y="-10"/>
+      </edge>
+    </node>
+    <node name="state1" x="33" y="80" width="132" height="36"/>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node-container>
+  <node name="end" x="84" y="312" width="121" height="37"/>
+  <deployment serverName="" serverPort="" serverDeployer="">
+    <classesAndResources/>
+    <filesAndFolders>
+      <element value="/jbpm-jpdl/src/test/resources/org/jbpm/jbpm2818/gpd.xml"/>
+      <element value="/jbpm-jpdl/src/test/resources/org/jbpm/jbpm2818/processdefinition.xml"/>
+    </filesAndFolders>
+  </deployment>
+</root-container>

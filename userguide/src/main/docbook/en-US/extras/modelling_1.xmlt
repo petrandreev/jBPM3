@@ -1,0 +1,39 @@
+<process-definition>
+
+  <start-state>
+    <transition to="auction" />
+  </start-state>
+  
+  <state name="auction">
+    <transition name="auction ends" to="salefork" />
+    <transition name="cancel" to="end" />
+  </state>
+  
+  <fork name="salefork">
+    <transition name="shipping" to="send item" />
+    <transition name="billing" to="receive money" />
+  </fork>
+  
+  <state name="send item">
+    <transition to="receive item" />
+  </state>
+
+  <state name="receive item">
+    <transition to="salejoin" />
+  </state>
+  
+  <state name="receive money">
+    <transition to="send money" />
+  </state>
+
+  <state name="send money">
+    <transition to="salejoin" />
+  </state>
+  
+  <join name="salejoin">
+    <transition to="end" />
+  </join>
+  
+  <end-state name="end" />
+  
+</process-definition>

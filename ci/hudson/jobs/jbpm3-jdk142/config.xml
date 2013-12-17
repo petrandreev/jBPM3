@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <description>Enterprise test suite with JDK 1.4.2, JBoss AS 4.0.5 and the specified target
+    database</description>
+  <logRotator>
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>10</numToKeep>
+  </logRotator>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>DATABASE</name>
+          <defaultValue>hsqldb</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <hudson.security.AuthorizationMatrixProperty />
+  </properties>
+  <scm class="hudson.scm.SubversionSCM">
+    <locations>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>@hudson.jbpm.url@</remote>
+        <local>jbpm</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+    </locations>
+    <useUpdate>true</useUpdate>
+    <browser class="hudson.scm.browsers.FishEyeSVN">
+      <url>http://fisheye.jboss.org/browse/jbpm/</url>
+      <rootModule>jbpm3</rootModule>
+    </browser>
+  </scm>
+  <jdk>jdk1.4</jdk>
+  <triggers />
+  <builders>
+    <hudson.tasks.Shell>
+      <command><![CDATA[
+export JAVA_15_HOME=@java.home.jdk15@
+export CONTAINER=jboss405
+
+cd jbpm
+sh -x ci/container.sh
+]]></command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.junit.JUnitResultArchiver>
+      <testResults>jbpm/modules/**/target/surefire-reports/TEST-*.xml</testResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
+    <hudson.tasks.Mailer>
+      <recipients>@hudson.mail.recipients@</recipients>
+      <sendToIndividuals>true</sendToIndividuals>
+    </hudson.tasks.Mailer>
+  </publishers>
+  <buildWrappers />
+</project>

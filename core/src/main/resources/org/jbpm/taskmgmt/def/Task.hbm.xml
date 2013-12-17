@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <class name="org.jbpm.taskmgmt.def.Task" 
+         table="JBPM_TASK">
+    <id name="id" column="ID_"><generator class="native" /></id>
+  
+    <!-- GRAPHELEMENT -->
+    <property name="name" column="NAME_" />
+    <property name="description" column="DESCRIPTION_" type="longstring" length="4000"/>
+    
+    <many-to-one name="processDefinition" 
+                 column="PROCESSDEFINITION_" 
+                 foreign-key="FK_TASK_PROCDEF"
+                 index="IDX_TASK_PROCDEF"/>
+    <map name="events" cascade="all">
+      <key column="TASK_" foreign-key="FK_EVENT_TASK" />
+      <index column="EVENTTYPE_" type="string"/>
+      <one-to-many class="org.jbpm.graph.def.Event" />
+    </map>
+    <list name="exceptionHandlers" cascade="all">
+      <key column="TASK_" foreign-key="none" />
+      <list-index column="GRAPHELEMENTINDEX_" />
+      <one-to-many class="org.jbpm.graph.def.ExceptionHandler" />
+    </list>
+    <!-- ============ -->
+  
+    <property name="isBlocking"   column="ISBLOCKING_" />
+    <property name="isSignalling" column="ISSIGNALLING_" />
+    <property name="condition"    column="CONDITION_" />
+    <property name="dueDate"      column="DUEDATE_" />
+    <property name="priority"     column="PRIORITY_" />
+    <property name="actorIdExpression" column="ACTORIDEXPRESSION_" />
+    <property name="pooledActorsExpression" column="POOLEDACTORSEXPRESSION_" />
+
+    <many-to-one name="taskMgmtDefinition"
+                 column="TASKMGMTDEFINITION_"
+                 foreign-key="FK_TASK_TASKMGTDEF"
+                 index="IDX_TASK_TASKMGTDF"/>
+    <many-to-one name="taskNode"
+                 column="TASKNODE_" 
+                 foreign-key="FK_TASK_TASKNODE"
+                 index="IDX_TASK_TSKNODE"/>
+    <many-to-one name="startState"
+                 column="STARTSTATE_" 
+                 foreign-key="FK_TASK_STARTST"
+                 index="IDX_TASK_STARTST"/>
+    <many-to-one name="assignmentDelegation" 
+                 column="ASSIGNMENTDELEGATION_" 
+                 foreign-key="FK_TASK_ASSDEL"
+                 cascade="all"
+                 index="IDX_TASK_ASSDEL" />
+    <many-to-one name="swimlane"
+                 column="SWIMLANE_" 
+                 foreign-key="FK_TASK_SWIMLANE"
+                 index="IDX_TASK_SWIMLANE"/>
+    <many-to-one name="taskController" 
+                 column="TASKCONTROLLER_" 
+                 foreign-key="FK_TSK_TSKCTRL"
+                 cascade="all"
+                 index="IDX_TSK_TSKCTRL" />
+                 
+  </class>
+
+</hibernate-mapping>

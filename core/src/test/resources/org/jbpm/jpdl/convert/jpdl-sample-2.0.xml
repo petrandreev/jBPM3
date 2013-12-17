@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition name="MakeDinner">
+	<description>How daddy makes dinner at our house.</description>
+	<swimlane name="daddy">
+		<description>These are the tasks that daddy handles.</description>
+		<delegation class="org.anybody.swimlane.DaddyAssignment"/>
+	</swimlane>
+	<swimlane name="kids">
+		<description>These tasks are taking care of by the younglings in the family</description>
+		<delegation class="org.anybody.swimlane.KidsAssignment"/>
+		<!-- This assignment handler will pick 1 of 2 kids to assign the task to in a even-handed manner -->
+	</swimlane>
+	<type java-type="java.lang.Object">
+		<description/>
+		<delegation class="org.anybody.types.MyNote"/>
+		<variable name="note1"/>
+		<variable name="note2"/>
+	</type>
+	<start-state name="hunger">
+		<description>This is the bit where the family gets hungry.</description>
+		<transition to="poll"/>
+		<transition name="bogus" to="end of dinner"/>
+	</start-state>
+	<state name="poll">
+		<description>Time to find out how hungry everybody is.</description>
+		<assignment swimlane="daddy" assignment="required" authentication="optional"/>
+		<action event-type="state-enter">
+			<delegation class="org.anybody.actions.MyStateEnterAction"/>
+		</action>
+		<action event-type="state-after-assignment">
+			<delegation class="org.anybody.actions.MyStateAfterAssignAction"/>
+		</action>
+		<action event-type="state-leave">
+			<delegation class="org.anybody.actions.MyStateLeaveAction"/>
+		</action>
+		<transition to="hunger factor"/>
+	</state>
+	<decision name="hunger factor">
+		<description>Daddy must guage how hungry the family is to order the right size pizza to satisfy everyone</description>
+		<delegation class="org.anybody.decisions.MyHungerFactorHandler"/>
+		<action event-type="decision-enter">
+			<delegation class="org.anybody.actions.MyDecisionEnterAction"/>
+		</action>
+		<action event-type="decision-leave">
+			<delegation class="org.anybody.actions.MyDecisionLeaveAction"/>
+		</action>
+		<transition name="not hungry" to="end of dinner">
+			<action event-type="transition">
+				<delegation class="org.anybody.actions.MyNotHungryAction"/>
+			</action>
+		</transition>
+		<transition name="snacky" to="OrderSmallPizza"/>
+		<transition name="normal" to="OrderLargePizza"/>
+		<transition name="starved" to="OrderExtraLargePizza"/>
+	</decision>
+	<state name="OrderSmallPizza">
+		<assignment swimlane="daddy"/>
+		<transition to="PizzaOrdered"/>
+	</state>
+	<state name="OrderLargePizza">
+		<assignment swimlane="daddy"/>
+		<transition to="PizzaOrdered"/>
+	</state>
+	<state name="OrderExtraLargePizza">
+		<assignment swimlane="daddy"/>
+		<transition to="PizzaOrdered"/>
+	</state>
+	<milestone name="PizzaOrdered">
+		<description>For the heck of it I used a milestone.</description>
+		<action event-type="milestone-enter">
+			<delegation class="org.anybody.actions.MyMilestoneEnterAction"/>
+		</action>
+		<action event-type="milestone-leave">
+			<delegation class="org.anybody.actions.MyMilestoneLeaveAction"/>
+		</action>
+		<transition to="WaitForDelivery"/>
+	</milestone>
+	<fork name="WaitForDelivery" corresponding-join="ReadyToEat">
+		<description>Activities while awaiting delivery of pizza</description>
+		<delegation class="org.anybody.handlers.MyForkHandler"/>
+		<action event-type="fork-enter">
+			<delegation class="org.anybody.actions.MyForkEnterAction"/>
+		</action>
+		<action event-type="fork-every-leave">
+			<delegation class="org.anybody.actions.MyForkLeaveAction"/>
+		</action>
+		<transition to="set table"/>
+		<transition to="fix drinks"/>
+		<transition to="watch tv"/>
+		<transition to="MakePizzaAndDeliver"/>
+	</fork>
+	<process-state name="MakePizzaAndDeliver">
+		<description>The Pizza Company makes our pizza and then delivers it to our door</description>
+		<delegation class="org.anybody.MySubProcessHandler"/>
+		<transition to="ReadyToEat"/>
+	</process-state>
+	<state name="set table">
+		<assignment swimlane="kids"/>
+		<action event-type="state-after-assignment">
+			<delegation class="org.anybody.actions.MyRemindKidAction"/>
+		</action>
+		<transition to="ReadyToEat"/>
+	</state>
+	<state name="fix drinks">
+		<description>Make each kid and daddy a drink of their choice to enjoy with the pizza.</description>
+		<assignment swimlane="kids"/>
+		<action event-type="state-after-assignment">
+			<delegation class="org.anybody.actions.MyRemindKidAction"/>
+		</action>
+		<transition to="ReadyToEat"/>
+	</state>
+	<state name="watch tv">
+		<assignment swimlane="daddy"/>
+		<transition to="ReadyToEat"/>
+	</state>
+	<join name="ReadyToEat" corresponding-fork="WaitForDelivery">
+		<description>Now we are ready to eat, finally!</description>
+		<delegation class="org.anybody.handlers.MyJoinHandler"/>
+		<action event-type="join-every-enter">
+			<delegation class="org.anybody.actions.MyJoinEnterAction"/>
+		</action>
+		<action event-type="join-leave">
+			<delegation class="org.anybody.actions.MyJoinLeaveAction"/>
+		</action>
+		<transition to="EatPizza"/>
+	</join>
+	<state name="EatPizza">
+		<transition to="Cleanup"/>
+	</state>
+	<state name="Cleanup">
+		<assignment swimlane="kids"/>
+		<transition name="That'sAllFolks" to="end of dinner"/>
+	</state>
+	<end-state name="end of dinner"/>
+	<action event-type="process-start">
+		<delegation class="org.anybody.actions.MyProcessStartAction"/>
+	</action>
+	<action event-type="process-end">
+		<delegation class="org.anybody.actions.MyProcessEndAction"/>
+	</action>
+</process-definition>

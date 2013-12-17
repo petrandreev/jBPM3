@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="jobex" xmlns="urn:jbpm.org:jpdl-3.2">
+  <start-state name="start">
+    <transition to="async" />
+  </start-state>
+
+  <node name="async" async="true">
+    <transition to="bomb" />
+  </node>
+
+  <node name="bomb">
+    <action class="org.jbpm.jbpm2691.BombAction" />
+    <transition to="end" />
+  </node>
+
+  <end-state name="end" />
+</process-definition>

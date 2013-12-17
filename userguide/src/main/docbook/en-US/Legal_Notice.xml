@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE legalnotice PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+<legalnotice lang="en-US">
+    <para>
+	Copyright <trademark class="copyright"></trademark> 2010 the jBPM Project.
+    </para>
+
+    <para>
+    jBPM 3 is licensed under the GNU Lesser General Public License (LGPL).
+    A copy of this license is included in the Appendix of this document.
+    <!-- A copy of this license is included in <xref linkend="lgpl" />. -->
+    </para>
+
+</legalnotice>
+

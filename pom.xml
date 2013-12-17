@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>jBPM3</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>jbpm</artifactId>
+  <packaging>pom</packaging>
+  <version>3.2.14</version>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jboss</groupId>
+    <artifactId>jboss-parent</artifactId>
+    <version>5</version>
+  </parent>
+
+  <!-- Modules -->
+  <modules>
+    <module>core</module>
+    <module>enterprise-jee5</module>
+    <module>examples</module>
+    <module>identity</module>
+    <module>simulation</module>
+    <module>tomcat</module>
+    <module>userguide</module>
+    <module>jsf-console</module>
+  </modules>
+  
+  <!-- Properties -->
+  <properties>
+    <maven.compiler.source>1.5</maven.compiler.source>
+    <maven.compiler.target>1.5</maven.compiler.target>
+
+    <!-- Dependency versions -->
+    <cargo.version>1.0.3</cargo.version>
+    <hibernate.version>3.2.4.sp1</hibernate.version>
+
+    <!-- Plugin versions -->
+    <version.javadoc.plugin>2.7</version.javadoc.plugin>
+    
+    <jdbc.driver.group>hsqldb</jdbc.driver.group>
+    <jdbc.driver.artifact>hsqldb</jdbc.driver.artifact>
+    <jdbc.driver.version>1.8.0.7</jdbc.driver.version>
+  </properties>
+
+  <!-- DependencyManagement -->
+  <dependencyManagement>
+    <dependencies>
+      <!-- jBPM Dependencies -->
+      <dependency>
+        <groupId>org.jbpm.jbpm3</groupId>
+        <artifactId>jsf-console</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm.jbpm3</groupId>
+        <artifactId>jsf-console-jee5</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm.jbpm3</groupId>
+        <artifactId>jsf-console-tomcat</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm.jbpm3</groupId>
+        <artifactId>gpd-deployer</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jbpm.jbpm3</groupId>
+        <artifactId>jbpm-jpdl-designer-site</artifactId>
+        <version>3.1.7</version>
+        <type>zip</type>
+      </dependency>
+
+      <!-- Thirdparty Dependencies -->
+      <dependency>
+        <groupId>org.apache.ant</groupId>
+        <artifactId>ant</artifactId>
+        <version>1.7.0</version>
+      </dependency>
+      <dependency>
+        <groupId>backport-util-concurrent</groupId>
+        <artifactId>backport-util-concurrent</artifactId>
+        <version>3.1</version>
+      </dependency>
+      <dependency>
+        <groupId>bsh</groupId>
+        <artifactId>bsh</artifactId>
+        <version>1.3.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cactus</groupId>
+        <artifactId>cactus.core.framework.uberjar.javaEE.14</artifactId>
+        <version>1.8.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>org.mortbay.jetty</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-ant</artifactId>
+        <version>${cargo.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-core-uberjar</artifactId>
+        <version>${cargo.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-beanutils</groupId>
+        <artifactId>commons-beanutils</artifactId>
+        <version>1.7.0</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+        <version>1.2.1</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>1.4</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>desmoj</groupId>
+        <artifactId>desmoj</artifactId>
+        <version>2.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>dom4j</groupId>
+        <artifactId>dom4j</artifactId>
+        <version>1.6.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>pull-parser</groupId>
+            <artifactId>pull-parser</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>drools-compiler</artifactId>
+        <version>4.0.7</version>
+        <exclusions>
+          <exclusion>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>drools-core</artifactId>
+        <version>4.0.7</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.el</groupId>
+        <artifactId>el-api</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.el</groupId>
+        <artifactId>el-ri</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.gravel</groupId>
+        <artifactId>gravel</artifactId>
+        <version>1.0.0.GA</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate</artifactId>
+        <version>${hibernate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.cluster</groupId>
+        <artifactId>hibernate-jbc-cacheprovider</artifactId>
+        <version>1.0.2.GA</version>
+        <exclusions>
+          <exclusion>
+            <groupId>hibernate</groupId>
+            <artifactId>hibernate3</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.izpack</groupId>
+        <artifactId>izpack-standalone-compiler</artifactId>
+        <version>4.3.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-core</artifactId>
+        <version>1.6.2</version>
+        <exclusions>
+          <exclusion>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>jasperreports</groupId>
+        <artifactId>jasperreports</artifactId>
+        <version>3.5.3</version>
+        <exclusions>
+          <exclusion>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>eclipse</groupId>
+            <artifactId>jdtcore</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>jaxen</groupId>
+        <artifactId>jaxen</artifactId>
+        <version>1.1.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>xerces</groupId>
+            <artifactId>xmlParserAPIs</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.client</groupId>
+        <artifactId>jbossall-client</artifactId>
+        <version>4.0.5.GA</version>
+      </dependency>
+      <dependency>
+        <groupId>jboss</groupId>
+        <artifactId>jboss-j2ee</artifactId>
+        <version>4.0.2</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.jcr</groupId>
+        <artifactId>jcr</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.transaction</groupId>
+        <artifactId>jta</artifactId>
+        <version>1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.facelets</groupId>
+        <artifactId>jsf-facelets</artifactId>
+        <version>1.1.15</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.2</version>
+      </dependency>
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.14</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>1.4.2</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sf.retrotranslator</groupId>
+        <artifactId>retrotranslator-runtime</artifactId>
+        <version>1.2.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.richfaces.ui</groupId>
+        <artifactId>richfaces-ui</artifactId>
+        <version>3.2.1.GA</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.subethamail</groupId>
+        <artifactId>subethasmtp-smtp</artifactId>
+        <version>1.2</version>
+        <classifier>java14</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.subethamail</groupId>
+        <artifactId>subethasmtp-wiser</artifactId>
+        <version>1.2</version>
+        <classifier>java14</classifier>
+        <exclusions>
+          <exclusion>
+            <groupId>org.subethamail</groupId>
+            <artifactId>subethasmtp-smtp</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- Plugins -->
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <quiet>true</quiet>
+          <docfilessubdirs>true</docfilessubdirs>
+          <detectOfflineLinks>false</detectOfflineLinks>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>${surefire.jvm.args}</argLine>
+          <systemProperties>
+            <property>
+              <name>log4j.output.dir</name>
+              <value>${project.build.directory}</value>
+            </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <releaseProfiles>release</releaseProfiles>
+          <goals>deploy</goals>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>check-java-version</id>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <signature>
+                <groupId>org.codehaus.mojo.signature</groupId>
+                <artifactId>java15</artifactId>
+                <version>1.0</version>
+              </signature>
+            </configuration>
+          </execution>
+        </executions>
+  	  </plugin>
+
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.izpack</groupId>
+          <artifactId>izpack-maven-plugin</artifactId>
+          <version>1.0-alpha-5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.jboss.maven.plugins</groupId>
+          <artifactId>maven-jdocbook-plugin</artifactId>
+          <version>2.3.6</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>sql-maven-plugin</artifactId>
+          <version>1.4</version>
+        </plugin>
+       
+        <!-- code and test checking plugins -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>animal-sniffer-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>check-java-version</id>
+              <phase>deploy</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <configuration>
+                <signature>
+                  <groupId>org.codehaus.mojo.signature</groupId>
+                  <artifactId>java15</artifactId>
+                  <version>1.0</version>
+                </signature>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <!-- Repositories -->
+  <repositories>
+    <repository>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Repository Group</name>
+      <url>http://repository.jboss.org/nexus/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Repository Group</name>
+      <url>http://repository.jboss.org/nexus/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
+  
+  <!-- Profiles -->
+  <profiles>
+    <!--
+      Name: distro
+      Desc: Build the distribution
+    -->
+    <profile>
+      <id>distro</id>
+      <modules>
+        <module>distribution</module>
+      </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+      Name: release
+      Desc: Prepare for release
+    -->
+    <profile>
+      <id>release</id>
+      <modules>
+        <module>db</module>
+        <module>userguide</module>
+        <module>distribution</module>
+      </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+      Name: jdk14
+      Desc: dependencies specific to jdk 1.4
+    -->
+    <profile>
+      <id>jdk14</id>
+      <activation>
+        <jdk>1.4</jdk>
+      </activation>
+      <dependencyManagement>
+        <dependencies>
+          <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.8.1</version>
+          </dependency>
+        </dependencies>
+      </dependencyManagement>
+    </profile>
+
+    <!--
+      Name: jdk15
+      Desc: modules specific to jdk 1.5 and up
+    -->
+    <profile>
+      <id>jdk15</id>
+      <activation>
+        <jdk>[1.5,1.7)</jdk>
+      </activation>
+      <modules>
+        <module>enterprise-jee5</module>
+      </modules>
+    </profile>
+
+    <!-- DATABASE PROFILES -->
+
+    <!--
+      Name: no-database
+      Desc: Default Database Setup
+    -->
+    <profile>
+      <id>no-database</id>
+      <activation>
+        <property>
+          <name>!database</name>
+        </property>
+      </activation>
+      <properties>
+        <database>hsqldb</database>
+        <jdbc.hsqldb.database>jbpm3</jdbc.hsqldb.database>
+        <jdbc.hsqldb.url>jdbc:hsqldb:mem:${jdbc.hsqldb.database}</jdbc.hsqldb.url>
+        <jdbc.hsqldb.username>sa</jdbc.hsqldb.username>
+        <jdbc.hsqldb.password />
+        <jdbc.hsqldb.driver>org.hsqldb.jdbcDriver</jdbc.hsqldb.driver>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>${jdbc.driver.group}</groupId>
+          <artifactId>${jdbc.driver.artifact}</artifactId>
+          <version>${jdbc.driver.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+      Name: db2
+      Desc: DB2 Database Setup
+    -->
+    <profile>
+      <id>db2</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>db2</value>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${jdbc.driver.group}</groupId>
+          <artifactId>${jdbc.driver.artifact}</artifactId>
+          <version>${jdbc.driver.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+      Name: hsqldb
+      Desc: Hypersonic Database Setup
+    -->
+    <profile>
+      <id>hsqldb</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>hsqldb</value>
+        </property>
+      </activation>
+      <properties>
+        <database>hsqldb</database>
+        <jdbc.hsqldb.database>jbpm3</jdbc.hsqldb.database>
+        <jdbc.hsqldb.url>jdbc:hsqldb:mem:${jdbc.hsqldb.database}</jdbc.hsqldb.url>
+        <jdbc.hsqldb.username>sa</jdbc.hsqldb.username>
+        <jdbc.hsqldb.password />
+        <jdbc.hsqldb.driver>org.hsqldb.jdbcDriver</jdbc.hsqldb.driver>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>${jdbc.driver.group}</groupId>
+          <artifactId>${jdbc.driver.artifact}</artifactId>
+          <version>${jdbc.driver.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+      Name: mssql
+      Desc: MSSQL Database Setup
+    -->
+    <profile>
+      <id>mssql</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>mssql</value>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${jdbc.driver.group}</groupId>
+          <artifactId>${jdbc.driver.artifact}</artifactId>
+          <version>${jdbc.driver.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+      Name: mysql
+      Desc: MySQL Database Setup
+    -->
+    <profile>
+      <id>mysql</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>mysql</value>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${jdbc.driver.group}</groupId>
+          <artifactId>${jdbc.driver.artifact}</artifactId>
+          <version>${jdbc.driver.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!-- 
+      Name: oracle
+      Desc: Oracle Database Setup
+    -->
+    <profile>
+      <id>oracle</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>oracle</value>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${jdbc.driver.group}</groupId>
+          <artifactId>${jdbc.driver.artifact}</artifactId>
+          <version>${jdbc.driver.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+      Name: postgresql
+      Desc: PostgreSQL Database Setup
+    -->
+    <profile>
+      <id>postgresql</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>postgresql</value>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${jdbc.driver.group}</groupId>
+          <artifactId>${jdbc.driver.artifact}</artifactId>
+          <version>${jdbc.driver.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+      Name: sybase
+      Desc: Sybase Database Setup
+    -->
+    <profile>
+      <id>sybase</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>sybase</value>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${jdbc.driver.group}</groupId>
+          <artifactId>${jdbc.driver.artifact}</artifactId>
+          <version>${jdbc.driver.version}</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+      Name: SOA
+      Desc: SOA-P Productization
+    -->
+    <profile>
+      <id>soa</id>
+      <modules>
+        <module>db</module>
+        <module>userguide</module>
+        <module>distribution</module>
+        <module>soa-distribution</module>
+      </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>quality-check</id>
+      <activation>
+        <property>
+          <name>QUALITY_CHECk</name>
+        </property>
+      </activation>
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>2.4.0</version>
+            <configuration>
+              <effort>Max</effort>
+              <fork>false</fork>
+              <xmlOutput>true</xmlOutput>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <version>2.7.1</version>
+            <configuration>
+              <format>xml</format>
+              <targetJdk>1.5</targetJdk>
+              <minimumTokens>80</minimumTokens>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cobertura-maven-plugin</artifactId>
+            <version>2.5.1</version>
+            <configuration>
+              <formats>
+                <format>xml</format>
+              </formats>
+              <quiet>true</quiet>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
+      <repositories>
+        <repository>
+          <id>repo1</id>
+          <url>http://repo1.maven.org/maven2/</url>
+        </repository>
+      </repositories>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>animal-sniffer-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>check-java-version</id>
+                <!-- never, basically -->
+                <phase>site-deploy</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
+  <!-- Source Control Management -->
+  <scm>
+    <connection>scm:git:file:///home/mrietvel/Workspace/jbpm_3/jbpm-release</connection>
+    <developerConnection>scm:git:file:///home/mrietvel/Workspace/jbpm_3/jbpm-release</developerConnection>
+    <url>scm:git:file:///home/mrietvel/Workspace/jbpm_3/jbpm-release</url>
+    <tag>HEAD</tag>
+  </scm>
+
+</project>

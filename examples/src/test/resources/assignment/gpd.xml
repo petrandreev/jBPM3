@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="RulesAssignment" width="670" height="773">
+  <node name="start" x="204" y="59" width="140" height="40">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="end1" x="205" y="335" width="140" height="40"/>
+  <node name="Approve Order" x="205" y="192" width="140" height="40">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+</root-container>

@@ -1,0 +1,19 @@
+<body>
+storage of binary information.
+
+<p>In some parts of the jbpm datamodel, binary data needs to be persisted.
+Soring binary data in databases is not portable.  This package provides a 
+solution for that problem.
+</p>
+
+<p>This package contains 2 strategies that can be used for storing binary data:
+</p>
+
+<p>1) one mechanism is to chop the large byte array into smaller pieces of 1K.
+(see package org.jbpm.bytes).
+</p>
+
+<p>2) a second mechanism is to store the large binaries in a file on the filesystem.
+(see configuration property 'jbpm.files.dir')
+</p>
+</body>

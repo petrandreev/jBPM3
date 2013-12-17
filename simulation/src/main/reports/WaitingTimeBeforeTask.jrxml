@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="ScenarioAnalysis"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="535"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="sim_waitingTime" >
+
+
+		<field name="refused" class="java.lang.Long">
+			<fieldDescription><![CDATA[refused]]></fieldDescription>
+		</field>
+		<field name="minLength" class="java.lang.Integer">
+			<fieldDescription><![CDATA[minLength]]></fieldDescription>
+		</field>
+		<field name="strategy" class="java.lang.String">
+			<fieldDescription><![CDATA[strategy]]></fieldDescription>
+		</field>
+		<field name="averageLength" class="java.lang.Double">
+			<fieldDescription><![CDATA[averageLength]]></fieldDescription>
+		</field>
+		<field name="observations" class="java.lang.Long">
+			<fieldDescription><![CDATA[observations]]></fieldDescription>
+		</field>
+		<field name="length" class="java.lang.Integer">
+			<fieldDescription><![CDATA[length]]></fieldDescription>
+		</field>
+		<field name="maxLength" class="java.lang.Integer">
+			<fieldDescription><![CDATA[maxLength]]></fieldDescription>
+		</field>
+		<field name="name" class="java.lang.String">
+			<fieldDescription><![CDATA[name]]></fieldDescription>
+		</field>
+		<field name="stdDevLength" class="java.lang.Double">
+			<fieldDescription><![CDATA[stdDevLength]]></fieldDescription>
+		</field>
+		<field name="averageWaitTime" class="java.lang.Double">
+			<fieldDescription><![CDATA[averageWaitTime]]></fieldDescription>
+		</field>
+		<field name="maxWaitTime" class="java.lang.Double">
+			<fieldDescription><![CDATA[maxWaitTime]]></fieldDescription>
+		</field>
+		<field name="queueLimit" class="java.lang.Integer">
+			<fieldDescription><![CDATA[queueLimit]]></fieldDescription>
+		</field>
+		<field name="zeroWaits" class="java.lang.Long">
+			<fieldDescription><![CDATA[zeroWaits]]></fieldDescription>
+		</field>
+
+	</subDataset>
+
+
+	<field name="maximum" class="java.lang.Double">
+		<fieldDescription><![CDATA[maximum]]></fieldDescription>
+	</field>
+	<field name="mean" class="java.lang.Double">
+		<fieldDescription><![CDATA[mean]]></fieldDescription>
+	</field>
+	<field name="minimum" class="java.lang.Double">
+		<fieldDescription><![CDATA[minimum]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[name]]></fieldDescription>
+	</field>
+	<field name="numberOfObservations" class="java.lang.Long">
+		<fieldDescription><![CDATA[numberOfObservations]]></fieldDescription>
+	</field>
+	<field name="standardDerivation" class="java.lang.Double">
+		<fieldDescription><![CDATA[standardDerivation]]></fieldDescription>
+	</field>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="21"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="448"
+						height="21"
+						key="staticText-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Distribution of average waiting time before states/tasks]]></text>
+				</staticText>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="187"  isSplitAllowed="true" >
+				<pieChart>
+					<chart isShowLegend="false"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="535"
+						height="187"
+						key="element-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					</chart>
+					<pieDataset>
+						<dataset >
+						</dataset>
+						<keyExpression><![CDATA[$F{name}]]></keyExpression>
+						<valueExpression><![CDATA[$F{mean}]]></valueExpression>
+						<labelExpression><![CDATA[$F{name} + ": " + $F{mean}]]></labelExpression>
+				<sectionHyperlink >
+				</sectionHyperlink>
+					</pieDataset>
+					<piePlot 
+>
+						<plot />
+					</piePlot>
+				</pieChart>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="20"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="191"
+						height="18"
+						key="staticText-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="196"
+						y="0"
+						width="60"
+						height="18"
+						key="staticText-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Mean]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="261"
+						y="0"
+						width="60"
+						height="18"
+						key="staticText-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Std Dev]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="326"
+						y="0"
+						width="60"
+						height="18"
+						key="staticText-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Minimum]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="391"
+						y="0"
+						width="60"
+						height="18"
+						key="staticText-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Maximum]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="456"
+						y="0"
+						width="60"
+						height="18"
+						key="staticText-6"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Observations]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="18"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="191"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="196"
+						y="0"
+						width="60"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{mean}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="261"
+						y="0"
+						width="60"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{standardDerivation}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="326"
+						y="0"
+						width="60"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{minimum}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="391"
+						y="0"
+						width="60"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{maximum}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="456"
+						y="0"
+						width="60"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{numberOfObservations}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

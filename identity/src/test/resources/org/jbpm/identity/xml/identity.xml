@@ -1,0 +1,7 @@
+<identity>
+  <user name="shipper" email="sample.shipper@sample.domain" password="shipper" />
+  <user name="manager" email="sample.manager@sample.domain" password="manager" />
+  <group name="residents" />
+  <group name="bananalovers" parent="residents" type="fruitpreference" />
+  <membership user="manager" group="bananalovers" />
+</identity>

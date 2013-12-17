@@ -1,0 +1,12 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <!-- fetch driver from http://db.apache.org/derby -->
+    <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.EmbeddedDriver</property>
+    <property name="hibernate.connection.url">jdbc:derby:build/derby/jbpmtest;create=true</property>
+    <property name="hibernate.connection.username"></property>
+    <property name="hibernate.connection.password"></property>
+    <!-- JDBC connection properties (end) -->
+

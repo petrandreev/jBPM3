@@ -1,0 +1,30 @@
+<body>
+<h3>API documentation for the jBPM 3.2 identity component.</h3>
+
+<p>The main classes can be found in package org.jbpm.identity which form
+a domain model for organisational information like users, groups and permissions.
+The following class diagram represents the domain model.</p>
+
+<p align="center"><img src="resources/identity.gif" alt="Identity Model"/></p>
+
+<p>So membership models the n-m relation between User and Group.  Property Group.type 
+can be used to have different sets of groups.  E.g. Groups of type "hierarchy" could 
+represent the hierarchical structure of the company in departments, business units and 
+teams.  Groups also have a parent-child relation to model the relation between those 
+hierarchical groups.  The name property in the Membership can indicate the role which 
+a certain user fulfills in that group.  This is a notion that corresponds to a 
+position in a company.  E.g. the manager of business unit A.    That is why also the 
+membership can have permissions associated to it. Currently, permissions are unused.</p>
+
+<p>Another group type example could be "security-role".  In which you define a set of 
+Groups that correspond to security roles that are used in the webapp security.  Then 
+you have to configure a security domain in your servlet container that checks for 
+membership against this group type. That is how it is done now.</p>
+
+<p>In later versions (when business calendar becomes persistent), we might also 
+include a link between Users and Groups on the one hand and business calendars on the 
+other hand.  To model different time zones and different business hours in different 
+parts of a global company.</p>
+
+<p>Visit the <a href="http://jboss.org/jbpm">project home page</a> for more information.</p>
+</body>

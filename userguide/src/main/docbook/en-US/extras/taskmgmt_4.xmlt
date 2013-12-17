@@ -1,0 +1,24 @@
+<process-definition>
+  <task-node name='a'>
+    <task name='laundry'>
+      <assignment expression='previous --> group(hierarchy) --> member(boss)' />
+    </task>
+    <transition to='b' />
+  </task-node>
+      
+      <para>Syntax of the assignment expression is like this:</para>
+      first-term --> next-term --> next-term --> ... --> next-term
+
+where
+
+first-term ::= previous |
+               swimlane(swimlane-name) |
+               variable(variable-name) |
+               user(user-name) |
+               group(group-name)
+
+and 
+
+next-term ::= group(group-type) |
+              member(role-name)
+</programlisting>

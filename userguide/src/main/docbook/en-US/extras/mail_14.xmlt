@@ -1,0 +1,3 @@
+<jbpm-configuration>
+  <string name="resource.mail.templates" value="jbpm.mail.templates.xml" />
+</jbpm-configuration>

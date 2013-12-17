@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<langpack>
+  <str id="jboss.selection" txt="JBoss AS version" />
+  <str id="jboss.configuration" txt="Server configuration" />
+  <str id="jboss.home" txt="JBoss AS home" />
+  <str id="tomcat.home" txt="Tomcat home" />
+  <str id="tomcat.selection" txt="Tomcat version" />
+  <str id="database.selection" txt="Database" />
+</langpack>

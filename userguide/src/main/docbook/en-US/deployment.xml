@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="deployment">
+
+  <title>Deployment</title>
+
+  <para>jPDL is an embeddable BPM engine, which means that you can take the jPDL 
+    libraries and embed it into your own Java project, rather then installing a separate product
+    and integrate with it.  One of the key aspects that make this possible is 
+    minimizing the dependencies.  This chapter discusses the jbpm libraries and 
+    their dependencies.
+  </para>
+  
+  <section id="jbpmlibraries">
+    <title>jBPM libraries</title>
+    <para><emphasis role="bold">lib/jbpm-jpdl.jar</emphasis> is the library
+      with the core jpdl functionality.
+    </para>
+    <para><emphasis role="bold">lib/jbpm-identity.jar</emphasis> is the 
+      (optional) library containing an identity component as described in 
+      <xref linkend="theidentitycomponent" />.
+    </para>
+  </section>
+  
+  <section id="javaruntimeenvironment">
+    <title>Java runtime environment</title>
+    <para>jBPM 3.3.x requires J2SE 1.5+
+    </para>
+  </section>
+
+  <section id="thirdpartylibraries">
+    <title>Third party libraries</title>
+    
+    <para>All the libraries on which jPDL might have a dependency, are located in 
+      the lib directory.  The actual version of those libraries might depend 
+      on the JBoss server that you've selected in the installer.
+    </para>
+    
+    <para>In a minimal deployment, you can create and run processes with jBPM
+      by putting only the commons-logging and dom4j library in your classpath.  
+      Beware that persisting processes to a database is not supported.  The 
+      dom4j library can be removed if you don't use the process xml parsing, 
+      but instead build your object graph programatically.
+    </para>
+
+
+    <table>
+    <title>Properties</title>
+      <tgroup cols="3" rowsep="1" colsep="1">
+        <colspec colname="c1" colwidth="1*"/>
+        <colspec colname="c2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry align="center">Library</entry>
+            <entry align="center">Usage</entry>
+            <entry align="center">Description</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>commons-logging.jar</entry>
+            <entry>logging in jbpm and hibernate</entry>
+            <entry>The jBPM code logs to commons logging. The commons logging 
+            library can be configured to dispatch the logs to e.g. 
+            java 1.4 logging, log4j, ...  See 
+            <ulink url="http://jakarta.apache.org/commons/logging/guide.html">
+            the apache commons user guide</ulink> for more information on how 
+            to configure commons logging.  if you're used to log4j, the easiest 
+            way is to put the log4j lib and a log4j.properties in the classpath.
+            commons logging will automatically detect this and use that configuration.
+            </entry>
+          </row>
+          <row>
+            <entry>dom4j.jar</entry>
+            <entry>process definitions and hibernate persistence</entry>
+            <entry>xml parsing</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+          
+    <para>A typical deployment for jBPM will include persistent storage of 
+      process definitions and process executions.  In that case, jBPM does 
+      not have any dependencies outside hibernate and its dependent libraries.
+    </para>
+
+    <para>Of course, hibernate's required libraries depend on the environment
+      and what features you use.  For details refer to the hibernate 
+      documentation.  The next table gives an indication for a plain 
+      standalone POJO development environment.
+    </para>
+    
+    <table>
+    <title>Typical Dependencies</title>
+      <tgroup cols="3" rowsep="1" colsep="1">
+        <colspec colname="c1" colwidth="1*"/>
+        <colspec colname="c2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry align="center">Library</entry>
+            <entry align="center">Usage</entry>
+            <entry align="center">Description</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>hibernate.jar</entry>
+            <entry>hibernate persistence</entry>
+            <entry>the best O/R mapper</entry>
+          </row>
+          <row>
+            <entry>antlr.jar</entry>
+            <entry>used in query parsing by hibernate persistence</entry>
+            <entry>parser library</entry>
+          </row>
+          <row>
+            <entry>cglib.jar</entry>
+            <entry>hibernate persistence</entry>
+            <entry>reflection library used for hibernate proxies</entry>
+          </row>
+          <row>
+            <entry>commons-collections.jar</entry>
+            <entry>hibernate persistence</entry>
+            <entry></entry>
+          </row>
+          <row>
+            <entry>asm.jar</entry>
+            <entry>hibernate persistence</entry>
+            <entry>asm byte code library</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+          
+    <para>The beanshell library is optional.  If you don't include it, you won't be 
+      able to use the beanshell integration in the jBPM process language and 
+      you'll get a log message saying that jbpm couldn't load the Script class
+      and hence, the script element won't be available.
+    </para>
+          
+    <table>
+    <title>Optional Dependencies</title>
+      <tgroup cols="3" rowsep="1" colsep="1">
+        <colspec colname="c1" colwidth="1*"/>
+        <colspec colname="c2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry align="center">Library</entry>
+            <entry align="center">Usage</entry>
+            <entry align="center">Description</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>bsh.jar</entry>
+            <entry>beanshell script interpreter</entry>
+            <entry>Only used in the script's and decision's.  When you don't use
+            these process elements, the beanshell lib can be removed, but then you 
+            have to comment out the Script.hbm.xml mapping line in the 
+            <literal>hibernate.cfg.xml</literal> </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section id="deploymentinjboss">
+    <title>Deployment in JBoss</title>
+    <para>The installer deploys jBPM into JBoss.  This section walks you through the deployed components.
+    </para>
+    <section id="thejbpmdirectory">
+      <title>The jbpm directory</title>
+      <para>When jBPM is installed on a server configuration in JBoss, only the jbpm directory is 
+      added to the deploy directory and all components will be deployed under that directory.
+      No other files of JBoss are changed or added outside that directory. 
+      </para>
+    </section>
+    <section id="theenterprisebundle">
+      <title>The enterprise bundle</title>
+      <para>The enterprise bundle is a J2EE web application that contains the jBPM enterprise beans
+      and the JSF based console.  The enterprise beans are located in 
+      <literal>\deploy\jbpm\jbpm-enterprise-bundle.ear\jbpm-enterprise-beans.jar</literal> and the 
+      JSF web application is located at  
+      <literal>\deploy\jbpm\jbpm-enterprise-bundle.ear\jsf-console.war</literal>
+      </para>
+    </section>
+    <section id="configuringthelogsinthesuiteserver">
+      <title>Configuring the logs in the suite server</title>
+      <para>If you want to see debug logs in the suite server, update file 
+      <literal>jboss-{version}/server/default/config/log4j.xml</literal>
+      Look for
+      </para>
+      <programlisting>   &lt;!-- ============================== --&gt;
+   &lt;!-- Append messages to the console --&gt;
+   &lt;!-- ============================== --&gt;
+
+   &lt;appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender"&gt;
+      &lt;errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/&gt;
+      &lt;param name="Target" value="System.out"/&gt;
+      &lt;param name="Threshold" value="INFO"/&gt;</programlisting>
+      <para>And in param <literal>Threshold</literal>, change <literal>INFO</literal> to 
+      <literal>DEBUG</literal>.
+      </para>
+      <para>Then you'll get debug logs of all the components.  To limit the number of debug logs, 
+      look a bit further down that file until you see 'Limit categories'.  You might want to add 
+      tresholds there for specific packages like e.g. </para>
+      <programlisting>   &lt;category name="org.hibernate"&gt;
+      &lt;priority value="INFO"/&gt;
+   &lt;/category&gt;
+
+   &lt;category name="org.jboss"&gt;
+      &lt;priority value="INFO"/&gt;
+   &lt;/category&gt;</programlisting>
+    </section>
+    
+    <section id="debuggingaprocessinthesuite">
+      <title>Debugging a process in the suite</title>
+      <para>First of all, in case you're just starting to develop a new process, 
+      it is much easier to use plain JUnit tests and run the process in memory like 
+      explained in <xref linkend="tutorial" />.
+      </para>
+      <para>But if you want to run the process in the console and debug it there
+      here are the 2 steps that you need to do: 
+      </para>
+      <para>1) in 
+      <literal>jboss-{version}/server/bin/run.bat</literal>, somewhere at the end, 
+      there is a line like this:</para>
+      <programlisting>rem set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y %JAVA_OPTS%</programlisting>
+      <para>For backup reasons, just start by making a copy of that line, then remove the first '<literal>rem</literal>'
+      and change <literal>suspend=y</literal> to <literal>suspend=n</literal>.  Then you get something like</para>
+      <programlisting>rem set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y %JAVA_OPTS%
+set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n %JAVA_OPTS%</programlisting>
+      <para>2) In your IDE debug by connecting to a remote Java application on localhost on 
+      port 8787.  Then you can start adding break points and run through the processes with the console
+      until the breakpoint is hit.
+      </para>
+      <para>For more info about configuring logging of optimistic locking failures, 
+      see <xref linkend="loggingofoptimisticconcurrencyexceptions"/></para>
+    </section>
+  </section>
+</chapter>

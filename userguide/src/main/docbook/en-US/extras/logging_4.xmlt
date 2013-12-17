@@ -1,0 +1,2 @@
+<service name='logging'
+    factory='org.jbpm.logging.db.DbLoggingServiceFactory' />

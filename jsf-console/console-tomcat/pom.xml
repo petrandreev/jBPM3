@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>war</packaging>
+  <name>jBPM3 - Tomcat Console</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>jsf-console-tomcat</artifactId>
+
+  <parent>
+    <artifactId>jsf-console-parent</artifactId>
+    <groupId>org.jbpm.jbpm3</groupId>
+    <version>3.2.14</version>
+  </parent>
+
+  <dependencies>
+    <!-- jBPM dependencies -->
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jsf-console</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+
+    <!-- Thirdparty Dependencies -->
+    <dependency>
+      <groupId>javax.faces</groupId>
+      <artifactId>jsf-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.faces</groupId>
+      <artifactId>jsf-impl</artifactId>
+    </dependency>
+  </dependencies>
+</project>

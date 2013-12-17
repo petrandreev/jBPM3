@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.graph.log.NodeLog" 
+            extends="org.jbpm.logging.log.ProcessLog"
+            discriminator-value="N">
+            
+    <many-to-one name="node" 
+                 column="NODE_" 
+                 foreign-key="FK_LOG_NODE"
+                 index="IDX_LOG_NODE" />
+    <property name="enter"
+              column="ENTER_" />
+    <property name="leave"
+              column="LEAVE_" />
+    <property name="duration"
+              column="DURATION_" />
+
+  </subclass>
+
+</hibernate-mapping>

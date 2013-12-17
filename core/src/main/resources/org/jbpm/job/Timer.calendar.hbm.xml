@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.job.Timer" 
+            discriminator-value="T" 
+            extends="org.jbpm.job.Job">
+
+    <property name="name" column="NAME_" />
+    <property name="repeat" column="REPEAT_" />
+    <property name="transitionName" column="TRANSITIONNAME_" />
+
+    <many-to-one name="action"   
+                 column="ACTION_" 
+                 cascade="lock"
+                 foreign-key="FK_JOB_ACTION"
+                 index="IDX_JOB_ACTION"/>
+    
+    <any name="graphElement" id-type="long" cascade="lock">
+      <column name="GRAPHELEMENTTYPE_"/>
+      <column name="GRAPHELEMENT_"/>
+    </any>
+
+    <property name="calendarResource" column="CALENDARRESOURCE_" />
+
+  </subclass>
+
+</hibernate-mapping>

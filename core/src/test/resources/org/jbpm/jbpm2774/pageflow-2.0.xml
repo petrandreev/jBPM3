@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow-definition name="jbpm2774" xmlns="http://jboss.com/products/seam/pageflow"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://jboss.com/products/seam/pageflow
+    http://jboss.com/products/seam/pageflow-2.0.xsd">
+  <start-page name="guess number" view-id="guess.xhtml">
+    <transition to="is guess correct?" />
+  </start-page>
+
+  <decision name="is guess correct?">
+    <transition to="show attempts" name="yes" />
+    <transition name="no" to="guess number" />
+  </decision>
+
+  <page name="show attempts" view-id="show.xhtml" />
+</pageflow-definition>

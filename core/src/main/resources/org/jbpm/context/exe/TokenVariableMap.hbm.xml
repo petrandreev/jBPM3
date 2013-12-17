@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <class name="org.jbpm.context.exe.TokenVariableMap"
+         table="JBPM_TOKENVARIABLEMAP">
+    <id name="id" column="ID_"><generator class="native" /></id>
+    <version name="version" column="VERSION_" />
+    
+    <many-to-one name="token" 
+                 column="TOKEN_"
+                 foreign-key="FK_TKVARMAP_TOKEN" 
+                 index="IDX_TKVVARMP_TOKEN" />
+    <many-to-one name="contextInstance" 
+                 column="CONTEXTINSTANCE_"
+                 foreign-key="FK_TKVARMAP_CTXT" 
+                 index="IDX_TKVARMAP_CTXT" />
+  
+    <map name="variableInstances" cascade="all" inverse="true">
+      <!-- add on-delete for optimized deletion 
+      <key column="TOKENVARIABLEMAP_" on-delete="cascade" />
+      -->
+      <key column="TOKENVARIABLEMAP_" />
+      <index type="string" column="NAME_" />
+      <one-to-many class="org.jbpm.context.exe.VariableInstance" />
+    </map>
+  
+  </class>
+</hibernate-mapping>

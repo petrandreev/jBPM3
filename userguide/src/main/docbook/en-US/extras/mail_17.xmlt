@@ -1,0 +1,3 @@
+<jbpm-configuration>
+    <string name='jbpm.mail.from.address' value='jbpm@yourcompany.com' />
+</jbpm-configuration>

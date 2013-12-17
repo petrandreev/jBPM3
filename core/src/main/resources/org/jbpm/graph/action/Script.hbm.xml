@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field" >
+  <subclass name="org.jbpm.graph.action.Script" 
+            discriminator-value="S" 
+            extends="org.jbpm.graph.def.Action">
+    <property name="expression" column="EXPRESSION_" type="longstring" length="4000" />
+    <set name="variableAccesses" cascade="all">
+      <key column="SCRIPT_" foreign-key="FK_VARACC_SCRIPT"/>
+      <one-to-many class="org.jbpm.context.def.VariableAccess" />
+    </set>
+  </subclass>
+</hibernate-mapping>

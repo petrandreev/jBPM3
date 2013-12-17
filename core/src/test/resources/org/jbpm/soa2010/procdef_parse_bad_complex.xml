@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="soa2010pbc" xmlns="urn:jbpm.org:jpdl-3.2">
+
+  <start-state name="start">
+    <!-- 10 bad transitions -->
+    <transition to="node" condition="#{AAA != null}" name="cond-a"/>
+    <transition to="state" condition="#{AAA != null}" name="cond-b"/>
+    <transition to="task-node" condition="#{AAA != null}" name="cond-c"/>
+    <transition to="mail-node" condition="#{AAA != null}" name="cond-d"/>
+    <transition to="process-state" condition="#{AAA != null}" name="cond-e"/>
+    <transition to="fork" condition="#{AAA != null}" name="cond-f"/>
+    <transition to="join" condition="#{AAA != null}" name="cond-g"/>
+
+    <transition to="end" condition="#{AAA != null}" name="cond-z-0"/>
+
+		<!-- Backwards compat style: transition w/ condition element -->
+		<transition to="end" name="cond-z-1">
+			<condition>{AAA != null}</condition>
+		</transition>
+
+		<!-- New style: transition w/ condition element w/ expression element -->
+		<transition to="end" name="cond-z-2">
+			<condition expression="#{AAA != null}" />
+		</transition>
+	</start-state>
+
+  <node name="node">
+    <!-- 9 bad transitions -->
+    <transition to="node" condition="#{AAA != null}" name="cond-a"/>
+    <transition to="state" condition="#{AAA != null}" name="cond-b"/>
+    <transition to="task-node" condition="#{AAA != null}" name="cond-c"/>
+    <transition to="mail-node" condition="#{AAA != null}" name="cond-d"/>
+    <transition to="process-state" condition="#{AAA != null}" name="cond-e"/>
+    <transition to="fork" condition="#{AAA != null}" name="cond-f"/>
+    <transition to="join" condition="#{AAA != null}" name="cond-g"/>
+
+		<!-- Backwards compat style: transition w/ condition element -->
+		<transition to="end" name="cond-z-1">
+			<condition>{AAA != null}</condition>
+		</transition>
+
+		<!-- New style: transition w/ condition element w/ expression element -->
+		<transition to="end" name="cond-z-2">
+			<condition expression="#{AAA != null}" />
+		</transition>
+	</node>
+
+	<state name="state">
+    <!-- 9 bad transitions -->
+    <transition to="node" condition="#{AAA != null}" name="cond-a"/>
+    <transition to="state" condition="#{AAA != null}" name="cond-b"/>
+    <transition to="task-node" condition="#{AAA != null}" name="cond-c"/>
+    <transition to="mail-node" condition="#{AAA != null}" name="cond-d"/>
+    <transition to="process-state" condition="#{AAA != null}" name="cond-e"/>
+    <transition to="fork" condition="#{AAA != null}" name="cond-f"/>
+    <transition to="join" condition="#{AAA != null}" name="cond-g"/>
+
+		<!-- Backwards compat style: transition w/ condition element -->
+		<transition to="end" name="cond-z-1">
+			<condition>{AAA != null}</condition>
+		</transition>
+
+		<!-- New style: transition w/ condition element w/ expression element -->
+		<transition to="end" name="cond-z-2">
+			<condition expression="#{AAA != null}" />
+		</transition>
+  </state>
+
+	<task-node name="task-node">
+    <!-- 9 bad transitions -->
+    <transition to="node" condition="#{AAA != null}" name="cond-a"/>
+    <transition to="state" condition="#{AAA != null}" name="cond-b"/>
+    <transition to="task-node" condition="#{AAA != null}" name="cond-c"/>
+    <transition to="mail-node" condition="#{AAA != null}" name="cond-d"/>
+    <transition to="process-state" condition="#{AAA != null}" name="cond-e"/>
+    <transition to="fork" condition="#{AAA != null}" name="cond-f"/>
+    <transition to="join" condition="#{AAA != null}" name="cond-g"/>
+
+		<!-- Backwards compat style: transition w/ condition element -->
+		<transition to="end" name="cond-z-1">
+			<condition>{AAA != null}</condition>
+		</transition>
+
+		<!-- New style: transition w/ condition element w/ expression element -->
+		<transition to="end" name="cond-z-2">
+			<condition expression="#{AAA != null}" />
+		</transition>
+  </task-node>
+
+	<mail-node name="mail-node">
+    <!-- 9 bad transitions -->
+    <transition to="node" condition="#{AAA != null}" name="cond-a"/>
+    <transition to="state" condition="#{AAA != null}" name="cond-b"/>
+    <transition to="task-node" condition="#{AAA != null}" name="cond-c"/>
+    <transition to="mail-node" condition="#{AAA != null}" name="cond-d"/>
+    <transition to="process-state" condition="#{AAA != null}" name="cond-e"/>
+    <transition to="fork" condition="#{AAA != null}" name="cond-f"/>
+    <transition to="join" condition="#{AAA != null}" name="cond-g"/>
+
+		<!-- Backwards compat style: transition w/ condition element -->
+		<transition to="end" name="cond-z-1">
+			<condition>{AAA != null}</condition>
+		</transition>
+
+		<!-- New style: transition w/ condition element w/ expression element -->
+		<transition to="end" name="cond-z-2">
+			<condition expression="#{AAA != null}" />
+		</transition>
+  </mail-node>
+
+	<process-state name="process-state">
+		<sub-process name="soa2010pbs"/>
+    <!-- 9 bad transitions -->
+    <transition to="node" condition="#{AAA != null}" name="cond-a"/>
+    <transition to="state" condition="#{AAA != null}" name="cond-b"/>
+    <transition to="task-node" condition="#{AAA != null}" name="cond-c"/>
+    <transition to="mail-node" condition="#{AAA != null}" name="cond-d"/>
+    <transition to="process-state" condition="#{AAA != null}" name="cond-e"/>
+    <transition to="fork" condition="#{AAA != null}" name="cond-f"/>
+    <transition to="join" condition="#{AAA != null}" name="cond-g"/>
+
+		<!-- Backwards compat style: transition w/ condition element -->
+		<transition to="end" name="cond-z-1">
+			<condition>{AAA != null}</condition>
+		</transition>
+
+		<!-- New style: transition w/ condition element w/ expression element -->
+		<transition to="end" name="cond-z-2">
+			<condition expression="#{AAA != null}" />
+		</transition>
+	</process-state>
+
+	<fork name="fork">
+    <!-- 9 bad transitions -->
+    <transition to="node" condition="#{AAA != null}" name="cond-a"/>
+    <transition to="state" condition="#{AAA != null}" name="cond-b"/>
+    <transition to="task-node" condition="#{AAA != null}" name="cond-c"/>
+    <transition to="mail-node" condition="#{AAA != null}" name="cond-d"/>
+    <transition to="process-state" condition="#{AAA != null}" name="cond-e"/>
+    <transition to="fork" condition="#{AAA != null}" name="cond-f"/>
+    <transition to="join" condition="#{AAA != null}" name="cond-g"/>
+
+		<!-- Backwards compat style: transition w/ condition element -->
+		<transition to="end" name="cond-z-1">
+			<condition>{AAA != null}</condition>
+		</transition>
+
+		<!-- New style: transition w/ condition element w/ expression element -->
+		<transition to="end" name="cond-z-2">
+			<condition expression="#{AAA != null}" />
+		</transition>
+  </fork>
+
+	<join name="join">
+    <!-- 9 bad transitions -->
+    <transition to="node" condition="#{AAA != null}" name="cond-a"/>
+    <transition to="state" condition="#{AAA != null}" name="cond-b"/>
+    <transition to="task-node" condition="#{AAA != null}" name="cond-c"/>
+    <transition to="mail-node" condition="#{AAA != null}" name="cond-d"/>
+    <transition to="process-state" condition="#{AAA != null}" name="cond-e"/>
+    <transition to="fork" condition="#{AAA != null}" name="cond-f"/>
+    <transition to="join" condition="#{AAA != null}" name="cond-g"/>
+
+		<!-- Backwards compat style: transition w/ condition element -->
+		<transition to="end" name="cond-z-1">
+			<condition>{AAA != null}</condition>
+		</transition>
+
+		<!-- New style: transition w/ condition element w/ expression element -->
+		<transition to="end" name="cond-z-2">
+			<condition expression="#{AAA != null}" />
+		</transition>
+  </join>
+
+	<end-state name="end" />
+
+</process-definition>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project name="download-helper">
+  <property name="jboss.version" value="4.2.3.GA" />
+  <property name="eclipse.release" value="galileo" />
+  <property name="eclipse.version" value="SR2" />
+
+  <target name="download-jboss" description="Download JBoss AS from SourceForge">
+    <get src="http://downloads.sourceforge.net/jboss/jboss-${jboss.version}.zip"
+         dest="${install.path}/opt"
+         verbose="yes" />
+    <unzip src="${install.path}/opt/jboss-${jboss.version}.zip" dest="${jboss.home}" />
+  </target>
+
+  <target name="download-eclipse" description="Download Eclipse from Main Download Site">
+    <condition property="is.linux">
+      <os name="Linux" />
+    </condition>
+    <condition property="is.mac">
+      <os family="mac" />
+    </condition>
+    <condition property="is.windows">
+      <os family="windows" />
+    </condition>
+    <antcall target="download-eclipse-linux" />
+    <antcall target="download-eclipse-mac" />
+    <antcall target="download-eclipse-windows" />
+  </target>
+
+  <target name="download-eclipse-linux" if="is.linux">
+    <get src="http://download.eclipse.org/technology/epp/downloads/release/${eclipse.release}/${eclipse.version}/eclipse-java-${eclipse.release}-${eclipse.version}-linux-gtk.tar.gz"
+         dest="${install.path}/opt"
+         verbose="yes" />
+    <untar src="${install.path}/opt/eclipse-java-${eclipse.release}-${eclipse.version}-linux-gtk.tar.gz"
+           dest="${install.path}"
+           compression="gzip" />
+  </target>
+
+  <target name="download-eclipse-mac" if="is.mac">
+    <get src="http://download.eclipse.org/technology/epp/downloads/release/${eclipse.release}/${eclipse.version}/eclipse-java-${eclipse.release}-${eclipse.version}-macosx-cocoa.tar.gz"
+         dest="${install.path}/opt"
+         verbose="yes" />
+    <untar src="${install.path}/opt/eclipse-java-${eclipse.release}-${eclipse.version}-macosx-cocoa.tar.gz"
+           dest="${install.path}"
+           compression="gzip" />
+  </target>
+
+  <target name="download-eclipse-windows" if="is.windows">
+    <get src="http://download.eclipse.org/technology/epp/downloads/release/${eclipse.release}/${eclipse.version}/eclipse-java-${eclipse.release}-${eclipse.version}-win32.zip"
+         dest="${install.path}/opt"
+         verbose="yes" />
+    <unzip src="${install.path}/opt/eclipse-java-${eclipse.release}-${eclipse.version}-win32.zip"
+           dest="${install.path}" />
+  </target>
+</project>

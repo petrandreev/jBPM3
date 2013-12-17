@@ -1,0 +1,4 @@
+<beans>
+    <bean name="a" class="org.jbpm.A" />
+    <ref name="b" bean="a" />
+</beans>

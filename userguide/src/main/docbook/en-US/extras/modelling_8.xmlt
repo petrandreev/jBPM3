@@ -1,0 +1,17 @@
+<start-state>
+  <transition to="one" />
+</start-state>
+<node async="true" name="one">
+  <action class="com...MyAutomaticAction" />
+  <transition to="two" />
+</node>
+<node async="true" name="two">
+  <action class="com...MyAutomaticAction" />
+  <transition to="three" />
+</node>
+<node async="true" name="three">
+  <action class="com...MyAutomaticAction" />
+  <transition to="end" />
+</node>
+<end-state name="end" />
+...

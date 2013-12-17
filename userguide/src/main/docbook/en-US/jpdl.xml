@@ -1,0 +1,2473 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+<chapter id="jpdl">
+  <title>
+    jBPM Process Definition Language
+   </title>
+
+  <para>
+        The <firstterm>jBPM Process Definition Language</firstterm> (jPDL)
+        is the notation to define business processes recognized by the
+        jBPM framework and expressed as an XML schema.
+        Process definitions often require support files in addition to the
+        jPDL document. All these files are packaged into a
+        <firstterm>process archive</firstterm> for deployment.
+  </para>
+
+  <section id="processarchive">
+    <title>
+        Process Archive
+    </title>
+    
+    <para>
+        The process archive is just a ZIP archive with a specific content
+        layout. The central file in the process archive is
+        called <filename>processdefinition.xml</filename> This file defines
+        the business process in the jPDL notation and provides
+        information about automated actions and human tasks.
+        The process archive also contains other files related to the process,
+        such as action handler classes and user interface task forms.
+    </para>
+  
+    <section id="deployingaprocessarchive">
+      <title>
+            Deploying a Process Archive
+     </title>
+     
+      <para>
+            One can deploy a <filename>process archive</filename> in any of three
+            different ways: 
+       </para>     
+            
+            <itemizedlist>
+            <listitem>
+                <para>
+                    via the <application>Process Designer Tool</application>
+                </para>
+            </listitem>
+            
+          <listitem>
+                <para>
+                    with an <command>ant</command> task
+                </para>
+            </listitem>                
+            
+            <listitem>
+                <para>
+                    programatically
+                </para>
+            </listitem>                                            
+
+            </itemizedlist>     
+            
+      <para>
+          To deploy a process archive with the <application>Process
+          Designer Tool</application>, right-click on the process 
+          archive folder and select the <guimenuitem>Deploy process
+          archive</guimenuitem> option. 
+      </para>
+
+      <para>    
+          The jBPM application server integration modules 
+          include the <application>gpd-deployer</application>
+          web application, which has a servlet to upload process
+          archives, called
+          <systemitem>GPD Deployer Servlet</systemitem>. This
+          servlet is capable of receiving process archives and
+          deploying them to the configured database.
+      </para>
+         
+      <para>
+            To deploy a process archive with an <command>ant</command>
+            task, define and call the task as follows.
+      </para>
+      
+      <programlisting language="XML"><xi:include href="extras/jpdl_1.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+        <para>
+            To deploy more process archives at once, use nested
+            <property>fileset</property> elements. 
+            Here are the <classname>DeployProcessTask</classname> attributes.
+        </para>
+
+
+      <table frame="topbot">
+        <title><classname>DeployProcessTask</classname> Attributes</title>
+        <tgroup cols="3" colsep="1" rowsep="1">
+          <colspec colwidth="*"/>
+          <colspec colwidth="3*"/>
+          <colspec colwidth="*"/>
+          <thead>
+            <row><entry>Attribute</entry><entry>Description</entry><entry>Required?</entry></row>
+          </thead>
+          <tbody>
+          <row>
+            <entry><property>process</property></entry>
+            <entry><para>Path to process archive.</para></entry>
+            <entry><para>Yes, unless a nested resource collection element is used.</para></entry>
+          </row>
+          <row>
+            <entry>
+            <property>jbpmcfg</property>
+            </entry>
+            <entry>
+              <para>jBPM configuration resource to load during deployment.</para>
+            </entry>
+            <entry><para>No; defaults to <filename>jbpm.cfg.xml</filename></para></entry>
+          </row>
+          <row>
+            <entry>
+              <property>failonerror</property>
+            </entry>
+            <entry>
+              <para>If false, log a warning message, but do not stop the build,
+                    when the process definition fails to deploy.</para>
+            </entry>
+            <entry>No; defaults to true</entry>
+          </row>
+          </tbody>
+        </tgroup>
+      </table>
+        
+      <para>To deploy process archives programmatically, use one of the
+            <methodname>parseXXX</methodname> methods of the 
+            <classname>org.jbpm.graph.def.ProcessDefinition</classname> class.
+      </para>
+    </section>
+    
+    <section id="processversioning">
+      <title>
+            Process Versioning
+      </title>
+      
+      <!--
+      <para>
+        What happens when we have a process definition deployed, many
+        executions are not yet finished and we have a new version of the
+        process definition that we want to deploy ?
+      </para>
+      -->
+      
+      
+      <para>
+            Process instances always execute on the same process definition as
+            that in which they were started. However, the
+            <application>jBPM</application> allows multiple process
+            definitions of the same name to co-exist in the database.
+            Typically, a process instance is started in the latest version
+            available at that time and it will keep on executing in that
+            same process definition for its complete lifetime. When a newer
+            version is deployed, newly created instances will be started in
+            the newest version, while older process instances keep on
+            executing in the older process definitions.
+      </para>
+
+      <para>
+            If the process includes references to Java classes, these can
+            be made available to the jBPM runtime environment in one of two
+            ways:
+      </para>
+      
+      
+<itemizedlist>
+            <listitem>
+                <para>
+                    by making sure these classes are visible to the jBPM
+                    class-loader.
+                </para>
+                
+                <para>
+                    To do so, put the delegation
+                    classes in a <filename>.jar</filename> file "next to"
+                    <filename>jbpm-jpdl.jar</filename> so that 
+                    all of the process definitions will see that class
+                    file. The Java classes can also be included in the
+                    process archive. When you include your delegation
+                    classes in the process archive (and they are not
+                    visible to the jbpm classloader), the <application>jBPM</application> will also
+                    version these classes inside the process
+                    definition.
+                    </para>
+
+                    <note>
+                      <para>
+                    Learn more about process classloading by reading <xref linkend="delegation" />
+                </para>
+                </note>
+            </listitem>      
+</itemizedlist>            
+         
+  
+      
+      <para>
+            When a process archive is deployed, a <firstterm>process
+            definition</firstterm> is created in the jBPM database. Version
+            process definitions on the basis of their names. When a named
+            process archive is deployed, the deployer assigns it a version
+            number. It does so by searching for the highest number assigned
+            to a process definition of the same name and then adds one to
+            that value. (Unnamed process definitions will always be
+            versioned as <code>-1</code>.)
+      </para>
+      
+    </section>
+    
+      <section id="changingdeployedprocessdefinitions">
+        <title>
+            Changing Deployed Process Definitions
+       </title>
+       
+<warning>       
+        <para>
+            Changing process definitions after they are deployed is not
+            a recommended practice. It is better to migrate process instances
+            to a new version of the process definition.
+        </para>
+</warning>              
+       
+        <para>
+            Consider these factors before undertaking this process:
+        </para>
+        
+<itemizedlist>        
+    <listitem>
+        <para>
+            There is no restriction on updating a process definition
+            loaded through the <classname>org.jbpm.db.GraphSession</classname>
+            methods <methodname>loadProcessDefinition</methodname>,
+            <methodname>findProcessDefinition</methodname> or reached
+            through association traversal. Nonetheless, it is 
+            <emphasis>very</emphasis> easy to mess up the process
+            with a few calls such as <code>setStartState(null)</code>!
+        </para>
+    </listitem>        
+    <listitem>        
+        <para>
+            Because processs definitions are not supposed to change,
+            the shipped Hibernate configuration specifies the 
+            <code>nonstrict-read-write</code> caching strategy for
+            definition classes and collections. This strategy can make
+            uncommitted updates visible to other transactions.
+        </para>
+    </listitem>        
+</itemizedlist>    
+        
+      </section>
+      
+      <section id="migratingprocessinstances">
+        <title>
+            Migrating Process Instances
+        </title>
+        
+        <para>
+            An alternative approach to changing a process definition 
+            is to migrate each process instance to a new version.
+            Please consider that migration is not trivial due to the
+            long-lived nature of business processes. 
+        </para>    
+
+    <note>            
+        <para>
+            This is an experimental feature.
+        </para>
+    </note>          
+    
+        <para>
+            There is a clear distinction between definition data,
+            execution data and logging data.
+            Because of this distinction, a new version of the process
+            has to be deployed first, and then process instances
+            are migrated to the new version.
+            Migration involves a translation if tokens or task instances
+            point to nodes or task definitions that have been removed
+            in the target process definition.
+            Be aware that logging data ends up spread over two
+            process definitions. This can present challenges
+            when developing tools and making statistics calculations.
+        </para>
+
+        <para>
+            To migrate a process instance to a new version, execute the
+            <classname>ChangeProcessInstanceVersionCommand</classname>
+            as shown below.
+        </para>
+
+        <programlisting><xi:include href="extras/jpdl_1.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+      </section>
+    
+  </section>
+  
+  <section id="delegation">
+    <title>Delegation</title>
+    
+    <para>
+        Use the <firstterm>delegation</firstterm> mechanism to include
+        custom code in process executions.
+    </para>
+    
+    <section id="jbpmclassloader">
+      <title>
+            jBPM Class Loader
+      </title>
+
+      <para>
+            The jBPM class loader is the one that loads the jBPM classes. 
+            To make classes visible to the jBPM class loader, pack them
+            in a JAR file and co-locate the JAR with <filename>jbpm-jpdl.jar</filename>.
+            In the case of web applications, one would place the
+            custom JAR file in <filename>WEB-INF/lib</filename> alongside
+            <filename>jbpm-jpdl.jar</filename>.
+      </para>
+    </section>
+  
+    <section id="processclassloader">
+      <title>
+        Process Class Loader
+     </title>
+     
+      <para>
+            Delegation classes are loaded through their respective
+            <firstterm>process class loader</firstterm>. The
+            process class loader has the jBPM class loader as its parent.
+            It adds the classes deployed with one
+            particular process definition. To add classes to a process
+            definition, put them in the <filename>classes</filename>
+            directory of the process archive. Note that this is only
+            useful when one wishes to version the classes that have been
+            added to the process definition. If versioning is not required,
+            make the classes available to the jBPM class loader instead.
+      </para>
+      
+      <para>
+            If the resource name does not start with a slash, resources are
+            also loaded from the process archive's
+            <filename>classes</filename> directory. To load resources that
+            reside outside this directory, start the path with a double
+            forward slash (<code>//</code>). For example, to load
+            <filename>data.xml</filename>, located in the process archive root,
+            call <methodname>class.getResource("//data.xml")</methodname>.
+      </para>
+      
+    </section>
+  
+    <section id="configuringdelegations">
+      <title>
+            Configuring Delegations
+       </title>
+       
+      <para>
+            Delegation classes contain user code that is called from within
+            a process execution, the most common example being an
+            <firstterm>action</firstterm>. In the case of action, an
+            implementation of the
+            <interfacename>ActionHandler</interfacename> interface can be
+            called on an event in the process. Delegations are specified
+            in the <filename>processdefinition.xml</filename> file. One
+            can supply any of these three pieces of data when specifying a
+            delegation: 
+      </para>
+      
+      
+      <orderedlist>
+        <listitem><para>the class name (required): this is the delegation class' fully-qualified name.</para></listitem>
+        <listitem><para>configuration type (optional): this specifies the way in which to instantiate 
+                     and configure the delegation object.  By default, the 
+                     constructor is used and the configuration information is ignored.</para></listitem>
+        <listitem><para>configuration (optional): this is the configuration of the delegation 
+                     object, which must be in the format required by the configuration type.</para></listitem>
+      </orderedlist>
+      
+      
+      <para>
+            Here are descriptions of every type of configuration:
+      </para>
+      
+      <section id="configtypefield">
+        <title>
+            config-type field
+        </title>
+        
+        <para>
+                This is the default configuration type. The
+                <property>config-type</property> field first instantiates
+                an object of the delegation class and then set values in
+                those object fields specified in the configuration. The
+                configuration is stored in an XML file. In this file, the
+                element names have to correspond to the class' field names.
+                The element's content text is put in the corresponding
+                field. If both necessary and possible to do, the element's
+                content text is converted to the field type.
+        </para>
+      
+        <para>
+                These are the supported type conversions:
+        </para>
+        
+        <itemizedlist>
+          <listitem><para>string is trimmed but not converted.</para>
+          </listitem>
+          <listitem><para>primitive types such as int, long, float, double, ...</para>
+          </listitem>
+          <listitem><para>the basic wrapper classes for the primitive types.</para>
+          </listitem>
+          <listitem><para>lists, sets and collections.  In these cases, each element of the 
+          xml-content is considered an element of the collection and is parsed recursively, applying the 
+          conversions.  If the element types differ from <classname>java.lang.String</classname> 
+          indicate this by specifying a type attribute with the fully-qualified type name.
+          For example, this code injects an <classname>ArrayList</classname> of strings into <property>numbers</property> field:</para>
+          
+          
+          <programlisting language="XML">&lt;numbers&gt;
+  &lt;element&gt;one&lt;/element&gt;
+  &lt;element&gt;two&lt;/element&gt;
+  &lt;element&gt;three&lt;/element&gt;
+&lt;/numbers&gt;</programlisting>
+
+
+            <para>
+                    One can convert the text in the elements to any object
+                    that has a string constructor. To use a type other than
+                    a string, specify the <property>element-type</property>
+                    in the field (<property>numbers</property> in this
+                    case).
+            </para>
+            
+            <para>
+                    Here is another example of a map:
+            </para>
+
+            <programlisting language="XML">&lt;numbers&gt;
+  &lt;entry&gt;&lt;key&gt;one&lt;/key&gt;&lt;value&gt;1&lt;/value&gt;&lt;/entry&gt;
+  &lt;entry&gt;&lt;key&gt;two&lt;/key&gt;&lt;value&gt;2&lt;/value&gt;&lt;/entry&gt;
+  &lt;entry&gt;&lt;key&gt;three&lt;/key&gt;&lt;value&gt;3&lt;/value&gt;&lt;/entry&gt;
+&lt;/numbers&gt;</programlisting>
+          </listitem>
+
+
+          <listitem>
+          <para>
+                In this case, each of the field elements is expected to
+                have one <property>key</property> and one
+                <property>value</property> sub-element. Parse both of these
+                by using the conversion rules recursively. As with
+                collections, it will be assumed that a conversion to
+                <classname>java.lang.String</classname> is intended if one
+                does not specify a <property>type</property> attribute.
+            </para>
+            </listitem>
+            <listitem><para><classname>org.dom4j.Element</classname></para>
+          </listitem>
+          <listitem><para>for any other type, the string constructor is used.</para>
+          </listitem>
+        </itemizedlist>
+        
+        <para>
+                Look at this class:
+        </para>
+        
+        
+        <programlisting language="Java">public class MyAction implements ActionHandler {
+  // access specifiers can be private, default, protected or public
+  private String city;
+  Integer rounds;
+  ...
+}</programlisting>
+
+
+        <para>
+            This is a valid configuration for that class:
+        </para>
+        
+        <programlisting language="XML">...
+&lt;action class="org.test.MyAction"&gt;
+  &lt;city&gt;Atlanta&lt;/city&gt;
+  &lt;rounds&gt;5&lt;/rounds&gt;
+&lt;/action&gt;
+...</programlisting>
+      
+      </section>
+      
+      
+      <section id="configtypebean">
+        <title>
+            config-type bean
+        </title>
+        
+        <para>
+                This is the same as the <property>config-type</property>
+                field but, in that case, the properties are configured via
+                "setter" methods. Here they are set directly on the fields.
+                The same conversions are applied.
+        </para>
+      </section>
+
+      <section id="configtypeconstructor">
+        <title>
+            config-type constructor
+        </title>
+        
+        <para>
+                This method takes the complete contents of the delegation
+                XML element and passes them as text to the delegation class
+                constructor.
+        </para>
+        
+      </section>
+
+      <section id="configtypeconfigurationproperty">
+
+        <title>
+            config-type configuration-property
+       </title>
+
+        <para>
+                If one firstly use the default constructor this method will then 
+                take the complete contents of the delegation XML
+                element, and pass it as text in the <methodname>void
+                configure(String);</methodname> method.
+        </para>
+        
+      </section>
+    </section>
+  </section>
+
+  <section id="expressions">
+    <title>
+        Expressions
+   </title>
+   
+    <para>
+            There is limited support for a JSP/JSF EL-like expression
+            language. In actions, assignments and decision conditions, one
+            can write this kind of expression:
+            <code>expression="#{myVar.handler[assignments].assign}"</code>
+    </para>
+    
+    
+<note>    
+    <para>
+            To learn about this expression language, study this tutorial:
+            <ulink
+            url="http://java.sun.com/j2ee/1.4/docs/tutorial/doc/JSPIntro7.html"
+            />.  
+    </para>
+</note>        
+    
+    <para>
+            The jPDL and JSF expression languages are similar. jPDL EL is
+            based on JSF EL but, in contrast to the latter, it employs
+            <code>#{...}</code> notation and includes support for
+            method-binding.  
+    </para>
+    
+    
+    <para>
+            Depending on the context, the process and task
+            instance variables can be used as starting variables, as can the 
+            the following implicit objects:
+    </para>
+    
+    <itemizedlist>
+      <listitem><para>taskInstance (<classname>org.jbpm.taskmgmt.exe.TaskInstance</classname>)</para></listitem>
+      <listitem><para>processInstance (<classname>org.jbpm.graph.exe.ProcessInstance</classname>)</para></listitem>
+      <listitem><para>processDefinition (<classname>org.jbpm.graph.def.ProcessDefinition</classname>)</para></listitem>
+      <listitem><para>token (<classname>org.jbpm.graph.exe.Token</classname>)</para></listitem>
+      <listitem><para>taskMgmtInstance (<classname>org.jbpm.taskmgmt.exe.TaskMgmtInstance</classname>)</para></listitem>
+      <listitem><para>contextInstance (<classname>org.jbpm.context.exe.ContextInstance</classname>)</para></listitem>
+    </itemizedlist>
+    
+        <para>
+            This feature becomes powerful when used in a <application>JBoss
+            SEAM</application> environment (<ulink
+            url="http://www.jboss.com/products/seam" />). Because of the
+            integration between the jBPM and SEAM, every <firstterm>backed
+            bean</firstterm>, Enterprise Java Bean and so forth becomes accessible from
+            within one's process definition.
+        </para>
+  </section>
+  
+  <section>
+    <title>
+        jPDL XML Schema
+    </title>
+    
+    <para>
+            The jPDL schema is the schema used in the process archive's
+            <filename>processdefinition.xml</filename> file.
+    </para>
+
+    <section id="processdefinition.validation">
+      <title>
+            Validation
+      </title>
+      
+      <para>
+            When parsing a jPDL XML document, jBPM will validate it against
+            the schema when these two conditions are met:
+      </para>
+      
+        <orderedlist>
+            <listitem>
+                <para>
+                    The schema is referenced in the XML document:
+                </para>
+                
+                <programlisting language="XML">&lt;process-definition xmlns=&quot;urn:jbpm.org:jpdl-3.2&quot;&gt;
+  ...
+&lt;/process-definition&gt;</programlisting>
+
+            </listitem>
+            <listitem>
+                <para>
+                    The <application>Xerces</application> parser is on the
+                    class-path.
+                </para>
+            </listitem>
+        </orderedlist>
+        
+    <note>        
+        <para>
+                Find the jPDL schema at
+                <filename>${jbpm.home}/src/java.jbpm/org/jbpm/jpdl/xml/jpdl-3.2.xsd</filename>
+                or at <ulink url="http://jbpm.org/jpdl-3.2.xsd" />.
+        </para>
+    </note>                
+        
+    </section>
+  
+    <section id="processdefinition.element">
+    
+      <title>
+            process-definition
+      </title>
+      
+      <table frame="topbot" id="process.definition.schema">
+        <title>Process Definition Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>This is the name of the process</entry>
+            </row>
+            <row>
+              <entry>swimlane</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>These are the <firstterm>swim-lanes</firstterm> used
+              in the process. The swim-lanes represent process roles and
+              are used for task assignments.</entry>
+            </row>
+            <row>
+              <entry>start-state</entry>
+              <entry>element</entry>
+              <entry>[0..1]</entry>
+              <entry>This is the process' start state.  Note that a process without a start-state
+              is valid, but cannot be executed.</entry>
+            </row>
+            <row>
+              <entry>{end-state|state|node|task-node|process-state|super-state|fork|join|decision|mail-node}</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>These are the process definition's nodes.  Note that a process without nodes is valid, but
+              cannot be executed.</entry>
+            </row>
+            <row>
+              <entry>event</entry>
+            <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>These serve as a container for actions</entry>
+            </row>
+            <row>
+              <entry>{action|script|create-timer|cancel-timer|mail}</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>These are globally-defined actions that can be referenced from events and transitions.  Note that 
+              these actions must specify a name in order to be referenced.</entry>
+            </row>
+            <row>
+              <entry>task</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>These are globally-defined tasks that can be used in e.g. actions.</entry>
+            </row>
+            <row>
+              <entry>exception-handler</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>This is a list of those exception handlers that applies to all 
+              errors thrown by delegation classes in this process definition.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="node.element">
+      <title>node</title>
+      <table frame="topbot" id="node.schema">
+      <title>Node Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>{action|script|create-timer|cancel-timer|mail}</entry>
+              <entry>element</entry>
+              <entry>1</entry>
+              <entry>This is a custom action that represents the behaviour for this node</entry>
+            </row>
+            <row>
+              <entry>common node elements</entry>
+              <entry></entry>
+              <entry></entry>
+              <entry><xref linkend="common.node.elements" /></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="common.node.elements">
+      <title>common node elements</title>
+      <table frame="topbot" id="common.node.schema">
+      <title>Common Node Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>This is the name of the node</entry>
+            </row>
+            <row>
+              <entry>async</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{true|false}, false is the default. If set to true, this node will be executed asynchronously.
+                 See also <xref linkend="asynchronouscontinuations" />
+              </entry>
+            </row>
+            <row>
+              <entry>description</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>A description of the node, state or process</entry>
+            </row>
+            <row>
+              <entry>transition</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>These are the leaving transitions.  Each transition leaving a 
+              node *must* have a distinct name. A maximum of one of the leaving transitions is 
+              allowed to have no name.  The first transition that is specified is called 
+              the default transition.  The default transition is taken when the node is 
+              left without specifying a transition.</entry>
+            </row>
+            <row>
+              <entry>event</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>There are two supported event types: <code>{node-enter|node-leave}</code></entry>
+            </row>
+            <row>
+              <entry>exception-handler</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>This is a list of exception handlers that applies to every 
+              bug  thrown by a delegation class from within this process node.</entry>
+            </row>
+            <row>
+              <entry>timer</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>This specifies a timer that monitors the duration of an execution in this node.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="startstate.element">
+      <title>start-state</title>
+      <table frame="topbot" id="start.state.schema">
+      <title>Start State Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>This is the name of the node</entry>
+            </row>
+            <row>
+              <entry>description</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>A description of the state</entry>
+            </row>
+            <row>
+              <entry>task</entry>
+              <entry>element</entry>
+              <entry>[0..1]</entry>
+              <entry>This is the task used to start a new instance for this process 
+              or to capture the process initiator.  See <xref linkend="swimlaneinstarttask"/> 
+              for more information.</entry>
+            </row>
+            <row>
+              <entry>event</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>This is the supported event type: <code>{node-leave}</code></entry>
+            </row>
+            <row>
+              <entry>transition</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>These are the leaving transitions. Each transition leaving a 
+              node must have a distinct name.</entry>
+            </row>
+            <row>
+              <entry>exception-handler</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>This is a list of exception handlers that applies to every 
+              bug  thrown by a delegation class from within this process node.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="endstate.element">
+      <title>end-state</title>
+      <table frame="topbot" id="end.state.schema">
+      <title>End State Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>This is the name of the end-state</entry>
+            </row>
+            <row>
+              <entry>description</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>A description of the state</entry>
+            </row>
+            <row>
+              <entry>end-complete-process</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>If the <classname>end-complete-process</classname> is
+                     set to <code>false</code>, only the token concluding
+                     this end-state is finished. If this token was the last
+                     child to end, the parent token is ended recursively.
+                     Set this property to <code>true</code>, to ensure that
+                     the full process instance is ended.</entry>
+            </row>
+            <row>
+              <entry>event</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>The supported event type is <code>{node-enter}</code></entry>
+            </row>
+            <row>
+              <entry>exception-handler</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>This is a list of exception handlers that applies to every 
+              bug  thrown by a delegation class from within this process node.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="state.element">
+      <title>state</title>
+      <table frame="topbot" id="state.schema">
+      <title>State Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>common node elements</entry>
+              <entry></entry>
+              <entry></entry>
+              <entry>See <xref linkend="common.node.elements" /></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="tasknode.element">
+      <title>task-node</title>
+      <table frame="topbot" id="task.node.schema">
+      <title>Task Node Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>signal</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>This can be
+                     <code>{unsynchronized|never|first|first-wait|last|last-wait}</code>,
+                     the default being <code>last</code>. It specifies the
+                     way in which task completion affects
+                     <firstterm>process execution
+                     continuation</firstterm>.</entry>
+            </row>
+            <row>
+              <entry>create-tasks</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>This can be <code>{yes|no|true|false}</code>, with the
+                     default being <code>true</code>. Set it to
+                     <code>false</code> when a run-time calculation has to
+                     determine which of the tasks have to be created. In
+                     that case, add an action on
+                     <property>node-enter</property>, create the tasks in
+                     the action and set <property>create-tasks</property>
+                     to <code>false</code>.</entry>
+            </row>
+            <row>
+              <entry>end-tasks</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>This can be <code>{yes|no|true|false}</code>, with the
+                     default being <code>false</code>. If
+                     <property>remove-tasks</property> is set to
+                     <code>true</code> on <property>node-leave</property>,
+                     every open task is ended.
+              </entry>
+            </row>
+            <row>
+              <entry>task</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>These are the tasks that are created when execution arrives in this task node.
+              See <xref linkend="task.element" /></entry>
+            </row>
+            <row>
+              <entry>common node elements</entry>
+              <entry></entry>
+              <entry></entry>
+              <entry>See <xref linkend="common.node.elements" /></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="processstate.element">
+      <title>process-state</title>
+      <table frame="topbot" id="process.state.schema">
+      <title>Process State Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>sub-process</entry>
+              <entry>element</entry>
+              <entry>[0..1]</entry>
+              <entry>This is the sub-process that is associated with this node.
+              See <xref linkend="subprocess.element" /></entry>
+            </row>
+            <row>
+              <entry>variable</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>This specifies how data should be copied from the super-process 
+              to the sub-process at the commencement, and from the sub-process to the 
+              super-process upon completion, of the sub-process.</entry>
+            </row>
+            <row>
+              <entry>common node elements</entry>
+              <entry></entry>
+              <entry></entry>
+              <entry>See <xref linkend="common.node.elements" /></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="superstate.element">
+      <title>super-state</title>
+      <table frame="topbot" id="super.state.schema">
+      <title>Super State Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>{end-state|state|node|task-node|process-state|super-state|fork|join|decision|mail-node}</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>These are the super-state's nodes. Super-states can be nested.</entry>
+            </row>
+            <row>
+              <entry>common node elements</entry>
+              <entry></entry>
+              <entry></entry>
+              <entry>See <xref linkend="common.node.elements" /></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="fork.element">
+      <title>fork</title>
+      <table frame="topbot" id="fork.schema">
+      <title>Fork Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>script</entry>
+              <entry>element</entry>
+              <entry>[0..1]</entry>
+              <entry>See <xref linkend="script.schema" />. 
+              <para>With a script, the fork evaluates the script to obtain the names of
+              leaving transitions to take. The script must have exactly one variable with
+              'write' access. The script must then assign a Collection of transition
+              names (Strings) to that variable.</para></entry>
+            </row>
+            <row>
+              <entry>common node elements</entry>
+              <entry></entry>
+              <entry></entry>
+              <entry>See <xref linkend="common.node.elements" /></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="join.element">
+      <title>join</title>
+      <table frame="topbot" id="join.schema">
+      <title>Join Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>common node elements</entry>
+              <entry></entry>
+              <entry></entry>
+              <entry>See <xref linkend="common.node.elements" /></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="decision.element">
+      <title>decision</title>
+      <table frame="topbot" id="decision.schema">
+      <title>Decision Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>handler</entry>
+              <entry>element</entry>
+              <entry>only one of either the 'handler' element or condition(s) on the transition(s) should be specified</entry>
+              <entry>the name of a <code>org.jbpm.jpdl.Def.DecisionHandler</code> implementation. 
+              The <code>class</code> and <code>config-type</code> attributes can be used here. See
+              <xref linkend="action.element" /> for a description of those attributes.</entry>
+            </row>
+            <row>
+              <entry>transition conditions</entry>
+              <entry>attribute or element text on the transitions leaving a decision</entry>
+              <entry>only one of either the 'handler' element or condition(s) on the transition(s) should be specified</entry>
+              <entry><para>Every transition may have a guard condition. The decision node
+              examines the leaving transitions having a condition, and selects the first
+              transition whose condition is true.</para> 
+              <para>When no condition is met, the <emphasis>default</emphasis> transition 
+              is taken. The default transition is the first unconditional transition 
+              if there is one, or else the first conditional transition. Transitions 
+              are considered in document order.</para>
+              <para>If only conditional ("guarded") transitions are available, and 
+              <emphasis>none</emphasis> of the conditions on the transitions evaluate
+              to true, an exception will be thrown.</para>
+              </entry>
+            </row>
+            <row>
+              <entry>common node elements</entry>
+              <entry></entry>
+              <entry></entry>
+              <entry>All common node elements <emphasis>except</emphasis> for the timer element. 
+              See <xref linkend="common.node.elements" /></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="mailnode.element">
+      <title>mail</title>
+      <table frame="topbot" id="mailnode.schema">
+      <title>Mail Node Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>common node elements</entry>
+              <entry></entry>
+              <entry></entry>
+              <entry><xref linkend="common.node.elements" /></entry>
+            </row>
+            <row>
+              <entry>subject</entry>
+              <entry>attribute or element text</entry>
+              <entry>[0..1]</entry>
+              <entry>The subject of the mail.</entry>
+            </row>
+            <row>
+              <entry>text</entry>
+              <entry>attribute or element text</entry>
+              <entry>[0..1]</entry>
+              <entry>The text (body) of the mail.</entry>
+            </row>
+            <row>
+              <entry>template</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A text template for the mail.</entry>
+            </row>
+            <row>
+              <entry>to</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of "to" addresses.</entry>
+            </row>
+            <row>
+              <entry>actors</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of actors to which the message should be sent. 
+              See <xref linkend="addressresolving" /></entry>
+            </row>
+            <row>
+              <entry>cc</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of "cc" addressses.</entry>
+            </row>
+            <row>
+              <entry>cc-actors</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of actors to which the message should be carbon copied. 
+              See <xref linkend="addressresolving" /></entry>
+            </row>
+            <row>
+              <entry>bcc</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of "bcc" addressses.</entry>
+            </row>
+            <row>
+              <entry>bcc-actors</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of actors to which the message should be blind carbon copied. 
+              See <xref linkend="addressresolving" /></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="event.element">
+      <title>event</title>
+      <table frame="topbot" id="event.schema">
+      <title>Event Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>type</entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>This is the event type that is expressed relative to the element 
+              on which the event is placed</entry>
+            </row>
+            <row>
+              <entry>{action|script|create-timer|cancel-timer|mail}</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>This is the list of actions that should be executed on this event</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="transition.element">
+      <title>transition</title>
+      <table frame="topbot" id="transition.schema">
+      <title>Transition Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>This is the name of the transition.  Note that each transition leaving a 
+              node *must* have a distinct name.</entry>
+            </row>
+            <row>
+              <entry>description</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>A description of the transition</entry>
+            </row>
+            <row>
+              <entry>to</entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>This is the destination node's hierarchical name.  For more information about hierarchical 
+              names, see <xref linkend="hierarchicalnames" /></entry>
+            </row>
+            <row>
+              <entry>condition</entry>
+              <entry>attribute or element text</entry>
+              <entry>optional</entry>
+              <entry>This is a <firstterm>guard condition</firstterm> expression.  Use these condition 
+              attributes (or child elements) in decision nodes, or to calculate the 
+              available transitions on a token at run-time. Conditions are only allowed on transitions
+              leaving decision nodes. 
+              </entry>
+            </row>
+            <row>
+              <entry>{action|script|create-timer|cancel-timer|mail}</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>These are the actions that will execute when this transition occurs.  Note that 
+              a transition's actions do not need to be put in an event (because there is 
+              only one.)</entry>
+            </row>
+            <row>
+              <entry>exception-handler</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>This is a list of exception handlers that applies to every 
+              bug  thrown by a delegation class from within this process node.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="action.element">
+      <title>action</title>
+      <table frame="topbot" id="action.schema">
+      <title>Action Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>This is the name of the action.  When actions are given names, they can be
+              looked up from the process definition.  This can be useful for runtime
+              actions and declaring actions only once.</entry>
+            </row>
+            <row>
+              <entry>class</entry>
+              <entry>attibute</entry>
+              <entry>either, a ref-name or an expression</entry>
+              <entry>This is the fully-qualified class name of the class that implements the 
+              <interfacename>org.jbpm.graph.def.ActionHandler</interfacename> interface.
+              </entry>
+            </row>
+            <row>
+              <entry>ref-name</entry>
+              <entry>attibute</entry>
+              <entry>either this or class</entry>
+              <entry>This is the name of the referenced action.  The content of this action is 
+              not processed further if a referenced action is specified.</entry>
+            </row>
+            <row>
+              <entry>expression</entry>
+              <entry>attibute</entry>
+              <entry>either this, a class or a ref-name</entry>
+              <entry>This is a jPDL expression that resolves to a method.  See also <xref linkend="expressions" />
+              </entry>
+            </row>
+            <row>
+              <entry>accept-propagated-events</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>The options are <code>{yes|no|true|false}</code>.  The default is <code>yes|true</code>. If set to <code>false</code>, the action 
+              will only be executed on events that were fired on this action's element.
+              For more information, read <xref linkend="eventpropagation"/>
+              </entry>
+            </row>
+            <row>
+              <entry>config-type</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>The options are <code>{field|bean|constructor|configuration-property}</code>. 
+              This specifies how the action-object should be constructed and how the content of this element should be used as configuration information for that action-object.
+              </entry>
+            </row>
+            <row>
+              <entry>async</entry>
+                <entry>attribute</entry>
+              <entry>{true|false}</entry>
+                <entry>
+                <code>'async="true"</code> is only supported in <classname>action</classname>
+                when it is triggered in an event. The default value is <code>false</code>,
+                which means that the <classname>action</classname> is executed in the thread of the
+                execution. If set to <code>true</code>, a message will be sent to the command
+                executor and that component will execute the action asynchronously in a separate
+                transaction.
+              </entry>
+            </row>
+            <row>
+              <entry></entry>
+              <entry>{content}</entry>
+              <entry>optional</entry>
+              <entry>The action's content can be used as the configuration information
+              for custom action implementations. This allows one to create reusable 
+              delegation classes.  For more about delegation configuration, read 
+              <xref linkend="configuringdelegations"/>.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="script.element">
+      <title>script</title>
+      <table frame="topbot" id="script.schema">
+      <title>Script Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>This is the name of the script-action.  When actions are given names, they can be
+              looked up from the process definition.  This can be useful for runtime
+              actions and declaring actions only once.</entry>
+            </row>
+            <row>
+              <entry>accept-propagated-events</entry>
+              <entry>attribute</entry>
+              <entry>optional [0..*]</entry>
+              <entry>{yes|no|true|false}.  Default is yes|true. If set to false, the action 
+              will only be executed on events that were fired on this action's element.
+              for more information, see <xref linkend="eventpropagation"/>
+              </entry>
+            </row>
+            <row>
+              <entry>async</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{true|false}, false is the default. If set to true, this node will be executed asynchronously.
+                 See also <xref linkend="asynchronouscontinuations" />
+              </entry>
+            </row>
+            <row>
+              <entry>expression</entry>
+              <entry>element</entry>
+              <entry>[0..1]</entry>
+              <entry>the beanshell script.  If you don't specify variable 
+              elements, you can write the expression as the content 
+              of the script element (omitting the expression element tag).</entry>
+            </row>
+            <row>
+              <entry>variable</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>in variable for the script.  If no in variables are specified, all the 
+              variables of the current token will be loaded into the script evaluation.
+              Use the in variables if you want to limit the number of variables loaded into 
+              the script evaluation.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="expression.element">
+      <title>expression</title>
+      <table frame="topbot" id="expression.schema">
+      <title>Expression Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry></entry>
+              <entry>{content}</entry>
+              <entry></entry>
+              <entry>a bean shell script.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="variable.element">
+      <title>variable</title>
+      <table frame="topbot" id="variable.schema">
+      <title>Variable Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>the process variable name</entry>
+            </row>
+            <row>
+              <entry>access</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>default is <code>read,write</code>.  It is a comma 
+              separated list of access specifiers.  The only access specifiers 
+              used so far are <code>read</code>, <code>write</code>
+              and <code>required</code>. "required" is only relevant
+              when one is a submitting task variable to a process
+              variable.</entry>
+            </row>
+            <row>
+              <entry>mapped-name</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>this defaults to the variable name.  it specifies a name to 
+              which the variable name is mapped.  the meaning of the mapped-name is 
+              dependent on the context in which this element is used.  for a script,
+              this will be the script-variable-name.  for a task controller, this will
+              be the label of the task form parameter and for a process-state, this 
+              will be the variable name used in the sub-process.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="handler.element">
+      <title>handler</title>
+      <table frame="topbot" id="handler.schema">
+      <title>Handler Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>expression</entry>
+              <entry>attibute</entry>
+              <entry>either this or a class</entry>
+              <entry>A jPDL expression.  The returned result is transformed to a string with 
+                the toString() method.  The resulting string should match one of the leaving 
+                transitions. See also <xref linkend="expressions" />.
+              </entry>
+            </row>
+            <row>
+              <entry>class</entry>
+              <entry>attibute</entry>
+              <entry>either this or ref-name</entry>
+              <entry>the fully qualified class name of the class that implements the 
+              <code>org.jbpm.graph.node.DecisionHandler</code> interface.
+              </entry>
+            </row>
+            <row>
+              <entry>config-type</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{field|bean|constructor|configuration-property}. 
+              Specifies how the action-object should be constructed and how the content of this element should be used as configuration information for that action-object.
+              </entry>
+            </row>
+            <row>
+              <entry></entry>
+              <entry>{content}</entry>
+              <entry>optional</entry>
+              <entry>the content of the handler can be used as configuration information
+              for your custom handler implementations. This allows the creation of reusable 
+              delegation classes.  For more about delegation configuration, see 
+              <xref linkend="configuringdelegations"/>.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="timer.element">
+      <title>timer</title>
+      <table frame="topbot" id="timer.schema">
+      <title>Timer Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>the name of the timer.  If no name is specified, the name of the 
+              enclosing node is taken. Note that every timer should have a unique name.</entry>
+            </row>
+            <row>
+              <entry>duedate</entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>the duration (optionally expressed in business hours) that specifies 
+              the time period between the creation of the timer and the execution of the timer.
+              See <xref linkend="duration" /> for the syntax.</entry>
+            </row>
+            <row>
+              <entry>repeat</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{duration | 'yes' | 'true'}after a timer has been executed on the duedate, 'repeat' optionally 
+              specifies duration between repeating timer executions until the node is left.
+              If <code>yes</code> or <code>true</code> is specified, the same duration 
+              as for the due date is taken for the repeat.  See <xref linkend="duration" /> for the 
+              syntax.</entry>
+            </row>
+            <row>
+              <entry>transition</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>a transition-name to be taken when the timer executes, after firing 
+              the timer event and executing the action (if any).</entry>
+            </row>
+            <row>
+              <entry>cancel-event</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>this attribute is only to be used in timers of tasks.  it specifies the 
+              event on which the timer should be cancelled.  by default, this is the 
+              <code>task-end</code> event, but it can be set to e.g. 
+              <code>task-assign</code> or <code>task-start</code>.
+              The <code>cancel-event</code> types can be combined by specifying them in a 
+              comma separated list in the attribute.
+              </entry>
+            </row>
+            <row>
+              <entry>{action|script|create-timer|cancel-timer|mail}</entry>
+              <entry>element</entry>
+              <entry>[0..1]</entry>
+              <entry>an action that should be executed when this timer fires</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="create.timer.element">
+      <title>create-timer</title>
+      <table frame="topbot" id="create.timer.schema">
+      <title>Create Timer Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>the name of the timer.  The name can be used for cancelling the timer 
+              with a cancel-timer action.</entry>
+            </row>
+            <row>
+              <entry>action</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>An action to be executed when the timer fires. 
+              See  <xref linkend="action.element" /></entry>
+            </row>
+            <row>
+              <entry>script</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>A script to be executed when the timer fires. 
+              See  <xref linkend="script.element" /></entry>
+            </row>
+            <row>
+              <entry>duedate</entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>the duration (optionally expressed in business hours) that specifies the 
+              the time period between the creation of the timer and the execution of the timer.
+              See <xref linkend="duration" /> for the syntax.</entry>
+            </row>
+            <row>
+              <entry>repeat</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{duration | 'yes' | 'true'}after a timer has been executed on the duedate, 'repeat' optionally 
+              specifies duration between repeating timer executions until the node is left.
+              If <code>yes</code> of <code>true</code> is specified, the same duration 
+              as for the due date is taken for the repeat.  See <xref linkend="duration" /> for the 
+              syntax.</entry>
+            </row>
+            <row>
+              <entry>transition</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>a transition-name to be taken when the timer executes, after firing the 
+              the timer event and executing the action (if any).</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="cancel.timer.element">
+      <title>cancel-timer</title>
+      <table frame="topbot" id="cancel.timer.schema">
+      <title>Cancel Timer Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>the name of the timer to be cancelled.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="task.element">
+      <title>task</title>
+      <table frame="topbot" id="task.schema">
+      <title>Task Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>the name of the task. Named tasks can be referenced and looked up via the 
+              <code>TaskMgmtDefinition</code></entry>
+            </row>
+            <row>
+              <entry>description</entry>
+              <entry>attribute or element text</entry>
+              <entry>optional</entry>
+              <entry>A description of the task.</entry>
+            </row>
+            <row>
+              <entry>blocking</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{yes|no|true|false}, default is false. If blocking is set to true, the node 
+              cannot be left when the task is not finished.  If set to false (default) a signal 
+              on the token is allowed to continue execution and leave the node. The default is set 
+              to false, because blocking is normally forced by the user interface.</entry>
+            </row>
+            <row>
+              <entry>signalling</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{yes|no|true|false}, default is true. If signalling is set to false, 
+              this task will never have the capability of trigering the continuation of the 
+              token.
+              </entry>
+            </row>
+            <row>
+              <entry>duedate</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>is a duration expressed in absolute or business hours as 
+              explained in <xref linkend="businesscalendar"/></entry>
+            </row>
+            <row>
+              <entry>swimlane</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>reference to a swimlane.  If a swimlane 
+              is specified on a task, the assignment is ignored.</entry>
+            </row>
+            <row>
+              <entry>priority</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>one of {highest, high, normal, low, lowest}, with a default of <code>normal</code>. 
+              Alternatively, any integer number can be specified for the priority. For example: 
+              (highest=1, lowest=5)</entry>
+            </row>
+            <row>
+              <entry>notify</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{yes|no|true|false}, default is false. If <code>notify</code> is set to true,
+              a <code>mail</code> action will be fired when the task is assigned.
+              See <xref linkend="taskassignmails" /></entry>
+            </row>
+            <row>
+              <entry>assignment</entry>
+              <entry>element</entry>
+              <entry>optional</entry>
+              <entry>describes a delegation that will assign 
+              the task to an actor when the task is created.</entry>
+            </row>
+            <row>
+              <entry>event</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>supported event types: {task-create|task-start|task-assign|task-end}.  Especially
+              for the <code>task-assign</code> we have added a non-persisted property 
+              <code>previousActorId</code> to the <code>TaskInstance</code></entry>
+            </row>
+            <row>
+              <entry>exception-handler</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>a list of exception handlers that applies to all 
+              exceptions thrown by delegation classes thrown in this process node.</entry>
+            </row>
+            <row>
+              <entry>timer</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>specifies a timer that monitors the duration of an execution in this task.
+              special for task timers, the <code>cancel-event</code> can be specified.  
+              by default the <code>cancel-event</code> is <code>task-end</code>, 
+              but it can be customized to e.g. <code>task-assign</code> or 
+              <code>task-start</code>.
+              </entry>
+            </row>
+            <row>
+              <entry>reminder</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>specifies a <code>reminder</code>, or "notification timer" 
+              that will send a notification e-mail. See <xref linkend="taskremindermails"/></entry>
+            </row>
+            <row>
+              <entry>controller</entry>
+              <entry>element</entry>
+              <entry>[0..1]</entry>
+              <entry>specifies how the process variables are transformed into task
+              form parameters.  The task form paramaters are used by the user interface 
+              to render a task form to the user.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+<section id="mail.element">
+      <title>mail</title>
+      <table frame="topbot" id="mail.schema">
+      <title>Mail Schema</title>
+                <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>This is the name of the mail action</entry>
+            </row>
+            <row>
+              <entry>async</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{true|false}, false is the default, If set to true, this node will be executed asynchronously.
+                 See also <xref linkend="asynchronouscontinuations" />
+              </entry>
+            </row>
+            <row>
+              <entry>subject</entry>
+              <entry>attribute or element text</entry>
+              <entry>[0..1]</entry>
+              <entry>The subject of the mail.</entry>
+            </row>
+            <row>
+              <entry>text</entry>
+              <entry>attribute or element text</entry>
+              <entry>[0..1]</entry>
+              <entry>The text (body) of the mail. </entry>
+            </row>
+            <row>
+              <entry>template</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A text template for the mail.</entry>
+            </row>
+            <row>
+              <entry>to</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of "to" addresses.</entry>
+            </row>
+            <row>
+              <entry>actors</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of actors to which the message should be sent. 
+              See <xref linkend="addressresolving" /></entry>
+            </row>
+            <row>
+              <entry>cc</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of "cc" addressses.</entry>
+            </row>
+            <row>
+              <entry>cc-actors</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of actors to which the message should be carbon copied. 
+              See <xref linkend="addressresolving" /></entry>
+            </row>
+            <row>
+              <entry>bcc</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of "bcc" addressses.</entry>
+            </row>
+            <row>
+              <entry>bcc-actors</entry>
+              <entry>attribute</entry>
+              <entry>[0..1]</entry>
+              <entry>A list of actors to which the message should be blind carbon copied. 
+              See <xref linkend="addressresolving" /></entry>
+            </row>
+            <row>
+              <entry>accept-propagated-events</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>The options are <code>{yes|no|true|false}</code>.  The default is <code>yes|true</code>. If set to <code>false</code>, the action 
+              will only be executed on events that were fired on this action's element.
+              For more information, read <xref linkend="eventpropagation"/>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="swimlane.element">
+      <title>swimlane</title>
+      <table frame="topbot" id="swimlane.schema">
+      <title>Swimlane Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>name</entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>the name of the swimlane.  Swimlanes can be referenced and looked up via the 
+              <code>TaskMgmtDefinition</code></entry>
+            </row>
+            <row>
+              <entry>assignment</entry>
+              <entry>element</entry>
+              <entry>[1..1]</entry>
+              <entry>specifies a the assignment of this swimlane.  the assignment will be performed 
+              when the first task instance is created in this swimlane.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="assignment.element">
+      <title>assignment</title>
+      <table frame="topbot" id="assignment.schema">
+      <title>Assignment Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>expression</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>For historical reasons, this attribute expression does <emphasis>not</emphasis> 
+                  refer to the jPDL expression, but instead, it is 
+                  an assignment expression for the jBPM identity component. For 
+                  more information on how to write 
+                  jBPM identity component expressions, see <xref linkend="assignmentexpressions" />.  
+                  Note that this implementation has a dependency on the jbpm identity component.
+              </entry>
+            </row>
+            <row>
+              <entry>actor-id</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>An actorId.  Can be used in conjunction with pooled-actors.  The actor-id 
+               is resolved as an expression.  So you can refer to 
+               a fixed actorId like this <code>actor-id="bobthebuilder"</code>.  Or you can refer 
+               to a property or method that returns a String like this: 
+               <code>actor-id="myVar.actorId"</code>, which will invoke the getActorId method 
+               on the task instance variable "myVar".
+              </entry>
+            </row>
+            <row>
+              <entry>pooled-actors</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>A comma separated list of actorIds.  Can be used in conjunction 
+                with actor-id.  A fixed set of pooled actors can be specified like this:
+                <code>pooled-actors="chicagobulls, pointersisters"</code>.  The 
+                pooled-actors will be resolved as an 
+                expression.  So you can also refer to a property or method that has to 
+                return, a String[], a Collection or a comma separated list of pooled actors.
+              </entry>
+            </row>
+            <row>
+              <entry>class</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>the fully qualified classname of an implementation of 
+              <code>org.jbpm.taskmgmt.def.AssignmentHandler</code></entry>
+            </row>
+            <row>
+              <entry>config-type</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{field|bean|constructor|configuration-property}. 
+              Specifies how the assignment-handler-object should be constructed and how the content of this element should be used as configuration information for that assignment-handler-object.
+              </entry>
+            </row>
+            <row>
+              <entry></entry>
+              <entry>{content}</entry>
+              <entry>optional</entry>
+              <entry>the content of the assignment-element can be used as configuration information
+              for your AssignmentHandler implementations. This allows the creation of reusable 
+              delegation classes. For more about delegation configuration, see 
+              <xref linkend="configuringdelegations"/>.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    
+    <section id="controller.element">
+      <title>controller</title>
+      <table frame="topbot" id="controller.schema">
+      <title>Controller Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>class</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>the fully qualified classname of an implementation of 
+              <code>org.jbpm.taskmgmt.def.TaskControllerHandler</code></entry>
+            </row>
+            <row>
+              <entry>config-type</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>{field|bean|constructor|configuration-property}. 
+              This specifies how the assignment-handler-object should be constructed and how the content of this element should be used as configuration information for that assignment-handler-object.
+              </entry>
+            </row>
+            <row>
+              <entry></entry>
+              <entry>{content}</entry>
+              <entry></entry>
+              <entry>This is either the content of the controller is the configuration 
+              of the specified task controller handler (if the class attribute is
+              specified.  if no task controller handler is specified, the content 
+              must be a list of variable elements.</entry>
+            </row>
+            <row>
+              <entry>variable</entry>
+              <entry>element</entry>
+              <entry>[0..*]</entry>
+              <entry>When no task controller handler is specified by the class 
+              attribute, the content of the controller element must be a list of 
+              variables.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="subprocess.element">
+      <title>sub-process</title>
+      <table frame="topbot" id="sub.process.schema">
+      <title>Sub Process Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry><property>name</property></entry>
+              <entry>attribute</entry>
+              <entry>required</entry>
+              <entry>
+                Name of the sub-process to call.
+                Can be an EL expression which must evaluate to <classname>String</classname>. 
+              </entry>
+            </row>
+            <row>
+              <entry><property>version</property></entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>
+                Version of the sub-process to call.
+                If <property>version</property> is not specified,
+                the <classname>process-state</classname> takes
+                the latest version of the given process.
+              </entry>
+            </row>
+            <row>
+              <entry><property>binding</property></entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>
+                Defines the moment when the sub-process is resolved.
+                The options are: <code>{early|late}</code>. The default is
+                to resolve <code>early</code>, that is, at deployment time.
+                If <property>binding</property> is defined as <code>late</code>,
+                the <classname>process-state</classname> resolves the latest
+                version of the given process at each execution.
+                Late binding is senseless in combination with a fixed version;
+                therefore, the <property>version</property> attribute is ignored
+                if <code>binding="late"</code>.
+              </entry>
+          </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="condition.element">
+      <title>condition</title>
+      <table frame="topbot" id="condition.schema">
+      <title>Condition Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry></entry>
+              <entry>The option is <code>{content}</code>. For backwards
+                     compatibility, the condition can also be entered with
+                     the <property>expression</property> attribute, but
+                     that attribute has been deprecated since Version
+                     3.2</entry>
+              <entry>required</entry>
+              <entry>The contents of the condition element is a jPDL
+                     expression that should evaluate to a Boolean. A
+                     decision takes the first transition (as ordered in the
+                     <filename>processdefinition.xml</filename> file) for
+                     which the expression resolves to <code>true</code>. If
+                     none of the conditions resolve to <code>true</code>,
+                     the default leaving transition (the first one) will be
+                     taken. Conditions are only allowed on transitions leaving
+                     decision nodes. 
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="exceptionhandler.element">
+      <title>exception-handler</title>
+      <table frame="topbot" id="exception.handler.schema">
+      <title>Exception Handler Schema</title>
+        <tgroup cols="4" rowsep="2" colsep="1">
+          <colspec colname="c1" colwidth="2*"/>
+          <colspec colname="c2" colwidth="1*"/>
+          <colspec colname="c3" colwidth="1*"/>
+          <colspec colname="c4" colwidth="4*"/>
+          <thead>
+            <row>
+              <entry align="center">Name</entry>
+              <entry align="center">Type</entry>
+              <entry align="center">Multiplicity</entry>
+              <entry align="center">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry>exception-class</entry>
+              <entry>attribute</entry>
+              <entry>optional</entry>
+              <entry>This specifies the Java "throwable" class' fully-qualified name which should match 
+              this exception handler.  If this attribute is not specified, it matches all exceptions 
+              (<exceptionname>java.lang.Throwable</exceptionname>).</entry>
+            </row>
+            <row>
+              <entry>action</entry>
+              <entry>element</entry>
+              <entry>[0..*] At least one action or script must be specified</entry>
+              <entry>An action to be executed when an error is being handled by this 
+              exception handler.</entry>
+            </row>
+            <row>
+              <entry>script</entry>
+              <entry>element</entry>
+              <entry>[0..*] At least one action or script must be specified</entry>
+              <entry>A script that will be executed when an error is being handled by this 
+              exception handler. See  <xref linkend="script.element" /></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+  </section>
+
+</chapter>

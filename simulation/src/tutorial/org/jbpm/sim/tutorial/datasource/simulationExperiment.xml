@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- experiment definition for jbpm simulation tutorial 
+     written by Bernd Ruecker (camunda GmbH) -->
+<experiment name='DataSource' 
+          time-unit='second'
+          run-time='1000'  
+          real-start-time='30.03.1980 00:00:00:000'>  
+
+<scenario name="test" execute="true">
+  <distribution name="start"
+    sample-type="real" type="erlang" mean="100"/>    
+  <distribution name="change return order" 
+    sample-type="real" type="normal" mean="50" standardDeviation="25"/>
+  <resource-pool name="clerk" pool-size="1"/>
+  
+  <data-source name="orders" 
+    handler="org.jbpm.sim.tutorial.TutorialDataSource" />
+  <data-filter name="orders" 
+    handler="org.jbpm.sim.tutorial.TutorialDataFilter" />
+  
+  <sim-process path="/org/jbpm/sim/tutorial/datasource/processdefinition.xml">
+    <process-overwrite start-distribution="start">
+      <use-data-source name="orders" />    
+    </process-overwrite>
+    <task-overwrite task-name="change return order" 
+                    time-distribution="change return order">
+      <use-data-filter name="orders" />    
+    </task-overwrite>
+  </sim-process>
+</scenario>
+
+</experiment>

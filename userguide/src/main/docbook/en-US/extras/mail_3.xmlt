@@ -1,0 +1,4 @@
+<mail 
+    to='admin@mycompany.com' 
+    subject='urgent'
+    text='the mailserver is down :-)' />

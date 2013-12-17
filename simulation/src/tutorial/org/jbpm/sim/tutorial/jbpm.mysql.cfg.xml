@@ -1,0 +1,6 @@
+<jbpm-configuration>
+
+  <!-- configuration property used by persistence service impl org.jbpm.persistence.db.DbPersistenceServiceFactory -->
+  <string name="resource.hibernate.cfg.xml" value="/org/jbpm/sim/tutorial/hibernate.mysql.cfg.xml" />
+
+</jbpm-configuration>

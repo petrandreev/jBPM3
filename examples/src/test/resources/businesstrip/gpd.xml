@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="business trip request" width="638" height="490">
+  <node name="Submit trip request" x="16" y="14" width="162" height="36">
+    <edge>
+      <label x="4" y="-22"/>
+      <bendpoint w1="0" h1="59" w2="-242" h2="18"/>
+    </edge>
+  </node>
+  <node name="Manager evaluation" x="221" y="73" width="138" height="36">
+    <edge>
+      <label x="-100" y="-17"/>
+      <bendpoint w1="270" h1="-1" w2="-2" h2="-382"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="preparations" x="239" y="149" width="103" height="24">
+    <edge>
+      <label x="-75" y="3"/>
+      <bendpoint w1="-102" h1="-1" w2="-1" h2="-78"/>
+    </edge>
+    <edge>
+      <label x="5" y="0"/>
+      <bendpoint w1="113" h1="-1" w2="0" h2="-77"/>
+    </edge>
+  </node>
+  <node name="Update ERP" x="123" y="220" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-1" h1="164" w2="-111" h2="0"/>
+    </edge>
+  </node>
+  <node name="Contact travel agency" x="326" y="303" width="155" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="0" h1="81" w2="103" h2="0"/>
+    </edge>
+  </node>
+  <node name="Purchase tickets" x="337" y="219" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="join" x="241" y="390" width="99" height="24">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="0" h1="68" w2="-263" h2="-2"/>
+    </edge>
+  </node>
+  <node name="End" x="494" y="453" width="132" height="36"/>
+</root-container>

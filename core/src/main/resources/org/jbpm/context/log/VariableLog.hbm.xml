@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.context.log.VariableLog" 
+            extends="org.jbpm.logging.log.ProcessLog"
+            discriminator-value="V">
+            
+    <many-to-one name="variableInstance" 
+                 column="VARIABLEINSTANCE_" 
+                 foreign-key="FK_LOG_VARINST"
+                 index="IDX_LOG_VARINST" />
+
+  </subclass>
+
+</hibernate-mapping>

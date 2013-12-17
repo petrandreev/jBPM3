@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+"../dtd/docbookx.dtd" [
+<!ENTITY introduction SYSTEM "modules/introduction.xml">
+<!ENTITY gettingstarted SYSTEM "modules/gettingstarted.xml">
+<!ENTITY tutorial SYSTEM "modules/tutorial.xml">
+<!ENTITY gop SYSTEM "modules/gop.xml">
+<!ENTITY deployment SYSTEM "modules/deployment.xml">
+<!ENTITY configuration SYSTEM "modules/configuration.xml">
+<!ENTITY persistence SYSTEM "modules/persistence.xml">
+<!ENTITY database SYSTEM "modules/database.xml">
+<!ENTITY modelling SYSTEM "modules/modelling.xml">
+<!ENTITY context SYSTEM "modules/context.xml">
+<!ENTITY taskmgmt SYSTEM "modules/taskmgmt.xml">
+<!ENTITY docmgmt SYSTEM "modules/docmgmt.xml">
+<!ENTITY scheduler SYSTEM "modules/scheduler.xml">
+<!ENTITY async SYSTEM "modules/async.xml">
+<!ENTITY calendar SYSTEM "modules/calendar.xml">
+<!ENTITY mail SYSTEM "modules/mail.xml">
+<!ENTITY logging SYSTEM "modules/logging.xml">
+<!ENTITY jpdl SYSTEM "modules/jpdl.xml">
+<!ENTITY security SYSTEM "modules/security.xml">
+<!ENTITY tdd SYSTEM "modules/tdd.xml">
+<!ENTITY pluggable SYSTEM "modules/pluggable.xml">
+]>
+<book lang="de">
+
+	<bookinfo>
+		<title>JBoss jBPM jPDL 3.2</title>
+		<subtitle>jBPM jPDL Benutzerhandbuch</subtitle>
+		<author>
+			<firstname>Übersetzer: Serge Emmanuel Pagop</firstname>
+		</author>
+	</bookinfo>
+	<toc />
+
+  &introduction;
+  &gettingstarted;
+  &tutorial;
+  &gop;
+  &deployment;
+  &configuration;
+  &persistence;
+  &database;
+  &modelling;
+  &context;
+  &taskmgmt;
+  &docmgmt;
+  &scheduler;
+  &async;
+  &calendar;
+  &mail;
+  &logging;
+  &jpdl;
+  &security;
+  &tdd;
+  &pluggable;
+
+</book>
+

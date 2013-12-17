@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition
+  xmlns="urn:jbpm.org:jpdl-3.2"  name="RulesAction">
+   <node name="Ship Product">
+   		<action name="Execute Shipping Rules" class="org.jbpm.examples.rulesaction.RulesActionHandler">
+           				<objectNames>
+							<element>order</element>
+							<element>customer</element>
+						</objectNames>
+           <ruleFile>/rulesaction/Shipper.drl</ruleFile>
+        </action>
+        <transition name="" to="end1"></transition>
+   </node>
+   <end-state name="end1"></end-state>
+   <start-state name="start">
+      <transition name="" to="Ship Product"></transition>
+   </start-state>
+</process-definition>

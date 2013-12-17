@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.context.exe.ContextInstance" 
+            extends="org.jbpm.module.exe.ModuleInstance" 
+            discriminator-value="C">
+  
+    <map name="tokenVariableMaps" cascade="all" inverse="true">
+      <!-- add on-delete for optimized deletion 
+      <key column="CONTEXTINSTANCE_" on-delete="cascade" />
+      -->
+      <key column="CONTEXTINSTANCE_" />
+      <map-key-many-to-many column="TOKEN_" class="org.jbpm.graph.exe.Token"/>
+      <one-to-many class="org.jbpm.context.exe.TokenVariableMap" />
+    </map>
+  
+  </subclass>
+
+</hibernate-mapping>

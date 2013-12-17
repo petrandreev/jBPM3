@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field" >
+  <subclass name="org.jbpm.graph.node.TaskNode" 
+            discriminator-value="K" 
+            extends="org.jbpm.graph.def.Node">
+    <property name="signal" column="SIGNAL_" />
+    <property name="createTasks" column="CREATETASKS_" />
+    <property name="endTasks" column="ENDTASKS_" />
+    <set name="tasks" cascade="all" inverse="true">
+      <key column="TASKNODE_" foreign-key="FK_TASK_TASKNODE" />
+      <one-to-many class="org.jbpm.taskmgmt.def.Task" />
+    </set>
+  </subclass>
+</hibernate-mapping>

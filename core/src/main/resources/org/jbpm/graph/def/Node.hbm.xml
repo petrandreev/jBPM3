@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <class name="org.jbpm.graph.def.Node" 
+         table="JBPM_NODE"
+         discriminator-value="N">
+    <id name="id" column="ID_"><generator class="native" /></id>
+    <discriminator type="char" column="CLASS_"/>
+    <!-- KEEP THIS IN SYNC WITH Event.hbm.xml, ExceptionHandler.hbm.xml and RuntimeAction.hbm.xml !!! -->
+    <!-- NOTE that the characters may not overlap with other GraphElement identifiers -->
+    <!-- C : org.jbpm.graph.node.ProcessState -->
+    <!-- D : org.jbpm.graph.node.Decision -->
+    <!-- E : org.jbpm.graph.node.EndState -->
+    <!-- F : org.jbpm.graph.node.Fork -->
+    <!-- J : org.jbpm.graph.node.Join -->
+    <!-- K : org.jbpm.graph.node.TaskNode -->
+    <!-- M : org.jbpm.graph.node.MailNode -->
+    <!-- N : org.jbpm.graph.def.Node -->
+    <!-- R : org.jbpm.graph.node.StartState -->
+    <!-- S : org.jbpm.graph.node.State -->
+    <!-- U : org.jbpm.graph.def.SuperState -->
+
+    <!-- GRAPHELEMENT -->
+    <property name="name" column="NAME_"/>
+    <property name="description" column="DESCRIPTION_" type="longstring" length="4000"/>
+    <many-to-one name="processDefinition" 
+                 column="PROCESSDEFINITION_" 
+                 foreign-key="FK_NODE_PROCDEF"
+                 index="IDX_NODE_PROCDEF"/>
+    <map name="events" cascade="all">
+      <key column="NODE_" foreign-key="FK_EVENT_NODE" />
+      <index column="EVENTTYPE_" type="string"/>
+      <one-to-many class="org.jbpm.graph.def.Event" />
+    </map>
+    <list name="exceptionHandlers" cascade="all">
+      <key column="NODE_" foreign-key="none" />
+      <list-index column="GRAPHELEMENTINDEX_" />
+      <one-to-many class="org.jbpm.graph.def.ExceptionHandler" />
+    </list>
+    <!-- ============ -->
+
+    <property name="isAsync" column="ISASYNC_"/>
+    <property name="isAsyncExclusive" column="ISASYNCEXCL_"/>
+
+    <many-to-one name="action"
+                 column="ACTION_" 
+                 cascade="all" 
+                 foreign-key="FK_NODE_ACTION"
+                 index="IDX_NODE_ACTION" />
+    <!-- bidirectional, other side is indexed; make this side inverse -->
+    <many-to-one name="superState" 
+                 column="SUPERSTATE_"
+                 foreign-key="FK_NODE_SUPERSTATE"
+                 index="IDX_NODE_SUPRSTATE"
+                 insert="false" update="false"/>
+
+    <list name="leavingTransitions" cascade="all">
+      <key column="FROM_" />
+      <list-index column="FROMINDEX_" />
+      <one-to-many class="org.jbpm.graph.def.Transition" />
+    </list>
+    <set name="arrivingTransitions" inverse="true">
+      <key column="TO_" />
+      <one-to-many class="org.jbpm.graph.def.Transition" />
+    </set>
+  </class>
+</hibernate-mapping>

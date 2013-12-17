@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<jbpm:process-definition name="multinamespace process"
+  xmlns:jbpm   ="urn:jbpm.org:jpdl-3.2" 
+  xmlns:sitemap="http://www.google.com/schemas/sitemap/0.84"
+  xmlns:xsi    ="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:jbpm.org:jpdl-3.2
+                      http://jbpm.org/jpdl-3.2.xsd
+                      http://www.google.com/schemas/sitemap/0.84
+                      http://www.google.com/schemas/sitemap/0.84/sitemap.xsd">
+
+  <jbpm:node name="one" />
+  <jbpm:node name="two" />
+  <jbpm:node name="three" />
+
+  <jbpm:action name="configured with different namespace stuff">
+    <sitemap:urlset>
+      <sitemap:url><sitemap:loc>http://www.redhat.com</sitemap:loc></sitemap:url>
+      <sitemap:url><sitemap:loc>http://www.jboss.com</sitemap:loc></sitemap:url>
+      <sitemap:url><sitemap:loc>http://www.jbpm.org</sitemap:loc></sitemap:url>
+      <blablabla />
+    </sitemap:urlset>
+  </jbpm:action>
+
+</jbpm:process-definition>

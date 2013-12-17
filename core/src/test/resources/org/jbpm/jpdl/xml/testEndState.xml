@@ -1,0 +1,16 @@
+<process-definition 
+    xmlns="urn:jbpm.org:jpdl-3.2" 
+    name="end state process">
+
+  <end-state name="end" />
+
+  <end-state name="end2">
+    <exception-handler exception-class="a"><action /></exception-handler>
+    <event type="node-enter" />
+    <event type="node-enter" />
+    <event type="node-enter" />
+    <exception-handler exception-class="a"><action /></exception-handler>
+    <exception-handler exception-class="a"><action /></exception-handler>
+  </end-state>
+
+</process-definition>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="soa2010pbs" xmlns="urn:jbpm.org:jpdl-3.2">
+
+	<start-state name="start">
+		<transition to="node1" />
+	</start-state>
+
+	<node name="node1">
+		<!-- transition w/ condition attribute -->
+		<transition to="true-cond-attr-end" condition="#{AAA == null}" name="to true" />
+
+		<!-- Backwards compat style: transition w/ condition element -->
+		<transition to="false-cond-elem-end" name="to false">
+			<condition>
+				#{BBB != null}
+			</condition>
+		</transition>
+
+		<!-- New style: transition w/ condition element w/ expression element -->
+		<transition to="false-cond-elem-attr-end" name="to false">
+			<condition expression="#{CCC != null}" />
+		</transition>
+	</node>
+
+	<end-state name="true-cond-attr-end" />
+	<end-state name="false-cond-elem-end" />
+	<end-state name="false-cond-elem-attr-end" />
+
+</process-definition>

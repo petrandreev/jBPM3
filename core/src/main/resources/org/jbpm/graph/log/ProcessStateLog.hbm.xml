@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.graph.log.ProcessStateLog" 
+            extends="org.jbpm.graph.log.NodeLog"
+            discriminator-value="Z">
+
+    <many-to-one name="subProcessInstance"
+                 column="NEWLONGVALUE_"
+                 foreign-key="none" />
+  </subclass>
+
+</hibernate-mapping>

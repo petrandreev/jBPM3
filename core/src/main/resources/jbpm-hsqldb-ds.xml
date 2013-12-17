@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources>
+
+  <local-tx-datasource>
+    <jndi-name>JbpmDS</jndi-name>
+
+    <connection-url>jdbc:hsqldb:${jboss.server.data.dir}${/}hypersonic${/}jbpmDB</connection-url>
+    <driver-class>${jdbc.hsqldb.driver}</driver-class>
+    <user-name>${jdbc.hsqldb.username}</user-name>
+    <password>${jdbc.hsqldb.password}</password>
+
+    <!-- disable idle connection removal, hsqldb does not reap threads on closed connections -->
+    <idle-timeout-minutes>0</idle-timeout-minutes>
+    <!-- check all statements are closed when the connection is returned to the pool -->
+    <track-statements />
+    <!-- hsqldb benefits from prepared statement caching -->
+    <prepared-statement-cache-size>32</prepared-statement-cache-size>
+
+    <!-- corresponding type-mapping in conf/standardjbosscmp-jdbc.xml -->
+    <type-mapping>Hypersonic SQL</type-mapping>
+
+    <!-- ensure the datasource is not initialized before the database itself -->
+    <depends>jboss:service=Hypersonic,database=jbpmDB</depends>
+  </local-tx-datasource>
+
+  <!-- for hsqldb accessed from jboss only, in-process (standalone) mode -->
+  <mbean code="org.jboss.jdbc.HypersonicDatabase" name="jboss:service=Hypersonic,database=jbpmDB">
+    <attribute name="Database">jbpmDB</attribute>
+    <attribute name="InProcessMode">true</attribute>
+  </mbean>
+
+</datasources>

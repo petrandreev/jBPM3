@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+<chapter id="tdd">
+  <title>
+        Test Driven Development for Workflow
+  </title>
+  
+  <section id="intoducingtddforworkflow">
+    <title>
+            Introducing Test Driven Development for Workflow
+    </title>
+    
+    <para>
+            Since developing process-oriented programs is no different from
+            developing any other software, Red Hat believes that one should
+            be able to test process definitions easily. Read this chapter
+            to learn how to use <application>JUnit</application> without
+            any extensions to unit test custom process definitions.
+    </para>
+    
+    <para>
+            Keep the development cycle as short as possible. Verify all
+            changes to software source code immediately, (preferably,
+            without any intermediate build steps.) The following examples 
+            demonstrate how to develop and test jBPM processes in this way.
+    </para>
+    
+    <para>
+        Most process definition unit tests are execution-based. Each
+        scenario is executed in one JUnit test method and this feeds the
+        external triggers (signals) into a process execution. It then
+        verifies after each signal to confirm that the process is in the
+        expected state.
+    </para>
+    
+    <para>
+            Here is an example graphical representation of such a test. It
+           takes a simplified version of the auction process:
+    </para>
+    
+	  <figure id="auction.test.image">
+	    <title>The auction test process</title>
+	    <mediaobject><imageobject><imagedata  fileref="images/auction.test.png"/></imageobject></mediaobject>
+	  </figure>
+	  
+    <para>
+            Next, write a test that executes the main scenario:
+    </para>
+
+      <programlisting language="Java"><xi:include href="extras/tdd_1.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+  </section>
+  
+  <section id="xmlsources">
+    <title>
+        XML Sources
+    </title>
+    
+    <para>
+        Before writing execution scenarios, one must compose a
+        <systemitem>ProcessDefinition</systemitem>. The easiest way to obtain 
+        a <systemitem>ProcessDefinition</systemitem> object is by parsing
+        XML. With code completion switched on, type
+        <code>ProcessDefinition.parse</code>.
+        The various parsing methods will be displayed. There are 
+        three ways in which to write XML that can be parsed to a
+        <systemitem>ProcessDefinition</systemitem> object:
+    </para>
+    
+    <section id="parsingaprocessarchive">
+      <title>
+            Parsing a Process Archive
+      </title>
+      
+      <para>
+            A <firstterm>process archive</firstterm> is a ZIP file that
+           contains the process XML file, namely
+           <filename>processdefinition.xml</filename>. The
+           <application>jBPM Process Designer</application> plug-in reads and
+           writes process archives.
+      </para>
+      
+      <programlisting language="Java"><xi:include href="extras/tdd_4.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    </section>
+
+    <section id="parsinganxmlfile">
+        <title>
+            Parsing an XML File
+        </title>
+        
+      <para>
+            To write the <filename>processdefinition.xml</filename> file by
+            hand, use the <classname>JpdlXmlReader</classname>. Use an
+            <command>ant</command> script to package the resulting ZIP
+            file.
+      </para>
+      
+      <programlisting language="Java"><xi:include href="extras/tdd_3.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    </section>
+
+    <section id="parsinganxmlstring">
+      <title>
+            Parsing an XML String
+      </title>
+      
+      <para>
+            Parse the XML in the unit test inline
+            from a plain string:
+      </para>
+      
+      <programlisting language="Java"><xi:include href="extras/tdd_2.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+    </section>
+
+  </section>
+
+  <section id="testingsubprocesses">
+    <title>Testing sub processes</title>
+    <para>TODO (see test/java/org/jbpm/graph/exe/ProcessStateTest.java)</para>
+  </section>
+
+</chapter>

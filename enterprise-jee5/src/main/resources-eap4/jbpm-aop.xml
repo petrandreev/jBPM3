@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop xmlns="urn:jboss:aop-beans:1.0">
+   <!-- Override the default pooling.  Should be high for jBPM. -->
+   <domain name="jBPM Stateless" extends="Stateless Bean" inheritBindings="true">
+      <annotation expr="class(@org.jboss.annotation.ejb.PoolClass)">
+         @org.jboss.annotation.ejb.PoolClass (value=org.jboss.ejb3.ThreadlocalPool.class, maxSize=200, timeout=10000)
+      </annotation>
+   </domain>
+   
+   <!-- Override the default pooling.  Should be high for jBPM. -->
+   <domain name="jBPM MDB" extends="Message Driven Bean" inheritBindings="true">
+      <annotation expr="class(@org.jboss.annotation.ejb.PoolClass)">
+         @org.jboss.annotation.ejb.PoolClass (value=org.jboss.ejb3.StrictMaxPool.class, maxSize=200, timeout=10000)
+      </annotation>
+   </domain>
+</aop>
+

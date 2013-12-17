@@ -1,0 +1,86 @@
+<chapter id="pluggable">
+	<title>Pluggable Architektur</title>
+
+	<para>
+		Die Funktionalit&auml;t von jBPM wird in Modulen aufgeteilt.
+		Jedes Modul hat einen Defintions- und einen Ausf&uuml;hrungsteil (oder Laufzeitteil).
+		Das zentrale Modul ist das Graphmodul, das aus 		 
+		<literal>ProcessDefinition</literal>
+		und 
+		<literal>ProcessInstance</literal> besteht
+		. Die Prozessdefinition umfa&szlig;t ein Graph und die Prozessinstanz 
+		repr&auml;sentiert eine Ausf&uuml;hrung des Graphen. Alle weiteren
+		Funktionalit&auml;ten von jBPM werden in optionalen Modulen gruppiert.
+		Optionale Modulen können das Graphmodul mit zus&auml;tzlichen Eigenschaften 
+		wie Kontext (Proze&szlig;variable), Taskverwaltung, Timer ... erweitern.
+	</para>
+
+	<figure id="pluggable.architecture.image">
+		<title>Die Pluggable Architektur</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata align="center"
+					fileref="images/pluggable.architecture.gif" />
+			</imageobject>
+		</mediaobject>
+	</figure>
+
+	<para>
+		Die steckbare Architektur im jBPM ist ein einzigartige Mechanismus, 
+		um spezifische Ressourcen im jBPM Sytem hinzuf&uuml;gen. Spezifische Proze&szlig;definition
+		Informationen können hinzuf&uuml;gt werden, indem man eine
+		<literal>ModuleDefinition</literal>
+		Implementierung in der Proze&szlig;defintion hinzuf&uuml;gt. Wenn die 
+		<literal>ProcessInstance</literal>
+		erzeugt wird, verursacht es die Erzeugung einer Instanz f&uuml;r jede  
+		<literal>ModuleDefinition</literal>
+		im
+		<literal>ProcessDefinition</literal>
+		.Die
+		<literal>ModuleDefinition</literal>
+		wird als eine Factory f&uuml;r
+		<literal>ModuleInstances</literal>
+		verwendet.
+	</para>
+
+	<para>
+		Die intergrierteste Weise, die Proze&szlig;definition Information zu erweitern ist,
+		wenn man die Information im Proze&szlig;archiv hinzuf&uuml;gt 
+		und dann implementiert man ein
+		<literal>ProcessArchiveParser</literal>
+		.Der 
+		<literal>ProcessArchiveParser</literal>
+		kann die Information, die im Proze&szlig;archiv hinzugef&uuml;gt wurde, analysieren, erzeugt
+		deine spezifische
+		<literal>ModuleDefinition</literal>
+		und f&uuml;gt sie im	
+		<literal>ProcessDefinition</literal>
+		hinzu.
+	</para>
+
+<programlisting>
+public interface ProcessArchiveParser {
+	void writeToArchive( ProcessDefinition processDefinition, ProcessArchive archive ); 
+	ProcessDefinition readFromArchive( ProcessArchive archive, ProcessDefinition processDefinition );
+}
+</programlisting>
+
+	<para>
+		Um seine Arbeit zu erledigen, mu&szlig; die spezifische
+		<literal>ModuleInstance</literal>
+		von relevanten Ereignissen  w&auml;hrend der Proze&szlig;ausf&uuml;hrung mitgeteilt werden.
+		Die spezifische
+		<literal>ModuleDefinition</literal>
+		könnte 
+		<literal>ActionHandler</literal>
+		Implementierungen nach Ereignissen im Proze&szlig; hinzuf&uuml;gen, die als 
+		Callback Handlers f&uuml;r diese Proze&szlig;schritte dienen.
+	</para>
+
+	<para>
+		Anderenfalls, könnte ein spezifisches Modul AOP verwenden, um die spezifische 
+		Instanz in die Proze&szlig;durchf&uuml;hrung zu binden. JBoss AOP ist geeignet
+		f&uuml;r diesen Job, es ist schon f&auml;llig , einfach zu erlernen und geh&ouml;rt zu dem JBoss Stapel.
+	</para>
+
+</chapter>

@@ -1,0 +1,12 @@
+<beans>
+    <bean name="task" class="org.jbpm.taskmgmt.exe.TaskInstance" >
+        <constructor>
+            <parameter class="java.lang.String">
+                <string>do dishes</string>
+            </parameter>
+            <parameter class="java.lang.String">
+                <string>theotherguy</string>
+            </parameter>
+        </constructor>
+    </bean>
+</beans>

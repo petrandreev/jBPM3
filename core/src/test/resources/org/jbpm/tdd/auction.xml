@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition>
+
+  <!-- START-STATE -->
+  <start-state name="start">
+    <transition to="auction"/>
+  </start-state>
+
+  <!-- NODES -->
+  <state name="auction">
+    <transition to="end"/>
+  </state>
+  <end-state name="end"/>
+
+</process-definition>

@@ -1,0 +1,1 @@
+log4j.logger.org.hibernate.event.def.AbstractFlushingEventListener=FATAL

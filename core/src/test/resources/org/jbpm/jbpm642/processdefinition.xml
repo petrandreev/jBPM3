@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="jbpm642" xmlns="urn:jbpm.org:jpdl-3.2">
+
+  <start-state name="start">
+    <transition to="fork" />
+  </start-state>
+
+  <fork name="fork">
+    <transition to="left" name="left" />
+    <transition to="right" />
+  </fork>
+
+  <state name="left">
+    <transition to="join" />
+  </state>
+
+  <state name="right">
+    <transition to="join" />
+  </state>
+
+  <join name="join" >
+		<transition to="middle"></transition>
+	</join>
+
+	<state name="middle">
+		<transition to="end"></transition>
+	</state>
+
+  <end-state name="end" />
+
+</process-definition>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <typedef name="longstring" class="org.hibernate.type.StringType"/>
+  <typedef name="ltdstring" class="org.jbpm.db.hibernate.LimitedStringType">
+    <param name="limit">4000</param>
+  </typedef>
+</hibernate-mapping>

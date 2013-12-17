@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson>
+  <version>1.0</version>
+  <numExecutors>2</numExecutors>
+  <mode>NORMAL</mode>
+  <useSecurity>true</useSecurity>
+  <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy"/>
+  <securityRealm class="hudson.security.LegacySecurityRealm"/>
+  <systemMessage>
+    <![CDATA[
+  <h2>jBPM QA Environment</h2>
+  
+  <table>
+  <tr align="left"><th>SVN</th><td>@hudson.jbpm.url@</td></tr>
+  <tr align="left"><th>Bind Addr</th><td>@jboss.bind.address@</td></tr>
+  </table>
+]]>
+  </systemMessage>
+  <jdks>
+    <jdk>
+      <name>jdk1.4</name>
+      <javaHome>@java.home.jdk14@</javaHome>
+    </jdk>
+    <jdk>
+      <name>jdk1.5</name>
+      <javaHome>@java.home.jdk15@</javaHome>
+    </jdk>
+    <jdk>
+      <name>jdk1.6</name>
+      <javaHome>@java.home.jdk16@</javaHome>
+    </jdk>
+  </jdks>
+  <quietPeriod>5</quietPeriod>
+  <globalNodeProperties>
+    <hudson.slaves.EnvironmentVariablesNodeProperty>
+      <envVars serialization="custom">
+        <unserializable-parents/>
+        <tree-map>
+          <default>
+            <comparator class="hudson.util.CaseInsensitiveComparator"/>
+          </default>
+          <int>1</int>
+          <string>SOURCE_REPO</string>
+          <string>@hudson.base@</string>
+        </tree-map>
+      </envVars>
+    </hudson.slaves.EnvironmentVariablesNodeProperty>
+  </globalNodeProperties>
+</hudson>

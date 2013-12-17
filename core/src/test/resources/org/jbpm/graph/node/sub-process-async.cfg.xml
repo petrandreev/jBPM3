@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<jbpm-configuration>
+  <boolean name="jbpm.sub.process.async" value="true" />
+</jbpm-configuration>

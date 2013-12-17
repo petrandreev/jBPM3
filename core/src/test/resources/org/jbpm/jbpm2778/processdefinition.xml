@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.2" name="jbpm2778">
+  <description>accept-propagated-event check</description>
+
+  <start-state name="start">
+    <event type="node-leave">
+      <script>
+        executionContext.setVariable(&quot;calls&quot;, 0);
+      </script>
+    </event>
+    <transition to="super" />
+  </start-state>
+
+  <super-state name="super">
+    <state name="sub">
+      <transition to="../end" />
+    </state>
+    <event type="node-enter">
+      <script accept-propagated-events="false">
+        executionContext.setVariable(&quot;calls&quot;, calls + 1);
+      </script>
+    </event>
+  </super-state>
+
+  <end-state name="end" />
+</process-definition>

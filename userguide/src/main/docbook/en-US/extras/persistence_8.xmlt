@@ -1,0 +1,16 @@
+<jbpm-context>
+  <service name="persistence">
+    <factory>
+      <bean class="org.jbpm.persistence.db.DbPersistenceServiceFactory">
+        <field name="isTransactionEnabled"><false /></field>
+        <field name="sessionFactoryJndiName">
+          <string value="java:/myHibSessFactJndiName" />
+        </field>
+        <field name="dataSourceJndiName">
+          <string value="java:/myDataSourceJndiName" />
+        </field>
+      </bean>
+    </factory>
+  </service>
+...
+</jbpm-context>

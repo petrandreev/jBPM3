@@ -1,0 +1,15 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <property name="hibernate.connection.driver_class">${jdbc.hsqldb.driver}</property>
+    <property name="hibernate.connection.url">${jdbc.hsqldb.url}</property>
+    <property name="hibernate.connection.username">${jdbc.hsqldb.username}</property>
+    <property name="hibernate.connection.password">${jdbc.hsqldb.password}</property>
+    <!-- JDBC connection properties (end) -->
+
+    <!-- Automatic schema creation (begin) -->
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <!-- Automatic schema creation (end) -->
+

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project name="gen-config">
+  <property name="project.output.dir" value="${basedir}/target/classes" />
+  <property name="project.test.output.dir" value="${basedir}/target/classes" />
+
+  <macrodef name="comment-out">
+    <attribute name="file" />
+    <attribute name="section" />
+    <sequential>
+      <replace file="@{file}">
+        <replacefilter token="&lt;!-- @{section} (begin) -->"
+                       value="&lt;!-- @{section} (begin) ===" />
+        <replacefilter token="&lt;!-- @{section} (end) -->" value="==== @{section} (end) -->" />
+      </replace>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="cat-hibernate-config">
+    <attribute name="database" />
+    <sequential>
+      <available property="@{database}.properties.available"
+                 file="${project.output.dir}/hibernate.properties.@{database}.xml" />
+      <fail message="hibernate.properties.@{database}.xml not available"
+            unless="@{database}.properties.available" />
+
+      <condition property="hibernate.mapping.@{database}.xml"
+                 value="hibernate.mapping.@{database}.xml"
+                 else="hibernate.mapping.default.xml">
+        <available property="@{database}.mapping.available"
+                   file="${project.output.dir}/hibernate.mapping.@{database}.xml" />
+      </condition>
+
+      <!-- concatenate hibernate.cfg.xml -->
+      <concat destfile="${project.output.dir}/hibernate.cfg.@{database}.xml"
+              outputencoding="UTF-8">
+        <header><![CDATA[<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+  "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+  <session-factory>
+    <!-- change this to "create" to effect index creation -->
+    <property name="hibernate.hbm2ddl.auto">update</property>
+]]></header>
+        <fileset file="${project.output.dir}/hibernate.properties.@{database}.xml" />
+        <fileset file="${project.output.dir}/hibernate.common.xml" />
+        <fileset file="${project.output.dir}/${hibernate.mapping.@{database}.xml}" />
+        <fileset file="${project.output.dir}/hibernate.cache.xml" />
+        <footer><![CDATA[  </session-factory>
+</hibernate-configuration>
+]]></footer>
+      </concat>
+    </sequential>
+  </macrodef>
+
+  <target name="gen-hibernate-config" description="generate hibernate configuration">
+    <cat-hibernate-config database="db2" />
+    <cat-hibernate-config database="derby" />
+    <cat-hibernate-config database="hsqldb" />
+    <cat-hibernate-config database="mssql" />
+    <cat-hibernate-config database="mysql" />
+    <cat-hibernate-config database="oracle" />
+    <cat-hibernate-config database="postgresql" />
+    <cat-hibernate-config database="sybase" />
+
+    <copy file="${project.output.dir}/hibernate.cfg.${database}.xml"
+          tofile="${project.output.dir}/hibernate.cfg.xml" />
+  </target>
+
+  <target name="gen-hibernate-test-config">
+    <copy file="${project.output.dir}/hibernate.cfg.xml"
+          todir="${project.test.output.dir}/org/jbpm/graph/node" />
+    <replace file="${project.test.output.dir}/org/jbpm/graph/node/hibernate.cfg.xml"
+             token="Join.hbm.xml" value="Join.lock.hbm.xml" />
+    <comment-out file="${project.test.output.dir}/org/jbpm/graph/node/hibernate.cfg.xml"
+                 section="Automatic schema creation" />
+
+    <copy file="${project.output.dir}/hibernate.cfg.xml"
+          todir="${project.test.output.dir}/org/jbpm/jbpm2908" />
+    <comment-out file="${project.test.output.dir}/org/jbpm/jbpm2908/hibernate.cfg.xml"
+                 section="Automatic schema creation" />
+
+    <copy file="${project.output.dir}/hibernate.cfg.xml"
+          todir="${project.test.output.dir}/org/jbpm/jbpm2958" />
+    <replace file="${project.test.output.dir}/org/jbpm/jbpm2958/hibernate.cfg.xml"
+             token="Timer.hbm.xml" value="Timer.calendar.hbm.xml" />
+    <comment-out file="${project.test.output.dir}/org/jbpm/jbpm2958/hibernate.cfg.xml"
+                 section="Automatic schema creation" />
+  </target>
+</project>

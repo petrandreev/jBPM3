@@ -1,0 +1,5 @@
+<timer name="daysBeforeHoliday" duedate="5 business days">...</timer>
+<timer name="pensionDate" duedate="#{dateOfBirth} + 65 years" >...</timer>
+<timer name="pensionReminder" duedate="#{dateOfPension} - 1 year" >...</timer>
+<timer name="fireWorks" duedate="#{chineseNewYear} repeat="1 year" >...</timer>
+<reminder name="hitBoss" duedate="#{payRaiseDay} + 3 days" repeat="1 week" />

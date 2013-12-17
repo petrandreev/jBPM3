@@ -1,0 +1,9 @@
+<process-definition 
+    xmlns="urn:jbpm.org:jpdl-3.2" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:jbpm.org:jpdl-3.2 http://jbpm.org/jpdl-3.2.xsd"
+    name="process definition with schema location">
+    
+    <blablablab />
+
+</process-definition>

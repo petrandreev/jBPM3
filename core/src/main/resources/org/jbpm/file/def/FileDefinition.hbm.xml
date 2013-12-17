@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.file.def.FileDefinition" 
+            extends="org.jbpm.module.def.ModuleDefinition" 
+            discriminator-value="F">
+  
+    <map name="processFiles" table="JBPM_PROCESSFILES" cascade="all">
+      <key column="FILEDEFINITION_" foreign-key="FK_BYTEARR_FILDEF" />
+      <index column="NAME_" type="string" />
+      <one-to-many class="org.jbpm.bytes.ByteArray" />
+    </map>
+
+  </subclass>
+
+</hibernate-mapping>

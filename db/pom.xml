@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>jBPM3 - Database</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>jbpm-db</artifactId>
+  <packaging>jar</packaging>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jbpm.jbpm3</groupId>
+    <artifactId>jbpm</artifactId>
+    <version>3.2.14</version>
+  </parent>
+
+  <properties>
+    <previous.version>3.2.13</previous.version>
+    <previous.version.directory>${project.build.directory}/${previous.version}</previous.version.directory>
+  </properties>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <!-- jBPM Dependencies -->
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <classifier>config</classifier>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <classifier>config</classifier>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Runtime Dependencies -->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+
+  <!-- Plugins -->
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>create-drop-schema</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="project.output.dir" value="${project.build.outputDirectory}" />
+                <ant antfile="scripts/antrun-jbpmschema.xml" target="create-schema" inheritRefs="true" />
+                <ant antfile="scripts/antrun-jbpmschema.xml" target="drop-schema" inheritRefs="true" />
+              </tasks>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>generate-update-script</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="project.output.dir" value="${project.build.outputDirectory}" />
+                <property name="database" value="${database}" />
+                <condition property="skip">
+                  <equals arg1="${database}" arg2="hsqldb" />
+                </condition>
+                <condition property="delimiter" value="" else=";">
+                  <equals arg1="${database}" arg2="sybase" />
+                </condition>
+                <!-- JBPM-2971 DatabaseInitializer does not support alternate delimiters
+                <condition property="delimitertype" value="row" else="normal">
+                  <equals arg1="${database}" arg2="sybase" />
+                </condition>
+                -->
+                <ant antfile="scripts/antrun-jbpmschema.xml" target="update-schema" inheritRefs="true" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>jbpm.jpdl.*.sql</include>
+          </includes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>previous-version</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.jbpm.jbpm3</groupId>
+                  <artifactId>jbpm-db</artifactId>
+                  <version>${previous.version}</version>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${previous.version.directory}</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>sql-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>drop-current-schema</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <autocommit>true</autocommit>
+              <onError>continue</onError>
+              <srcFiles>
+                <srcFile>${project.build.outputDirectory}/jbpm.jpdl.${database}.drop.sql</srcFile>
+              </srcFiles>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>create-previous-schema</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <autocommit>true</autocommit>
+              <srcFiles>
+                <srcFile>${previous.version.directory}/jbpm.jpdl.${database}.sql</srcFile>
+              </srcFiles>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>update-schema</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <autocommit>true</autocommit>
+              <srcFiles>
+                <srcFile>${project.build.outputDirectory}/jbpm.jpdl.${database}.update.sql</srcFile>
+              </srcFiles>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <!--
+      Name: no-database
+      Desc: Default Database Schema Update
+    -->
+    <profile>
+      <id>no-database</id>
+      <activation>
+        <property>
+          <name>!database</name>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <configuration>
+              <driver>${jdbc.hsqldb.driver}</driver>
+              <url>${jdbc.hsqldb.url}</url>
+              <username>${jdbc.hsqldb.username}</username>
+              <password>${jdbc.hsqldb.password}</password>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+      Name: db2
+      Desc: DB2 Schema Update
+    -->
+    <profile>
+      <id>db2</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>db2</value>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>com.ibm</groupId>
+                <artifactId>db2jcc</artifactId>
+                <version>${db2jcc.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>com.ibm</groupId>
+                <artifactId>db2jcc_license_cu</artifactId>
+                <version>${db2jcc.version}</version>
+              </dependency>
+            </dependencies>
+
+            <configuration>
+              <driver>${jdbc.db2.driver}</driver>
+              <url>${jdbc.db2.url}</url>
+              <username>${jdbc.db2.username}</username>
+              <password>${jdbc.db2.password}</password>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+      Name: hsqldb
+      Desc: HSQL Schema Update
+    -->
+    <profile>
+      <id>hsqldb</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>hsqldb</value>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <configuration>
+              <driver>${jdbc.hsqldb.driver}</driver>
+              <url>${jdbc.hsqldb.url}</url>
+              <username>${jdbc.hsqldb.username}</username>
+              <password>${jdbc.hsqldb.password}</password>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+      Name: mssql
+      Desc: SQL Server Schema Update
+    -->
+    <profile>
+      <id>mssql</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>mssql</value>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>msjdbc</artifactId>
+                <version>${msjdbc.version}</version>
+              </dependency>
+            </dependencies>
+
+            <configuration>
+              <driver>${jdbc.mssql.driver}</driver>
+              <url>${jdbc.mssql.url}</url>
+              <username>${jdbc.mssql.username}</username>
+              <password>${jdbc.mssql.password}</password>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+      Name: mysql
+      Desc: MySQL Schema Update
+    -->
+    <profile>
+      <id>mysql</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>mysql</value>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.version}</version>
+              </dependency>
+            </dependencies>
+
+            <configuration>
+              <driver>${jdbc.mysql.driver}</driver>
+              <url>${jdbc.mysql.url}</url>
+              <username>${jdbc.mysql.username}</username>
+              <password>${jdbc.mysql.password}</password>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+      Name: oracle
+      Desc: Oracle Schema Update
+    -->
+    <profile>
+      <id>oracle</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>oracle</value>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${ojdbc.version}</version>
+              </dependency>
+            </dependencies>
+
+            <configuration>
+              <driver>${jdbc.oracle.driver}</driver>
+              <url>${jdbc.oracle.url}</url>
+              <username>${jdbc.oracle.username}</username>
+              <password>${jdbc.oracle.password}</password>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+      Name: postgresql
+      Desc: PostgreSQL Schema Update
+    -->
+    <profile>
+      <id>postgresql</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>postgresql</value>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+              </dependency>
+            </dependencies>
+
+            <configuration>
+              <driver>${jdbc.postgresql.driver}</driver>
+              <url>${jdbc.postgresql.url}</url>
+              <username>${jdbc.postgresql.username}</username>
+              <password>${jdbc.postgresql.password}</password>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+      Name: sybase
+      Desc: Sybase Schema Update
+    -->
+    <profile>
+      <id>sybase</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>sybase</value>
+        </property>
+      </activation>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>net.sourceforge.jtds</groupId>
+                <artifactId>jtds</artifactId>
+                <version>${jtds.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>com.sybase</groupId>
+                <artifactId>jconnect</artifactId>
+                <version>${jconnect.version}</version>
+              </dependency>
+            </dependencies>
+
+            <configuration>
+              <driver>${jdbc.sybase.driver}</driver>
+              <url>${jdbc.sybase.url}</url>
+              <username>${jdbc.sybase.username}</username>
+              <password>${jdbc.sybase.password}</password>
+              <delimiter />
+              <!-- JBPM-2971 DatabaseInitializer does not support alternate delimiters
+              <delimiterType>row</delimiterType>
+              -->
+            </configuration>
+          </plugin>
+
+          <plugin>
+          	<artifactId>maven-antrun-plugin</artifactId>
+          	<executions>
+          		<execution>
+          			<id>remove-row-delimiters</id>
+          			<phase>process-resources</phase>
+          			<goals>
+          				<goal>run</goal>
+          			</goals>
+                <configuration>
+                  <tasks>
+                    <replace file="${previous.version.directory}/jbpm.jpdl.${database}.sql">
+                      <replacetoken><![CDATA[go
+]]></replacetoken>
+                    </replace>
+                  </tasks>
+                </configuration>
+          		</execution>
+          	</executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

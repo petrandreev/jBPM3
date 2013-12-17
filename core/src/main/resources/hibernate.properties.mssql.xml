@@ -1,0 +1,12 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <property name="hibernate.connection.driver_class">${jdbc.mssql.driver}</property>
+    <property name="hibernate.connection.url">${jdbc.mssql.url}</property>
+    <property name="hibernate.connection.username">${jdbc.mssql.username}</property>
+    <property name="hibernate.connection.password">${jdbc.mssql.password}</property>
+    <property name="hibernate.connection.isolation">4096</property>
+    <!-- JDBC connection properties (end) -->
+

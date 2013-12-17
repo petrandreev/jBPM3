@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="scheduler">
+  <title>
+        Scheduler
+  </title>
+  
+      <para>
+            Read this chapter to learn about the role of
+            <firstterm>timers</firstterm> in the
+            Business Process Manager.
+        </para>
+  
+  <para>
+    Timers can be created upon events in the process. Set them to
+    trigger either action executions or event transitions.
+ </para>
+  
+  <section id="timers">
+    <title>
+        Timers
+    </title>
+  
+    <para>
+        The easiest way to set a timer is by adding a <firstterm>timer
+        element</firstterm> to the node. This sample code shows how to do so:
+    </para>
+  
+    <programlisting language="XML"><xi:include href="extras/scheduler_1.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        A timer specified on a node is not executed after that node 
+        is exited.  Both the transition and the action are optional.  When a timer 
+        is executed, the following events occur in sequence:
+    </para>
+    
+    <orderedlist>
+      <listitem><para>an event of type <systemitem>timer</systemitem> is fired.</para></listitem>
+      <listitem><para>if an action is specified, it executes.</para></listitem>
+      <listitem><para>a signal is to resume execution 
+      over any specified transition.</para></listitem>
+    </orderedlist>
+    
+        <para>
+                Every timer must have a unique name. If no name is specified
+                in the <systemitem>timer</systemitem> element, the name of
+                the node is used by default.
+        </para>
+
+        <para>
+            Use the timer action to support any action element (such as
+            <systemitem>action</systemitem> or
+            <systemitem>script</systemitem>.)
+        </para>
+
+        <para>
+            Timers are created and canceled by actions. The two pertinent
+            <systemitem>action-elements</systemitem> are
+            <systemitem>create-timer</systemitem> and
+            <systemitem>cancel-timer</systemitem>. In actual fact, the timer
+            element shown above is just short-hand notation for a
+            <systemitem>create-timer</systemitem> action on
+            <systemitem>node-enter</systemitem> and a
+            <systemitem>cancel-timer</systemitem> action on
+            <systemitem>node-leave</systemitem>.
+        </para>
+    
+  </section>
+  
+  <section id="schedulerdeployment">
+    <title>
+        Scheduler Deployment
+    </title>
+    
+    <para>
+        Process executions create and cancel timers, storing them in a
+        <firstterm>timer store</firstterm>. A separate <systemitem>timer
+        runner</systemitem> checks this store and execute each timers at the
+        due moment.
+    </para>
+
+    <figure id="scheduler.overview.image">
+      <title>Scheduler Components Overview</title>
+      <mediaobject><imageobject><imagedata  fileref="images/scheduler.overview.png"/></imageobject></mediaobject>
+    </figure>
+
+  </section>
+
+</chapter>

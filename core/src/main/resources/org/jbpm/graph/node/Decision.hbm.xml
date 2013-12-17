@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field" >
+
+  <subclass name="org.jbpm.graph.node.Decision" 
+            discriminator-value="D" 
+            extends="org.jbpm.graph.def.Node">
+            
+    <property name="decisionExpression" column="DECISIONEXPRESSION_"/>
+
+    <list name="decisionConditions" table="JBPM_DECISIONCONDITIONS">
+      <key column="DECISION_" foreign-key="FK_DECCOND_DEC"/>
+      <list-index column="INDEX_" />
+      <composite-element class="org.jbpm.graph.node.DecisionCondition">
+        <property name="transitionName" column="TRANSITIONNAME_" insert="false" update="false" />
+        <property name="expression" column="EXPRESSION_"/>
+      </composite-element>
+    </list>
+    
+    <many-to-one name="decisionDelegation"
+                 column="DECISIONDELEGATION"
+                 foreign-key="FK_DECISION_DELEG"
+                 cascade="all"
+                 index="IDX_DECISION_DELEG" />
+
+  </subclass>
+
+</hibernate-mapping>

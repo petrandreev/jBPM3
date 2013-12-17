@@ -1,0 +1,14 @@
+<node-types>
+  <node-type element="decision" class="org.jbpm.sim.jpdl.SimDecision" />
+  <node-type element="state" class="org.jbpm.sim.jpdl.SimState" />
+
+  <node-type element="start-state" class="org.jbpm.graph.node.StartState" />
+  <node-type element="end-state" class="org.jbpm.graph.node.EndState" />
+  <node-type element="node" class="org.jbpm.graph.def.Node" />
+  <node-type element="task-node" class="org.jbpm.graph.node.TaskNode" />
+  <node-type element="fork" class="org.jbpm.graph.node.Fork" />
+  <node-type element="join" class="org.jbpm.graph.node.Join" />
+  <node-type element="process-state" class="org.jbpm.graph.node.ProcessState" />
+  <node-type element="super-state" class="org.jbpm.graph.def.SuperState" />
+  <node-type element="mail-node" class="org.jbpm.graph.def.Node" />
+</node-types>

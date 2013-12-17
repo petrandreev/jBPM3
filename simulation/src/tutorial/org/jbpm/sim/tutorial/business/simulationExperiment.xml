@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- experiment definition for jbpm simulation tutorial 
+     written by Bernd Ruecker (camunda GmbH) -->
+<experiment name='ReturnDefectiveGoods' 
+          time-unit='second'
+          run-time='28800'  
+          real-start-time='30.03.1980 00:00:00:000'
+          currency='€'
+          unutilized-time-cost-factor='0.0'> 
+  <!-- 28800 seconds = 8 hours = 1 working day --> 
+
+<scenario name="status_quo" execute="false">
+  <distribution name="ReturnDefectiveGoods.start" 
+    sample-type="real" type="erlang" mean="95"/>
+    
+  <distribution name="ReturnDefectiveGoods.wait for parcel" 
+    sample-type="real" type="normal" mean="28" standardDeviation="17"/>
+  <distribution name="ReturnDefectiveGoods.transfer shipping costs"  
+    sample-type="real" type="normal" mean="180" standardDeviation="30"/>
+  <distribution name="ReturnDefectiveGoods.quick test" 
+    sample-type="real" type="normal" mean="180" standardDeviation="60"/>
+  <distribution name="ReturnDefectiveGoods.extended technical test" 
+    sample-type="real" type="normal" mean="732.2485" standardDeviation="448.1038"/>
+  <distribution name="ReturnDefectiveGoods.send back goods" 
+    sample-type="real" type="normal" mean="325.5" standardDeviation="182.0718"/>
+  <distribution name="ReturnDefectiveGoods.refund" 
+    sample-type="real" type="normal" mean="180" standardDeviation="30"/>
+
+  <sim-process path="/org/jbpm/sim/tutorial/business/ReturnDefectiveGoods/processdefinition.xml">
+    <process-overwrite start-distribution="ReturnDefectiveGoods.start"/>
+    <state-overwrite state-name="wait for parcel" 
+                     time-distribution="ReturnDefectiveGoods.wait for parcel">
+      <transition name="parcel arrived" probability="195"/>
+    </state-overwrite>
+    <decision-overwrite decision-name="ordered within the last two weeks?">
+      <transition name="YES" probability="100"/>
+      <transition name="NO" probability="95"/>
+    </decision-overwrite>
+    <task-overwrite task-name="transfer shipping costs" 
+                    time-distribution="ReturnDefectiveGoods.transfer shipping costs">
+      <transition name="done" probability="100"/>
+    </task-overwrite>
+    <task-overwrite task-name="quick test" 
+                    time-distribution="ReturnDefectiveGoods.quick test">
+      <transition name="no defect" probability="165"/>
+      <transition name="defect approved" probability="30"/>
+    </task-overwrite>
+    <task-overwrite task-name="extended technical test" 
+                    time-distribution="ReturnDefectiveGoods.extended technical test">
+      <transition name="no defect" probability="20"/>
+      <transition name="defect approved" probability="145"/>
+    </task-overwrite>
+    <task-overwrite task-name="send back goods" 
+                    time-distribution="ReturnDefectiveGoods.send back goods">
+      <transition probability="20"/>
+    </task-overwrite>
+    <task-overwrite task-name="refund" time-distribution="ReturnDefectiveGoods.refund">
+      <transition probability="175"/>
+    </task-overwrite>
+  </sim-process>
+</scenario>
+
+<scenario name="status_quo_normal_case" execute="true" base-scenario="status_quo">
+  <resource-pool name="tester" pool-size="5" costs-per-time-unit="0.025"/>
+  <resource-pool name="clerk" pool-size="2" costs-per-time-unit="0.011111111"/>
+  <resource-pool name="accountant" pool-size="2" costs-per-time-unit="0.022222222"/>
+  <resource-pool name="dispatcher" pool-size="1" costs-per-time-unit="0.013888889"/>
+</scenario>
+
+<scenario name="status_quo_worst_case" execute="true" base-scenario="status_quo">
+  <resource-pool name="tester" pool-size="5" costs-per-time-unit="0.025"/>
+  <resource-pool name="clerk" pool-size="2" costs-per-time-unit="0.011111111"/>
+  <resource-pool name="accountant" pool-size="3" costs-per-time-unit="0.022222222"/>
+  <resource-pool name="dispatcher" pool-size="1" costs-per-time-unit="0.013888889"/>
+</scenario>
+
+<scenario name="christmas" execute="false">
+
+  <distribution name="ReturnDefectiveGoods.start" 
+    sample-type="real" type="erlang" mean="55"/>
+  
+  <distribution name="ReturnDefectiveGoods.wait for parcel" 
+    sample-type="real" type="normal" mean="28" standardDeviation="17"/>
+  <distribution name="ReturnDefectiveGoods.transfer shipping costs"  
+    sample-type="real" type="normal" mean="180" standardDeviation="30"/>
+  <distribution name="ReturnDefectiveGoods.quick test" 
+    sample-type="real" type="normal" mean="180" standardDeviation="60"/>
+  <distribution name="ReturnDefectiveGoods.extended technical test" 
+    sample-type="real" type="normal" mean="732.2485" standardDeviation="448.1038"/>
+  <distribution name="ReturnDefectiveGoods.send back goods" 
+    sample-type="real" type="normal" mean="325.5" standardDeviation="182.0718"/>
+  <distribution name="ReturnDefectiveGoods.refund" 
+    sample-type="real" type="normal" mean="180" standardDeviation="30"/>
+   
+  <sim-process path="/org/jbpm/sim/tutorial/business/ReturnDefectiveGoods/processdefinition.xml">
+    <process-overwrite start-distribution="ReturnDefectiveGoods.start"/>
+    <state-overwrite state-name="wait for parcel" 
+                     time-distribution="ReturnDefectiveGoods.wait for parcel">
+      <transition name="parcel arrived" probability="195"/>
+    </state-overwrite>
+    <decision-overwrite decision-name="ordered within the last two weeks?">
+      <transition name="YES" probability="100"/>
+      <transition name="NO" probability="95"/>
+    </decision-overwrite>
+    <task-overwrite task-name="transfer shipping costs" 
+                    time-distribution="ReturnDefectiveGoods.transfer shipping costs">
+      <transition name="done" probability="100"/>
+    </task-overwrite>
+    <task-overwrite task-name="quick test" 
+                    time-distribution="ReturnDefectiveGoods.quick test">
+      <transition name="no defect" probability="165"/>
+      <transition name="defect approved" probability="30"/>
+    </task-overwrite>
+    <task-overwrite task-name="extended technical test" 
+                    time-distribution="ReturnDefectiveGoods.extended technical test">
+      <transition name="no defect" probability="20"/>
+      <transition name="defect approved" probability="145"/>
+    </task-overwrite>
+    <task-overwrite task-name="send back goods" 
+                    time-distribution="ReturnDefectiveGoods.send back goods">
+      <transition probability="20"/>
+    </task-overwrite>
+    <task-overwrite task-name="refund" 
+                    time-distribution="ReturnDefectiveGoods.refund">
+      <transition probability="175"/>
+    </task-overwrite>
+  </sim-process>
+</scenario>
+
+
+<scenario name="christmas_normal_case" execute="true" base-scenario="christmas"> 
+  <resource-pool name="accountant" pool-size="5" costs-per-time-unit="0.022222222"/>
+  <resource-pool name="clerk" pool-size="4" costs-per-time-unit="0.011111111"/>
+  <resource-pool name="tester" pool-size="11" costs-per-time-unit="0.025"/>
+  <resource-pool name="dispatcher" pool-size="1" costs-per-time-unit="0.013888889"/>
+</scenario>
+
+<scenario name="christmas_worst_case" execute="true" base-scenario="christmas">
+  <resource-pool name="accountant" pool-size="6" costs-per-time-unit="0.022222222"/>
+  <resource-pool name="clerk" pool-size="5" costs-per-time-unit="0.011111111"/>
+  <resource-pool name="tester" pool-size="18" costs-per-time-unit="0.025"/>
+  <resource-pool name="dispatcher" pool-size="1" costs-per-time-unit="0.013888889"/>
+</scenario>
+
+<output path='./sim_out/' />
+      
+</experiment>
+<!-- 
+  <scenario name='Status Quo Old'>  
+
+    <distribution name='return requests'        sample-type='real' type='constant' value='20' /> 
+    <distribution name='parcel waiting time'    sample-type='real' type='normal'   mean='25' standardDeviation='10' />       
+    <distribution name='money transfer time'    sample-type='real' type='normal'   mean='25' standardDeviation='10' />       
+    <distribution name='quick test time'        sample-type='real' type='normal'   mean='25' standardDeviation='10' />       
+    <distribution name='extended test time'     sample-type='real' type='normal'   mean='25' standardDeviation='10' />       
+    <distribution name='shipment handling time' sample-type='real' type='normal'   mean='25' standardDeviation='10' />       
+
+    <resource-pool name='clerk'          pool-size='3' costs-per-time-unit="0.6" />
+    <resource-pool name='tester'         pool-size='1' costs-per-time-unit="1.4" />
+    <resource-pool name='dispatcher'     pool-size='1' costs-per-time-unit="0.5" />
+    <resource-pool name='test-equipment' pool-size='1' costs-per-time-unit="0.5" />
+    
+    <sim-process path='/org/jbpm/sim/tutorial/business/ReturnDefectiveGoods/processdefinition.xml'>
+      <process-overwrite start-distribution='return requests' /> 
+      <decision-overwrite decision-name='ordered within the last two weeks?'>
+        <transition name='YES' probability='70' />
+        <transition name='NO'  probability='30' />
+          TODO: Think about: the technical check may be dependent on this outcome!
+      </decision-overwrite>
+      <state-overwrite state-name='wait for parcel'        time-distribution='parcel waiting time' />
+      <task-overwrite  task-name='transfer shipping costs' time-distribution='money transfer time' />
+      <task-overwrite  task-name='quick test'              time-distribution='quick test time'>
+        <transition name='no defect'       probability='50' />
+        <transition name='defect approved' probability='50' />
+      </task-overwrite>
+      <task-overwrite  task-name='extended technical test' time-distribution='extended test time'>
+        <transition name='no defect'       probability='25' />
+        <transition name='defect approved' probability='75' />
+      </task-overwrite>
+      <task-overwrite  task-name='send back goods'         time-distribution='shipment handling time' />
+        TODO: overwrite resource-needed pool='test-equipment' amount='1'       
+    </sim-process> 
+
+  </scenario>
+   -->
+  
+  <!-- 
+  <scenario name='New Process Scenario'>  
+
+    <distribution name='return requests'        sample-type='real' type='constant' value='20' /> 
+    <distribution name='parcel waiting time'    sample-type='real' type='normal'   mean='25' standardDeviation='10' />       
+    <distribution name='money transfer time'    sample-type='real' type='normal'   mean='25' standardDeviation='10' />       
+    <distribution name='quick test time'        sample-type='real' type='normal'   mean='25' standardDeviation='10' />       
+    <distribution name='extended test time'     sample-type='real' type='normal'   mean='25' standardDeviation='10' />       
+    <distribution name='shipment handling time' sample-type='real' type='normal'   mean='25' standardDeviation='10' />       
+
+    <resource-pool name='clerk'          pool-size='3' costs-per-time-unit="0.6" />
+    <resource-pool name='tester'         pool-size='1' costs-per-time-unit="1.4" />
+    <resource-pool name='dispatcher'     pool-size='1' costs-per-time-unit="0.5" />
+    <resource-pool name='test-equipment' pool-size='1' costs-per-time-unit="0.5" />
+    
+    <sim-process path='/ReturnDefectiveGoodsNew/processdefinition.xml'>
+      <process-overwrite start-distribution='return requests' /> 
+      <decision-overwrite name='ordered within the last two weeks?'>
+        <transition name='YES' probability='70' />
+        <transition name='NO'  probability='30' />
+         TODO: Think about: the technical check may be dependent on this outcome!
+      </decision-overwrite>
+      <state-overwrite state-name='wait for parcel'        time-distribution='parcel waiting time' />
+      <task-overwrite  task-name='transfer shipping costs' time-distribution='money transfer time' />
+      <task-overwrite  task-name='quick test'              time-distribution='quick test time'>
+        <transition name='no defect'       probability='50' />
+        <transition name='defect approved' probability='50' />
+      </task-overwrite>
+      <task-overwrite  task-name='extended technical test' time-distribution='extended test time'>
+        <transition name='no defect'       probability='25' />
+        <transition name='defect approved' probability='75' />
+      </task-overwrite>
+      <task-overwrite  task-name='send back goods'         time-distribution='shipment handling time' />
+       TODO: overwrite resource-needed pool='test-equipment' amount='1'       
+    </sim-process> 
+
+  </scenario>  
+ -->

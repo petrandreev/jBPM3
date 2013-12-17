@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:tf="http://jbpm.org/jsf/tf" xmlns:jbpm="http://jbpm.org/jsf">
+<ui:component>
+	<jbpm:dataform>
+		<f:facet name="header">
+			<h:outputText value="#{taskName}" />
+		</f:facet>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Amount:" />
+			</f:facet>
+			<h:inputText value="#{var['amount']}" 
+			         converter="javax.faces.Integer"
+				converterMessage="The quantity must be numeric."
+				validatorMessage="The quantity must be at least 1.">
+				<f:validateLongRange minimum="1" />
+			</h:inputText>
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Reason:" />
+			</f:facet>
+			<h:inputTextarea cols="40" rows="4" value="#{var['reason']}" />
+		</jbpm:datacell>
+		<jbpm:datacell>
+			<f:facet name="header">
+				<h:outputText value="Actions:" />
+			</f:facet>
+			<tf:saveButton value="Save" />
+			<tf:transitionButton value="Submit" transition="submit request"/>
+		</jbpm:datacell>
+	</jbpm:dataform>
+</ui:component>
+</html>

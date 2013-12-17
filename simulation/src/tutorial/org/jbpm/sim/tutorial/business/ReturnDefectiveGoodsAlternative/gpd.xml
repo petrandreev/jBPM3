@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="ReturnDefectiveGoodsAlternative" width="638" height="649">
+  <node name="Return request" x="228" y="24" width="229" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="ordered within the last two weeks?" x="228" y="84" width="229" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="transfer shipping costs" x="84" y="156" width="157" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="wait for parcel" x="228" y="216" width="229" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="extended technical test" x="228" y="384" width="229" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="send back goods" x="443" y="539" width="193" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Refund" x="83" y="539" width="157" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="should be checked?" x="228" y="300" width="229" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="2" y="-16"/>
+      <bendpoint w1="-223" h1="0" w2="-1" h2="-84"/>
+    </edge>
+  </node>
+  <node name="unknown goods status" x="36" y="384" width="169" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Approved" x="84" y="612" width="157" height="36"/>
+  <node name="Denied" x="444" y="612" width="193" height="36"/>
+</root-container>

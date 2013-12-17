@@ -1,0 +1,74 @@
+							<axis >
+				<barChart>
+					<chart  hyperlinkTarget="Self" >
+					<reportElement
+						x="-30"
+						y="-1386"
+						width="0"
+						height="0"
+						key="element-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+						<chartLegend textColor="#000000" backgroundColor="#FFFFFF" >
+					</chartLegend>
+					</chart>
+					<categoryDataset>
+						<dataset resetType="Group" resetGroup="States" >
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["Waiting time " + $F{name}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{scenario}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{averageWaitTime}]]></valueExpression>
+				<itemHyperlink >
+				</itemHyperlink>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot >
+						<plot backgroundAlpha="0.2" foregroundAlpha="0.2" />
+						<categoryAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+							</axis>
+							<axis >
+				<barChart>
+					<chart  hyperlinkTarget="Self" >
+					<reportElement
+						x="-30"
+						y="-1386"
+						width="0"
+						height="0"
+						key="element-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+						<chartLegend textColor="#000000" backgroundColor="#FFFFFF" >
+					</chartLegend>
+					</chart>
+					<categoryDataset>
+						<dataset resetType="Group" resetGroup="States" >
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["Queue length " + $F{name}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{scenario}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{averageLength}]]></valueExpression>
+				<itemHyperlink >
+				</itemHyperlink>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot >
+						<plot backgroundAlpha="0.5" foregroundAlpha="0.5" />
+						<categoryAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+							</axis>

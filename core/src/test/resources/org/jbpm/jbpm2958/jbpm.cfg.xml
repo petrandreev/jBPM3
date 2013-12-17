@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+
+<jbpm-configuration>
+  <string name="resource.hibernate.cfg.xml" value="org/jbpm/jbpm2958/hibernate.cfg.xml" />
+</jbpm-configuration>

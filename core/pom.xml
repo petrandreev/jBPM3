@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>jBPM3 - Core</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>jbpm-jpdl</artifactId>
+  <packaging>jar</packaging>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jbpm.jbpm3</groupId>
+    <artifactId>jbpm</artifactId>
+    <version>3.2.14</version>
+  </parent>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <!-- Compile Dependencies -->
+    <dependency>
+      <groupId>backport-util-concurrent</groupId>
+      <artifactId>backport-util-concurrent</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>bsh</groupId>
+      <artifactId>bsh</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jackrabbit</groupId>
+      <artifactId>jackrabbit-core</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <!-- Provided Dependencies -->
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.transaction</groupId>
+      <artifactId>jta</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${jdbc.driver.group}</groupId>
+      <artifactId>${jdbc.driver.artifact}</artifactId>
+      <version>${jdbc.driver.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.retrotranslator</groupId>
+      <artifactId>retrotranslator-runtime</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.subethamail</groupId>
+      <artifactId>subethasmtp-wiser</artifactId>
+      <classifier>java14</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.subethamail</groupId>
+      <artifactId>subethasmtp-smtp</artifactId>
+      <classifier>java14</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>1.8.0.7</version>
+    </dependency>
+    
+  </dependencies>
+
+  <!-- Reporting Plugins -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+		<artifactId>cobertura-maven-plugin</artifactId>
+		<version>2.5.1</version>
+	  </plugin>
+    </plugins>
+  </reporting>
+
+  <!-- Build plugins -->
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/compatibility</directory>
+      </resource>
+      <resource>
+        <directory>src/main/javadoc</directory>
+      </resource>
+    </resources>
+    
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+      <testResource>
+        <directory>src/test/config</directory>
+      </testResource>
+    </testResources>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>pack-config</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>scripts/assembly-config.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>hibernate.*</exclude>
+            <exclude>jbpm.cfg.xml</exclude>
+            <exclude>jbpm-*-ds.xml</exclude>
+            <exclude>jbpm.mail.templates.xml</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>gen-config</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="database" value="${database}" />
+                <property name="project.output.dir" value="${project.build.outputDirectory}" />
+                <ant antfile="scripts/antrun-config.xml" target="gen-hibernate-config" />
+              </tasks>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>gen-test-config</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="project.output.dir" value="${project.build.outputDirectory}" />
+                <property name="project.test.output.dir" value="${project.build.testOutputDirectory}" />
+                <ant antfile="scripts/antrun-config.xml" target="gen-hibernate-test-config" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <!-- database schema creation is costly; some drivers cache metadata -->
+            <exclude>org/jbpm/db/JbpmSchemaDbTest.java</exclude>
+            <!-- performance test is slow; misplaced along functional tests -->
+            <exclude>org/jbpm/perf/PerformanceTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <executions>
+            <execution>
+              <id>clean</id>
+              <phase>pre-site</phase>
+              <goals>
+                <goal>clean</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>instrument</id>
+              <phase>site</phase>
+              <goals>
+                <goal>instrument</goal>
+                <goal>cobertura</goal>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- Profiles -->
+  <profiles>
+    <!--
+      Name: jdk14
+      Desc: Dependencies specific to JDK 1.4
+    -->
+    <profile>
+      <id>jdk14</id>
+      <activation>
+        <jdk>1.4</jdk>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!--
+      Name: sybase
+      Desc: Sybase Test Exclusions
+    -->
+    <profile>
+      <id>sybase</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>sybase</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <!-- JBPM-2958 driver fails to retrieve database metadata -->
+                <exclude>org/jbpm/jbpm2958/TimerCalendarTest.java</exclude>
+                <!-- default exclusions -->
+                <exclude>org/jbpm/db/JbpmSchemaDbTest.java</exclude>
+                <exclude>org/jbpm/perf/PerformanceTest.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

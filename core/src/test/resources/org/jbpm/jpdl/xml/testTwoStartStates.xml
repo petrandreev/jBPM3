@@ -1,0 +1,8 @@
+<process-definition 
+    xmlns="urn:jbpm.org:jpdl-3.2" 
+    name="two start states">
+
+  <start-state name="start one" />
+  <start-state name="start two" />
+  
+</process-definition>

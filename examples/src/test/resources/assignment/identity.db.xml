@@ -1,0 +1,13 @@
+<identity>
+  <user name="sally" email="sally@dvd.com" password="sally" />
+  <user name="mary" email="mary@dvd.com" password="mary" />
+  <user name="tom" email="tom@dvd.com" password="tom" />
+  <user name="bill" email="bill@dvd.com" password="bill" />
+  <group name="reviewers" type="hierarchy" />
+  <group name="supervisors" type="hierarchy" />
+  <group name="clerks" type="hierarchy" />
+  <membership name="seniorsallyreviewers" role="senior" user="sally" group="reviewers" />
+  <membership name="juniortomreviewers" role="junior" user="tom" group="reviewers" />
+  <membership name="marysupervisors" role="senior" user="mary" group="supervisors" />
+  <membership name="billclerks" role="senior" user="bill" group="clerks" />
+</identity>

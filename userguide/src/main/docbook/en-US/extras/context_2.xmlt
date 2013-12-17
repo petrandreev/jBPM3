@@ -1,0 +1,9 @@
+<jbpm-type>
+  <matcher>
+    <bean class="org.jbpm.context.exe.matcher.ClassNameMatcher">
+      <field name="className"><string value="java.lang.Long" /></field>
+    </bean>
+  </matcher>
+  <variable-instance 
+    class="org.jbpm.context.exe.variableinstance.LongInstance" />
+</jbpm-type>

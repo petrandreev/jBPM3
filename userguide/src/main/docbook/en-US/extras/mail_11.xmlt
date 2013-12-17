@@ -1,0 +1,4 @@
+<mail to='#{initiator}' 
+      bcc='bcc@mycompany.com' 
+      subject='websale' 
+      text='your websale of #{quantity} #{item} was approved' />

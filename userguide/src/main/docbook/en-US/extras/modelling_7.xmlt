@@ -1,0 +1,12 @@
+<process-definition name="hire">
+  <start-state>
+    <transition to="initial interview" />
+  </start-state>
+  <process-state name="initial interview">
+    <sub-process name="interview" />
+    <variable name="a" access="read,write" mapped-name="aa" />
+    <variable name="b" access="read" mapped-name="bb" />
+    <transition to="..." />
+  </process-state>
+  ...
+</process-definition>

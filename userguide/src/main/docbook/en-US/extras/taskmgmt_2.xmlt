@@ -1,0 +1,5 @@
+<task name="clean ceiling">
+  <controller class="com.yourcom.CleanCeilingTaskControllerHandler">
+    -- here goes your task controller handler configuration --
+  </controller>
+</task>

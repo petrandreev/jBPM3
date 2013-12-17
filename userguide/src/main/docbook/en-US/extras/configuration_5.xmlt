@@ -1,0 +1,7 @@
+<beans>
+    <list name="numbers">
+        <string>one</string>
+        <string>two</string>
+        <string>three</string>
+    </list>
+</beans>

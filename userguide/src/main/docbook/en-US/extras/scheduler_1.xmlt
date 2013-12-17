@@ -1,0 +1,9 @@
+<state name='catch crooks'>
+  <timer name='reminder' 
+         duedate='3 business hours' 
+         repeat='10 business minutes'
+         transition='time-out-transition' >
+    <action class='the-remainder-action-class-name' />
+  </timer>
+  <transition name='time-out-transition' to='...' />
+</state>

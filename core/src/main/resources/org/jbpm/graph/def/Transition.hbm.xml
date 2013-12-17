@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <class name="org.jbpm.graph.def.Transition" 
+         table="JBPM_TRANSITION">
+    <id name="id" column="ID_"><generator class="native" /></id>
+
+    <!-- GRAPHELEMENT -->
+    <property name="name" column="NAME_"/>
+    <property name="description" column="DESCRIPTION_" type="longstring" length="4000"/>
+    <many-to-one name="processDefinition" 
+                 column="PROCESSDEFINITION_"
+                 foreign-key="FK_TRANS_PROCDEF"
+                 index="IDX_TRANS_PROCDEF"/>
+    <map name="events" cascade="all">
+      <key column="TRANSITION_" foreign-key="FK_EVENT_TRANS" />
+      <index column="EVENTTYPE_" type="string" />
+      <one-to-many class="org.jbpm.graph.def.Event" />
+    </map>
+    <list name="exceptionHandlers" cascade="all">
+      <key column="TRANSITION_" foreign-key="none" />
+      <list-index column="GRAPHELEMENTINDEX_" />
+      <one-to-many class="org.jbpm.graph.def.ExceptionHandler" />
+    </list>
+    <!-- ============ -->
+
+    <!-- bidirectional, other side is indexed; make this side inverse -->
+    <many-to-one name="from" 
+                 column="FROM_" 
+                 foreign-key="FK_TRANSITION_FROM"
+                 index="IDX_TRANSIT_FROM"
+                 insert="false" update="false"/>
+    <many-to-one name="to" 
+                 column="TO_" 
+                 foreign-key="FK_TRANSITION_TO"
+                 index="IDX_TRANSIT_TO"/>
+    <property name="condition" column="CONDITION_"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="security">
+  <title>Security</title>
+  
+  <para>Security features of jBPM are still in alpha stage. This chapter 
+  documents the pluggable authentication and authorization.  And what
+  parts of the framework are finished and what parts not yet.</para>
+  
+  <section id="securitytodos">
+    <title>Todos</title>
+    <para>On the framework part, we still need to define a set of permissions
+    that are verified by the jbpm engine while a process is being executed.
+    Currently you can check your own permissions, but there is not yet a jbpm 
+    default set of permissions.</para>
+    <para>Only one default authentication implementation is finished.  Other 
+    authentication implementations are envisioned, but not yet implemented.
+    Authorization is optional, and there is no authorization implementation 
+    yet.  Also for authorization, there are a number of authorization implementations
+    envisioned, but they are not yet worked out.
+    </para>
+    <para>But for both authentication and authorization, the framework is there
+    to plug in your own authentication and authorization mechanism.</para>
+  </section>
+
+  <section id="authentication">
+    <title>Authentication</title>
+    <para>Authentication is the process of knowing on who's behalf the code 
+    is running.  In case of jBPM this information should be made available from the 
+    environment to jBPM.  Cause jBPM is always executed in a specific environment like
+    a webapp, an EJB, a swing application or some other environment, it is always the 
+    surrounding environment that should perform authentication.</para>
+    <para>In a few situations, jBPM needs to know who is running the code.  E.g. to add 
+    authentication information in the process logs to know who did what and when. Another 
+    example is calculation of an actor based on the current authenticated actor.</para>
+    <para>In each situation where jBPM needs to know who is running the code, the 
+    central method <literal>org.jbpm.security.Authentication.getAuthenticatedActorId()</literal>
+    is called.  That method will delegate to an implementation of 
+    <literal>org.jbpm.security.authenticator.Authenticator</literal>.  By specifying an
+    implementation of the authenticator, you can configure how jBPM retrieves the currently
+    authenticated actor from the environment.
+    </para>
+    <para>The default authenticator is 
+    <literal>org.jbpm.security.authenticator.JbpmDefaultAuthenticator</literal>.
+    That implementation will maintain a <literal>ThreadLocal</literal> stack of authenticated 
+    actorId's.  Authenticated blocks can be marked with the methods 
+    <literal>JbpmDefaultAuthenticator.pushAuthenticatedActorId(String)</literal> and 
+    <literal>JbpmDefaultAuthenticator.popAuthenticatedActorId()</literal>.  Be sure to always 
+    put these demarcations in a try-finally block.  For the push and pop methods of this 
+    authenticator implementation, there are convenience methods supplied on the base 
+    Authentication class.  The reason that the JbpmDefaultAuthenticator maintains a stack
+    of actorIds instead of just one actorId is simple: it allows the jBPM code to distinct
+    between code that is executed on behalf of the user and code that is executed on behalf of 
+    the jbpm engine.</para>
+    <para>See the javadocs for more information.</para>
+  </section>
+
+  <section id="authorization">
+    <title>Authorization</title>
+    <para>Authorization is validating if an authenticated user is allowed to perform a 
+    secured operation.</para>
+    <para>The jBPM engine and user code can verify if a user is allowed to perform a given 
+    operation with the API method <literal>org.jbpm.security.Authorization.checkPermission(Permission)</literal>.
+    </para>
+    <para>The Authorization class will also delegate that call to a configurable implementation.
+    The interface for pluggin in different authorization strategies is 
+    <literal>org.jbpm.security.authorizer.Authorizer</literal>.</para>
+    <para>In the package org.jbpm.security.authorizer there are some examples that show intentions 
+    of authorizer implementations.  Most are not fully implemented and none of them are tested.</para>
+    <para>Also still todo is the definition of a set of jBPM permissions and the verification of 
+    those permissions by the jBPM engine.  An example could be verifying that the current authenticated 
+    user has sufficient privileges to end a task by calling 
+    <literal>Authorization.checkPermission(new TaskPermission("end", Long.toString(id)))</literal>
+    in the TaskInstance.end() method.</para>
+  </section>
+
+</chapter>

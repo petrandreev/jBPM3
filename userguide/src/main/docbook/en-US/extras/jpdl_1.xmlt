@@ -1,0 +1,6 @@
+<target name="deploy-process">
+  <taskdef name="deployproc" classname="org.jbpm.ant.DeployProcessTask">
+    <classpath location="jbpm-jpdl.jar" />
+  </taskdef> 
+  <deployproc process="build/myprocess.par" />
+</target>

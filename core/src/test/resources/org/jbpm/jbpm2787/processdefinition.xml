@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.2" name="jbpm2787">
+
+  <start-state name="StartPrequalification">
+    <transition to="InitializeVariables" />
+  </start-state>
+
+  <fork name="fork1">
+    <transition to="LookupCentralOffice" name="to LookupCentralOffice" />
+    <transition to="LookupConnection" name="to LookupConnection" />
+  </fork>
+
+  <fork name="fork2">
+    <transition to="LocateBSACentral" name="to FindBSA" />
+    <transition to="LocateColocCentral" name="to FindColoc" />
+    <transition to="LocateEBSACentral" name="to FindEBSA" />
+  </fork>
+
+  <join name="join1" async="exclusive">
+    <transition to="ChooseCentralType" />
+  </join>
+
+  <join name="join2" async="exclusive">
+    <transition to="ChooseLocalLoopType" />
+  </join>
+
+  <node name="ChooseLocalLoopType">
+    <transition to="StoreResultRequestMapper" />
+  </node>
+
+  <node name="ChooseCentralType">
+    <transition to="join2" />
+  </node>
+
+  <node name="Reply">
+    <transition to="EndPrequalification" />
+  </node>
+
+  <decision name="CheckCache" expression="PerformPrequalification">
+    <transition to="fork1" name="PerformPrequalification" />
+    <transition to="Reply" name="to Reply" />
+  </decision>
+
+  <node name="LookupCentralOffice" async="true">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>LookupCentralOffice</esbServiceName>
+      <esbCategoryName>org.jbpm.jbpm2787</esbCategoryName>
+      <bpmToEsbVars>
+        <mapping bpm="contactInfoXML" esb="body.'org.jbpm.jbpm2787.InputPayload'" />
+      </bpmToEsbVars>
+      <esbToBpmVars>
+        <mapping bpm="lookupCentralXML" esb="body.'org.jbpm.jbpm2787.OutputPayload'" />
+      </esbToBpmVars>
+    </action>
+    <transition to="FindCentralRequestMapper" />
+  </node>
+
+  <node name="LookupConnection" async="true">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>LookupConnection</esbServiceName>
+      <esbCategoryName>org.jbpm.jbpm2787</esbCategoryName>
+      <bpmToEsbVars>
+        <mapping bpm="contactInfoXML" esb="body.'org.jbpm.jbpm2787.InputPayload'" />
+      </bpmToEsbVars>
+      <esbToBpmVars>
+        <mapping bpm="connectionXML" esb="body.'org.jbpm.jbpm2787.OutputPayload'" />
+      </esbToBpmVars>
+    </action>
+    <transition to="join2" />
+  </node>
+
+  <node name="LocateBSACentral" async="true">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>LocateCentralOffice</esbServiceName>
+      <esbCategoryName>org.jbpm.jbpm2787</esbCategoryName>
+      <bpmToEsbVars>
+        <mapping bpm="bsaCentralXML" esb="body.'org.jbpm.jbpm2787.InputPayload'" />
+      </bpmToEsbVars>
+      <esbToBpmVars>
+        <mapping bpm="bsaCentralXML" esb="body.'org.jbpm.jbpm2787.OutputPayload'" />
+      </esbToBpmVars>
+    </action>
+    <transition to="join1" />
+  </node>
+
+  <decision name="FindCentralRequestMapper" expression="to FindCentrals">
+    <transition to="ChooseCentralType" name="to ChooseCentralType" />
+    <transition to="fork2" name="to FindCentrals" />
+  </decision>
+
+  <node name="LocateColocCentral" async="true">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>LocateCentralOffice</esbServiceName>
+      <esbCategoryName>org.jbpm.jbpm2787</esbCategoryName>
+      <bpmToEsbVars>
+        <mapping bpm="colocCentralXML" esb="body.'org.jbpm.jbpm2787.InputPayload'" />
+      </bpmToEsbVars>
+      <esbToBpmVars>
+        <mapping bpm="colocCentralXML" esb="body.'org.jbpm.jbpm2787.OutputPayload'" />
+      </esbToBpmVars>
+    </action>
+    <transition to="join1" />
+  </node>
+
+  <node name="StoreResult">
+    <event type="node-leave">
+      <action name="StoreResult" class="org.jbpm.mock.EsbActionHandler">
+        <esbServiceName>StoreResourceOrder</esbServiceName>
+        <esbCategoryName>org.jbpm.jbpm2787</esbCategoryName>
+        <bpmToEsbVars>
+          <mapping bpm="prequalificationXML" esb="body.'org.jbpm.jbpm2787.InputPayload'" />
+          <mapping bpm="storeStatus"
+            esb="body.'org.jbpm.jbpm2787.InternalPayloadStatus'" />
+          <mapping bpm="transactionId"
+            esb="body.'org.jbpm.jbpm2787.InternalPayloadTransactionId'" />
+        </bpmToEsbVars>
+      </action>
+    </event>
+    <transition to="Reply" />
+  </node>
+
+  <decision name="StoreResultRequestMapper" expression="to Reply">
+    <transition to="StoreResult" name="to StoreResult" />
+    <transition to="Reply" name="to Reply" />
+  </decision>
+
+  <node name="LocateEBSACentral" async="true">
+    <action class="org.jbpm.mock.EsbActionHandler">
+      <esbServiceName>LocateCentralOffice</esbServiceName>
+      <esbCategoryName>org.jbpm.jbpm2787</esbCategoryName>
+      <bpmToEsbVars>
+        <mapping bpm="ebsaCentralXML" esb="body.'org.jbpm.jbpm2787.InputPayload'" />
+      </bpmToEsbVars>
+      <esbToBpmVars>
+        <mapping bpm="ebsaCentralXML" esb="body.'org.jbpm.jbpm2787.OutputPayload'" />
+      </esbToBpmVars>
+    </action>
+    <transition to="join1" />
+  </node>
+
+  <node name="InitializeVariables">
+    <transition to="CheckCache" />
+  </node>
+
+  <end-state name="EndPrequalification" />
+
+</process-definition>

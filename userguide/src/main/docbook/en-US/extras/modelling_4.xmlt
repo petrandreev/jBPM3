@@ -1,0 +1,13 @@
+<process-definition>
+  <event type="process-end">
+    <script>
+      <expression>
+        a = b + c;
+      </expression>
+      <variable name='XXX' access='write' mapped-name='a' />
+      <variable name='YYY' access='read' mapped-name='b' />
+      <variable name='ZZZ' access='read' mapped-name='c' />
+    </script>
+  </event>
+  ...
+</process-definition>

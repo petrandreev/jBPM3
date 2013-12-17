@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <class name="org.jbpm.logging.log.ProcessLog"
+         table="JBPM_LOG"
+         discriminator-value="P"
+         lazy="false">
+    <id name="id" column="ID_"><generator class="native" /></id>
+    <!-- A : org.jbpm.graph.log.ActionLog -->
+    <!-- B : org.jbpm.context.log.ByteArrayUpdateLog -->
+    <!-- C : org.jbpm.logging.log.CompositeLog -->
+    <!-- D : org.jbpm.context.log.VariableDeleteLog -->
+    <!-- E : org.jbpm.context.log.DateUpdateLog -->
+    <!-- F : org.jbpm.context.log.HibernateStringUpdateLog -->
+    <!-- G : org.jbpm.context.log.LongUpdateLog -->
+    <!-- H : org.jbpm.context.log.HibernateLongUpdateLog -->
+    <!-- I : org.jbpm.graph.log.ProcessInstanceCreateLog -->
+    <!-- L : org.jbpm.context.log.DoubleUpdateLog -->
+    <!-- M : org.jbpm.logging.log.MessageLog -->
+    <!-- N : org.jbpm.graph.log.NodeLog -->
+    <!-- O : org.jbpm.graph.log.TokenCreateLog -->
+    <!-- P : org.jbpm.logging.log.ProcessLog -->
+    <!-- R : org.jbpm.context.log.VariableCreateLog -->
+    <!-- S : org.jbpm.graph.log.SignalLog -->
+    <!-- T : org.jbpm.graph.log.TransitionLog -->
+    <!-- U : org.jbpm.context.log.StringUpdateLog -->
+    <!-- V : org.jbpm.context.log.VariableLog -->
+    <!-- W : org.jbpm.context.log.VariableUpdateLog -->
+    <!-- X : org.jbpm.graph.log.ProcessInstanceEndLog -->
+    <!-- Y : org.jbpm.graph.log.TokenEndLog -->
+    <!-- Z : org.jbpm.graph.log.ProcessStateLog -->
+    <!-- 0 : org.jbpm.taskmgmt.log.TaskLog -->
+    <!-- 1 : org.jbpm.taskmgmt.log.TaskCreateLog -->
+    <!-- 2 : org.jbpm.taskmgmt.log.TaskAssignLog -->
+    <!-- 3 : org.jbpm.taskmgmt.log.TaskEndLog -->
+    <!-- 4 : org.jbpm.taskmgmt.log.SwimlaneLog -->
+    <!-- 5 : org.jbpm.taskmgmt.log.SwimlaneCreateLog -->
+    <!-- 6 : org.jbpm.taskmgmt.log.SwimlaneAssignLog -->
+    <discriminator type="char" column="CLASS_"/>
+
+    <property name="index" column="INDEX_" />
+    <property name="date" column="DATE_" />
+    <many-to-one name="token"
+                 column="TOKEN_"
+                 foreign-key="FK_LOG_TOKEN"
+                 index="IDX_LOG_TOKEN" />
+    <!-- bidirectional, other side is indexed; make this side inverse -->
+    <many-to-one name="parent"
+                 column="PARENT_"
+                 foreign-key="FK_LOG_PARENT"
+                 index="IDX_LOG_PARENT"
+                 insert="false" update="false" />
+  </class>
+</hibernate-mapping>

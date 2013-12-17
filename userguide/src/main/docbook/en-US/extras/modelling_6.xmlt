@@ -1,0 +1,10 @@
+<process-definition>
+  <super-state name="phase one">
+    <state name="preparation">
+      <transition to="../phase two/invite murphy"/>
+    </state>
+  </super-state>
+  <super-state name="phase two">
+    <state name="invite murphy"/>
+  </super-state>
+</process-definition>

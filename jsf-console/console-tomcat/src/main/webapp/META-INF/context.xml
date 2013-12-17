@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<Context>
+  <Resource name="jdbc/JbpmDataSource" auth="Container" type="javax.sql.DataSource"
+    driverClassName="org.hsqldb.jdbcDriver"
+    url="jdbc:hsqldb:${catalina.base}/work/Catalina/localhost/jbpm-console/jbpmDB"
+    username="sa" password="" />
+
+  <Realm className="org.jbpm.realm.DataSourceRealm" dataSourceName="jdbc/JbpmDataSource"
+    localDataSource="true"
+    userQuery="SELECT PASSWORD_
+               FROM JBPM_ID_USER
+               WHERE NAME_=?"
+    roleQuery="SELECT g.NAME_
+               FROM JBPM_ID_GROUP g
+               JOIN JBPM_ID_MEMBERSHIP m ON g.ID_ = m.GROUP_
+               JOIN JBPM_ID_USER u ON m.USER_ = u.ID_
+               WHERE g.TYPE_='security-role' AND u.NAME_=?" />
+</Context>

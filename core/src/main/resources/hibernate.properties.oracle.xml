@@ -1,0 +1,11 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <property name="hibernate.connection.driver_class">${jdbc.oracle.driver}</property>
+    <property name="hibernate.connection.url">${jdbc.oracle.url}</property>
+    <property name="hibernate.connection.username">${jdbc.oracle.username}</property>
+    <property name="hibernate.connection.password">${jdbc.oracle.password}</property>
+    <!-- JDBC connection properties (end) -->
+

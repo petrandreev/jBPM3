@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <profiles>
+    <profile>
+      <id>jbpm3-local</id>
+
+      <properties>
+        <jdbc.db2.server>localhost</jdbc.db2.server>
+        <jdbc.db2.port>50000</jdbc.db2.port>
+        <jdbc.db2.database>jbpm3</jdbc.db2.database>
+        <jdbc.db2.url>jdbc:db2://${jdbc.db2.server}:${jdbc.db2.port}/${jdbc.db2.database}</jdbc.db2.url>
+        <jdbc.db2.username>jbpm3</jdbc.db2.username>
+        <jdbc.db2.password>jbpm3</jdbc.db2.password>
+        <jdbc.db2.driver>com.ibm.db2.jcc.DB2Driver</jdbc.db2.driver>
+
+        <jdbc.mssql.server>dev30.qa.atl.jboss.com</jdbc.mssql.server>
+        <jdbc.mssql.port>3918</jdbc.mssql.port>
+        <jdbc.mssql.database>jbpm</jdbc.mssql.database>
+        <jdbc.mssql.url>jdbc:sqlserver://${jdbc.mssql.server}:${jdbc.mssql.port};databaseName=${jdbc.mssql.database}</jdbc.mssql.url>
+        <jdbc.mssql.username>jbpm</jdbc.mssql.username>
+        <jdbc.mssql.password>jbpm</jdbc.mssql.password>
+        <jdbc.mssql.driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc.mssql.driver>
+
+        <jdbc.mysql.server>localhost</jdbc.mysql.server>
+        <jdbc.mysql.port>3306</jdbc.mysql.port>
+        <jdbc.mysql.database>jbpm3</jdbc.mysql.database>
+        <jdbc.mysql.url>jdbc:mysql://${jdbc.mysql.server}:${jdbc.mysql.port}/${jdbc.mysql.database}</jdbc.mysql.url>
+        <jdbc.mysql.username>jbpm3</jdbc.mysql.username>
+        <jdbc.mysql.password>jbpm3</jdbc.mysql.password>
+        <jdbc.mysql.driver>com.mysql.jdbc.Driver</jdbc.mysql.driver>
+
+        <jdbc.oracle.server>localhost</jdbc.oracle.server>
+        <jdbc.oracle.port>1521</jdbc.oracle.port>
+        <jdbc.oracle.database>XE</jdbc.oracle.database>
+        <jdbc.oracle.url>jdbc:oracle:thin:@${jdbc.oracle.server}:${jdbc.oracle.port}:${jdbc.oracle.database}</jdbc.oracle.url>
+        <jdbc.oracle.username>jbpm3</jdbc.oracle.username>
+        <jdbc.oracle.password>jbpm3</jdbc.oracle.password>
+        <jdbc.oracle.driver>oracle.jdbc.driver.OracleDriver</jdbc.oracle.driver>
+
+        <jdbc.postgresql.server>localhost</jdbc.postgresql.server>
+        <jdbc.postgresql.port>5432</jdbc.postgresql.port>
+        <jdbc.postgresql.database>jbpm3</jdbc.postgresql.database>
+        <jdbc.postgresql.url>jdbc:postgresql://${jdbc.postgresql.server}:${jdbc.postgresql.port}/${jdbc.postgresql.database}</jdbc.postgresql.url>
+        <jdbc.postgresql.username>jbpm3</jdbc.postgresql.username>
+        <jdbc.postgresql.password>jbpm3</jdbc.postgresql.password>
+        <jdbc.postgresql.driver>org.postgresql.Driver</jdbc.postgresql.driver>
+
+        <jdbc.sybase.server>localhost</jdbc.sybase.server>
+        <jdbc.sybase.port>5000</jdbc.sybase.port>
+        <jdbc.sybase.database>jbpm3</jdbc.sybase.database>
+        <jdbc.sybase.url>jdbc:sybase:Tds:${jdbc.sybase.server}:${jdbc.sybase.port}/${jdbc.sybase.database}</jdbc.sybase.url>
+        <jdbc.sybase.username>jbpm3</jdbc.sybase.username>
+        <jdbc.sybase.password>jbpm3jbpm3</jdbc.sybase.password>
+        <jdbc.sybase.driver>com.sybase.jdbc3.jdbc.SybDriver</jdbc.sybase.driver>
+        <jdbc.sybase.datasource>com.sybase.jdbc3.jdbc.SybXADataSource</jdbc.sybase.datasource>
+
+        <jboss405.home>$USER_HOME/jboss-4.0.5.GA</jboss405.home>
+        <jboss423.home>$USER_HOME/jboss-4.2.3.GA</jboss423.home>
+        <jboss501.home>$USER_HOME/jboss-5.0.1.GA</jboss501.home>
+        <jboss510.home>$USER_HOME/jboss-5.1.0.GA</jboss510.home>
+        <jboss.server>all</jboss.server>
+
+        <tomcat.home>$USER_HOME/apache-tomcat-6.0.29</tomcat.home>
+        <jbpm.home>$USER_HOME/jbpm-${project.version}</jbpm.home>
+      </properties>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>jbpm3-local</activeProfile>
+  </activeProfiles>
+</settings>

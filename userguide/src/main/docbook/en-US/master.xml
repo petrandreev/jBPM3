@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<book>
+    <xi:include href="Book_Info.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <!--
+    <xi:include href="Preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    -->
+
+    <xi:include href= "introduction.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="gettingstarted.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="tutorial.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="deployment.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="configuration.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="persistence.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="database.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="enterprise.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="modelling.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="context.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="taskmgmt.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="scheduler.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="async.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="calendar.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="mail.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="logging.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="jpdl.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /> 
+    <xi:include href="security.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="tdd.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href="pluggable.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /> 
+
+    <xi:include href="LGPL_Appendix.xml" xmlns:xi="http://www.w3.org/2001/XInclude" /> 
+    <xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</book>

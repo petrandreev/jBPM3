@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="raise request" xmlns="urn:jbpm.org:jpdl-3.2">
+	<swimlane name="employee" />
+	<swimlane name="manager">
+		<assignment actor-id="manager" />
+	</swimlane>
+	<swimlane name="fo">
+		<assignment actor-id="fo" />
+	</swimlane>
+	<swimlane name="accountant">
+		<assignment actor-id="accountant" />
+	</swimlane>
+
+	<start-state name="submit raise request">
+		<task swimlane="employee" />
+		<transition name="submit request" to="manager evaluation" />
+	</start-state>
+
+	<task-node name="manager evaluation">
+		<task swimlane="manager" />
+		<transition to="end" name="reject" />
+		<transition to="fo evaluation" name="accept" />
+	</task-node>
+
+	<task-node name="fo evaluation">
+		<task swimlane="fo" />
+		<transition to="end" name="reject" />
+		<transition to="manager evaluation"
+			name="more justification required" />
+		<transition to="update erp" name="accept" />
+	</task-node>
+
+	<task-node name="update erp">
+		<task swimlane="accountant" />
+		<transition to="end" name="terminate" />
+	</task-node>
+
+	<end-state name="end" />
+</process-definition>

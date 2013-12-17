@@ -1,0 +1,12 @@
+<process-definition name='the deployable process'>
+  <start-state>
+    <transition to='a' />
+  </start-state>
+  <node name='a'>
+    <transition to='b' />
+  </node>
+  <node name='b'>
+    <transition to='end' />
+  </node>
+  <end-state name='end' />
+</process-definition>

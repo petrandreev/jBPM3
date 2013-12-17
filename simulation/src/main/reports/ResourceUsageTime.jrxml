@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="ScenarioAnalysis"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="535"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<subDataset name="sim_waitingTime" >
+
+
+		<field name="refused" class="java.lang.Long">
+			<fieldDescription><![CDATA[refused]]></fieldDescription>
+		</field>
+		<field name="minLength" class="java.lang.Integer">
+			<fieldDescription><![CDATA[minLength]]></fieldDescription>
+		</field>
+		<field name="strategy" class="java.lang.String">
+			<fieldDescription><![CDATA[strategy]]></fieldDescription>
+		</field>
+		<field name="averageLength" class="java.lang.Double">
+			<fieldDescription><![CDATA[averageLength]]></fieldDescription>
+		</field>
+		<field name="observations" class="java.lang.Long">
+			<fieldDescription><![CDATA[observations]]></fieldDescription>
+		</field>
+		<field name="length" class="java.lang.Integer">
+			<fieldDescription><![CDATA[length]]></fieldDescription>
+		</field>
+		<field name="maxLength" class="java.lang.Integer">
+			<fieldDescription><![CDATA[maxLength]]></fieldDescription>
+		</field>
+		<field name="name" class="java.lang.String">
+			<fieldDescription><![CDATA[name]]></fieldDescription>
+		</field>
+		<field name="stdDevLength" class="java.lang.Double">
+			<fieldDescription><![CDATA[stdDevLength]]></fieldDescription>
+		</field>
+		<field name="averageWaitTime" class="java.lang.Double">
+			<fieldDescription><![CDATA[averageWaitTime]]></fieldDescription>
+		</field>
+		<field name="maxWaitTime" class="java.lang.Double">
+			<fieldDescription><![CDATA[maxWaitTime]]></fieldDescription>
+		</field>
+		<field name="queueLimit" class="java.lang.Integer">
+			<fieldDescription><![CDATA[queueLimit]]></fieldDescription>
+		</field>
+		<field name="zeroWaits" class="java.lang.Long">
+			<fieldDescription><![CDATA[zeroWaits]]></fieldDescription>
+		</field>
+
+	</subDataset>
+
+	<parameter name="resource_name" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["resource"]]></defaultValueExpression>
+	</parameter>
+
+	<field name="time" class="java.lang.Double">
+		<fieldDescription><![CDATA[time]]></fieldDescription>
+	</field>
+	<field name="value" class="java.lang.Double">
+		<fieldDescription><![CDATA[value]]></fieldDescription>
+	</field>
+
+
+		<group  name="time" >
+			<groupExpression><![CDATA[$F{time}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="185"  isSplitAllowed="true" >
+				<lineChart>
+					<chart evaluationTime="Group" evaluationGroup="time"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="516"
+						height="185"
+						key="element-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+						<chartLegend textColor="#000000" backgroundColor="#FFFFFF" >
+					</chartLegend>
+					</chart>
+					<categoryDataset>
+						<dataset incrementType="Group" incrementGroup="time" >
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["number of available " + $P{resource_name}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{time}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+				<itemHyperlink >
+				</itemHyperlink>
+						</categorySeries>
+					</categoryDataset>
+					<linePlot >
+						<plot />
+						<categoryAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</valueAxisFormat>
+					</linePlot>
+				</lineChart>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

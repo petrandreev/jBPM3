@@ -1,0 +1,93 @@
+<chapter id="businesskalender">
+	<title>Businesskalender</title>
+
+	<para>
+		Dieses Kapitel beschreibt der Businesskalender von jBPM. der
+		Businesskalender kennt sich über die Businessstunden aus und wird für
+		die Berechnung der Abgabetermin für Aufgaben und Timer verwendet.
+	</para>
+
+	<para>
+		Der Businesskalender is in der Lage, eine Datum zu errechnen, indem
+		er eine Zeitdauer und eine Datum addiert.		
+	</para>
+
+	<section id="duration">
+		<title>Zeitdauer</title>
+		<para>
+			Eine Zeitdauer ist in absoluten oder in Businessstunden spezifiziert.
+			Lassen wir uns die Syntax betrachten: 	
+		</para>
+		<para>
+			<literal>&lt;quantity&gt; [business] &lt;unit&gt;</literal>
+		</para>
+		<para>
+			Wo
+			<literal>&lt;quantity&gt;</literal>
+			ist ein Teil des Textes, der durch 
+			Double.parseDouble(quantity) analysierbar ist.
+			<literal>&lt;unit&gt;</literal>
+			ist eine von  {second, seconds, minute, minutes, hour, hours,
+			day, days, week, weeks, month, months, year, years}. Und
+			die Einstellung der optionalen Angabe
+			<literal>business</literal>
+			bedeutet, nur Businessstunden sollten während der Zeitdauer in Betracht gezogen werden. 
+			Ohne die Angabe
+			<literal>business</literal>
+			, wird die Zeitdauer als eine absolute Zeitspanne interpretiert.
+		</para>
+	</section>
+
+	<section id="configuration">
+		<title>Konfiguration</title>
+		<para>
+			Die Datei
+			<literal>
+				org/jbpm/calendar/jbpm.business.calendar.properties
+			</literal>
+			spezifiziert, was Businessstunden sind. Die Konfigurationsdatei
+			kann neu erzeugt werden und die geänderte Kopie kann in die 
+			Wurzel des ClassPath gesetzt werden.
+		</para>
+		<para>
+			Dies ist ein Beispiel wie Businessstunde-Spezifikation als Default in der Datei
+			<literal>jbpm.business.calendar.properties</literal>  aussieht
+			:
+		</para>
+    <programlisting>hour.format=HH:mm
+#weekday ::= [&lt;daypart&gt; [&amp; &lt;daypart&gt;]*]
+#daypart ::= &lt;start-hour&gt;-&lt;to-hour&gt;
+#start-hour and to-hour must be in the hour.format
+#dayparts have to be ordered
+weekday.monday=    9:00-12:00 &amp; 12:30-17:00
+weekday.tuesday=   9:00-12:00 &amp; 12:30-17:00
+weekday.wednesday= 9:00-12:00 &amp; 12:30-17:00
+weekday.thursday=  9:00-12:00 &amp; 12:30-17:00
+weekday.friday=    9:00-12:00 &amp; 12:30-17:00
+weekday.saturday=
+weekday.sunday=
+
+day.format=dd/MM/yyyy
+# holiday syntax: &lt;holiday&gt;
+# holiday period syntax: &lt;start-day&gt;-&lt;end-day&gt;
+# below are the belgian official holidays
+holiday.1=  01/01/2005 # nieuwjaar
+holiday.2=  27/3/2005  # pasen 
+holiday.3=  28/3/2005  # paasmaandag 
+holiday.4=  1/5/2005   # feest van de arbeid
+holiday.5=  5/5/2005   # hemelvaart 
+holiday.6=  15/5/2005  # pinksteren 
+holiday.7=  16/5/2005  # pinkstermaandag 
+holiday.8=  21/7/2005  # my birthday 
+holiday.9=  15/8/2005  # moederkesdag 
+holiday.10= 1/11/2005  # allerheiligen 
+holiday.11= 11/11/2005 # wapenstilstand 
+holiday.12= 25/12/2005 # kerstmis 
+
+business.day.expressed.in.hours=             8
+business.week.expressed.in.hours=           40
+business.month.expressed.in.business.days=  21
+business.year.expressed.in.business.days=  220</programlisting>
+	</section>
+
+</chapter>

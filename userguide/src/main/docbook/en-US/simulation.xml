@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="simulation">
+  <title>Business Process Simulation</title>
+
+  <para>jBPM contains a simulation component, which leverages Business Process Simulation
+  to jBPM applications. The simulation component documentation is still under development.</para>
+  
+  <para>Information about simulation features and a tutorial how to use the simulation is
+  available here: http://www.camunda.com/jbpm_simulation/introduction.html</para>
+</chapter>

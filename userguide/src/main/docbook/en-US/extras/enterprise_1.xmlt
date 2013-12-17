@@ -1,0 +1,8 @@
+<jbpm-context>
+  <service name="persistence"
+    factory="org.jbpm.persistence.jta.JtaDbPersistenceServiceFactory" />
+  <service name="message"
+    factory="org.jbpm.msg.jms.JmsMessageServiceFactory" />
+  <service name="scheduler"
+    factory="org.jbpm.scheduler.ejbtimer.EntitySchedulerServiceFactory" />
+</jbpm-context>

@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+<chapter id="logging">
+  <title>
+     Logging
+  </title>
+
+    <para>
+        Read this chapter to learn about the logging functionality present in the
+        Business Process Manager and the various ways in which it can be
+        utilized.
+   </para>
+   
+  <para>
+      The purpose of logging is to record the history of a process
+      execution. As the run-time data of each process execution alters, the
+      changes are stored in the logs.
+  </para>
+  
+  <note>
+    <para>
+        <firstterm>Process logging</firstterm>, which is covered in this
+        chapter, is not to be confused with <firstterm>software
+        logging</firstterm>. Software logging traces the execution of a
+        software program (usually for the purpose of debugging it.) Process
+        logging, by contast, traces the execution of process instances.
+   </para>
+  </note>
+  
+  <para>
+        There are many ways in which process logging information can be
+        useful. Most obvious of these is the consulting of the process
+        history by process execution participants.  
+  </para>
+  
+  <para>
+        Another use case is that of <firstterm>Business Activity
+        Monitoring</firstterm> (BAM). This can be used to query or analyze
+        the logs of process executions to find useful statistical
+        information about the business process. This information is key to
+        implementing "real" business process management in an organization.
+        (Real business process management is about how an organization
+        manages its processes, how these processes are supported by
+        information technology and how these two can be usede improve each
+        other in an iterative process.)
+  </para>
+  
+  <para>
+        Process logs can also be used to implement "undos." Since the logs
+        contain a record of all run-time information changes, they can be
+        "played" in reverse order to bring a process back into a previous
+        state.
+  </para>
+
+  <section id="creationoflogs">
+    <title>
+            Log Creation
+    </title>
+    
+    <para>
+        Business Process Manager modules produce logs when they run process
+        executions. But also users can insert process logs. (A log entry is
+        a Java object that inherits from
+        <classname>org.jbpm.logging.log.ProcessLog</classname>.) Process log
+        entries are added to the <systemitem>LoggingInstance</systemitem>,
+        which is an optional extension of the
+        <systemitem>ProcessInstance</systemitem>.
+    </para>
+    
+    <para>
+        The Business Process Manager generates many different kinds of log,
+        these being graph execution logs, context logs and task management
+        logs. A good starting point is
+        <classname>org.jbpm.logging.log.ProcessLog</classname> since one can
+        use that to navigate down the <systemitem>inheritance
+        tree</systemitem>.
+    </para>
+    
+    
+    <para>
+        The <systemitem>LoggingInstance</systemitem> collects all log
+        entries. When the <systemitem>ProcessInstance</systemitem> is saved,
+        they are flushed from here to the database. (The
+        <systemitem>ProcessInstance</systemitem>'s <property>logs</property>
+        field is not mapped to <application>Hibernate</application>. This is so as to
+        avoid those logs that are retrieved from the database in each
+        transaction.) 
+     </para>   
+     
+     <para>   
+            Each <systemitem>ProcessInstance</systemitem> is made in the
+            context of a path of execution and hence, the
+            <systemitem>ProcessLog</systemitem> refers to that token, which
+            also serves as an <firstterm>index sequence
+            generator</firstterm> it. (This is important for log retrieval
+            as it means that logs produced in subsequent transactions shall
+            have sequential sequence numbers.
+        </para>
+    
+    <para>
+            Use this API method to add process logs:
+    </para>
+    
+    <programlisting language="Java"><xi:include href="extras/logging_1.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+    <para>
+        This is the UML diagram for information logging:
+    </para>
+    
+    <figure id="logging.model.image">
+      <title>The jBPM logging information class diagram</title>
+      <mediaobject><imageobject><imagedata fileref="images/logging.model.png"/></imageobject></mediaobject>
+    </figure>
+
+    <para>
+            A <firstterm>CompositeLog</firstterm> is a special case. It
+            serves as the parent log for a number of children, thereby
+            creating the means for a hierarchical structure to be applied.
+            The following application programming interface is used to
+            insert a log:
+    </para>
+
+    <programlisting language="Java"><xi:include href="extras/logging_2.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        The <systemitem>CompositeLog</systemitem>s should always be called
+        in a <methodname>try-finally-block</methodname> to make sure that the
+        hierarchical structure is consistent. For example:
+    </para>
+    
+    <programlisting language="Java"><xi:include href="extras/logging_3.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+  </section>  
+
+  <section id="logconfigurations">
+    <title>
+        Log Configurations
+    </title>
+    
+    <para>
+        If logs are not important for a particular deployment, simply remove
+        the logging line from the <property>jbpm-context</property> section
+        of the <filename>jbpm.cfg.xml</filename> configuration file:
+    </para>
+    
+   <programlisting language="XML"><xi:include href="extras/logging_4.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        In order to filter the logs, write a custom implementation of the
+        <classname>LoggingService</classname> (this is a subclass of
+        <classname>DbLoggingService</classname>.) Having done so, create a
+        custom <systemitem>ServiceFactory</systemitem> for logging and
+        specify it in the <systemitem>factory</systemitem> attribute.
+    </para>
+  </section>
+
+  <section id="logretrieval">
+    <title>
+        Log Retrieval
+    </title>
+    
+    <para>
+        Process instance logs must always be retrieved via database queries.
+        There are two methods to achieve this through
+        <systemitem>LoggingSession</systemitem>.
+    </para>
+    
+    <para>
+        The first method retrieves all logs for a process instance. These
+        logs will be grouped by token in a map. This map will associate a
+        list of <systemitem>ProcessLogs</systemitem> with every token in the
+        process instance. The list will contain the
+        <systemitem>ProcessLogs</systemitem> in the same order as that in
+        which they were created.
+    </para>
+    
+    <programlisting language="Java"><xi:include href="extras/logging_5.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+    <para>
+        The second method retrieves the logs for a specific token. The list will contain the
+        <systemitem>ProcessLogs</systemitem> in the same order as that in
+        which they were created.
+    </para>
+    
+    <programlisting language="Java"><xi:include href="extras/logging_6.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+  <para>
+        Having perused this chapter, the reader will now know how logging
+        works in jBPM and has some idea of the various uses to which it can
+        be put.
+ </para>
+
+  </section>  
+
+  
+
+</chapter>

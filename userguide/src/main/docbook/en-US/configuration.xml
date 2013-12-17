@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+<chapter id="configuration">
+  <title>
+    Configuration
+ </title>
+  
+  <para>
+    Read this chapter and studied the examples to learn how to configure the
+    jBPM.
+  </para>
+  
+  <para>
+      The simplest way to configure the Business Process Manager is by
+      putting the <filename>jbpm.cfg.xml</filename> configuration file into
+      the root of the classpath. If the file is not available for use as a
+      resource, the default minimal configuration will be used instead. This
+      minimal configuration is included in the jBPM library
+      (<filename>org/jbpm/default.jbpm.cfg.xml</filename>.) If a jBPM
+      configuration file is provided, the values it contains will be used as
+      the defaults. Hence, one only needs to specify the values that are to
+      be different from those in the default configuration file.
+  </para>
+  
+  <para>
+        The jBPM configuration is represented by a Java class called
+        <classname>org.jbpm.JbpmConfiguration</classname>. Obtain it by
+        making use of the <systemitem>singleton</systemitem> instance method
+        (<methodname>JbpmConfiguration.getInstance()</methodname>.)
+  </para>
+
+<note>
+  <para>
+        Use the <methodname>JbpmConfiguration.parseXxxx</methodname> methods
+        to load a configuration from another source.
+  </para>
+</note>
+
+  <programlisting language="Java"><xi:include href="extras/differentmethods.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+ 
+  <para>
+      The <classname>JbpmConfiguration</classname> is "thread safe" and,
+      hence, can be kept in a <firstterm>static member</firstterm>. 
+  </para>    
+  
+  <para>    
+      Every thread can use a <classname>JbpmConfiguration</classname> as a
+      <firstterm>factory</firstterm> for <classname>JbpmContext</classname>
+      objects. A <classname>JbpmContext</classname> will usually represent
+      one transaction. They make services available inside
+      <firstterm>context blocks</firstterm> which looks like this:
+  </para>
+ 
+  <programlisting language="Java"><xi:include href="extras/configuration_1.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+  <para>
+      The <classname>JbpmContext</classname> makes both a set of services
+      and the configuration settings available to the Business Process
+      Manager. The services are configured by the values in the
+      <filename>jbpm.cfg.xml</filename> file. They make it possible for the
+      jBPM to run in any Java environment, using whatever services are
+      available within said environment.
+  </para> 
+
+    <para>
+        Here are the default configuration settings for the
+       <classname>JbpmContext</classname>:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_1.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+  <para>
+      The above file contains three parts:
+  </para>
+  
+  <orderedlist>
+    <listitem>
+    <para>
+            a set of <firstterm>service implementations</firstterm> which
+            configure the <classname>JbpmContext</classname>. (The possible
+            configuration options are detailed in the chapters that cover
+            specific service implementations.)
+    </para>    
+    </listitem>
+    <listitem>
+    <para>
+            all of the mappings linking references to configuration
+            resources. If one wishes to customize one of the configuration
+            files, update these mappings. To do so, always back up the
+            default configuration file (<filename>jbpm-3.x.jar</filename>)
+            to another location on the classpath first. Then, update the
+            reference in this file, pointing it to the customized version
+            that the jBPM is to use.
+    </para>
+    </listitem>
+    <listitem>
+    <para>
+        miscellaneous configurations for use by the
+        jBPM. (These are described in the chapters that
+        cover the specific topics in question.)
+    </para>
+    </listitem>
+  </orderedlist>
+
+  <para>
+        The default configuration has been optimized for a simple web
+        application environment which has minimal dependencies. The
+        persistence service obtains a JDBC connection which is used by all
+        of the other services. Hence, all of the workflow operations are
+        centralized as they are placed in a single transaction on a JDBC
+        connection (without the need for a transaction manager.)
+  </para>
+
+  <para>
+        <classname>JbpmContext</classname> contains <firstterm>convenience
+        methods</firstterm> for most of the common process operations. They
+        are demonstrated in this code sample:
+  </para>
+
+  <programlisting language="Java"><xi:include href="extras/configuration_2.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+<note>
+  <para>
+          There is no need to call any of the save methods explicitly
+          because the <methodname>XxxForUpdate</methodname> methods are
+          designed to register the loaded object for "auto-save."
+  </para>
+</note>
+
+  <para>
+        It is possible to specify multiple
+        <classname>jbpm-context</classname>s. To do so, make sure that each
+        of them is given a unique <property>name</property> attribute.
+        (Retrieve named contexts by using
+        <methodname>JbpmConfiguration.createContext(String
+        name);</methodname>.)
+  </para>
+
+  <para>
+        A <property>service</property> element specifies its own name and
+        associated <firstterm>service factory</firstterm>. The service
+        will only be created when requested to do so by
+        <methodname>JbpmContext.getServices().getService(String
+        name)</methodname>.
+  </para>
+
+<note>  
+  <para>
+        One can also specfy the <systemitem>factories</systemitem> as
+        <firstterm>elements</firstterm> instead of attributes. This is
+        necessary when injecting some configuration information into factory
+        objects. 
+  </para>  
+</note>
+
+  <para>  
+        Note that the component responsible for creating and wiring the
+        objects and parsing the XML is called the <classname>object
+        factory</classname>.  
+  </para>
+
+  <section id="customizingfactories">
+    <title>
+        Customizing Factories
+    </title>
+    
+    <warning>
+        <para>
+            A mistake commonly made by people when they are trying to
+            customize factories is to mix long and short notation together.
+            (Examples of the short notation can be seen in the default
+            configuration file.)
+        </para>
+    </warning>
+    
+    <para>
+        <application>Hibernate</application> logs
+        <exceptionname>StateObjectStateException</exceptionname> exceptions
+        and generates a <systemitem>stack trace</systemitem>. In order to
+        remove the latter, set
+        <classname>org.hibernate.event.def.AbstractFlushingEventListener</classname>
+        to <code>FATAL</code>. (Alternatively, if using
+        <systemitem>log4j</systemitem>, set the following line in the
+        configuration: for that:
+        <code>log4j.logger.org.hibernate.event.def.AbstractFlushingEventListener=FATAL</code>
+    </para>
+    
+    <programlisting language="XML"><xi:include href="extras/persistence.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+<important>
+    <para>
+        If one needs to note specific properties on a service, only the long
+        notation can be used.
+    </para>
+</important>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_2.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+  </section>
+
+  <section id="configurationproperties">
+    <title>
+        Configuration Properties
+    </title>
+   
+    <variablelist>
+        
+        <varlistentry>
+            <term><property>jbpm.byte.block.size</property></term>
+            <listitem>
+                <para>
+                    File attachments and binary variables are stored in the
+                    database in the form of a list of fixed-sized, binary
+                    objects. (The aim of this is to improve portability
+                    amongst different databases. It also allows one to embed
+                    the jBPM more easily.) This parameter controls the size of
+                    those fixed-length chunks.
+                </para>
+            </listitem>
+        </varlistentry>
+        
+        <varlistentry>
+            <term><property>jbpm.task.instance.factory</property></term>
+            <listitem>
+                <para>
+                    To customize the way in which task instances are
+                    created, specify a fully-qualified classname against
+                    this property. (This is often necessary when one intends
+                    to customize, and add new properties to, the
+                    <classname>TaskInstance</classname> bean.) Ensure that
+                    the specified classname implements the
+                    <interfacename>org.jbpm.taskmgmt.TaskInstanceFactory</interfacename>
+                    interface. (Refer to <xref
+                    linkend="customizingtaskinstances" /> for more
+                    information.)
+                </para>
+            </listitem>
+        </varlistentry>
+        
+        <varlistentry>
+            <term><property>jbpm.variable.resolver</property></term>
+            <listitem>
+                <para>
+                Use this to customize the way in which jBPM looks for
+                the first term in "JSF"-like expressions.
+                </para>
+            </listitem>
+        </varlistentry>
+        
+    </variablelist>
+    
+  </section>
+
+  <section id="configurationfiles">
+    <title>Other Configuration Files</title>
+    
+    <para>
+        There are a number of configuration files in the jBPM
+        which can be customized:
+    </para>
+
+    <variablelist>
+
+        <varlistentry>
+            <term><filename>hibernate.cfg.xml</filename></term>
+            <listitem>
+                <para>
+                    This contains references to, and configuration details
+                    for, the <application>Hibernate</application> mapping
+                    resource files.
+                </para>
+                <para>
+                    To specify a different file, configure the
+                    <property>jbpm.hibernate.cfg.xml</property> property in
+                    <filename>jbpm.properties</filename>. (The
+                    default <application>Hibernate</application>
+                    configuration file is located in the
+                    <filename>src/config.files/hibernate.cfg.xml</filename>
+                    sub-directory.)
+                </para>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><filename>org/jbpm/db/hibernate.queries.hbm.xml</filename></term>
+            <listitem>
+                <para>
+                This file contains those <application>Hibernate</application>
+                queries to be used in the jBPM sessions
+                (<classname>org.jbpm.db.*Session</classname>.)
+                </para>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><filename>org/jbpm/graph/node/node.types.xml</filename></term>
+            <listitem>
+                <para>
+                    This file is used to map XML node elements to
+                    <classname>Node</classname> implementation classes.  
+                </para>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><filename>org/jbpm/graph/action/action.types.xml</filename></term>
+            <listitem>
+                <para>
+                    This file is used to map XML action elements to
+                    <classname>Action</classname> implementation classes.
+                </para>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><filename>org/jbpm/calendar/jbpm.business.calendar.properties</filename></term>
+            <listitem>
+                <para>
+                        This contains the definitions of "business hours" and
+                        "free time."
+                </para>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><filename>org/jbpm/context/exe/jbpm.varmapping.xml</filename></term>
+            <listitem>
+                <para>
+                This specifies the way in which the process variables values
+                (Java objects) are converted to variable instances for
+                storage in the jBPM database.
+                </para>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><filename>org/jbpm/db/hibernate/jbpm.converter.properties</filename></term>
+            <listitem>
+                <para>
+                    This specifies the <code>id-to-classname</code> mappings. The
+                    <property>id</property>s are stored in the database. The
+                    <classname>org.jbpm.db.hibernate.ConverterEnumType</classname> class 
+                    is used to map the identifiers to the
+                    <systemitem>singleton</systemitem> objects.
+                </para>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><filename>org/jbpm/graph/def/jbpm.default.modules.properties</filename></term>
+            <listitem>
+                <para>
+                This specifies which modules are to be added to a new
+                <classname>ProcessDefinition</classname> by default.
+                </para>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><filename>org/jbpm/jpdl/par/jbpm.parsers.xml</filename></term>
+            <listitem>
+                <para>
+                This specifies the phases of <firstterm>process archive
+                parsing</firstterm>.
+                </para>
+            </listitem>
+        </varlistentry>
+
+    </variablelist>
+
+  </section>
+
+  <section id="loggingofoptimisticconcurrencyexceptions">
+    <title>
+        Logging Optimistic Concurrency Exceptions
+   </title>
+        
+    <para>
+            When it is run in a cluster configuration, the jBPM synchronizes with
+            the database by using <firstterm>optimistic locking</firstterm>.
+            This means that each operation is performed in a transaction and
+            if, at the end, a collision is detected, then the transaction in
+            question is rolled back and has to be handled with a retry. This
+            can cause
+            <exceptionname>org.hibernate.StateObjectStateException</exceptionname>
+            exceptions. If and when this happens,
+            <application>Hibernate</application> will log the exceptions
+            with a simple message, <screen>optimistic locking
+            failed</screen>. 
+    </para>
+    
+    <para>
+        <application>Hibernate</application> can also log the
+        <exceptionname>StateObjectStateException</exceptionname> with a
+        stack trace. To remove these stack traces, set the
+        <classname>org.hibernate.event.def.AbstractFlushingEventListener</classname>
+        class to <code>FATAL</code>. Do so in
+        <application>log4j</application> by using the following
+        configuration:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_a.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+    
+    <para>
+        In order to log jBPM stack traces, add the following line to the
+        <filename>jbpm.cfg.xml</filename> file:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_b.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+    
+    </section>
+  
+  <section id="objectfactory">
+    <title>Object Factory</title>
+    <para>
+            The <firstterm>Object Factory</firstterm> can build objects to
+            the specification contained in a "beans-like" XML configuration
+            file. This file dictates how objects are to be
+            created, configured and wired together to form a complete object
+            graph. Also use the Object Factory to inject configurations and
+            other beans into a single bean.
+    </para>
+    
+    <para>
+        In its most elementary form, the Object Factory is able to create both
+        basic <firstterm>types</firstterm> and Java beans from such a
+        configuration, as shown in the following examples:
+    </para>
+    
+    <programlisting language="XML"><xi:include href="extras/configuration_3.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <programlisting language="Java"><xi:include href="extras/configuration_4.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+        <para>
+                This code shows how to configure lists:
+        </para>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_5.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+            This code demonstrates how to configure maps:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_6.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        Use <firstterm>direct field injection</firstterm> and property
+        <systemitem>setter</systemitem> methods to configure beans:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_7.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        Beans can be <firstterm>referenced</firstterm>. The referenced
+        object doesn't have to be a bean; it can be a string, an integer or
+        any other kind.  Here is some code that demonstrates this capability:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_8.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        Beans can be built with any constructor, as this code shows:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_9.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        Beans can be constructed using a <methodname>factory</methodname>
+        method:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_10.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        Beans can be constructed using a <methodname>static
+        factory</methodname> method on a class:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/configuration_11.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        Use the attribute <code>singleton="true"</code> to mark each named
+        object as a <systemitem>singleton</systemitem>. Doing so will ensure that a
+        given <classname>object factory</classname> always returns the
+        same object for each request. 
+   </para>     
+        
+   <note>     
+        <para>        
+            <systemitem>Singletons</systemitem> cannot be shared between
+            different object factories.
+    </para>
+</note>
+
+    <para>
+        The <systemitem>singleton</systemitem> feature causes
+        differentiation between the methods named
+        <methodname>getObject</methodname> and
+        <methodname>getNewObject</methodname>. Normally, one should use
+        <methodname>getNewObject</methodname> as this clears the
+        <classname>object factory</classname>'s <firstterm>object
+        cache</firstterm> before the new object graph is constructed. 
+    </para>    
+    
+    <para>
+        During construction of the object graph, the
+        <firstterm>non-singleton objects</firstterm> are stored in the
+        <classname>object factory</classname>'s cache. This allows
+        references to one object to be shared. Bear in mind that the
+        <systemitem>singleton object cache</systemitem> is different from
+        the <systemitem>plain object cache</systemitem>. The
+        <systemitem>singleton</systemitem> cache is never cleared, whilst
+        the plain one is cleared every time a
+        <methodname>getNewObject</methodname> method is started.
+    </para>
+    
+    <para>
+        Having studied this chapter, one now has a thorough knowledge
+        of the many ways in which the jBPM can be configured.
+    </para>
+  </section>
+
+</chapter>

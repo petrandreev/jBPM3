@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="CMTE CNND Ingest Content" width="912" height="1048">
+  <node name="Start Content Ingestion" x="242" y="48" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Categorize Content" x="243" y="128" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-224" h1="0" w2="-1" h2="-353"/>
+    </edge>
+  </node>
+  <node name="ValidateContent" x="240" y="458" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="RejectContent" x="448" y="384" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Diff Content" x="240" y="615" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-221" h1="-1" w2="0" h2="152"/>
+    </edge>
+  </node>
+  <node name="Store Content" x="239" y="763" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-220" h1="0" w2="0" h2="301"/>
+    </edge>
+  </node>
+  <node name="Content is valid?" x="241" y="535" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="207" h1="0" w2="0" h2="151"/>
+    </edge>
+  </node>
+  <node name="Content is diff?" x="239" y="690" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Content mapped to category?" x="212" y="211" width="196" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="204" h1="-1" w2="0" h2="-174"/>
+    </edge>
+  </node>
+  <node name="Split Content" x="240" y="840" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-221" h1="-1" w2="0" h2="377"/>
+    </edge>
+  </node>
+  <node name="More items?" x="240" y="911" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Diff Item" x="241" y="988" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-1" h1="31" w2="221" h2="561"/>
+      <bendpoint w1="-297" h1="31" w2="-75" h2="561"/>
+      <bendpoint w1="-297" h1="-150" w2="-75" h2="380"/>
+      <bendpoint w1="-222" h1="-149" w2="0" h2="381"/>
+    </edge>
+  </node>
+  <node name="Store Item" x="20" y="911" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Has item changed?" x="19" y="988" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Convert to XML" x="243" y="294" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-224" h1="0" w2="-1" h2="-187"/>
+    </edge>
+  </node>
+  <node name="Error converting ?" x="242" y="384" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Generate RSS" x="454" y="911" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="End Content Ingestion" x="453" y="690" width="132" height="36"/>
+  <node name="Content Rejected" x="626" y="384" width="132" height="36"/>
+  <node name="ExceptionHandling" x="19" y="458" width="132" height="36"/>
+</root-container>

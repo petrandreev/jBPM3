@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition xmlns="urn:jbpm.org:jpdl-3.2" name="jbpm2834">
+  <start-state name="start">
+    <transition to="state1" />
+  </start-state>
+
+  <state name="state1">
+    <transition to="end1" name="default">
+			<condition expression="${go}"></condition>
+		</transition>
+  </state>
+
+  <end-state name="end1" />
+</process-definition>

@@ -1,0 +1,20 @@
+<process-definition 
+    xmlns="urn:jbpm.org:jpdl-3.2" 
+    name="action process">
+
+  <node name="n">
+    <action class="a" />
+  </node>
+  
+  <action name="a" class="c" />
+  
+  <action name="b" class="c" ref-name="a" />
+
+  <action name="c" class="c">
+    <mixed />
+    unknown
+    <content />
+    for configuration
+  </action>
+  
+</process-definition>

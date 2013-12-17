@@ -1,0 +1,24 @@
+<jbpm-configuration>
+
+  <jbpm-context>
+    <service name="persistence" factory="org.jbpm.persistence.db.DbPersistenceServiceFactory" />
+    <service name="tx" factory="org.jbpm.tx.TxServiceFactory" />
+    <service name="message" factory="org.jbpm.msg.db.DbMessageServiceFactory" />
+    <service name="scheduler" factory="org.jbpm.scheduler.db.DbSchedulerServiceFactory" />
+    <service name="logging" factory="org.jbpm.logging.db.DbLoggingServiceFactory" />
+    <service name="authentication" factory="org.jbpm.security.authentication.DefaultAuthenticationServiceFactory" />
+
+    <service name="jcr">
+      <factory>
+        <bean class='org.jbpm.jcr.jackrabbit.JackrabbitJcrServiceFactory'>
+          <field name='configuration'><string value='jcr.jackrabbit.xml' /></field>
+          <field name='directory'><string value='target/repository' /></field>
+          <field name='username'><string value='username' /></field>
+          <field name='password'><string value='pwd' /></field>
+        </bean>
+      </factory>
+    </service>
+
+  </jbpm-context>
+
+</jbpm-configuration>

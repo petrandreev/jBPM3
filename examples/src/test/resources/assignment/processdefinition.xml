@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition
+  xmlns="urn:jbpm.org:jpdl-3.2"  name="RulesAssignment">
+   <start-state name="start">
+      <transition name="" to="Approve Order"></transition>
+   </start-state>
+   <end-state name="end1"></end-state>
+   <task-node name="Approve Order">
+      <task name="Approve Order">
+         <assignment class="org.jbpm.examples.assignment.RulesAssignmentHandler" >
+           		<group>reviewers</group>
+   				<objectNames>
+					<element>order</element>
+				</objectNames>
+	       		<ruleFile>/assignment/Assignment.drl</ruleFile>
+			</assignment>
+      </task>
+      <transition name="" to="end1"></transition>
+   </task-node>
+</process-definition>

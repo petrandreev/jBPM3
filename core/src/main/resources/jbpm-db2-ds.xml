@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<datasources>
+  <xa-datasource>
+    <jndi-name>JbpmDS</jndi-name>
+
+    <xa-datasource-class>com.ibm.db2.jcc.DB2XADataSource</xa-datasource-class>
+    <xa-datasource-property name="ServerName">${jdbc.db2.server}</xa-datasource-property>
+    <xa-datasource-property name="PortNumber">${jdbc.db2.port}</xa-datasource-property>
+    <xa-datasource-property name="DatabaseName">${jdbc.db2.database}</xa-datasource-property>
+    <!-- DriverType can be 2 or 4; type 4 does not require a DB2 client -->
+    <xa-datasource-property name="DriverType">4</xa-datasource-property>
+    <user-name>${jdbc.db2.username}</user-name>
+    <password>${jdbc.db2.password}</password>
+
+    <!-- isolate connections used with JTA from those used without JTA -->
+    <no-tx-separate-pools />
+    <!-- disable transaction interleaving -->
+    <track-connection-by-tx />
+    <!-- force XAResource.isSameRM(XAResource) to return false -->
+    <isSameRM-override-value>false</isSameRM-override-value>
+
+    <!-- corresponding type-mapping in the standardjbosscmp-jdbc.xml -->
+    <type-mapping>DB2</type-mapping>
+  </xa-datasource>
+</datasources>

@@ -1,0 +1,15 @@
+<jbpm-configuration>
+
+  <bean name="jbpm.job.executor" class="org.jbpm.job.executor.JobExecutor">
+    <field name="jbpmConfiguration"><ref bean="jbpmConfiguration" /></field>
+    <field name="name"><string value="JbpmJobExector" /></field>
+    <field name="nbrOfThreads"><int value="5" /></field>
+    <field name="idleInterval"><int value="5000" /></field>
+    <field name="maxIdleInterval"><int value="3600000" /></field> <!-- 1 hour -->
+    <field name="historyMaxSize"><int value="20" /></field>
+    <field name="maxLockTime"><int value="600000" /></field> <!-- 10 minutes -->
+    <field name="lockMonitorInterval"><int value="60000" /></field> <!-- 1 minute -->
+    <field name="lockBufferTime"><int value="5000" /></field> <!-- 5 seconds -->
+  </bean>
+
+</jbpm-configuration>

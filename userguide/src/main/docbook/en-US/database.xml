@@ -1,0 +1,415 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="thejbpmdatabase">
+  <title>The jBPM Database</title>
+
+  <section>
+    <title>Switching the Database Backend</title>
+
+    <para>Switching the JBoss jBPM database backend is reasonably
+    straightforward. We will step through this process using PostgreSQL and
+    MySQL as an example. The process is identical for all other supported
+    databases. For a number of these supported databases, a number of JDBC
+    drivers, Hibernate configuration files and Ant build files to generate the
+    database creation scripts are present in the jBPM distribution in the DB
+    subproject. If you cannot find these files for the database you wish to
+    use, you should first make sure if Hibernate supports your database. If
+    this is the case you can have a look at files for one of the databases
+    present in the DB project and mimic this using your own database.</para>
+
+    <para>For this document, we will use the jBPM jPDL installer.
+    Download and install as described in <xref linkend="downloadingandinstallingjbpm"/>. 
+    We will assume that this installation was done to a
+    location on your machine named ${jbpm-jpdl-home}. You will find the DB
+    subproject of jBPM in the ${jbpm-jpdl-home}/db.</para>
+
+    <para>After installing the database of your choice, you will have to run 
+    the database creation scripts to create the jBPM tables. Note that in the 
+    hsqldb inside jboss this is done automatically during installation.
+    </para>
+    <section id="isolationlevel">
+      <title>Isolation level</title>
+      <para>Whatever database that you use, make sure that the isolation level 
+      of the configured JDBC connection is at least READ_COMMITTED, as explained 
+      in section on the Isolation Level of the JDBC Connection.
+      </para>
+    </section>
+
+    <section>
+      <title>Installing the PostgreSQL Database Manager</title>
+
+      <para>To install PostgreSQL or any other database you may be using, we
+      refer to the installation manual of these products. For Windows
+      PostgreSQL installation is pretty straightforward. The installer creates
+      a dedicated Windows user and allows to define the database
+      administrator. PostgreSQL comes with an administration tool called
+      pgAdmin III that we will use to create the jBPM database. A screenshot
+      of this tool right after creating the JbpmDB database with it is shown
+      in the figure below.</para>
+
+      <figure>
+        <title>The PostgreSQL pgAdmin III tool after creating the JbpmDB
+        database</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/create_database.jpg" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>After the installation of the database, we can use the pgAdmin III
+      Query tool to look at the contents of the database.</para>
+
+      <para>Before we do, we have to define a database connection in
+      pgAdmin to our newly created database. We will use this tool
+      further in this document to make sure the creation scripts and process
+      deployment are working as expected. For an example of creating the
+      connection in pgAdmin we refer to the following figure. As you will
+      see, there are no tables present yet in this database. We will create
+      them in the following section.</para>
+
+      <figure>
+        <title>Create the connection to the jBPM database</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/create_connection.png" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>Another thing worth mentioning is the Database URL above :
+      'jdbc:postgresql://localhost:5432/JbpmDB'. If you created the JbpmDB
+      database with another name, or if PostgreSQL is not running on the
+      localhost machine or on another port, you'll have to adapt your Database
+      URL accordingly.</para>
+    </section>
+
+    <section>
+      <title>Installing the MySQL Database Manager</title>
+
+      <para>To install the MySQL database, please refer to the documentation
+      provided by MySQL. The installation is very easy and straightforward and
+      only takes a few minutes in windows. You will need to use the database
+      Administration console provided by MySQL.</para>
+
+      <figure>
+        <title>The MySQL Administrator</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/mysql_admin.jpg" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+
+    <section>
+      <title>Creating the JBoss jBPM Database with your new PostgreSQL or
+      MySQL</title>
+
+      <para>In order to get the proper database scripts for your
+      database, you should look int the directory <literal>${jbpm-jpdl-home}/db</literal>. 
+      Using your
+      database admin console, navigate to the database and then open and
+      execute the create script we just referenced. Below are screen shots
+      doing this for PostgreSQL and MySQL under their respective admin
+      consoles</para>
+
+      <section>
+        <title>Creating the jBPM Database with PostgreSQL</title>
+
+        <para>As already mentioned you will find the database scripts for a
+        lot of the supported databases in the DB subproject. The database
+        scripts for PostgreSQL are found in the folder
+        '${jbpm-jpdl-home}/db. The creation script is
+        called 'postgresql.create.sql'. Using pgAdmin, you can load this
+        script by selecting 'Tools-&gt;Query tool' and then
+        'File-&gt;Open...'. In the following dialog, navigate to the creation
+        script file. The result of doing so is shown in the figure
+        below.</para>
+
+        <figure>
+          <title>Load the database creation script</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/load_script.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>To execute this script with the pgAdmin Query tool, select
+        'Query-&gt;Execute'. After this step all JBoss jBPM tables are
+        created. The situation is illustrated in the figure below.</para>
+
+        <figure>
+          <title>Running the database creation script</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/execute_script.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+
+      <section>
+        <title>Creating the JBoss jBPM Database with your new MySQL</title>
+
+        <para>Once you have installed MySQL go ahead and create a jbpm
+        database, use any name you like for this DB. In this example "jbpmdb"
+        was used. A screenshot of the database is below.</para>
+
+        <figure>
+          <title>The MySQL Administrator after creating the jbpm database
+          under MySQL</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/mysql_create_database.jpg" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>You will use the MySQL command line tool to load the database
+        scripts. Open a DOS box or terminal window and type the following
+        command:</para>
+
+        <screen>$ mysql -u root -p </screen>
+
+        <para>You will be prompted for your MySQL password for the root
+        account or whatever account you are using to modify this database.
+        After logging in, type the following command to use the newly created
+        jbpmdb:</para>
+
+        <screen>use jbpmdb </screen>
+
+        <figure>
+          <title>Loading the database create scripts for MySQL</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/load_mysql_shell1.jpg" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>Now you can load the database script for jBPM by executing the
+        following command:</para>
+
+        <screen>source mysql.drop.create.sql </screen>
+
+        <para>Once the script executes, you should have the following output in
+        the MySQL command window:</para>
+
+        <figure>
+          <title>Loading the database create scripts for MySQL</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/load_mysql_shell2.jpg" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+    </section>
+
+    <section>
+      <title>Last Steps</title>
+
+      <para>After these steps, there is not yet any data present in the
+      tables. For the jBPM web app to work, you should at least create some
+      records in the jbpm_id_user table. In order to have exactly the same
+      entries in this table as the default distribution of the starter's kit
+      running on HSQLDB, we suggest to run the script below.</para>
+
+      <programlisting>insert into JBPM_ID_USER (ID_, CLASS_, NAME_, EMAIL_, PASSWORD_) 
+       values ('1', 'U', 'user', 'sample.user@sample.domain', 'user');
+insert into JBPM_ID_USER (ID_,CLASS_, NAME_, EMAIL_, PASSWORD_) 
+       values ('2', 'U', 'manager', 'sample.manager@sample.domain', 'manager');
+insert into JBPM_ID_USER (ID_,CLASS_, NAME_, EMAIL_, PASSWORD_) 
+       values ('3', 'U', 'shipper', 'sample.shipper@sample.domain', 'shipper');
+insert into JBPM_ID_USER (ID_,CLASS_, NAME_, EMAIL_, PASSWORD_) 
+       values ('4', 'U', 'admin', 'sample.admin@sample.domain', 'admin');</programlisting>
+    </section>
+
+    <section>
+      <title>Update the JBoss jBPM Server Configuration</title>
+
+      <para>Before we can really use our newly created database with the JBoss
+      jBPM default web app we will have to do some updates to the JBoss jBPM
+      configuration. The location of the jbpm server configuration is
+      <literal>${jboss-home}/server/default/deploy/jbpm</literal>. 
+      </para>
+      <para>First we create a new datasource in JBoss that binds to our 
+      database.  In the default installation, this is the done in the file 
+      <literal>jbpm-hsqldb-ds.xml</literal>.  That hypersonic database 
+      configuration file can be removed and should be replaced by 
+      the a file that ends with -ds.xml like e.g. 
+      <literal>jbpm-postgres-ds.xml</literal>
+      </para>
+
+      <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;datasources&gt;
+  &lt;local-tx-datasource&gt;
+    &lt;jndi-name&gt;JbpmDS&lt;/jndi-name&gt;
+    &lt;connection-url&gt;jdbc:postgresql://localhost:5432/JbpmDB&lt;/connection-url&gt;
+    &lt;driver-class&gt;org.postgresql.Driver&lt;/driver-class&gt;
+    &lt;user-name&gt;user&lt;/user-name&gt;
+    &lt;password&gt;password&lt;/password&gt;
+    &lt;metadata&gt;
+      &lt;type-mapping&gt;PostgreSQL 8.1&lt;/type-mapping&gt;
+    &lt;/metadata&gt;
+  &lt;/local-tx-datasource&gt;
+&lt;/datasources&gt;</programlisting>
+
+      <para>For MySQL, the datasource definition would look as follows:</para>
+
+      <programlisting language="XML">&lt;datasources&gt;
+  &lt;local-tx-datasource&gt;
+    &lt;jndi-name&gt;JbpmDS&lt;/jndi-name&gt;
+    &lt;connection-url&gt;jdbc:mysql://localhost:3306/jbpmdb&lt;/connection-url&gt;
+    &lt;driver-class&gt;com.mysql.jdbc.Driver&lt;/driver-class&gt;
+    &lt;user-name&gt;root&lt;/user-name&gt;
+    &lt;password&gt;root&lt;/password&gt;
+    &lt;metadata&gt;
+      &lt;type-mapping&gt;MySQL&lt;/type-mapping&gt;
+    &lt;/metadata&gt;
+  &lt;/local-tx-datasource&gt;
+&lt;/datasources&gt;</programlisting>
+
+      <para>Of course it is possible that you have to change some of the
+      values in this file to accommodate for your particular situation. You
+      then simply save this file in the
+      <literal>${jboss-home}/server/default/deploy/jbpm</literal> folder. Congratulations,
+      you just created a new DataSource for your JBoss jBPM server. Well,
+      almost... To make things really work you will have to copy the correct
+      JDBC driver to the <literal>${jboss.home}/server/default/lib</literal> folder.
+      The file
+      is named <literal>postgresql-8.1-*.jdbc3.jar</literal> and it can be found in the jdbc
+      subdirectory of your PostgreSQL installation folder.</para>
+
+      <para>For MySQL, copy the jdbc driver installed from the MySQL
+      ConnectorJ package. The version you need to use is currently the MySQL
+      Connector/J 3.1 available from
+      http://www.mysql.com/products/connector/j/</para>
+
+      <para>The last thing we have to do to make everything run is to 
+      update the hibernate configuration file <literal>hibernate.cfg.xml</literal>.
+      That file is located in directory 
+      <literal>${jboss.home}/server/default/deploy/jbpm-service.sar</literal>. 
+      Replace the section containing the jdbc
+      connection properties. This section should look like shown in the
+      listing below. There are two changes in this file : the
+      hibernate.connection.datasource property should point to the JbpmDS
+      datasource we created as the first step in this section and the
+      hibernate.dialect property should match the PostgreSQL or MySQL
+      dialect.</para>
+
+      <para>Below is a sample of the 2 changes required, comment out the
+      version of the dialect you don't need depending on the database you are
+      using. You can get a list of supported database Dialect types from here
+      http://www.hibernate.org/hib_docs/v3/reference/en/html/session-configuration.html#configuration-optional-dialects</para>
+
+      <programlisting language="XML">&lt;hibernate-configuration&gt;
+  &lt;session-factory&gt;
+
+    &lt;!-- jdbc connection properties --&gt;
+    &lt;!-- comment out the dialect not needed! --&gt;
+    &lt;property name="hibernate.dialect"&gt;org.hibernate.dialect.PostgreSQLDialect&lt;/property&gt;
+    &lt;property name="hibernate.dialect"&gt;org.hibernate.dialect.MySQLDialect&lt;/property&gt;
+    &lt;property name="hibernate.connection.datasource"&gt;java:/JbpmDS&lt;/property&gt;
+        
+    &lt;!-- other hibernate properties 
+    &lt;property name="hibernate.show_sql"&gt;true&lt;/property&gt;
+    &lt;property name="hibernate.format_sql"&gt;true&lt;/property&gt;
+    --&gt;
+    
+    &lt;!-- ############################################ --&gt;
+    &lt;!-- # mapping files with external dependencies # --&gt;
+    &lt;!-- ############################################ --&gt;
+
+    ...
+
+  &lt;/session-factory&gt;
+&lt;/hibernate-configuration&gt;</programlisting>
+
+      <para>Now we are ready to fire up the server, and look if the web app
+      works. You will not be able to start any processes yet, as there are no
+      processes deployed yet. To do this we refer to the document on process
+      definition deployment.</para>
+    </section>
+  </section>
+
+  <section id="databaseupgrades">
+    <title>Database upgrades</title>
+
+    <para>For database upgrades, please refer to the <literal>release.notes.html</literal>
+    in the root of your installation directory.</para>
+  </section>
+
+  <section>
+    <title>Starting hsqldb manager on JBoss</title>
+
+    <para>Not really crucial for jBPM, but in some situations during
+    development, it can be convenient to open the hypersonic database manager
+    that gives you access to the data in the JBoss hypersonic database.</para>
+
+    <para>Start by opening a browser and navigating to the jBPM server JMX
+    console. The URL you should use in your browser for doing this is :
+    http://localhost:8080/jmx-console. Of course this will look slightly
+    different if you are running jBPM on another machine or on another port
+    than the default one. A screenshot of the resulting page is shown in the
+    figure below.</para>
+
+    <figure>
+      <title>The JBoss JMX Console</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/jmx_console.jpg" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>If you click on the link 'database=jbpmDB,service=Hypersonic' under
+    the JBoss entries, you will see the JMX MBean view of the HSQLDB database
+    manager. Scrolling a bit down on this page, in the operations section, you
+    will see the 'startDatabaseManager()' operation. This is illustrated in
+    the screenshot below.</para>
+
+    <figure>
+      <title>The HSQLDB MBean</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/hsqldb_mbean.jpg" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Clicking the invoke button will start the HSQLDB Database Manager
+    application. This is a rather harsh database client tool, but it works ok
+    for our purposes of executing this generated script. You may have to
+    ALT-TAB to get to view this application as it may be covered by another
+    window. The figure below shows this application with the above script
+    loaded and ready to execute. Pushing the 'Execute SQL' button will execute
+    the script and effectively update your database.</para>
+
+    <figure>
+      <title>The HSQLDB Database Manager</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/hsqldb_dbm.jpg" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+</chapter>

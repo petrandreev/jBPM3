@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="gettingstarted">
+
+  <title>Getting started</title>
+  <para>This chapter takes you through the first steps of getting JBoss jBPM and 
+  provides the initial pointers to get up and running in no time.</para>
+  
+  <section id="downloadingandinstallingjbpm">  
+    <title>Downloading and installing jBPM</title>    
+    <para>To get the latest release jBPM 3 version, go to 
+    the <ulink url="http://sourceforge.net/project/showfiles.php?group_id=70542&amp;package_id=145174">jBPM jPDL 3 
+    package on Sourceforge.net</ulink> and download the latest installer.
+    </para>
+    <para><emphasis role="bold">The jBPM installer</emphasis> 
+    creates a runtime installation and it can also download and install the 
+    eclipse designer and a jboss server.  You can use jBPM also without application server, but all of 
+    these components are preconfigured to interoperate out-of-the-box to get you started with jBPM quickly.
+    To launch the installer, open a command line and go to the directory where you downloaded it.
+    Then type: 
+    </para>
+    <programlisting>java -jar jbpm-installer-{version}.jar</programlisting>
+    <para>
+    Step through the instructions.  Any supported version of JBoss and the exact version 
+    of eclipse can optionally be downloaded by the installer.
+    </para>
+    <para>When installing jBPM into JBoss, this will create a jBPM directory into a server 
+    configuration's deploy directory.  All jBPM files are centralized inside this <literal>deploy/jbpm</literal>
+    directory.  No other files of your JBoss installation will be touched.  
+    </para>
+    <para>You can use your own eclipse (if it is version 3.4+) or 
+    you can use the eclipse that the installer downloaded.  To install the graphical process designer in 
+    eclipse, just use the eclipse update mechanism (Help --> Software Updates --> ...) and point it to the 
+    file <literal>designer/jbpm-jpdl-designer-site.zip</literal>.</para>
+  </section>
+  
+  <section>
+    <title>The JBoss jBPM cummunity page</title>
+    <para><ulink url="http://www.jboss.org/jbossjbpm/jbpm_community/">The jBPM Community Page</ulink> provides 
+    all the details about where to find forums, wiki, issue tracker, 
+    downloads, mailing lists and the source repositories.
+    </para>
+  </section>
+  
+</chapter>

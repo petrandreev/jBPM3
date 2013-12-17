@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <!-- BAM-Quries related to Simulation (get historical data) 
+       This file is MySQL specific. Especially the date calculation may be 
+       different in other databases
+       -->
+  
+  <!-- query swimlanes and concurrent used sizes for this process -->
+  <!-- TODO -->
+  
+  
+ <!-- START -->
+ 
+ <sql-query name="Simulation.calculateProcessInstanceStartInterval">
+    <return-scalar column="sample_count" type="long"/>
+    <return-scalar column="interval_average" type="double"/>
+    <return-scalar column="interval_min" type="double"/>
+    <return-scalar column="interval_max" type="double"/>
+    <return-scalar column="interval_stddev" type="double"/>
+<![CDATA[
+select 
+    count(process_instance_id) as sample_count,
+    avg(TIMESTAMPDIFF(SECOND,date1,date2)) as interval_average,
+    min(TIMESTAMPDIFF(SECOND,date1,date2)) as interval_min,
+    max(TIMESTAMPDIFF(SECOND,date1,date2)) as interval_max,
+    stddev(TIMESTAMPDIFF(SECOND,date1,date2)) as interval_stddev
+from (
+   select
+        pi.ID_ as process_instance_id,
+        pi.PROCESSDEFINITION_ as process_definition_id,
+        log.DATE_ as date1,
+        (select min(DATE_) 
+         from JBPM_LOG log              
+         where log.CLASS_='I' 
+           and log.TOKEN_ > token.ID_ 
+        ) as date2
+    from
+        JBPM_LOG log,
+        JBPM_TOKEN token,
+        JBPM_PROCESSINSTANCE pi
+    where
+            log.CLASS_='I' 
+        and log.TOKEN_=token.ID_ 
+        and token.PROCESSINSTANCE_=pi.ID_ 
+        and pi.PROCESSDEFINITION_=:processDefinitionId
+        and (:fromTime is null or time(log.DATE_) >= time(:fromTime))
+        and (:tillTime is null or time(log.DATE_) <= time(:tillTime))        
+) as statistic_table
+group by
+     process_definition_id
+]]>
+</sql-query>
+  
+<!-- function stddev is not registered for mySQL at the moment!
+  	   What's missing in Hibernate is
+    	   registerFunction( "stddev", new StandardSQLFunction("stddev", Hibernate.DOUBLE) );
+  	   see http://opensource.atlassian.com/projects/hibernate/browse/HHH-1835?
+  	   and http://dev.mysql.com/doc/refman/5.0/en/group-by-functions.html -->
+<query name="Simulation.calculateAverageTimeForStates">
+    <![CDATA[
+      select 
+        nl.node.id,
+        nl.node.name,
+        count(nl.leave),
+        avg(nl.duration/1000),
+        min(nl.duration/1000),
+        max(nl.duration/1000),
+        stddev(nl.duration/1000)
+      from org.jbpm.graph.log.NodeLog nl
+      where nl.node.processDefinition = :processDefinition
+        and nl.node.class = org.jbpm.graph.node.State
+        and (:fromTime = null or time(nl.enter) >= time(:fromTime))
+        and (:tillTime = null or time(nl.enter) <= time(:tillTime))        
+      group by nl.node
+    ]]>
+</query>
+
+<query name="Simulation.calculateAverageTimeForDecisions">
+    <![CDATA[
+      select 
+        nl.node.id,
+        nl.node.name,
+        count(nl.leave),
+        avg(nl.duration),
+        min(nl.duration),
+        max(nl.duration),
+        stddev(nl.duration)
+      from org.jbpm.graph.log.NodeLog nl
+      where nl.node.processDefinition = :processDefinition
+        and nl.node.class = org.jbpm.graph.node.Decision
+        and (:fromTime = null or time(nl.enter) >= time(:fromTime))
+        and (:tillTime = null or time(nl.enter) <= time(:tillTime))
+      group by nl.node
+    ]]>
+</query> 
+
+<!-- Be patient here, there can be quite interesting statistical effects
+     if we have a lot of tasks, started before the end time interval
+     but ended later (tasks are included, end transitions not!
+     
+     TODO: Think about that! Easy possible solution: filter states with end
+           date, not start date.
+     -->
+<query name="Simulation.calculateLeavingTransitionProbability">
+    <![CDATA[
+      select 
+        tl.transition.id,
+        tl.transition.name,
+        tl.destinationNode.id,
+        tl.destinationNode.name,
+        count(tl)
+      from org.jbpm.graph.log.TransitionLog tl
+      where tl.sourceNode.id = :nodeId
+        and (:fromTime = null or time(tl.date) >= time(:fromTime))
+        and (:tillTime = null or time(tl.date) <= time(:tillTime))
+      group by tl.transition
+    ]]>
+</query>
+
+<sql-query name="Simulation.calculateAverageTimeForTaskInstances">
+    <return-scalar column="task_node_id" type="long"/>
+    <return-scalar column="task_id" type="long"/>
+    <return-scalar column="task_name" type="string"/>
+    <return-scalar column="sample_count" type="long"/>
+    <return-scalar column="duration_average" type="double"/>
+    <return-scalar column="duration_min" type="double"/>
+    <return-scalar column="duration_max" type="double"/>
+    <return-scalar column="duration_stddev" type="double"/>
+<![CDATA[    
+select
+    task_node_id,
+    task_id,
+    task_name,
+    count(taskinstance_id) as sample_count,
+    avg(TIMESTAMPDIFF(SECOND,assign_log_date,end_log_date)) as duration_average,
+    min(TIMESTAMPDIFF(SECOND,assign_log_date,end_log_date)) as duration_min,
+    max(TIMESTAMPDIFF(SECOND,assign_log_date,end_log_date)) as duration_max,
+    stddev(TIMESTAMPDIFF(SECOND,assign_log_date,end_log_date)) as duration_stddev 
+from (
+  select 
+    task_node_id,
+    task_id,
+    task_name,
+    taskinstance_id,
+    (select
+         max(assign_log.DATE_) assign_log_date
+     from
+         JBPM_LOG assign_log
+     where
+         assign_log.CLASS_<='2'   
+     and assign_log.TASKINSTANCE_=taskinstance_id) as assign_log_date,
+     end_log_date
+  from
+     (select
+          taskinstance.ID_ as taskinstance_id,
+          task.ID_ as task_id,
+          task.NAME_ as task_name,
+          node.ID_ as task_node_id,
+          end_log.ID_ as end_log_id,
+          end_log.DATE_ as end_log_date
+      from
+          JBPM_LOG end_log,
+          JBPM_TASKINSTANCE taskinstance,
+          JBPM_TASK task,
+          JBPM_NODE node
+      where
+          end_log.CLASS_='3' 
+          and taskinstance.TASK_=task.ID_ 
+          and task.TASKNODE_=node.ID_ 
+          and end_log.TASKINSTANCE_=taskinstance.ID_ 
+          and node.PROCESSDEFINITION_=:processDefinitinId
+     ) as task_start
+) as task_duration
+where
+      (:fromTime is null or  time(assign_log_date) >= time(:fromTime))
+  and (:tillTime is null or  time(assign_log_date) <= time(:tillTime))
+group by
+      task_id   
+]]>   
+</sql-query>  
+   
+</hibernate-mapping>

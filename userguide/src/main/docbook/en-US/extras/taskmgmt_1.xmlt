@@ -1,0 +1,7 @@
+<task name="clean ceiling">
+  <controller>
+    <variable name="a" access="read" mapped-name="x" />
+    <variable name="b" access="read,write,required" mapped-name="y" />
+    <variable name="c" access="read,write" />
+  </controller>
+</task>

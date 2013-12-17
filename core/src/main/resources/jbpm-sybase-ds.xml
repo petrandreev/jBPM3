@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<datasources>
+  <xa-datasource>
+    <jndi-name>JbpmDS</jndi-name>
+    
+    <xa-datasource-class>${jdbc.sybase.datasource}</xa-datasource-class>
+    <xa-datasource-property name="ServerName">${jdbc.sybase.server}</xa-datasource-property>
+    <xa-datasource-property name="PortNumber">${jdbc.sybase.port}</xa-datasource-property>
+    <xa-datasource-property name="DatabaseName">${jdbc.sybase.database}</xa-datasource-property>
+    <user-name>${jdbc.sybase.username}</user-name>
+    <password>${jdbc.sybase.password}</password>
+
+    <!-- isolate connections used with JTA from those used without JTA -->
+    <no-tx-separate-pools />
+    <!-- disable transaction interleaving -->
+    <track-connection-by-tx />
+
+    <!-- check sybase error codes and messages for fatal errors -->
+    <exception-sorter-class-name>
+      org.jboss.resource.adapter.jdbc.vendor.SybaseExceptionSorter
+    </exception-sorter-class-name>
+
+    <!-- corresponding type-mapping in conf/standardjbosscmp-jdbc.xml -->
+    <type-mapping>Sybase</type-mapping>
+  </xa-datasource>
+</datasources>

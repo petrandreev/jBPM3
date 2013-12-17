@@ -1,0 +1,28 @@
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- hibernate dialect -->
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.HSQLDialect
+        </property>
+
+        <!-- DataSource properties (begin) -->
+        <property name="hibernate.connection.datasource">
+            java:/JbpmDS
+        </property>
+
+        <!-- JTA transaction properties (begin) -->
+        <property name="hibernate.transaction.factory_class">
+            org.hibernate.transaction.JTATransactionFactory
+        </property>
+    
+        <property name="hibernate.transaction.manager_lookup_class">
+            org.hibernate.transaction.JBossTransactionManagerLookup
+        </property>
+
+        <property name="jta.UserTransaction">
+            java:comp/UserTransaction
+        </property>
+
+    </session-factory>
+</hibernate-configuration>

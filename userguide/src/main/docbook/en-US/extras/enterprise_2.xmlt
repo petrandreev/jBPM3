@@ -1,0 +1,32 @@
+<!-- sql dialect -->
+<property name="hibernate.dialect">
+    org.hibernate.dialect.HSQLDialect
+</property>
+
+<property name="hibernate.cache.provider_class">
+  org.hibernate.cache.HashtableCacheProvider
+</property>
+
+<!-- DataSource properties (begin) -->
+<property name="hibernate.connection.datasource">
+    java:comp/env/jdbc/JbpmDataSource
+</property>
+<!-- DataSource properties (end) -->
+
+<!-- JTA transaction properties (begin) -->
+<property name="hibernate.transaction.factory_class">
+  org.hibernate.transaction.JTATransactionFactory
+</property>
+<property name="hibernate.transaction.manager_lookup_class">
+  org.hibernate.transaction.JBossTransactionManagerLookup
+</property>
+<!-- JTA transaction properties (end) -->
+
+<!-- CMT transaction properties (begin) ===
+<property name="hibernate.transaction.factory_class">
+  org.hibernate.transaction.CMTTransactionFactory
+</property>
+<property name="hibernate.transaction.manager_lookup_class">
+  org.hibernate.transaction.JBossTransactionManagerLookup
+</property>
+==== CMT transaction properties (end) -->

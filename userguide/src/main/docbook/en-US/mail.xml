@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+<chapter id="mail">
+  <title>
+    Email Support
+ </title>
+  
+  <para>
+        This chapter describes the "out-of-the-box" e. mail support
+        available in Business Process Manager JPDL. Read this information to
+        learn how to configure different aspects of the mail functionality.  
+  </para> 
+
+  <section id="mailinjpdl">
+    <title>
+        Mail in JPDL
+    </title>
+    
+    <para>
+        There are four ways in which one can specify the point in time at
+        which e. mails are to be sent from a process. Each shall be examined
+        in turn.
+    </para>
+
+    <section id="mailaction">
+      <title>
+        Mail Action
+       </title> 
+
+      <para>
+          Use a <firstterm>mail action</firstterm> if there is a reason not
+          to show the e. mail as a node in the process graph.
+      </para>
+
+<note>
+       <para>
+           A mail action can be added to the process anywhere that a normal
+           action can be added.
+      </para>
+</note>
+
+<programlisting language="XML"><xi:include href="extras/mail_0.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+      <para>
+            Specify the subject and text attributes as an element like this:
+       </para>
+      
+<programlisting language="XML"><xi:include href="extras/mail_1.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+      
+      <para>
+            Each of the fields can contain JSF-like expressions:
+       </para>
+      
+<programlisting language="XML"><xi:include href="extras/mail_2.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+<note>
+      <para>
+            To learn more about expressions, study <xref
+            linkend="expressions" />.
+      </para>
+</note>      
+
+      <para>
+          Two attribute specify the recipients: <property>actors</property>
+          and <property>to</property>. The <property>to</property> attribute
+          should "resolve" to a semi-colon separated list of e. mail
+          addresses. The <property>actors</property> attribute should
+          resolve to a semi-colon separated list of
+          <property>actorIds</property>. These <property>actorIds</property>
+          will, in turn, resolve to e. mail addresses. (Refer to <xref
+          linkend="addressresolving" /> for more details.)
+      </para>
+      
+<programlisting language="XML"><xi:include href="extras/mail_3.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+  
+ <note>
+      <para>
+        To learn how to specify recipients, read <xref
+        linkend="specifyingmailrecipients" />
+      </para>
+ </note>     
+ 
+      <para>
+              Emails can be defined by the use of templates. Overwrite
+              template properties in this way:
+      </para>
+      
+<programlisting language="XML"><xi:include href="extras/mail_4.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+<note>
+      <para>
+            Learn more about templates by reading <xref
+            linkend="mailtemplates" />
+      </para>
+</note>      
+      
+    </section>
+    
+    <section id="mailnode">
+      <title>
+            Mail Node
+      </title>
+
+      <para>
+          As with mail actions, the action of sending an e. mail can be
+          modeled as a node. In this case, the run-time behavior will be
+          identical identical but the e. mail will display as a node in the
+          <firstterm>process graph</firstterm>.
+      </para>
+
+      <para>
+        Mail nodes support exactly the same attributes and elements as the
+        <systemitem>mail action</systemitem>. (See <xref linkend="mailaction" />
+        to find out more.)
+      </para>
+      
+<programlisting language="XML"><xi:include href="extras/mail_5.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+<important>
+      <para>
+          Always ensure that mail nodes have exactly one
+          <firstterm>leaving</firstterm> transition.
+      </para>
+</important>      
+
+    </section>
+    
+    <section id="taskassignmails">
+
+      <title>
+            "Task Assigned" Email
+      </title>
+      
+      <para>
+          A notification e. mail can be sent when a task is assigned to an
+          actor. To configure this feature, add the
+          <code>notify="yes"</code> attribute to a task in the following
+          manner:
+      </para>
+      
+<programlisting language="XML"><xi:include href="extras/mail_7.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+      <para>
+            Set notify to <code>yes</code>, <code>true</code> or
+            <code>on</code> to make the Business Process Manager send an e.
+            mail to the actor being assigned to the task. (Note that this e.
+            mail is based on a template and contains a link to the web
+            application's task page.)
+      </para>
+    </section>
+  
+    <section id="taskremindermails">
+      <title>
+        "Task Reminder" Email
+     </title>
+     
+      <para>
+            Emails can be sent as task reminders. JPDL's
+            <property>reminder</property> element utilizes the timer. The
+            most commonly used attributes are <property>duedate</property>
+            and <property>repeat</property>. Note that actions do not have
+            to be specified.
+      </para>
+      
+      <programlisting language="XML"><xi:include href="extras/mail_8.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    </section>
+  </section>
+  
+  <section id="expressionsinmails">
+    <title>
+        Expressions in Mail
+    </title>
+    
+    <para>
+        The fields <code>to</code>, <code>recipients</code>,
+        <code>subject</code> and <code>text</code> can contain
+        JSF-like expressions. (For more information about expressions, see
+        <xref linkend="expressions" />.)
+    </para>
+    
+    <para>
+        One can use the following variables in expressions:
+        <property>swimlanes</property>, <property>process
+        variables</property> and <property>transient variables
+        beans</property>. Configure them via the 
+        <filename>jbpm.cfg.xml</filename> file.
+    </para>
+    
+    <para>
+    	Expressions can be combined with <firstterm>address
+    	resolving</firstterm> functionality. (Refer to <xref
+    	linkend="addressresolving"/>. for more information.) 
+    </para>	
+    
+    <para>	
+    	This example pre-supposes the existence of a
+    	<property>swimlane</property> called <literal>president</literal>:
+    </para>
+    
+ <programlisting language="XML"><xi:include href="extras/mail_9.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        The code will send an e. mail to the person that acts as the
+        <literal>president</literal> for that particular process execution.
+    </para>
+    
+  </section>
+  
+  <section id="specifyingmailrecipients">
+    <title>
+        Specifying Email Recipients
+     </title>
+     
+    <section id="multiplerecipients">
+      <title>Multiple Recipients</title>
+      <para>
+          Multiple recipients can be listed in the
+          <property>actors</property> and <property>to</property> fields.
+          Separate items in the list with either a colon or a semi-colon.
+      </para>
+    </section>
+    
+    <section id="BCC">
+      <title>
+            Sending Email to a BCC Address
+      </title>
+
+        <para>
+            In order to send messages to a <firstterm>Blind Carbon
+            Copy</firstterm> (BCC) recipient, use either the
+            <property>bccActors</property> or the <property>bcc</property>
+            attribute in the process definition.
+        </para>
+
+        <programlisting language="XML"><xi:include href="extras/mail_11.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+      
+        <para>
+            An alternative approach is to always send BCC messages to some
+            location that has been centrally configured in
+            <filename>jbpm.cfg.xml</filename>. This example demonstrates how
+            to do so:
+        </para>
+
+        <programlisting language="XML"><xi:include href="extras/mail_10.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    </section>
+    
+    <section id="addressresolving">
+      <title>
+            Address Resolving
+      </title>
+      
+      <para>
+            Throughout the Business Process Manager, actors are referenced
+            by <systemitem>actorIds</systemitem>. These are strings that
+            serves to identify process participants. An <firstterm>address
+            resolver</firstterm> translates
+            <systemitem>actorIds</systemitem> into e. mail addresses.
+      </para>
+      
+      <para>
+            Use the attribute actors to apply address resolving. Conversely,
+            use the <property>to</property> attribute if adding addresses
+            directly as it will not run apply address resolving.
+      </para>
+      
+      <para>
+            Make sure the address resolver implements the following interface:
+      </para>
+      
+      <programlisting language="Java"><xi:include href="extras/mail_1.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+      
+      <para>
+            An address resolver will return one of the following three
+            types: a string, a collection of strings or an array of strings.
+            (Strings must always represent e. mail addresses for the given
+            <systemitem>actorId</systemitem>.)
+      </para>
+      
+      <para>
+            Ensure that the address resolver implementation is a bean. This
+            bean must be configured in the <filename>jbpm.cfg.xml</filename>
+            file with name
+            <systemitem>jbpm.mail.address.resolver</systemitem>, as per this
+            example:
+      </para>
+
+      <programlisting language="XML"><xi:include href="extras/mail_12.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+      <para>
+            The Business Process Manager's <systemitem>identity</systemitem>
+            component includes an address resolver. This address resolver
+            will look for the given <systemitem>actorId</systemitem>'s
+            user. If the user exists, his or her 
+            e. mail address will be returned. If not, null will be returned. 
+     </para>       
+            
+     <note>       
+        <para>
+            To learn more about the identity
+            component, read <xref linkend="theidentitycomponent"
+            />.
+      </para>
+  </note>    
+    </section>
+  </section>
+  
+  <section id="mailtemplates">
+    <title>
+          Email Templates
+     </title>
+   
+   
+    <para>
+            Instead of using the <filename>processdefinition.xml</filename>
+            file to specify e. mails, one can use a template. In this case,
+            each of the fields can still be overwritten by
+            <filename>processdefinition.xml</filename>. Specify a templates
+             like this:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/mail_13.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+    <para>
+            As per the above, extra variables can be defined in the mail
+            templates and these will be available in the expressions.
+    </para>
+    
+    <para>
+        Configure the resource that contains the templates via the
+        <filename>jbpm.cfg.xml</filename> like this:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/mail_14.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+  </section>
+
+  <section id="mailserverconfiguration">
+    <title>
+            Mail Server Configuration
+    </title>
+    
+    <para>
+        Configure the mail server by setting the
+        <property>jbpm.mail.smtp.host</property> property in the
+        <filename>jbpm.cfg.xml</filename> file, as per this example code:
+    </para>
+
+<programlisting language="XML"><xi:include href="extras/mail_15.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        Alternatively, when more properties need to be specified, give a
+        resource reference to a properties file in this way:
+    </para>
+
+<programlisting language="XML"><xi:include href="extras/mail_16.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+    
+  </section>
+
+  <section id="emailauthorization">
+    <title>
+      Email Authentication 
+    </title>
+    
+    <section id="emailauthorizationparameters">
+      <title>
+        Email authentication configuration
+      </title>
+      
+      <para>
+        The following settings can be used to enable (SMTP) authentication when sending email. 
+      </para>
+  
+      <table>
+        <title>jBPM mail authentication properties</title>
+        <tgroup cols="3" colsep="1" rowsep="1">
+        <colspec colwidth="*"/>
+        <colspec colwidth="3"/>
+        <colspec colwidth="*"/>
+        <thead>
+          <row><entry>Property</entry><entry>Type</entry><entry>Description</entry></row>
+        </thead>
+        <tbody>
+          <row>
+            <entry><property>jbpm.mail.user</property></entry>
+            <entry><para>string</para></entry>
+            <entry><para>The email address of the user</para></entry>
+          </row>
+          <row>
+            <entry><property>jbpm.mail.password</property></entry>
+            <entry><para>string</para></entry>
+            <entry><para>The password for that email address</para></entry>
+          </row>
+          <row>
+            <entry><property>jbpm.mail.smtp.starttls</property></entry>
+            <entry><para>boolean</para></entry>
+            <entry><para>Whether or not to use the STARTTLS protocol with the SMTP server</para></entry>
+          </row>
+          <row>
+            <entry><property>jbpm.mail.smtp.auth</property></entry>
+            <entry><para>boolean</para></entry>
+            <entry><para>Whether or not to use the SMTP authentication protocol</para></entry>
+          </row>
+          <row>
+            <entry><property>jbpm.mail.debug</property></entry>
+            <entry><para>boolean</para></entry>
+            <entry><para>Whether or not to set the javax.mail.Session instance to debug mode</para></entry>
+          </row>
+        </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section id="emailauthorizationparameters">
+      <title>
+        Email authentication logic
+      </title>
+      
+      <para>
+        The following logic is applied with regards to the above properties: 
+      </para>
+
+      <para>
+        If neither the jbpm.mail.user nor the jbpm.mail.password property is set, authentication is
+        not used regardless of other settings set. 
+      </para>
+
+      <para>
+        If the jbpm.mail.user property is set, then the following is done: 
+        <itemizedlist>
+          <listitem><para>The mail.smtp.submitter property is set with the value of the jbpm.mail.user property</para></listitem>
+          <listitem><para>The jbpm engine will try to login into the smtp server when sending email.</para></listitem>
+        </itemizedlist>
+      </para>
+
+      <para>
+        If the jbpm.mail.user property and the jbpm.mail.password property are set, then the following is done: 
+        <itemizedlist>
+          <listitem><para>Everything that is done when at least the jbpm.mail.user is set, is also done in this case</para></listitem> 
+          <listitem><para>The mail.smtp.auth property is set to true, regardless of the value of the jbpm.mail.smtp.auth property</para></listitem>
+        </itemizedlist>
+      </para>
+    </section>
+
+  </section>
+
+  <section id="fromaddressconfiguration">
+    <title>
+        "From" Address Configuration
+    </title>
+    
+    <para>
+        The default value for the <systemitem>From</systemitem> address
+        field <literal>jbpm@noreply</literal>. Configure it via the
+        <filename>jbpm.xfg.xml</filename> file with key
+        <systemitem>jbpm.mail.from.address</systemitem> like this:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/mail_17.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+  </section>
+  
+  <section id="customizingmailsupport">
+    <title>
+        Customizing Email Support
+   </title>
+   
+    <para>
+            All of the Business Process Manager's e. mail support is
+            centralized in one class, namely
+            <classname>org.jbpm.mail.Mail</classname> This class is an
+            <systemitem>ActionHandler</systemitem> implementation. Whenever
+            an e. mail is specified in the <systemitem>process</systemitem>
+            XML, a delegation to the <classname>mail</classname> class will
+            result. It is possible to inherit from the
+            <classname>mail</classname> class and customize certain behavior
+            for specific needs. To configure a class to be used for mail
+            delegations, specify a <code>jbpm.mail.class.name</code>
+            configuration string in the <filename>jbpm.cfg.xml</filename>
+            like this:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/mail_18.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        The customized mail class will be read during parsing. Actions
+        will be configured in the process that reference the configured (or
+        the default) mail classname. Hence, if the property is changed, all the
+        processes that were already deployed will still refer to the old
+        mail classname. Alter them simply by sending an
+        update statement directed at the jBPM database.
+    </para>
+    
+    <para>
+        This chapter has provided detailed information on how to configure
+        various e. mail settings. Having studied the examples carefully, one
+        can now practice configuring one's own environment
+    </para>
+    </section>
+</chapter>

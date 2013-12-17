@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.taskmgmt.log.SwimlaneLog" 
+            extends="org.jbpm.logging.log.ProcessLog"
+            discriminator-value="4">
+
+    <many-to-one name="swimlaneInstance" 
+                 column="SWIMLANEINSTANCE_" 
+                 foreign-key="FK_LOG_SWIMINST"
+                 index="IDX_LOG_SWIMINST" />
+  </subclass>
+
+</hibernate-mapping>

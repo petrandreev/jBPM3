@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="pluggable">
+  <title>Pluggable architecture</title>
+  
+  <para>The functionality of jBPM is split into modules.  Each module 
+  has a definition and an execution (or runtime) part.  The central 
+  module is the graph module, made up of the 
+  <literal>ProcessDefinition</literal> and the <literal>ProcessInstance</literal>.
+  The process definition contains a graph and the process instance represents 
+  one execution of the graph.  All other functionalities of jBPM are grouped into 
+  optional modules.  Optional modules can extend the graph module with extra 
+  features like context (process variables), task management, timers, ...</para>
+
+  <figure id="pluggable.architecture.image">
+    <title>The pluggable architecture</title>
+    <mediaobject><imageobject><imagedata align="center" fileref="images/pluggable.architecture.gif"/></imageobject></mediaobject>
+  </figure>
+
+  <para>The pluggable architecture in jBPM is also a unique mechanism to 
+  add custom capabilities to the jBPM engine.  Custom process definition information 
+  can be added by adding a <literal>ModuleDefinition</literal> implementation to the process definition.
+  When the <literal>ProcessInstance</literal> is created, it will create an instance for every 
+  <literal>ModuleDefinition</literal> in the <literal>ProcessDefinition</literal>.  The <literal>ModuleDefinition</literal> is used
+  as a factory for <literal>ModuleInstances</literal>.
+  </para>
+  
+  <para>The most integrated way to extend the process definition information is 
+  by adding the information to the process archive and implementing a 
+  <literal>ProcessArchiveParser</literal>. The <literal>ProcessArchiveParser</literal>
+  can parse the information added to the process archive, create your custom 
+  <literal>ModuleDefinition</literal> and add it to the <literal>ProcessDefinition</literal>.</para>
+  
+  <programlisting>public interface ProcessArchiveParser {
+
+  void writeToArchive(ProcessDefinition processDefinition, ProcessArchive archive);
+  ProcessDefinition readFromArchive(ProcessArchive archive, ProcessDefinition processDefinition);
+
+}</programlisting>
+  
+  <para>To do its work, the custom <literal>ModuleInstance</literal> must be notified of 
+  relevant events during process execution.  The custom <literal>ModuleDefinition</literal> 
+  might add <literal>ActionHandler</literal>  implementations upon events in the process that 
+  serve as callback handlers for these process events.</para>
+
+  <para>Alternatively, a custom module might use AOP to bind the custom instance into the 
+  process execution.  JBoss AOP is very well suited for this job since it is mature, easy 
+  to learn and also part of the JBoss stack.</para>
+  
+</chapter>

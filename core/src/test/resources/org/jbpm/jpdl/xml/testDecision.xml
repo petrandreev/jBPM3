@@ -1,0 +1,41 @@
+<process-definition 
+    xmlns="http://jbpm.org/jpdl-3.2" 
+    name="decision process">
+
+  <decision name="d">
+    <handler />
+    <transition to="d">
+      <condition>a == b</condition>
+    </transition>
+    <transition to="d" />
+    <exception-handler><action></action></exception-handler>
+    <exception-handler><action></action></exception-handler>
+  </decision>
+
+  <decision name="d2">
+    <exception-handler><action></action></exception-handler>
+    <exception-handler><action></action></exception-handler>
+    <transition to="d">
+      <condition>a == b</condition>
+    </transition>
+    <handler class="" />
+    <transition to="d" />
+  </decision>
+
+  <decision name="d3">
+    <transition to="d2">
+      <condition>a=="OK"</condition>
+    </transition>
+    <transition to="d2">
+      <condition>a=="NOK"</condition>
+    </transition>
+    <transition to="d2" />
+  </decision>
+  
+  <decision name="d4">
+    <handler></handler>
+    <transition name="a" to="d2" />
+    <transition name="b" to="d2" />
+  </decision>
+
+</process-definition>

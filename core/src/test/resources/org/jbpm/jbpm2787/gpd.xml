@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="jbpm2787" width="845" height="1236">
+  <node name="StartPrequalification" x="379" y="46" width="165" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="fork1" x="360" y="279" width="205" height="24">
+    <edge>
+      <label x="-167" y="-14"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="fork2" x="224" y="524" width="136" height="24">
+    <edge>
+      <label x="-110" y="-7"/>
+    </edge>
+    <edge>
+      <label x="4" y="8"/>
+    </edge>
+    <edge>
+      <label x="42" y="-6"/>
+    </edge>
+  </node>
+  <node name="join1" x="211" y="712" width="161" height="24">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="join2" x="526" y="792" width="158" height="24">
+    <edge>
+      <label x="-80" y="-9"/>
+    </edge>
+  </node>
+  <node name="ChooseLocalLoopType" x="527" y="864" width="157" height="36">
+    <edge>
+      <label x="12" y="-10"/>
+    </edge>
+  </node>
+  <node name="ChooseCentralType" x="221" y="785" width="142" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Reply" x="540" y="1112" width="132" height="36">
+    <edge>
+      <label x="-50" y="-9"/>
+    </edge>
+  </node>
+  <node name="CheckCache" x="395" y="191" width="132" height="36">
+    <edge>
+      <label x="-120" y="-12"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="321" h1="0" w2="176" h2="-921"/>
+      <bendpoint w1="321" h1="921" w2="176" h2="0"/>
+    </edge>
+  </node>
+  <node name="LookupCentralOffice" x="218" y="364" width="147" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="LookupConnection" x="536" y="511" width="139" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="LocateBSACentral" x="62" y="623" width="134" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="FindCentralRequestMapper" x="201" y="438" width="181" height="36">
+    <edge>
+      <label x="-4" y="-196"/>
+      <bendpoint w1="-246" h1="0" w2="-247" h2="-346"/>
+      <bendpoint w1="-246" h1="347" w2="-247" h2="1"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="LocateColocCentral" x="220" y="622" width="143" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="StoreResult" x="389" y="1044" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="StoreResultRequestMapper" x="503" y="959" width="204" height="36">
+    <edge>
+      <label x="-62" y="-4"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="LocateEBSACentral" x="392" y="621" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="InitializeVariables" x="383" y="118" width="158" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="EndPrequalification" x="516" y="1199" width="181" height="36"/>
+  <deployment serverName="" serverPort="" serverDeployer="">
+    <classesAndResources>
+      <element value="/jbpm-jpdl/src/test/java/org/jbpm/mock/EsbActionHandler.java"/>
+    </classesAndResources>
+    <filesAndFolders>
+      <element value="/jbpm-jpdl/src/test/resources/org/jbpm/jbpm2787/gpd.xml"/>
+      <element value="/jbpm-jpdl/src/test/resources/org/jbpm/jbpm2787/processdefinition.xml"/>
+    </filesAndFolders>
+  </deployment>
+</root-container>

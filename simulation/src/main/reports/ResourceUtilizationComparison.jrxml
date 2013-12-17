@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="WaitingTimeBeforeTaskComparison"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="535"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+
+	<field name="minAvailabe" class="java.lang.Integer">
+		<fieldDescription><![CDATA[minAvailabe]]></fieldDescription>
+	</field>
+	<field name="observations" class="java.lang.Long">
+		<fieldDescription><![CDATA[observations]]></fieldDescription>
+	</field>
+	<field name="poolSize" class="java.lang.Integer">
+		<fieldDescription><![CDATA[poolSize]]></fieldDescription>
+	</field>
+	<field name="stdDevUnutilizedAmount" class="java.lang.Double">
+		<fieldDescription><![CDATA[stdDevUnutilizedAmount]]></fieldDescription>
+	</field>
+	<field name="averageUnutilizedAmount" class="java.lang.Double">
+		<fieldDescription><![CDATA[averageUnutilizedAmount]]></fieldDescription>
+	</field>
+	<field name="zeroWaits" class="java.lang.Long">
+		<fieldDescription><![CDATA[zeroWaits]]></fieldDescription>
+	</field>
+	<field name="averageUnutilizedTime" class="java.lang.Double">
+		<fieldDescription><![CDATA[averageUnutilizedTime]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[name]]></fieldDescription>
+	</field>
+	<field name="maxAvailabe" class="java.lang.Integer">
+		<fieldDescription><![CDATA[maxAvailabe]]></fieldDescription>
+	</field>
+	<field name="maxUnutilizedTime" class="java.lang.Double">
+		<fieldDescription><![CDATA[maxUnutilizedTime]]></fieldDescription>
+	</field>
+	<field name="scenario" class="java.lang.String">
+		<fieldDescription><![CDATA[scenario]]></fieldDescription>
+	</field>
+	<field name="averageUtilization" class="java.lang.Double">
+		<fieldDescription><![CDATA[averageUtilization]]></fieldDescription>
+	</field>
+
+	<sortField name="name" />
+	<sortField name="scenario" />
+
+
+		<group  name="resources" >
+			<groupExpression><![CDATA[$F{name}]]></groupExpression>
+			<groupHeader>
+			<band height="209"  isSplitAllowed="true" >
+				<rectangle>
+					<reportElement
+						x="0"
+						y="0"
+						width="535"
+						height="18"
+						key="rectangle-1"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="6"
+						y="2"
+						width="507"
+						height="18"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+				<multiAxisChart>
+					<chart evaluationTime="Group" evaluationGroup="resources"  hyperlinkTarget="Self" >
+					<reportElement
+						x="38"
+						y="26"
+						width="475"
+						height="166"
+						key="element-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+						<chartLegend textColor="#000000" backgroundColor="#FFFFFF" >
+					</chartLegend>
+					</chart>
+					<multiAxisPlot>
+						<plot backgroundAlpha="0.7" foregroundAlpha="0.7" />
+							<axis >
+				<lineChart>
+					<chart  hyperlinkTarget="Self" >
+					<reportElement
+						x="-40"
+						y="-1024"
+						width="0"
+						height="0"
+						key="element-19"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+						<chartLegend textColor="#000000" backgroundColor="#FFFFFF" >
+					</chartLegend>
+					</chart>
+					<categoryDataset>
+						<dataset resetType="Group" resetGroup="resources" >
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["Utilization %"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{scenario}]]></categoryExpression>
+							<valueExpression><![CDATA[new Double($F{averageUtilization}.doubleValue() * 100)]]></valueExpression>
+				<itemHyperlink >
+				</itemHyperlink>
+						</categorySeries>
+					</categoryDataset>
+					<linePlot >
+						<plot />
+						<categoryAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</valueAxisFormat>
+					</linePlot>
+				</lineChart>
+							</axis>
+							<axis position="rightOrBottom" >
+				<lineChart>
+					<chart  hyperlinkTarget="Self" >
+					<reportElement
+						x="-110"
+						y="-4184"
+						width="0"
+						height="0"
+						key="element-129"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+						<chartLegend textColor="#000000" backgroundColor="#FFFFFF" >
+					</chartLegend>
+					</chart>
+					<categoryDataset>
+						<dataset resetType="Group" resetGroup="resources" >
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["Avg. unutilized time"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{scenario}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{averageUnutilizedTime}]]></valueExpression>
+				<itemHyperlink >
+				</itemHyperlink>
+						</categorySeries>
+					</categoryDataset>
+					<linePlot >
+						<plot />
+						<categoryAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</valueAxisFormat>
+					</linePlot>
+				</lineChart>
+							</axis>
+							<axis position="rightOrBottom" >
+				<lineChart>
+					<chart  hyperlinkTarget="Self" >
+					<reportElement
+						x="-120"
+						y="-4768"
+						width="0"
+						height="0"
+						key="element-118"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+						<chartLegend textColor="#000000" backgroundColor="#FFFFFF" >
+					</chartLegend>
+					</chart>
+					<categoryDataset>
+						<dataset resetType="Group" resetGroup="resources" >
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["Avg. unutilized amount"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{scenario}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{averageUnutilizedAmount}]]></valueExpression>
+				<itemHyperlink >
+				</itemHyperlink>
+						</categorySeries>
+					</categoryDataset>
+					<linePlot >
+						<plot />
+						<categoryAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat >
+							</axisFormat>
+						</valueAxisFormat>
+					</linePlot>
+				</lineChart>
+							</axis>
+					</multiAxisPlot>
+				</multiAxisChart>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="37"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="448"
+						height="21"
+						key="staticText-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Resource utilization]]></text>
+				</staticText>
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

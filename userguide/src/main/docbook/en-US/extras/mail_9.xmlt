@@ -1,0 +1,3 @@
+<mail   actors="#{president}" 
+        subject="readmylips" 
+        text="nomoretaxes" />

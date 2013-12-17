@@ -1,0 +1,23 @@
+<process-definition 
+    xmlns="urn:jbpm.org:jpdl-3.2" 
+    name="task node process">
+    
+  <task-node name="t"> 
+    <event type="node-enter"> 
+      <action class="c"/> 
+    </event> 
+    <task name="t"> 
+      <assignment class="c"/> 
+      <event type="task-create"> 
+        <create-timer name="ct" duedate="10 seconds"> 
+          <action class="c"/> 
+        </create-timer> 
+      </event> 
+      <event type="task-end"> 
+        <cancel-timer name="ct"/> 
+      </event> 
+    </task> 
+    <transition to="t"></transition> 
+  </task-node> 
+
+</process-definition>

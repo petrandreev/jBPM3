@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="return defective goods">
+    
+    <!-- 2 people available as accounting staff  -->
+    <swimlane name="accounting" pool-size="2" /> 
+
+    <!-- 10 people available for technical support  -->
+    <swimlane name="technical support" pool-size="10"/>
+    <resource-pool name="test environment" size="8" />
+
+	<start-state name="Return request">
+		<transition to="age of goods?"></transition>
+	</start-state>
+
+
+	<decision name="age of goods?">
+		<simulation distribution="">
+			
+		</simulation>
+		<transition to="transfer shipment costs" name="&lt;= 2 weeks"></transition>
+		<transition to="wait for parcel" name="&gt; 2 weeks"></transition>
+	</decision>
+
+	<task-node name="transfer shipment costs">
+		<task name="transfer shipment costs" swimlane="accounting"></task>
+		<transition to="wait for parcel"></transition>
+	</task-node>
+
+	<state name="wait for parcel">
+		<transition to="Quick test"></transition>
+	</state>
+
+	<task-node name="Quick test">
+		<task name="do quick test" swimlane="technical support">
+			<resource-consumption pool="test environment" />
+		</task>
+		<transition to="Extended technical test" name="no defect"></transition>
+		<transition to="approval notification" name="defect approved"></transition>
+	</task-node>
+
+	<task-node name="Extended technical test">
+		<task name="do extended technical test" swimlane="technical support">
+			<resource-consumption pool="test environment" />
+		</task>
+		<transition to="approval notification" name="defect approved"></transition>
+		<transition to="refusal notification" name="no defect"></transition>
+	</task-node>
+
+	<task-node name="Send back goods">
+		<transition to="Denied"></transition>
+	</task-node>
+
+	<mail-node name="approval notification">
+		<transition to="Refund"></transition>
+	</mail-node>
+
+	<mail-node name="refusal notification">
+		<transition to="Send back goods"></transition>
+	</mail-node>
+
+
+	<end-state name="Refund"></end-state>
+
+	<end-state name="Denied"></end-state>
+
+
+</process-definition>

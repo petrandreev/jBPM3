@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+
+<chapter id="businesscalendar">
+    <title>
+        Business Calendar
+    </title>
+
+    <para>
+        Read this chapter to learn about the Business Process Manager's
+        calendar functionality, which is used to calculate due dates for
+        tasks and timers.
+    </para>
+
+    <para>
+        It does so by adding or subtracting a duration with a base date. (If
+        the base date is omitted, the current date is used by default.)
+    </para>
+
+    <section id="duedate">
+        <title>
+            Due Date
+        </title>
+
+        <para>
+            The due date is comprised of a duration and a base date. The
+            formula used is: <code>duedate ::= [&lt;basedate&gt; +/-]
+            &lt;duration&gt;</code>
+        </para>
+
+        <section id="duration">
+            <title>
+                Duration
+            </title>
+
+            <para>
+                    A duration is specified in either absolute or business
+                    hours by use of this formula: <code>duration ::=
+                    &lt;quantity&gt; [business] &lt;unit&gt;</code>
+            </para>
+
+            <para>
+                In the calculation above, <code>&lt;quantity&gt;</code> must
+                be a piece of text that is parsable with
+                <command>Double.parseDouble(quantity)</command>.
+                <code>&lt;unit&gt;</code> will be one of: second, seconds,
+                minute, minutes, hour, hours, day, days, week, weeks, month,
+                months, year or years. Adding the optional
+                <code>business</code> flag will mean that only business
+                hours will be taken into account for this duration. (Without
+                it, the duration will be interpreted as an absolute time
+                period.)
+            </para>
+        </section>
+
+        <section id="baseDate">
+            <title>
+                Base Date
+           </title>
+            
+            <para>
+                The base date is calculated in this way: <code>basedate ::=
+                &lt;EL&gt;</code>.
+            </para>
+
+            <para>
+                In the formula above, <code>&lt;EL&gt;</code> can be any
+                Java Expression Language expression that resolves to a <systemitem>Java
+                Date</systemitem> or <systemitem>Calendar</systemitem> object.  
+            </para>
+            
+            <warning>
+                <para>
+                        Do not reference variables of any other object
+                        types, as this will result in a
+                        <exceptionname>JbpmException</exceptionname> error.
+                </para>
+            </warning>
+
+            <para>
+                The base date is supported in a number of places, these
+                being a plain timer's <property>duedate</property>
+                attributes, on a task reminder and the timer within a task.
+                However, it is not supported on the
+                <property>repeat</property> attributes of these elements.
+            </para>
+            
+        </section>
+
+        <section id="duedateExamples">
+            <title>
+                Due Date Examples
+           </title>
+           
+            <para>
+                The following uses are all valid:
+            </para>
+            <programlisting language="XML"><xi:include href="extras/timer1.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+            
+        </section>
+    </section>
+
+    <section id="calendarconfiguration">
+        <title>
+            Calendar Configuration
+       </title>
+
+        <para>
+            Define the business hours in the
+            <filename>org/jbpm/calendar/jbpm.business.calendar.properties</filename>
+            file. (To customize this configuration file, place a modified
+            copy in the root of the classpath.)
+        </para>
+
+        <para>
+            This is the default business hour specification found in
+            <filename>jbpm.business.calendar.properties</filename>:
+        </para>
+        
+       <programlisting><xi:include href="extras/calendar_2.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+    </section>
+
+    <section id="duedateExample">
+      <title>
+            Examples
+      </title>
+
+      <para>
+            The following examples demonstrate different ways in which it
+            can be used:
+      </para>
+
+ <programlisting><xi:include href="extras/cal3.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+ <programlisting><xi:include href="extras/cal4.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+<para>    
+    Having studied this chapter, the reader now understands how the Business
+    Calendar works.
+</para>
+  </section>
+</chapter>

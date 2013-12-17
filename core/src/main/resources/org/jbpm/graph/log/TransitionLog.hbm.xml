@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.graph.log.TransitionLog" 
+            extends="org.jbpm.logging.log.CompositeLog"
+            discriminator-value="T">
+            
+    <many-to-one name="transition" 
+                 column="TRANSITION_" 
+                 foreign-key="FK_LOG_TRANSITION"
+                 index="IDX_LOG_TRANSITION" />
+    <many-to-one name="sourceNode" 
+                 column="SOURCENODE_" 
+                 foreign-key="FK_LOG_SOURCENODE"
+                 index="IDX_LOG_SOURCENODE" />
+    <many-to-one name="destinationNode" 
+                 column="DESTINATIONNODE_" 
+                 foreign-key="FK_LOG_DESTNODE"
+                 index="IDX_LOG_DESTNODE" />
+  </subclass>
+
+</hibernate-mapping>

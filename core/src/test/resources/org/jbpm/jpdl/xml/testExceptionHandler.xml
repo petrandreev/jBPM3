@@ -1,0 +1,18 @@
+<process-definition 
+    xmlns="urn:jbpm.org:jpdl-3.2" 
+    name="exception handler process">
+
+  <exception-handler exception-class=""> 
+    <script />
+    <script />
+    <action />
+    <action />
+    <script />
+    <script />
+    <action />
+    <action />
+    <script />
+    <script />
+  </exception-handler>
+
+</process-definition>

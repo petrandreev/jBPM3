@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<AutomatedInstallation langpack="eng">
+  <com.izforge.izpack.panels.HelloPanel />
+  <com.izforge.izpack.panels.TargetPanel>
+    <installpath>@jbpm.home@</installpath>
+  </com.izforge.izpack.panels.TargetPanel>
+  <com.izforge.izpack.panels.TreePacksPanel>
+    <pack name="jBPM Standalone" index="0" selected="true" />
+    <pack name="Process Engine" index="1" selected="true" />
+    <pack name="Documentation" index="2" selected="true" />
+    <pack name="Eclipse Designer" index="3" selected="true" />
+    <pack name="JBoss AS Integration" index="4" selected="false" />
+    <pack name="jBPM Service" index="5" selected="false" />
+    <pack name="JSF Console" index="6" selected="false" />
+    <pack name="Tomcat Integration" index="7" selected="true" />
+    <pack name="Optional Downloads" index="8" selected="false" />
+    <pack name="JBoss AS" index="9" selected="false" />
+    <pack name="Eclipse" index="10" selected="false" />
+  </com.izforge.izpack.panels.TreePacksPanel>
+  <com.izforge.izpack.panels.UserInputPanel>
+    <userInput>
+      <entry key="jbossSelection" value="@container@" />
+      <entry key="jbossTargetServer" value="@jboss.server@" />
+    </userInput>
+  </com.izforge.izpack.panels.UserInputPanel>
+  <com.izforge.izpack.panels.UserInputPanel>
+    <userInput>
+      <entry key="jbossInstallPath" value="@jboss.home@" />
+    </userInput>
+  </com.izforge.izpack.panels.UserInputPanel>
+  <com.izforge.izpack.panels.UserInputPanel>
+    <userInput>
+      <entry key="tomcatSelection" value="@container@" />
+    </userInput>
+  </com.izforge.izpack.panels.UserInputPanel>
+  <com.izforge.izpack.panels.UserInputPanel>
+    <userInput>
+      <entry key="tomcatInstallPath" value="@tomcat.home@" />
+    </userInput>
+  </com.izforge.izpack.panels.UserInputPanel>
+  <com.izforge.izpack.panels.UserInputPanel>
+    <userInput>
+      <entry key="dbSelection" value="@database@" />
+    </userInput>
+  </com.izforge.izpack.panels.UserInputPanel>
+  <com.izforge.izpack.panels.SummaryPanel />
+  <com.izforge.izpack.panels.InstallPanel />
+  <com.izforge.izpack.panels.FinishPanel />
+</AutomatedInstallation>

@@ -1,0 +1,15 @@
+package org.jbpm.action
+ 
+import org.jbpm.examples.rulesaction.Customer;
+import org.jbpm.examples.rulesaction.Order;
+import org.jbpm.context.exe.ContextInstance;
+
+global ContextInstance ci
+
+rule "Determine Shipper"
+	when
+		Customer( region >= 1 )
+		Order( totalAmount >= 0 )
+	then
+		ci.setVariable("shipper", "FEDX"); 
+end

@@ -1,0 +1,562 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="enterprise">
+
+  <title> 
+    Java EE Application Server Facilities
+  </title>
+
+  <para>
+        Read this chapter to learn about the facilities offered by the jBPM
+        to that can be used to leverage the Java EE infrastructure.
+  </para>
+
+  <section id="enterprisebeans">
+
+    <title>
+        Enterprise Beans
+    </title>
+
+    <para>
+            The <systemitem>CommandServiceBean</systemitem> is a
+            <firstterm>stateless session bean</firstterm> that runs Business
+            Process Manager commands by calling its
+            <methodname>execute</methodname> method within a separate jBPM
+            context. The available environment entries and customizable
+            resources are summarized in the following table:
+    </para>
+
+    <table>
+      <title>Command Service Bean Environment</title>
+      <tgroup cols="3" align="left" colsep="1" rowsep="1">
+        <colspec colwidth="4*"/>
+        <colspec colwidth="2*"/>
+        <colspec colwidth="5*"/>
+        <thead>
+          <row>
+            <entry>Name</entry>
+            <entry>Type</entry>
+            <entry>Description</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry><systemitem>JbpmCfgResource</systemitem></entry>
+            <entry>Environment Entry</entry>
+            <entry>This the classpath resource from which the jBPM configuration is read.
+            Optional, defaults to <filename>jbpm.cfg.xml</filename>.
+            </entry>
+          </row>
+          <row>
+            <entry><systemitem>ejb/TimerEntityBean</systemitem></entry>
+            <entry>EJB Reference</entry>
+            <entry>This is a link to the local entity bean that implements the scheduler service.
+            Required for processes that contain timers.
+            </entry>
+          </row>
+          <row>
+            <entry><systemitem>jdbc/JbpmDataSource</systemitem></entry>
+            <entry>Resource Manager Reference</entry>
+            <entry>This is the logical name of the data source that provides JDBC connections to the
+            jBPM persistence service. Must match the <property>hibernate.connection.datasource
+            </property> property in the Hibernate configuration file.
+            </entry>
+          </row>
+          <row>
+            <entry><systemitem>jms/JbpmConnectionFactory</systemitem></entry>
+            <entry>Resource Manager Reference</entry>
+            <entry>This is the logical name of the factory that provides JMS connections to the jBPM
+            message service. Required for processes that contain asynchronous continuations.
+            </entry>
+          </row>
+          <row>
+            <entry><systemitem>jms/JobQueue</systemitem></entry>
+            <entry>Message Destination Reference</entry>
+            <entry>The jBPM message service sends job messages to this queue.
+            To ensure this is the same queue from which the job listener bean receives 
+            messages, the <systemitem>message-destination-link</systemitem> points to a common 
+            logical destination, <systemitem>JobQueue</systemitem>.
+            </entry>
+          </row>
+          <row>
+            <entry><systemitem>jms/CommandQueue</systemitem></entry>
+            <entry>Message Destination Reference</entry>
+            <entry>The command listener bean receives messages from this queue.
+            To ensure this is the same queue to which command messages can be sent,
+            the <systemitem>message-destination-link element</systemitem> points to a common 
+            logical destination, <systemitem>CommandQueue</systemitem>.
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>
+        The <systemitem>CommandListenerBean</systemitem> is a message-driven
+        bean that listens to the <systemitem>CommandQueue</systemitem> for
+        command messages. It delegates command execution to the
+        <systemitem>CommandServiceBean</systemitem>.
+    </para>
+
+    <para>
+        The body of the message must be a Java object that can implement the
+        <interfacename> org.jbpm.Command</interfacename> interface. (The
+        message properties, if any, are ignored.) If the message is not of
+        the expected format, it is forwarded to the <methodname>
+        DeadLetterQueue</methodname> and will not be processed any further.
+        The message will also be rejected if the destination reference is
+        absent.
+    </para>
+
+    <para>
+            If a received message specifies a <code>replyTo</code>
+            destination, the command execution result will be wrapped in an
+            <systemitem>object message</systemitem> and sent there. 
+    </para>
+    
+    <para>
+            The <systemitem>command connection factory environment
+            reference</systemitem> points to the resource manager being used
+            to supply Java Message Service connections.
+    </para>
+
+    <para>
+        Conversely, <systemitem>JobListenerBean</systemitem> is a
+       message-driven bean that listens to the
+       <systemitem>JbpmJobQueue</systemitem> for job messages, in order to
+       support <firstterm>asynchronous continuations</firstterm>.
+    </para>
+
+<note>
+    <para>
+            Be aware that the message must have a property called
+            <property>jobId</property> of type <code>long</code>. This
+            property must contain references to a pending
+            <property>Job</property> in the database. The message body, if
+            it exists, is ignored.
+    </para>
+</note>
+
+    <para>
+        This bean extends the <classname>CommandListenerBean</classname>. It
+        inherits the latter's environmental entries and those resource
+        references that can be customized.
+    </para>
+
+    <table>
+      <title>Command/Job listener bean environment</title>
+      <tgroup cols="3" align="left" colsep="1" rowsep="1">
+        <colspec colwidth="9*"/>
+        <colspec colwidth="4*"/>
+        <colspec colwidth="9*"/>
+        <thead>
+          <row>
+            <entry>Name</entry>
+            <entry>Type</entry>
+            <entry>Description</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry><classname>ejb/LocalCommandServiceBean</classname></entry>
+            <entry>EJB Reference</entry>
+            <entry>This is a link to the local session bean that executes commands on a separate 
+            jBPM context.
+            </entry>
+          </row>
+          <row>
+            <entry><classname>jms/JbpmConnectionFactory</classname></entry>
+            <entry>Resource Manager Reference</entry>
+            <entry>This is the logical name of the factory that provides Java Message Service connections for producing
+            result messages. Required for command messages that indicate a reply
+            destination.
+            </entry>
+          </row>
+          <row>
+            <entry><classname>jms/DeadLetterQueue</classname></entry>
+            <entry>Message Destination Reference</entry>
+            <entry>Messages which do not contain a command are sent to the queue referenced
+            here. It is optional. If it is absent, such messages are rejected, which may cause the 
+            container to redeliver.
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>
+        The <systemitem>TimerEntityBean</systemitem> is used by the
+        <firstterm>Enterprise Java Bean timer service</firstterm> for
+        scheduling. When the bean expires, timer execution is delegated to
+        the <systemitem>command service</systemitem> bean.
+    </para>
+    
+    <para>
+        The <systemitem>TimerEntityBean</systemitem> requires access to the
+        Business Process Manager's data source. The Enterprise Java Bean
+        deployment descriptor does not define how an entity bean is to map
+        to a database. (This is left to the container provider.) In the
+        <application>JBoss Application Server</application>, the
+        <property>jbosscmp-jdbc.xml</property> descriptor defines the data
+        source's JNDI name and relational mapping data (such as the table
+        and column names.) 
+   </para>     
+    
+ <note>
+    <para>        
+        The JBoss CMP (<firstterm>container-managed
+        persistence</firstterm>) descriptor uses a global
+        JNDI name (<systemitem>java:JbpmDS</systemitem>), as opposed to a
+        resource manager reference
+        (<systemitem>java:comp/env/jdbc/JbpmDataSource</systemitem>).
+    </para>
+</note>
+
+<note>
+    <para>
+        Earlier versions of the Business Process Manager used a stateless
+        session bean called <systemitem>TimerServiceBean </systemitem> to
+        interact with the Enterprise Java Bean timer service. The session
+        approach had to be abandoned because it caused an unavoidable
+        bottleneck for the <methodname>cancellation</methodname> methods.
+        Because session beans have no identity, the timer service was forced
+        to iterate through <emphasis>all</emphasis> the timers to find the
+        ones it had to cancel. 
+  </para>      
+  
+  <para>
+        The bean is still available for backwards
+        compatibility purposes. It works in the same environment as the
+        <systemitem>TimerEntityBean</systemitem>, so migration is easy.
+    </para>
+</note>
+
+    <table border="1">
+    <title>Timer Entity/Service Bean Environment</title>
+      <tgroup cols="3" align="left" colsep="1" rowsep="1">
+        <colspec colwidth="9*"/>
+        <colspec colwidth="4*"/>
+        <colspec colwidth="10*"/>
+        <thead>
+          <row>
+            <entry>Name</entry>
+            <entry>Type</entry>
+            <entry>Description</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry><code>ejb/LocalCommandServiceBean</code></entry>
+            <entry>EJB Reference</entry>
+            <entry>This is a link to the local session bean that executes
+            timers on a separate jBPM context.
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+  </section>
+
+  <section id="enterprisejbpmconfig">
+
+    <title>jBPM Enterprise Configuration</title>
+
+    <para>
+        The following configuration items are included in
+        <filename>jbpm.cfg.xml</filename>:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/enterprise_1.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        The <classname>JtaDbPersistenceServiceFactory</classname> allows the
+        Business Process Manager to participate in JTA transactions. If an
+        existing transaction is underway, the JTA persistence service
+        "clings" to it; otherwise it starts a new transaction. The Business
+        Process Manager's enterprise beans are configured to delegate
+        transaction management to the container. However, a new one will be
+        started automatically if one creates a JbpmContext in an environment
+        in which no transaction is active (such as a web application.) The
+        JTA <systemitem>persistence service factory</systemitem> contains
+        the configurable fields described below.
+    </para>
+
+    <variablelist>
+
+        <varlistentry>
+            <term><property>isCurrentSessionEnabled</property></term>
+            <listitem>
+                <para>
+                    When this is set to <code>true</code>, the Business Process
+                    Manager will use the "current"
+                    <application>Hibernate</application> session associated with
+                    the ongoing JTA transaction. This is the default setting.
+                    (See <ulink
+                    url="http://www.hibernate.org/hib_docs/v3/reference/en/html/architecture.html#architecture-current-session"
+                    /> for more information.)
+                </para>
+                
+                <para>
+                    Use the same session as by jBPM in other parts of the
+                    application by taking advantage of the contextual
+                    session mechanism. Do so through a call to
+                    <methodname>SessionFactory.getCurrentSession()</methodname>.
+                    Alternatively, supply a
+                    <application>Hibernate</application> session to jBPM by
+                    setting <property>isCurrentSessionEnabled</property> to
+                    <code>false</code> and injecting the session via the
+                    <methodname>JbpmContext.setSession(session)</methodname>
+                    method. This also ensures that jBPM uses the same
+                    <application>Hibernate</application> session as other
+                    parts of the application.
+                </para>    
+                 
+                 <note>   
+                    <para>
+                        The <application>Hibernate</application> session can
+                        be injected into a stateless session bean (via a
+                        persistence context, for example.)
+                </para>
+                </note>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><property>isTransactionEnabled</property></term>
+            <listitem>
+                <para>
+                    When this is set to <code>true</code>, jBPM will begin a
+                    transaction through
+                    <application>Hibernate</application>'s
+                    <systemitem>transaction API</systemitem>, using the
+                    <methodname>JbpmConfiguration.createJbpmContext()</methodname>
+                    method to commit it. (The
+                    <application>Hibernate</application> session is closed
+                    when <methodname>JbpmContext.close()</methodname> is
+                    called.)
+                </para>
+            <warning>
+                    <para>
+                        This is not the desired behavior when the Business
+                        Process Manager is deployed as an EAR and hence
+                        <property>isTransactionEnabled</property> is set to
+                        <code>false</code> by default. (See <ulink
+                        url="http://www.hibernate.org/hib_docs/v3/reference/en/html/transactions.html#transactions-demarcation"
+                        /> for more details.)
+                    </para>
+                </warning>    
+               
+            </listitem>
+        </varlistentry>
+
+
+    </variablelist>
+            
+
+    
+    <para>
+        <systemitem>JmsMessageServiceFactory</systemitem> delivers
+        <systemitem>asynchronous continuation messages</systemitem> to the
+        <classname>JobListenerBean</classname> by leveraging the reliable
+        communication infrastructure exposed through the Java Message Service
+        interfaces. The <systemitem>JmsMessageServiceFactory</systemitem>
+        exposes the following configurable fields:
+    </para>    
+
+    <variablelist>
+
+        <varlistentry>
+            <term><property>connectionFactoryJndiName</property></term>
+            <listitem>
+                <para>
+                    This is the name of the JMS connection factory in the
+                    JNDI initial context. It defaults to
+                    <systemitem>java:comp/env/jms/JbpmConnectionFactory</systemitem>.
+                  </para>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><property>destinationJndiName</property></term>
+            <listitem>
+                <para>
+                    This is the name of the JMS destination to which job
+                    messages will be sent. It must match the destination
+                    from which <systemitem>JobListenerBean</systemitem>
+                    receives messages. It defaults to
+                    <systemitem>java:comp/env/jms/JobQueue</systemitem>.
+                </para>
+            </listitem>
+        </varlistentry>
+
+        <varlistentry>
+            <term><property>isCommitEnabled</property></term>
+            <listitem>
+                <para>
+                    This specifies whether the Business Process Manager
+                    should commit the Java Message Service session upon
+                    <methodname>JbpmContext.close()</methodname>. Messages
+                    produced by the JMS message service are never meant to
+                    be received before the current transaction commits;
+                    hence the sessions created by the service are always
+                    transacted. The default value is <code>false</code>,
+                    which is appropriate when the <systemitem>connection
+                    factory</systemitem> in use is XA-capable, as the
+                    messages produced by the Java Message Service session
+                    will be controlled by the overall JTA transaction. This
+                    field should be set to <code>true</code> if the JMS
+                    connection factory is not XA-capable so that the
+                    Business Process Manager explicitly commits the JMS
+                    session's local transaction.
+                </para>
+            </listitem>
+        </varlistentry>
+
+
+    </variablelist>
+
+
+    <para>
+        The <systemitem>EntitySchedulerServiceFactory</systemitem> is used
+        to schedule business process timers. It does so by building upon on
+        the transactional notification service for timed events provided by
+        the Enterprise Java Bean container. The EJB
+        <systemitem>scheduler service factory</systemitem> has the
+        configurable field described
+        below.
+    </para>
+
+    <variablelist>
+        <varlistentry>
+            <term><property>timerEntityHomeJndiName</property></term>
+            <listitem>
+                <para>
+                    This is the name of the
+                    <systemitem>TimerEntityBean</systemitem>'s local home
+                    interface in the JNDI initial context. The default value
+                    is
+                    <systemitem>java:comp/env/ejb/TimerEntityBean</systemitem>.
+                </para>
+            </listitem>
+        </varlistentry>
+
+    </variablelist>
+ 
+  </section>
+
+  <section id="enterprisehibernateconfig">
+
+    <title>
+        Hibernate Enterprise Configuration
+    </title>
+
+    <para>
+        The <filename>hibernate.cfg.xml</filename> file includes the
+        following configuration items. Modify them to support other
+        databases or application servers.
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/enterprise_2.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+    <para>
+        Replace the <code>hibernate.dialect</code> setting with that which
+        is appropriate for one's database management system. (For more
+        information, read <ulink
+        url="http://www.hibernate.org/hib_docs/v3/reference/en/html/session-configuration.html#configuration-optional-dialects"
+        />.)
+    </para>
+
+    <para>
+        The <systemitem>HashtableCacheProvider</systemitem> can be replaced
+        with other supported cache providers. (Refer to <ulink
+        url="http://www.hibernate.org/hib_docs/v3/reference/en/html/performance.html#performance-cache"
+        /> for more information.)
+    </para>
+
+    <para>
+        Out of the box, jBPM is configured to use the
+        <systemitem>JTATransactionFactory</systemitem>. If an existing
+        transaction is underway, the JTA transaction factory uses it;
+        otherwise it creates a new transaction. The jBPM enterprise beans
+        are configured to delegate transaction management to the container.
+        However, if the jBPM APIs are being used in a context in which no
+        transaction is active (such as a web application), one will be
+        started automatically.
+    </para>
+
+    <para>
+        To prevent unintended transaction creations when using
+        <firstterm>container-managed transactions</firstterm>, switch to the
+        <systemitem>CMTTransactionFactory</systemitem>. This setting ensures
+        that <application>Hibernate</application> will always look for an
+        existing transaction and will report a problem if none is found.
+    </para>
+
+  </section>
+
+  <section id="clientcomponents">
+
+    <title>
+            Client Components
+    </title>
+
+    <para>
+        Ensure that the appropriate environmental references are in place
+        for deployment descriptors for client components written directly
+        against those Business Process Manager APIs that can leverage the
+        enterprise services. The descriptor below can be regarded as typical
+        for a client session bean:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/enterprise_3.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+    <para>
+        The environmental references above can be bound to resources in the
+        target operational environment as follows. Note that the JNDI names
+        match the values used by the Business Process Manager enterprise
+        beans.
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/enterprise_4.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+    <para>
+        If the client component is a web application, as opposed to an
+        enterprise bean, the deployment descriptor shall look like this:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/enterprise_5.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+    <para>
+        The above environmental references can also be bound to resources in
+        the target operational environment, as per this code sample:
+    </para>
+
+    <programlisting language="XML"><xi:include href="extras/enterprise_6.xmlt" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+
+ 
+ 
+ </section>
+ <section>
+ <title>
+    Conclusion
+    </title>    
+<para>
+    Having studied this chapter, you should now have a thorough
+    understanding of the facilities offered by the jBPM that can be used to
+    leverage the Java EE infrastructure and should be comfortable with
+    testing some of these in your corporate environment.
+</para>
+ </section>
+  
+
+
+</chapter>

@@ -1,0 +1,7 @@
+<chapter id="jpdl">
+  <title>jBPM Prozessdefinition-Sprache (JPDL)</title>
+
+  <para>JPDL spezifiziert ein xml Schema und der Mechanismus, um alle Prozeßdefinitionsdateien 
+  in einem Prozeßarchiv zu verpacken. 
+  </para>
+</chapter>

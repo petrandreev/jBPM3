@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <class name="org.jbpm.bytes.ByteArray" 
+         table="JBPM_BYTEARRAY">
+    <id name="id" column="ID_"><generator class="native" /></id>
+    <property name="name" column="NAME_" />
+    <list name="byteBlocks" 
+          table="JBPM_BYTEBLOCK" 
+          cascade="all">
+      <key column="PROCESSFILE_" foreign-key="FK_BYTEBLOCK_FILE" />
+      <list-index column="INDEX_" />
+      <element type="binary" length="1024" column="BYTES_" />
+    </list>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field" >
+
+  <subclass name="org.jbpm.graph.node.Fork" 
+            discriminator-value="F" 
+            extends="org.jbpm.graph.def.Node">
+
+    <many-to-one name="script"
+                 column="SCRIPT_"
+                 foreign-key="FK_NODE_SCRIPT"
+                 cascade="all"
+                 index="IDX_NODE_SCRIPT" />
+
+  </subclass>
+
+</hibernate-mapping>

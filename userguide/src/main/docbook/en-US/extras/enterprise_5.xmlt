@@ -1,0 +1,42 @@
+<web-app>
+
+  <servlet>
+    <servlet-name>MyClientServlet</servlet-name>
+    <servlet-class>org.example.ClientServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>MyClientServlet</servlet-name>
+    <url-pattern>/client/servlet</url-pattern>
+  </servlet-mapping>
+
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/TimerEntityBean</ejb-ref-name>
+    <ejb-ref-type>Entity</ejb-ref-type>
+    <local-home>org.jbpm.ejb.LocalTimerEntityHome</local-home>
+    <local>org.jbpm.ejb.LocalTimerEntity</local>
+    <ejb-link>TimerEntityBean</ejb-link>
+  </ejb-local-ref>
+
+  <resource-ref>
+    <res-ref-name>jdbc/JbpmDataSource</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+  <resource-ref>
+    <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+    <res-type>javax.jms.ConnectionFactory</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+  <message-destination-ref>
+    <message-destination-ref-name>
+        jms/JobQueue
+    </message-destination-ref-name>
+    <message-destination-type>javax.jms.Queue</message-destination-type>
+    <message-destination-usage>Produces</message-destination-usage>
+    <message-destination-link>JobQueue</message-destination-link>
+  </message-destination-ref>
+
+</web-app>

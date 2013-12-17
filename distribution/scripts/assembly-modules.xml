@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+  <id>modules</id>
+  <formats>
+    <format>dir</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+
+  <!-- Dependency Sets -->
+  <dependencySets>
+    <!-- lib -->
+    <dependencySet>
+      <outputDirectory>lib</outputDirectory>
+      <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      <useProjectArtifact>false</useProjectArtifact>
+    </dependencySet>
+
+    <!-- config -->
+    <dependencySet>
+      <outputDirectory>config</outputDirectory>
+      <useProjectArtifact>false</useProjectArtifact>
+      <includes>
+        <include>org.jbpm.jbpm3:jbpm-jpdl:jar:config</include>
+      </includes>
+      <unpack>true</unpack>
+    </dependencySet>
+
+    <!-- examples -->
+    <dependencySet>
+      <outputDirectory>jbpm-examples</outputDirectory>
+      <useProjectArtifact>false</useProjectArtifact>
+      <includes>
+        <include>org.jbpm.jbpm3:jbpm-examples:jar:examples</include>
+      </includes>
+      <unpack>true</unpack>
+    </dependencySet>
+
+    <!-- sources -->
+    <dependencySet>
+      <!-- Must be called 'src' because the GPD has a dependency on it -->
+      <outputDirectory>src</outputDirectory>
+      <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      <useProjectArtifact>false</useProjectArtifact>
+      <includes>
+        <include>*:sources</include>
+      </includes>
+    </dependencySet>
+
+    <!-- javadoc -->
+    <dependencySet>
+      <outputDirectory>javadoc</outputDirectory>
+      <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      <useProjectArtifact>false</useProjectArtifact>
+      <includes>
+        <include>*:javadoc</include>
+      </includes>
+    </dependencySet>
+  </dependencySets>
+</assembly>

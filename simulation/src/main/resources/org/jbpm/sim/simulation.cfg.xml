@@ -1,0 +1,18 @@
+<jbpm-configuration>
+  <jbpm-context>
+    <!-- 
+    TODO: add an in-memory asynchronous messaging system and corresponding job 
+    executor for supporting async execution in the simulation environment
+    <service name="message" factory="org.jbpm.sim.SimulationMessageServiceFactory" />
+
+    TODO: figure out what to do with timers during simulation
+    <service name="scheduler" factory="org.jbpm.scheduler.sim.SimulationSchedulerServiceFactory" />
+     -->
+    <service name="authentication" factory="org.jbpm.security.authentication.DefaultAuthenticationServiceFactory" />
+  </jbpm-context>
+
+  <string name="resource.action.types" value="org/jbpm/sim/simulation.action.types.xml" />
+  <string name="resource.node.types" value="org/jbpm/sim/simulation.node.types.xml" />
+
+  <bean name="jbpm.date.generator" class="org.jbpm.sim.def.JbpmSimulationClock" />
+</jbpm-configuration>

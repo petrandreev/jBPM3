@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>jBPM3 - Distribution</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>jbpm-distribution</artifactId>
+  <packaging>pom</packaging>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jbpm.jbpm3</groupId>
+    <artifactId>jbpm</artifactId>
+    <version>3.2.14</version>
+  </parent>
+
+  <!-- Properties -->
+  <properties>
+    <assemblyFinalName>izpack</assemblyFinalName>
+    <assemblyDirectory>${project.build.directory}/${assemblyFinalName}</assemblyDirectory>
+    <resourcesDirectory>${basedir}/src/main/resources</resourcesDirectory>
+  </properties>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <!-- jBPM dependencies -->
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-db</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-enterprise-jee5</artifactId>
+      <version>${project.version}</version>
+      <type>ejb</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-enterprise-jee5</artifactId>
+      <classifier>config</classifier>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-examples</artifactId>
+      <classifier>examples</classifier>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <classifier>config</classifier>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <classifier>config</classifier>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl-designer-site</artifactId>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-tomcat</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-userguide</artifactId>
+      <version>${project.version}</version>
+      <type>jdocbook</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jsf-console</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jsf-console-jee5</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jsf-console-tomcat</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>gpd-deployer</artifactId>
+      <type>war</type>
+    </dependency>
+
+    <!-- Sources -->
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-enterprise-jee5</artifactId>
+      <classifier>sources</classifier>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <classifier>sources</classifier>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <classifier>sources</classifier>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Javadoc -->
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-enterprise-jee5</artifactId>
+      <classifier>javadoc</classifier>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <classifier>javadoc</classifier>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <classifier>javadoc</classifier>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Thirdparty Dependencies -->
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>backport-util-concurrent</groupId>
+      <artifactId>backport-util-concurrent</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>bsh</groupId>
+      <artifactId>bsh</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.el</groupId>
+      <artifactId>el-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.el</groupId>
+      <artifactId>el-ri</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.cluster</groupId>
+      <artifactId>hibernate-jbc-cacheprovider</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.izpack</groupId>
+      <artifactId>izpack-standalone-compiler</artifactId>
+      <version>4.3.2</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+
+    <!-- Database Drivers -->
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>1.8.0.7</version>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.0.7</version>
+    </dependency>
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>8.2-504.jdbc3</version>
+    </dependency>
+  </dependencies>
+
+  <!-- Plugins -->
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>directory-single</goal>
+            </goals>
+            <configuration>
+              <finalName>${assemblyFinalName}</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>scripts/assembly-modules.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="project.version" value="${project.version}" />
+                <property name="project.build.dir" value="${project.build.directory}" />
+                <property name="project.build.assembly.dir" value="${assemblyDirectory}" />
+                <property name="resources.dir" value="${resourcesDirectory}" />
+                <property name="resources.output.dir" value="${project.build.outputDirectory}" />
+                <property name="jbpm.home" value="${jbpm.home}" />
+                <property name="container" value="${container}" />
+                <property name="jboss.home" value="${jboss.home}" />
+                <property name="jboss.server" value="${jboss.server}" />
+                <property name="tomcat.home" value="${tomcat.home}" />
+                <property name="database" value="${database}" />
+                <ant antfile="scripts/antrun-installer.xml" target="process-resources" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.izpack</groupId>
+        <artifactId>izpack-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>izpack</goal>
+            </goals>
+            <configuration>
+              <descriptor>${project.build.outputDirectory}/install-definition.xml</descriptor>
+              <descriptorEncoding>${project.build.sourceEncoding}</descriptorEncoding>
+              <kind>installer</kind>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

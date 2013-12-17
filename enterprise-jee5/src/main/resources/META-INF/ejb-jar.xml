@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
+  <enterprise-beans>
+    <session>
+      <description>Executes commands in a separate context.</description>
+      <display-name>jBPM Command Service</display-name>
+      <ejb-name>CommandServiceBean</ejb-name>
+
+      <resource-ref>
+        <description>
+          Data source that provides the persistence service with connections.
+          Must match property hibernate.connection.datasource in the Hibernate configuration.
+        </description>
+        <res-ref-name>jdbc/JbpmDataSource</res-ref-name>
+        <mapped-name>java:JbpmDS</mapped-name>
+      </resource-ref>
+
+      <resource-ref>
+        <description>
+          Connection factory that provides JMS connections to the message service.
+          Required for processes that contain asynchronous continuations.
+        </description>
+        <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+        <mapped-name>java:JmsXA</mapped-name>
+      </resource-ref>
+
+      <message-destination-ref>
+        <description>
+          The message service sends job messages to the queue referenced here.
+          Must be the same queue from which the JobListenerBean receives messages.
+        </description>
+        <message-destination-ref-name>jms/JobQueue</message-destination-ref-name>
+        <message-destination-usage>Produces</message-destination-usage>
+        <mapped-name>queue/JbpmJobQueue</mapped-name>
+      </message-destination-ref>
+    </session>
+
+    <message-driven>
+      <description>
+        Listens for serialized commands and runs them through the command service.
+      </description>
+      <display-name>jBPM Command Listener</display-name>
+      <ejb-name>CommandListenerBean</ejb-name>
+      <ejb-class>org.jbpm.ejb.JobListenerBean</ejb-class>
+      <messaging-type>javax.jms.MessageListener</messaging-type>
+      <activation-config>
+        <activation-config-property>
+          <activation-config-property-name>maxSession</activation-config-property-name>
+          <activation-config-property-value>150</activation-config-property-value>
+        </activation-config-property>
+        <activation-config-property>
+          <activation-config-property-name>dLQJNDIName</activation-config-property-name>
+          <activation-config-property-value>queue/JbpmDLQ</activation-config-property-value>
+        </activation-config-property>
+        <activation-config-property>
+          <activation-config-property-name>destination</activation-config-property-name>
+          <activation-config-property-value>queue/JbpmCommandQueue</activation-config-property-value>
+        </activation-config-property>
+        <activation-config-property>
+          <activation-config-property-name>destinationType</activation-config-property-name>
+          <activation-config-property-value>javax.jms.Queue</activation-config-property-value>
+        </activation-config-property>
+      </activation-config>
+      <resource-ref>
+        <description>
+          Logical name of the factory that provides JMS connections for sending result messages.
+          Required for command messages that indicate a reply destination.
+        </description>
+        <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+        <mapped-name>java:JmsXA</mapped-name>
+      </resource-ref>
+    </message-driven>
+
+    <message-driven>
+      <description>
+        Listens for job references and runs the jobs through the command service.
+      </description>
+      <display-name>jBPM Job Listener</display-name>
+      <ejb-name>JobListenerBean</ejb-name>
+      <ejb-class>org.jbpm.ejb.JobListenerBean</ejb-class>
+      <messaging-type>javax.jms.MessageListener</messaging-type>
+      <activation-config>
+        <activation-config-property>
+          <activation-config-property-name>maxSession</activation-config-property-name>
+          <activation-config-property-value>150</activation-config-property-value>
+        </activation-config-property>
+        <activation-config-property>
+          <activation-config-property-name>dLQJNDIName</activation-config-property-name>
+          <activation-config-property-value>queue/JbpmDLQ</activation-config-property-value>
+        </activation-config-property>
+        <activation-config-property>
+          <activation-config-property-name>destination</activation-config-property-name>
+          <activation-config-property-value>queue/JbpmJobQueue</activation-config-property-value>
+        </activation-config-property>
+        <activation-config-property>
+          <activation-config-property-name>destinationType</activation-config-property-name>
+          <activation-config-property-value>javax.jms.Queue</activation-config-property-value>
+        </activation-config-property>
+      </activation-config>
+      <resource-ref>
+        <description>
+          Logical name of the factory that provides JMS connections for sending result messages.
+          Required for command messages that indicate a reply destination.
+        </description>
+        <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+        <mapped-name>java:JmsXA</mapped-name>
+      </resource-ref>
+    </message-driven>
+  </enterprise-beans>
+</ejb-jar>

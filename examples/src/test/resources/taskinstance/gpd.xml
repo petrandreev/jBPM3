@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="CustomTaskInstance" width="774" height="673">
+  <node name="start" x="176" y="65" width="-1" height="-1">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="end1" x="178" y="349" width="140" height="40"/>
+  <node name="Review Order" x="177" y="205" width="140" height="40">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+</root-container>

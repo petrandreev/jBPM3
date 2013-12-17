@@ -1,0 +1,30 @@
+<pageflow-definition name="numberGuess">
+
+  <i-do-not-belong-here>
+    <!-- the parser will not notice because no namespace was specified -->
+  </i-do-not-belong-here>
+
+  <start-page name="displayGuess" view-id="/numberGuess.jspx">
+    <transition name="guess" to="evaluateGuess">
+      <action expression="#{numberGuess.guess}" />
+    </transition>
+  </start-page>
+
+  <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
+    <transition name="true" to="win" />
+    <transition name="false" to="evaluateRemainingGuesses" />
+  </decision>
+
+  <decision name="evaluateRemainingGuesses"
+    expression="#{numberGuess.lastGuess}">
+    <transition name="true" to="lose" />
+    <transition name="false" to="displayGuess">
+      <action expression="#{numberGuess.guess}" />
+    </transition>
+  </decision>
+
+  <page name="win" view-id="/win.jspx" />
+
+  <page name="lose" view-id="/lose.jspx" />
+
+</pageflow-definition>

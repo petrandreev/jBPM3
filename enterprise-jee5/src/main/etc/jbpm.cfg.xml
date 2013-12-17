@@ -1,0 +1,45 @@
+<jbpm-configuration>
+
+  <jbpm-context>
+    <service name="persistence" factory="org.jbpm.persistence.jta.JtaDbPersistenceServiceFactory" />
+    <service name="message">
+      <factory>
+        <ref bean="jbpm.jms.connector.job.service" />
+      </factory>
+    </service>
+    <service name="scheduler">
+      <factory>
+        <ref bean="jbpm.jms.connector.job.service" />
+      </factory>
+    </service>
+    <service name="tx" factory="org.jbpm.tx.TxServiceFactory" />
+    <service name="logging" factory="org.jbpm.logging.db.DbLoggingServiceFactory" />
+    <service name="authentication" factory="org.jbpm.security.authentication.DefaultAuthenticationServiceFactory" />
+  </jbpm-context>
+
+  <bean name="jbpm.jms.connector.job.service" class="org.jbpm.jms.JmsConnectorServiceFactory">
+    <field name="jbpmConfiguration">
+      <ref bean="jbpm.configuration" />
+    </field>
+    <property name="connectionFactoryJndiName">
+      <string value="java:JmsXA" />
+    </property>
+    <property name="destinationJndiName">
+      <string value="queue/JbpmJobQueue" />
+    </property>
+  </bean>
+
+  <!-- employ the context class loader -->
+  <string name="jbpm.class.loader" value="context" />
+
+  <!-- High-availability JNDI properties (begin) ===
+  <string name="resource.jndi.properties" value="jbpm.jndi.properties" />
+  ==== High-availability JNDI properties (end) -->
+
+  <!--
+    There should be no job executor in the enterprise configuration.
+    The message and scheduler services are both bound to JMS.
+  -->
+  <null name="jbpm.job.executor" />
+
+</jbpm-configuration>

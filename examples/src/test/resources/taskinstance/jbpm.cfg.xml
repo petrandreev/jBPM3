@@ -1,0 +1,3 @@
+<jbpm-configuration>
+  <bean name="jbpm.task.instance.factory" class="org.jbpm.examples.taskinstance.CustomTaskInstanceFactoryImpl" singleton="true" />
+</jbpm-configuration>

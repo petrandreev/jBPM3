@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>jBPM3 - Reference Guide</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>jbpm-userguide</artifactId>
+  <packaging>jdocbook</packaging>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jbpm.jbpm3</groupId>
+    <artifactId>jbpm</artifactId>
+    <version>3.2.14</version>
+  </parent>
+
+  <!-- Plugins -->
+  <build>
+    <plugins>
+      <!--
+        Maven JDocbook Plugin
+        http://www.jboss.org/maven-jdocbook-plugin
+      -->
+      <plugin>
+        <groupId>org.jboss.maven.plugins</groupId>
+        <artifactId>maven-jdocbook-plugin</artifactId>
+        <version>2.3.5</version>
+        <extensions>true</extensions>
+
+        <dependencies>
+          <dependency>
+            <groupId>org.jboss.pressgang</groupId>
+            <artifactId>pressgang-xslt-ns</artifactId>
+            <version>2.0.1</version>
+            <scope>compile</scope>
+          </dependency>
+          <dependency>
+            <groupId>org.jboss.pressgang</groupId>
+            <artifactId>pressgang-jdocbook-style</artifactId>
+            <version>2.0.1</version>
+            <type>jdocbook-style</type>
+            <scope>compile</scope>
+          </dependency>
+        </dependencies>
+
+        <configuration>
+          <sourceDocumentName>master.xml</sourceDocumentName>
+          <imageResource>
+            <directory>${basedir}/src/main/docbook/en-US/</directory>
+            <includes>
+              <include>images/*</include>
+            </includes>
+          </imageResource>
+          <formats>
+            <format>
+              <formatName>html_single</formatName>
+              <stylesheetResource>classpath:/xslt/org/jboss/xhtml-single.xsl</stylesheetResource>
+              <finalName>index.html</finalName>
+            </format>
+            <format>
+              <formatName>html</formatName>
+              <stylesheetResource>classpath:/xslt/org/jboss/xhtml.xsl</stylesheetResource>
+              <finalName>index.html</finalName>
+            </format>
+          </formats>
+          <injections>
+            <injection>
+              <name>project.version</name>
+              <value>${project.version}</value>
+            </injection>
+          </injections>
+          <options>
+            <xmlTransformerType>saxon</xmlTransformerType>
+            <xincludeSupported>true</xincludeSupported>
+            <useRelativeImageUris>true</useRelativeImageUris>
+            <!-- needed for uri-resolvers; can be ommitted if using 'current' uri scheme -->
+            <!-- could also locate the docbook dependency and inspect its version... -->
+            <docbookVersion>1.72.0</docbookVersion>
+          </options>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

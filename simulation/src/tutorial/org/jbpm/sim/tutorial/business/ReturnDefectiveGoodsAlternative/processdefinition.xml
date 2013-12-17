@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="ReturnDefectiveGoodsAlternative">
+
+	<swimlane name="clerk">
+		<assignment pooled-actors="clerk" />
+	</swimlane>
+	<swimlane name="accountant">
+		<assignment pooled-actors="accountant" />
+	</swimlane>
+	<swimlane name="tester">
+		<assignment pooled-actors="tester" />
+	</swimlane>
+	<swimlane name="dispatcher">
+		<assignment pooled-actors="dispatcher" />
+	</swimlane>
+	
+	<start-state name="Return request">
+		<transition name="start" to="ordered within the last two weeks?"></transition>
+	</start-state>
+
+
+	<decision name="ordered within the last two weeks?">
+		<handler class="" />
+		<transition to="transfer shipping costs" name="YES"></transition>
+		<transition to="wait for parcel" name="NO"></transition>
+	</decision>
+
+	<task-node name="transfer shipping costs">
+		<task name="transfer shipping costs" swimlane="accountant"></task>
+		<transition name="done" to="wait for parcel" />
+	</task-node>
+
+	<state name="wait for parcel">
+		<transition to="should be checked?" name="parcel arrived"></transition>
+	</state>
+
+	<task-node name="extended technical test">
+		<task name="extended technical test" swimlane="tester"></task>	
+		<transition to="send back goods" name="no defect"></transition>
+		<transition to="Refund" name="defect approved"></transition>
+	</task-node>
+
+	<task-node name="send back goods">
+		<task name="send back goods" swimlane="dispatcher"></task>	
+		<transition to="Denied"></transition>
+	</task-node>
+
+	<task-node name="Refund">
+		<task name="refund" swimlane="accountant"></task>
+		<transition to="Approved"></transition>
+	</task-node>
+
+	<decision name="should be checked?">
+		<transition to="extended technical test" name="check"></transition>
+		<transition to="unknown goods status" name="no check"></transition>
+	</decision>
+
+	<node name="unknown goods status">
+		<transition to="Refund"></transition>
+	</node>
+
+
+	<end-state name="Approved"></end-state>
+
+	<end-state name="Denied"></end-state>
+
+
+</process-definition>

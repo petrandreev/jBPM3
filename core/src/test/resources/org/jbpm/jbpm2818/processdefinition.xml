@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="jbpm2818" xmlns="urn:jbpm.org:jpdl-3.2">
+  <start-state name="start">
+    <transition to="super-state1" />
+  </start-state>
+
+  <super-state name="super-state1">
+    <transition to="end" />
+
+    <node name="node1">
+			<transition to="state1"/>
+		</node>
+		<state name="state1"/>
+  </super-state>
+
+  <end-state name="end" />
+</process-definition>

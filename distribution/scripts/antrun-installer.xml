@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--  jBPM: Workflow in Java                                                -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!-- ====================================================================== -->
+
+<project name="distro-resources">
+  <macrodef name="macro-disable">
+    <attribute name="file" />
+    <attribute name="section" />
+    <sequential>
+      <replace file="@{file}">
+        <replacefilter token="&lt;!-- @{section} (begin) -->"
+                       value="&lt;!-- @{section} (begin) ===" />
+        <replacefilter token="&lt;!-- @{section} (end) -->" value="==== @{section} (end) -->" />
+      </replace>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="macro-enable">
+    <attribute name="file" />
+    <attribute name="section" />
+    <sequential>
+      <replace file="@{file}">
+        <replacefilter token="&lt;!-- @{section} (begin) ==="
+                       value="&lt;!-- @{section} (begin) -->" />
+        <replacefilter token="==== @{section} (end) -->"
+                       value="&lt;!-- @{section} (end) -->" />
+      </replace>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="edit-hibernate-config">
+    <attribute name="file" />
+    <sequential>
+      <macro-disable file="@{file}" section="JDBC connection properties" />
+      <macro-enable file="@{file}" section="DataSource properties" />
+      <macro-enable file="@{file}" section="JTA transaction properties" />
+      <macro-disable file="@{file}" section="Memory cache" />
+      <macro-enable file="@{file}" section="Clustered cache" />
+      <replace file="@{file}"
+               token="usage=&quot;nonstrict-read-write&quot;"
+               value="usage=&quot;transactional&quot;" />
+    </sequential>
+  </macrodef>
+
+  <!-- ================================================================== -->
+  <!-- Configuration                                                      -->
+  <!-- ================================================================== -->
+  <target name="reorganize-example">
+    <basename file="${basedir}" property="example.name" />
+    <echo message="${example.name}" />
+    <!-- jpdl resources -->
+    <mkdir dir="${project.build.assembly.dir}/examples/${example.name}/src/main/jpdl" />
+    <copy todir="${project.build.assembly.dir}/examples/${example.name}/src/main/jpdl">
+      <fileset dir="${project.build.assembly.dir}/jbpm-examples/src/test/resources/${example.name}" />
+    </copy>
+    <!-- main sources -->
+    <mkdir dir="${project.build.assembly.dir}/examples/${example.name}/src/main/java" />
+    <copy todir="${project.build.assembly.dir}/examples/${example.name}/src/main">
+      <fileset dir="${project.build.assembly.dir}/jbpm-examples/src/test"
+               includes="java/org/jbpm/examples/${example.name}/**"
+               excludes="**/*Test.java" />
+    </copy>
+    <!-- test sources -->
+    <mkdir dir="${project.build.assembly.dir}/examples/${example.name}/src/test/java" />
+    <copy todir="${project.build.assembly.dir}/examples/${example.name}">
+      <fileset dir="${project.build.assembly.dir}/jbpm-examples"
+               includes="src/test/java/org/jbpm/examples/${example.name}/*Test.java" />
+    </copy>
+    <!-- project model -->
+    <copy todir="${project.build.assembly.dir}/examples/${example.name}"
+          file="${resources.dir}/examples/module/pom.xml">
+      <filterset>
+        <filter token="example.name" value="${example.name}" />
+      </filterset>
+    </copy>
+  </target>
+
+  <target name="reorganize-examples">
+    <subant genericantfile="${ant.file}" target="reorganize-example" inheritall="yes">
+      <dirset dir="${project.build.assembly.dir}/jbpm-examples/src/test/resources"
+              includes="*" />
+    </subant>
+    <copy todir="${project.build.assembly.dir}/examples">
+      <fileset dir="${resources.dir}/examples" excludes="module/**" />
+    </copy>
+  </target>
+
+  <target name="gen-hibernate-config" description="generate hibernate configuration">
+    <property name="hsqldb.cfg.xml"
+              value="${project.build.assembly.dir}/config/hibernate.cfg.hsqldb.xml" />
+    <macro-disable file="${hsqldb.cfg.xml}" section="JDBC connection properties" />
+    <macro-disable file="${hsqldb.cfg.xml}" section="Automatic schema creation" />
+    <macro-enable file="${hsqldb.cfg.xml}" section="DataSource properties" />
+    <macro-enable file="${hsqldb.cfg.xml}" section="JTA transaction properties" />
+
+    <property name="tomcat.cfg.xml"
+              value="${project.build.assembly.dir}/config/hibernate.cfg.tomcat.xml" />
+    <copy file="${hsqldb.cfg.xml}" tofile="${tomcat.cfg.xml}" />
+    <macro-disable file="${tomcat.cfg.xml}" section="JTA transaction properties" />
+
+    <edit-hibernate-config file="${project.build.assembly.dir}/config/hibernate.cfg.db2.xml"/>
+    <edit-hibernate-config file="${project.build.assembly.dir}/config/hibernate.cfg.mssql.xml"/>
+    <edit-hibernate-config file="${project.build.assembly.dir}/config/hibernate.cfg.mysql.xml"/>
+    <edit-hibernate-config file="${project.build.assembly.dir}/config/hibernate.cfg.oracle.xml"/>
+    <edit-hibernate-config file="${project.build.assembly.dir}/config/hibernate.cfg.postgresql.xml"/>
+    <edit-hibernate-config file="${project.build.assembly.dir}/config/hibernate.cfg.sybase.xml"/>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Distribution                                                       -->
+  <!-- ================================================================== -->
+  <target name="process-resources"
+          depends="gen-hibernate-config, reorganize-examples"
+          description="prepare installer resources">
+    <copy todir="${resources.output.dir}" overwrite="true">
+      <fileset dir="${resources.dir}/installer" />
+      <filterset>
+        <filter token="project.version" value="${project.version}" />
+        <filter token="jbpm.home" value="${jbpm.home}" />
+        <filter token="container" value="${container}" />
+        <filter token="jboss.home" value="${jboss.home}" />
+        <filter token="jboss.server" value="${jboss.server}"/>
+        <filter token="tomcat.home" value="${tomcat.home}" />
+        <filter token="database" value="${database}" />
+      </filterset>
+    </copy>
+  </target>
+</project>

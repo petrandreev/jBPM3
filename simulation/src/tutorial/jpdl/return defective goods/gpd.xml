@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="return defective goods" width="734" height="664">
+  <node name="Return request" x="227" y="46" width="171" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="age of goods?" x="226" y="124" width="172" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="transfer shipment costs" x="18" y="202" width="181" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="wait for parcel" x="223" y="278" width="176" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Quick test" x="224" y="348" width="174" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-15" y="2"/>
+      <bendpoint w1="-184" h1="2" w2="-49" h2="-143"/>
+    </edge>
+  </node>
+  <node name="Extended technical test" x="223" y="421" width="178" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Refund" x="97" y="568" width="158" height="36"/>
+  <node name="Send back goods" x="381" y="564" width="152" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Denied" x="381" y="627" width="154" height="36"/>
+  <node name="approval notification" x="98" y="501" width="156" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="refusal notification" x="383" y="503" width="151" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+</root-container>

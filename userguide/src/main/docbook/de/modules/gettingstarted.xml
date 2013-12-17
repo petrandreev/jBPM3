@@ -1,0 +1,344 @@
+<chapter id="ersteschritte">
+
+	<title>Erste Schritte</title>
+	<para>
+		Dieses Kapitel zeigt Ihnen in einzelne Schritten, wie Sie JBoss
+		jBPM bekommen können und liefert Ihnen Infos, um schnell mit jBPM zu starten
+	</para>
+
+	<section id="downloadablesoverview">
+		<title>
+			Überblick
+		</title>
+		<para>
+			Die Listen unten sind die unterschiedliche jBPM-Paketen, die
+			heute vorhanden sind. Jedes dieser Pakete enthält eine oder mehrere Dateien.
+		</para>
+		<para>
+			Alle Downloads, die unter beschrieben wird, kann auf der
+			<ulink
+				url="http://sourceforge.net/project/showfiles.php?group_id=70542">
+				Sourceforge-Downloadseite
+			</ulink>
+			gefunden werden.
+		</para>
+
+		<section id="paketjbpm">
+			<title>jBPM 3</title>
+			<para>
+				Dieses ist das zentrale Paket, welches die Kern-Engine
+				und eine Anzahl von zusätzlichen Modulen enthält, die Sie benötigen können, um mit jBPM zu arbeiten.
+				Downloaden Sie die Dateien von diesem Paket
+				<ulink
+					url="http://sourceforge.net/project/showfiles.php?amp;group_id=70542&amp;package_id=145174">
+					hier
+				</ulink>
+				.
+			</para>
+
+			<itemizedlist>
+
+				<listitem>
+					<para id="jbpm-starters-kit-version.zip">
+						<emphasis role="bold">
+							Der Starterinstallationssatz
+							(jbpm-starters-kit-&lt;version&gt;.zip):
+						</emphasis>
+						Wenn Sie mit jBPM schnell arbeiten wollen, dann
+						müssen Sie die Datei herunterladen. Sie beinhaltet
+						alle anderen Module dieses Pakets plus den
+						graphischen Designer in einem einzelnen
+						Download, der
+						'jbpm-starters-kit-&lt;version&gt;.zip' genannt
+						wird. Extrahieren Sie die ZIP-Archivdatei in
+						einem Verzeichnis ihrer Wahl und lesen Sie die
+						Datei 'readme.html' für mehr Info und weitere
+						Installationsanweisungen. Mit diesem
+						Starterinstallationssatz können Sie gleich mit der
+						<xref linkend="einleitung" />
+						anfangen.
+					</para>
+				</listitem>
+
+
+				<listitem>
+					<para id="jbpm-version.zip">
+						<emphasis role="bold">
+							Kernengine und IdentitätsKomponente (jbpm-&lt;version&gt;.zip):
+						</emphasis>
+						Der Download 'jbpm-&lt;version&gt;.zip' enthält die jBPM-Kern-Engine und auch die Identitätskomponente für Akteur- und Gruppenverwaltung.
+						Um mit diesen zu arbeiten, extrahieren Sie die
+						Archivdatei in einem Verzeichnis ihrer Wahl. Sie
+						werden im 'jbpm-&lt;version&gt;' Verzeichnis
+						einen Benutzerführer und andere wichtige
+						Informationen in der 'readme.html' Datei finden.
+					</para>
+				</listitem>
+
+
+				<listitem>
+					<para id="jbpm-db-version.zip">
+						<emphasis role="bold">
+							Datenbankerweiterungen(jbpm-db-&lt;version&gt;.zip):
+						</emphasis>
+						Die Datenbankerweiterungpack enthält dir jBPM Kernengine als auch die
+						Identitätkomponente für die Verwaltung von
+						Benutzer und Gruppen. Um mit dieser Erweiterung
+						zu arbeiten, müssen Sie die Archivdatei in einem
+						Verzeichnis ihrer Wahl extrahieren. Die ausführlichen schrittweisen Anweisungen können durch
+						das Lesen der 'readme.html' Datei gefunden
+						werden. Diese Datei befindet sich in dem
+						Verzeichnis der extrahierten Archivdatei.
+
+					</para>
+				</listitem>
+
+
+			</itemizedlist>
+
+		</section>
+
+		<section id="paketjbpmprozessdesigner">
+			<title>jBPM Prozessdesigner</title>
+			<para>
+				Das zweite Paket enthält die Downloads, die auf dem
+				graphischen jBPM Prozessdesigner bezogen werden. Der
+				Designer ermöglichen Ihnen ihren Prozessdefinitionen zu
+				entwerfen und sie leicht auszuführen. Sie können diese Downloads
+				<ulink
+					url="http://sourceforge.net/project/showfiles.php?group_id=70542&amp;package_id=116692">
+					hier
+				</ulink>
+				finden. Der Designer ist ein Plugin für die
+				Eclipse-Plattform, der das Download entweder als eine
+				Eclipse-Feature ZIP-Datei oder als eine
+				Eclpise-Update-Site ZIP-Datei vorhanden ist. Es gibt
+				keinen Unterschied bezüglich des Inhaltes. Der einzige
+				Unterschied ist in der Weise der Installation.
+			</para>
+
+			<para>
+				<ulink
+					url="http://sourceforge.net/project/showfiles.php?group_id=70542&amp;package_id=116692">
+					Download JBoss jBPM Prozessdesigner auf
+					sourceforge.net
+				</ulink>
+				. Der Designer ist ein EclipsePlugin und ermöglicht
+				Ihnen yand enables you to author your process
+				definitions and to easily deploy them. The plug-in is
+				available for download either as a zipped Eclipse
+				feature or as a zipped Eclipse update site. There is no
+				difference in content, the only difference is in the way
+				you have to do the installation.
+			</para>
+
+
+
+
+			<itemizedlist>
+
+				<listitem>
+					<para id="jbpm-gpd-site-version.zip">
+						<emphasis role="bold">
+							Eclipse Update Site
+							(jbpm-gpd-site-&lt;version&gt;.zip):
+						</emphasis>
+						Wenn Sie absolut sicher sein möchten, dass die Installation des Designers glatt geht,
+						empfehlen wir Ihnen der Update-Site-Mechanismus
+						zusammen mit einer neuen Eclipse Installation zu
+						benutzen. Selbstverständlich sollte die Eclipse Version die
+						heruntergeladene Update-Site-Archivdatei
+						entsprechen. Um die Prozessdesigner-Update-Site zu bekommen, müssen Sie die Datei
+						'jbpm-gpd-site-&lt;version&gt;.zip' downloaden.
+						Dann befolgen Sie die Anweisungen in der
+						'readme.html' Datei, die sich im
+						Wurzelverzeichnis des Archivs befindet, um das
+						GPD erfolgreich zu installieren.
+					</para>
+				</listitem>
+
+
+				<listitem>
+					<para id="jbpm-gpd-feature-version.zip">
+						<emphasis role="bold">
+							Eclipse Feature
+							(jbpm-gpd-feature-&lt;version&gt;.zip):
+						</emphasis>
+						Wenn Sie von jeder Zeit eine neue Eclipse
+						Installation zu machen müde sind und Sie sind bereit mit einigen
+						möglichen Problemen fertig zu werden, dann können Sie das Feature-Download versuchen. Die
+						Installation ist in diesem Fall so einfach wie
+						nur Extrahieren der Archivdatei in ihrer Eclipse
+						Installation (stellen Sie sicher, dass die enthaltene 'plugins' und 'features'
+						Verzeichnisse in dem gleichen Ort ihrer Eclpise
+						Installation laden) und Überschreiben von Dateien und Verzeichnissen mit
+						den gleichen Namen, die vielleicht schon da
+						waren. Diese Installation ist sehr einfach, aber
+						Sie können in unverträgliche Ergebnissen laufen,
+						wenn Sie die Plugins überschreiben, die schon in
+						ihrer Installation vorhanden waren. Obwohl sie
+						den gleichen Namen haben, es kann passiert, dass diese Plugins unterschiedliche Version haben und
+						daraus folgt Inkompatibilitäten. Downloaden Sie die Datei
+						'jbpm-gpd-feature-&lt;version&gt;.zip', um die
+						GPD-Feature zu bekommen. Die
+						Installationsanweisungen sind in der
+						'readme.html' Datei zu finden.
+					</para>
+				</listitem>
+
+			</itemizedlist>
+
+		</section>
+
+		<section id="paketejbpmbpelerweiterung">
+			<title>jBPM BPEL Erweiterung</title>
+
+			<para>
+				<ulink
+					url="http://sourceforge.net/project/showfiles.php?group_id=70542&amp;package_id=153952">
+					Download JBoss jBPM BPEL Erweiterung auf
+					sourceforge.net
+				</ulink>
+				. Sie beinhaltet nur eine Datei :
+				<emphasis role="bold">
+					<literal>jbpm-bpel-&lt;version&gt;.zip</literal>
+				</emphasis>
+				. Um mit diesen BPEL Erweiterungen anzufangen, lesen Sie
+				den Benutzerführer im Unterverzeichnis 'doc' vom
+				Wurzelverzeichnis.
+			</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Das JBoss jBPM Projekt Verzeichnis</title>
+		<itemizedlist>
+			<listitem>
+				<emphasis role="bold">
+					<ulink
+						url="mailto:sales@jboss.com?subject=jBPM professional support">
+						Professionelle Unterstützung
+					</ulink>
+				</emphasis>
+				: JBoss ist die Firma, die dieses Project mit
+				professionellen Unterstützungs-, Training- und Beratungsdienstleistungen unterstützt.
+			</listitem>
+			<listitem>
+				<emphasis role="bold">Benutzerführer</emphasis>
+				: ist das Dokument, das Sie gerade lesen und dient als
+				Haupteingang im Projekt.
+			</listitem>
+			<listitem>
+				<emphasis role="bold">
+					<ulink
+						url="http://sourceforge.net/forum/?group_id=70542">
+						Forums
+					</ulink>
+				</emphasis>
+				: setzen Sie in Verbindung mit der Community, stellen
+				Sie Fragen und tauschen Sie sich aus über jBPM.
+			</listitem>
+			<listitem>
+				<emphasis role="bold">
+					<ulink
+						url="http://www.jboss.org/wiki/Wiki.jsp?page=JbpmWiki">
+						Wiki
+					</ulink>
+				</emphasis>
+				: Extrainformationen, meistens zur Verfügung gestellt von der Community.
+			</listitem>
+			<listitem>
+				<emphasis role="bold">
+					<ulink
+						url="http://jira.jboss.com/jira/secure/BrowseProject.jspa?id=10052">
+						Issue Tracker
+					</ulink>
+				</emphasis>
+				: Für das Einreichen von Problemen und von einigen neuen
+				Einträgen.
+			</listitem>
+			<listitem>
+				<emphasis role="bold">
+					<ulink
+						url="http://sourceforge.net/project/showfiles.php?group_id=70542">
+						Downloads
+					</ulink>
+				</emphasis>
+				: Sourceforge-Downloadseite für jBPM.
+			</listitem>
+			<listitem>
+				<emphasis role="bold">
+					<ulink
+						url="http://sourceforge.net/mail/?group_id=70542">
+						Mailing Lists
+					</ulink>
+				</emphasis>
+				: wird für Ankündigungen benutzt.
+			</listitem>
+			<listitem>
+				<emphasis role="bold">javadocs</emphasis>
+				: Teil im doc/javadoc Verzeichnis.
+			</listitem>
+		</itemizedlist>
+
+	</section>
+
+	<section>
+
+	</section>
+
+
+	<section id="cvsaccess">
+		<title>CVS-Zugang</title>
+
+		<section id="anonymouscvsaccess">
+			<title>Allgemeiner CVS-Zugang</title>
+			<para>
+				Anderenfalls, können sie JBoss jBPM von den CVS mit den folgenden
+				Informationen auschecken
+			</para>
+			<itemizedlist>
+				<listitem>Verbindungsart: pserver</listitem>
+				<listitem>Benutzer: anonymous</listitem>
+				<listitem>Host: anoncvs.forge.jboss.com</listitem>
+				<listitem>Port: 2401 (Default-Port)</listitem>
+				<listitem>Ablage Pfad: /cvsroot/jbpm</listitem>
+				<listitem>
+					Kennsatz:
+					:pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jbpm
+				</listitem>
+			</itemizedlist>
+		</section>
+
+		<section id="developercvsaccess">
+			<title>CVS-Entwicklerzugang</title>
+			<para>
+				Um den Entwicklerzugang zu bekommen, müssen Sie einen
+				Mitwirkendenvertrag unterschreiben und Sie brauchen auch
+				ein SSH-Schlüssel. Für weitere Informationen werfen Sie
+				einen Blick auf
+				<ulink
+					url="http://www.jboss.org/wiki/Wiki.jsp?page=CVSRepository">
+					die JBoss cvs repository wiki Seite
+				</ulink>
+
+			</para>
+			<itemizedlist>
+				<listitem>
+					Verbindungsart: ext over ssh (extssh in eclipse)
+				</listitem>
+				<listitem>
+					Benutzer: sf.net username or jboss username
+				</listitem>
+				<listitem>Host: cvs.forge.jboss.com</listitem>
+				<listitem>Port: 2401 (Default-Port</listitem>
+				<listitem>Ablage Pfad: /cvsroot/jbpm</listitem>
+				<listitem>
+					Kennsatz:
+					:pserver:anonymous@cvs.forge.jboss.com:/cvsroot/jbpm
+				</listitem>
+			</itemizedlist>
+		</section>
+	</section>
+
+</chapter>

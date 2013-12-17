@@ -1,0 +1,4 @@
+<mail actors="#{president}" >
+    <subject>readmylips</subject>
+    <text>nomoretaxes</text>
+</mail>

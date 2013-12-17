@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.2" name="jbpm2958">
+  <start-state name="start">
+    <transition to="midway" />
+  </start-state>
+
+  <state name="midway">
+    <timer duedate="${baseDate}" repeat="2 business hours">
+      <action />
+    </timer>
+    <transition to="end" />
+  </state>
+
+  <end-state name="end" />
+</process-definition>

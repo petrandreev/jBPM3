@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="jbpm642" width="884" height="567">
+  <node name="start" x="72" y="24" width="121" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="fork" x="72" y="96" width="121" height="24">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="left" x="12" y="156" width="97" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="right" x="156" y="156" width="109" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="join" x="72" y="228" width="121" height="25">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="end" x="72" y="360" width="121" height="37"/>
+  <node name="middle" x="72" y="288" width="121" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <deployment serverName="" serverPort="" serverDeployer="">
+    <classesAndResources/>
+    <filesAndFolders>
+      <element value="/jbpm-jpdl/src/test/resources/org/jbpm/jbpm642/gpd.xml"/>
+      <element value="/jbpm-jpdl/src/test/resources/org/jbpm/jbpm642/processdefinition.xml"/>
+    </filesAndFolders>
+  </deployment>
+</root-container>

@@ -1,0 +1,6 @@
+<process-definition 
+    xmlns="urn:jbpm.org:jpdl-3.2" 
+    name="invalid process definition content">
+
+  <blablablalblab />
+</process-definition>

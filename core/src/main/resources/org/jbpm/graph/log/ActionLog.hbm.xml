@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+
+  <subclass name="org.jbpm.graph.log.ActionLog"
+            extends="org.jbpm.logging.log.CompositeLog"
+            discriminator-value="A">
+
+    <property name="exception" column="EXCEPTION_" type="ltdstring" length="4000"/>
+    
+    <many-to-one name="action"
+                 column="ACTION_"
+                 foreign-key="FK_LOG_ACTION"
+                 index="IDX_LOG_ACTION" />
+  </subclass>
+
+</hibernate-mapping>

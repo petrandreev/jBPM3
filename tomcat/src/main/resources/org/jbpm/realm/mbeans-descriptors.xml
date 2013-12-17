@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<mbeans-descriptors>
+  <mbean name="JbpmDataSourceRealm" className="org.apache.catalina.mbeans.ClassNameMBean"
+    description="Realm implementation that works with any JDBC data source" domain="Catalina"
+    group="Realm" type="org.jbpm.realm.DataSourceRealm">
+
+    <attribute name="className" type="java.lang.String" writeable="false"
+      description="Fully qualified class name of the managed object" />
+
+    <attribute name="digest" type="java.lang.String"
+      description="Digest algorithm used for storing passwords in a hashed format" />
+
+    <attribute name="dataSourceName" type="java.lang.String"
+      description="The JNDI named JDBC data source for your database" />
+
+    <attribute name="localDataSource" type="boolean"
+      description="Configures if the DataSource is local to the webapp" />
+
+    <attribute name="userQuery" type="java.lang.String"
+      description="SQL query for retrieving the password associated to a user name." />
+
+    <attribute name="roleQuery" type="java.lang.String"
+      description="SQL query for retrieving the roles associated to a user name." />
+
+    <operation name="start" description="Start" impact="ACTION" returnType="void" />
+    <operation name="stop" description="Stop" impact="ACTION" returnType="void" />
+    <operation name="init" description="Init" impact="ACTION" returnType="void" />
+    <operation name="destroy" description="Destroy" impact="ACTION" returnType="void" />
+  </mbean>
+</mbeans-descriptors>

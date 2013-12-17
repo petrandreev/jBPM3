@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mail-templates>
+  <variable name="taskListBaseURL" value="http://localhost:8080/jbpm-console/app/task.jsf?id=" />
+
+  <mail-template name='task-assign'>
+    <actors>${taskInstance.actorId}</actors>
+    <subject>Task notification: ${taskInstance.name}</subject>
+    <text><![CDATA[Hi ${taskInstance.actorId},
+Task '${taskInstance.name}' has been assigned to you.
+Go for it: ${taskListBaseURL}${taskInstance.id}
+
+Sent by jBPM]]></text>
+  </mail-template>
+
+  <mail-template name='task-reminder'>
+    <actors>${taskInstance.actorId}</actors>
+    <subject>Task reminder: ${taskInstance.name}</subject>
+    <text><![CDATA[Hey ${taskInstance.actorId},
+Do not forget about task '${taskInstance.name}'.
+Get going: ${taskListBaseURL}${taskInstance.id}
+
+Sent by jBPM]]></text>
+  </mail-template>
+</mail-templates>

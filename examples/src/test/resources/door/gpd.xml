@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="door" width="237" height="420">
+  <node name="Locked" x="48" y="25" width="140" height="40">
+    <edge>
+      <label x="-34" y="-12"/>
+      <bendpoint w1="-26" h1="54" w2="-26" h2="-54"/>
+    </edge>
+  </node>
+  <node name="Closed" x="48" y="133" width="140" height="40">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="22" h1="-54" w2="22" h2="54"/>
+    </edge>
+    <edge>
+      <label x="-33" y="-8"/>
+      <bendpoint w1="-27" h1="55" w2="-27" h2="-53"/>
+    </edge>
+  </node>
+  <node name="Open" x="48" y="241" width="140" height="40">
+    <edge>
+      <label x="7" y="-6"/>
+      <bendpoint w1="21" h1="-55" w2="21" h2="53"/>
+    </edge>
+    <edge>
+      <label x="-20" y="-8"/>
+      <bendpoint w1="-23" h1="55" w2="-23" h2="-53"/>
+    </edge>
+  </node>
+  <node name="Open Locked" x="48" y="349" width="140" height="40">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="21" h1="-53" w2="21" h2="55"/>
+    </edge>
+  </node>
+  <deployment serverName="" serverPort="" serverDeployer="">
+    <classesAndResources/>
+    <filesAndFolders>
+      <element value="/jbpm-examples/src/test/resources/door/gpd.xml"/>
+      <element value="/jbpm-examples/src/test/resources/door/processdefinition.xml"/>
+      <element value="/jbpm-examples/src/test/resources/door/processimage.jpg"/>
+    </filesAndFolders>
+  </deployment>
+</root-container>

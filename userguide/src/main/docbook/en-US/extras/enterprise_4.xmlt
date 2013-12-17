@@ -1,0 +1,29 @@
+<session>
+
+  <ejb-name>MyClientBean</ejb-name>
+  <jndi-name>ejb/MyClientBean</jndi-name>
+  <local-jndi-name>java:ejb/MyClientBean</local-jndi-name>
+
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/TimerEntityBean</ejb-ref-name>
+    <local-jndi-name>java:ejb/TimerEntityBean</local-jndi-name>
+  </ejb-local-ref>
+
+  <resource-ref>
+    <res-ref-name>jdbc/JbpmDataSource</res-ref-name>
+    <jndi-name>java:JbpmDS</jndi-name>
+  </resource-ref>
+
+  <resource-ref>
+    <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+    <jndi-name>java:JmsXA</jndi-name>
+  </resource-ref>
+
+  <message-destination-ref>
+    <message-destination-ref-name>
+        jms/JobQueue
+    </message-destination-ref-name>
+    <jndi-name>queue/JbpmJobQueue</jndi-name>
+  </message-destination-ref>
+
+</session>

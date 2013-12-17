@@ -1,0 +1,6 @@
+<mail-node  name="send email" 
+            to="#{president}"
+            subject="readmylips" 
+            text="nomoretaxes">
+    <transition to="the next node" />
+</mail-node>

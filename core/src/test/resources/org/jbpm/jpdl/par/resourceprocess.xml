@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  name="resourceprocess">
+
+	<start-state name="start">
+		<transition to="end">
+			<action class="org.jbpm.jpdl.par.ResourceAction" />
+		</transition>
+	</start-state>
+
+	<end-state name="end" />
+
+</process-definition>

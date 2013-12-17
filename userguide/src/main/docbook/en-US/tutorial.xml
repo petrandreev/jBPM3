@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jBPM_Reference_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="tutorial">
+
+  <title>
+    Tutorial
+ </title>
+
+  <para>
+      Study the following tutorial to learn how to use basic
+      <firstterm>process constructs</firstterm> in the JPDL. The tutorial
+      also demonstrates ways in which to manage run-time executions via the
+      application programming interface.
+  </para>
+
+  <para>
+      Each of the extensively-commented examples in the tutorial can be
+      found in the jBPM download package, located in the
+      <filename>src/java.examples</filename> sub-directory.
+  </para>
+
+<note>
+  <para>
+      Red Hat recommends creating a project at this point. One can then
+      freely experiment and create variations of each of the examples in
+      turn.
+  </para>
+</note>
+  <para>To get started first, 
+  download and install jBPM. <xref linkend="downloadingandinstallingjbpm" /></para>
+  
+  <para>jBPM includes a graphical designer tool for authoring the 
+  XML that is shown in the examples.  You can find download instructions 
+  for the graphical designer in the Downloadables Overview section..
+  You don't need the graphical designer tool to complete this tutorial.
+  </para>
+
+  <section id="helloworldexample">
+    <title>
+        "Hello World" Example
+    </title>
+
+    <para>
+        A <firstterm>process definition</firstterm> is a <firstterm>directed
+       graph</firstterm>, made up of nodes and transitions. The
+       <systemitem>Hello World</systemitem> process definition has three of
+       these nodes. (It is best to learn how the pieces fit together by
+       studying this simple process without using the <application>Designer
+       Tool</application>.) The following diagram presents a graphical
+       representation of the <systemitem>Hello World</systemitem> process:
+    </para>
+
+    <figure id="hello.world.image">
+      <title>The Hello World Process Graph</title>
+      <mediaobject><imageobject><imagedata  fileref="images/hello.world.png"/></imageobject></mediaobject>
+    </figure>
+
+    <programlisting language="Java"><xi:include href="extras/code_example_tutorial_1.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include></programlisting>
+  </section>
+  
+  <section id="databaseexample">
+    <title>
+        Database Example
+    </title>
+    
+    <para>
+        One of the jBPM's basic features is the ability to make the
+        execution of database processes persist whilst they are in a
+        <systemitem>wait state</systemitem>. The next example demonstrates
+        this ability, storing a process instance in the jBPM database. 
+    </para>    
+    
+    <para>
+        It works by creating separate <systemitem>methods</systemitem> for
+       different pieces of user code. For instance, a piece of user code in
+       a web application starts a process and "persists" the execution in
+       the database. Later, a message-driven bean loads that process
+       instance and resumes the execution of it.
+    </para>
+    
+    <note>
+        <para>
+            More information about jBPM persistence can be found in <xref
+            linkend="persistence" />.
+         </para>
+    </note>
+    
+<programlisting language="Java"><xi:include href="extras/tutorial_7.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+  </section>
+  
+  <section>
+    <title>
+        Contextual Example: Process Variables
+    </title>
+    
+    <para>
+        Whilst processes are executed, the context information is held in 
+        <firstterm>process variables</firstterm>. These are
+        similar to <classname>java.util.Map</classname> classes, in that they map variable
+        names to values, the latter being Java objects. (The process variables are
+        "persisted" as part of the process instance.) 
+    </para>    
+
+<note>
+    <para>    
+        In order to keep the following example simple, only the application
+        programming interface that is needed to work with variables is shown
+        (without any persistence functionality.)
+    </para>
+</note>
+
+<note>    
+    <para>
+        Find out more about variables by reading <xref linkend="context" />
+    </para>
+</note>    
+
+    <programlisting language="Java"><xi:include href="extras/tutorial_1.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+  </section>
+
+  <section id="taskassignmentexample">
+    <title>
+        Task Assignment Example
+    </title>
+    
+    <para>
+        The next example demonstrates how to assign a task to a user.
+        Because of the separation between the jBPM workflow engine and the
+        organizational model, expression languages will always be too
+        limited to use to calculate actors. Instead, specify an
+        implementation of <classname>AssignmentHandler</classname> and use
+        it to include the calculation of actors for tasks.  
+    </para>
+    
+    <programlisting language="Java"><xi:include href="extras/tutorial_2.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+  </section>
+
+  <section id="customactionexample">
+    <title>
+        Example of a Custom Action 
+    </title>
+    <para>
+        <firstterm>Actions</firstterm> are mechanisms designed to bind
+        custom Java code to jBPM processes. They can be associated with
+        their own nodes (if these are relevant to the graphical
+        representation of the process.) Alternatively, actions can be
+        "placed on" events (for instance, when taking a transition, or
+        entering or leaving a node.) If they are placed on events, the
+        actions are not treated as part of the graphical representation (but
+        they are still run when the events are "fired" during a run-time
+        process execution.)
+    </para>
+    
+    <para>
+        Firstly, look at the action handler implementation to be used in the
+       next example: <systemitem>MyActionHandler</systemitem>. It is not
+       particularly impressive of itself: it merely sets the Boolean
+       variable <systemitem>isExecuted</systemitem> to <code>true</code>.
+       Note that this variable is static so one can access it from within
+       the action handler (and from the action itself) to verify its value.
+    </para>
+
+<note>    
+    <para>
+        More information about "actions" can be found in <xref linkend="actions" />
+    </para>
+</note>    
+
+    <programlisting language="Java"><xi:include href="extras/tutorial_3.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+    
+        <important>
+            <para>
+                Prior to each test, set the static field
+               <classname>MyActionHandler.isExecuted</classname> to
+               <code>false</code>.
+            </para>
+        </important>
+    
+    <programlisting language="Java"><xi:include href="extras/tutorial_4.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+  
+    <para>
+        The first example illustrates an action on a transition:
+    </para>
+    
+    <programlisting language="Java"><xi:include href="extras/tutorial_5.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+
+    <para>
+        The next example shows the same action now being placed on both the
+        <systemitem>enter-node</systemitem> and
+        <systemitem>leave-node</systemitem> events. Note that a node has
+        more than one event type. This is in contrast to a
+        <firstterm>transition</firstterm>, which has only one event. Hence,
+        when placing actions on a node, always put them in an event
+        element.
+    </para>
+    
+    <programlisting language="Java"><xi:include href="extras/tutorial_6.java" parse="text" xmlns:xi="http://www.w3.org/2001/XInclude" /></programlisting>
+  
+  </section>
+
+</chapter>

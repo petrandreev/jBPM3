@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name='mail'>
+  <start-state name='start'>
+    <transition to='start toothpick line' />
+  </start-state>
+  <task-node name='start toothpick line'>
+    <task notify='yes'>
+      <assignment actor-id='grandma' />
+    </task>
+    <transition to='end' />
+  </task-node>
+  <end-state name='end' />
+</process-definition>

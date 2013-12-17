@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <subclass name="org.jbpm.context.exe.variableinstance.DoubleInstance" 
+            extends="org.jbpm.context.exe.VariableInstance" 
+            discriminator-value="O">
+    <property name="value" type="double" column="DOUBLEVALUE_" />
+  </subclass>
+</hibernate-mapping>

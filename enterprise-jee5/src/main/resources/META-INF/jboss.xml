@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss xmlns="http://www.jboss.com/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss_5_0.xsd"
+       version="5.0">
+  <enterprise-beans>
+    <message-driven>
+      <ejb-name>CommandListenerBean</ejb-name>
+      <depends>jboss.jbpm.destination:service=Queue,name=JbpmCommandQueue</depends>
+      <depends>jboss.jbpm.destination:service=Queue,name=JbpmDLQ</depends>
+      <aop-domain-name>jBPM MDB</aop-domain-name>
+    </message-driven>
+
+    <message-driven>
+      <ejb-name>JobListenerBean</ejb-name>
+      <depends>jboss.jbpm.destination:service=Queue,name=JbpmJobQueue</depends>
+      <depends>jboss.jbpm.destination:service=Queue,name=JbpmDLQ</depends>
+      <aop-domain-name>jBPM MDB</aop-domain-name>
+    </message-driven>
+
+    <session>
+      <ejb-name>CommandServiceBean</ejb-name>
+      <local-jndi-name>java:jbpm/CommandServiceBean</local-jndi-name>
+      <aop-domain-name>jBPM Stateless</aop-domain-name>
+    </session>
+  </enterprise-beans>
+</jboss>
+
+

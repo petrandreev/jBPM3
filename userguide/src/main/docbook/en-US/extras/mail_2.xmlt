@@ -1,0 +1,4 @@
+<mail
+    to='#{initiator}'
+    subject='websale'
+    text='your websale of #{quantity} #{item} was approved' />

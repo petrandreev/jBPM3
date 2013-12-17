@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="jbpm2959" width="756" height="575">
+  <node name="Start" x="84" y="48" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="Sleep" x="84" y="192" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-114" h1="-1" w2="-114" h2="71"/>
+      <bendpoint w1="-114" h1="-73" w2="-114" h2="-1"/>
+    </edge>
+  </node>
+  <node name="Keep Going?" x="84" y="120" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-8" y="-22"/>
+    </edge>
+  </node>
+  <node name="End" x="288" y="120" width="132" height="36"/>
+  <deployment serverName="localhost" serverPort="8180" serverDeployer="/jbpm-console/app/upload">
+    <classesAndResources/>
+    <filesAndFolders/>
+  </deployment>
+</root-container>

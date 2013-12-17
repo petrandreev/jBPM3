@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+  This file defines the default Queues and Topics that jBPM ships with.
+  The default Queues and Topics are used by the Command Listener Bean
+  and the producer-consumer pair formed by the JMS Message Service and
+  the Job Listener Bean.
+
+  You can add other destinations to this file, or you can create other
+  *-service.xml files to contain your application's destinations.
+-->
+
+<server>
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="jboss.mq.destination:service=Queue,name=JbpmJobQueue">
+    <depends optional-attribute-name="DestinationManager">jboss.mq:service=DestinationManager</depends>
+    <!-- JBPM-1952 a small redelivery delay goes a long way towards mitigating
+         stale state exceptions and deadlocks under heavy concurrency conditions -->
+    <attribute name="RedeliveryDelay">5000</attribute>
+  </mbean>
+
+  <mbean code="org.jboss.mq.server.jmx.Queue"
+	 name="jboss.mq.destination:service=Queue,name=JbpmCommandQueue">
+    <depends optional-attribute-name="DestinationManager">jboss.mq:service=DestinationManager</depends>
+    <attribute name="RedeliveryDelay">5000</attribute>
+  </mbean>
+</server>

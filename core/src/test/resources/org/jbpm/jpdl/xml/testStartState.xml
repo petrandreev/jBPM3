@@ -1,0 +1,22 @@
+<process-definition 
+    xmlns="urn:jbpm.org:jpdl-3.2" 
+    name="full valid start state process">
+
+  <start-state name="">
+    <event type="one" />
+    <transition to=""/>
+    <event type="two" />
+    <transition to=""/>
+    <task name="t" />
+    <transition to=""/>
+    <event type="three" />
+    <transition to=""/>
+    <event type="four" />
+    <transition to=""/>
+    <exception-handler><action></action></exception-handler>
+    <transition to=""/>
+    <exception-handler><action></action></exception-handler>
+    <transition to=""/>
+  </start-state>
+
+</process-definition>

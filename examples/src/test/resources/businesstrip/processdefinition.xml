@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="business trip request"
+	xmlns="urn:jbpm.org:jpdl-3.2">
+
+	<swimlane name="employee" />
+	<swimlane name="manager">
+		<assignment actor-id="manager" />
+	</swimlane>
+	<swimlane name="hr">
+		<assignment actor-id="admin" />
+	</swimlane>
+
+	<start-state name="Submit trip request">
+		<task swimlane="employee" />
+		<transition name="submit request" to="Manager evaluation" />
+	</start-state>
+
+	<task-node name="Manager evaluation">
+		<task swimlane="manager" />
+		<transition to="End" name="reject" />
+		<transition to="preparations" name="approve" />
+	</task-node>
+
+	<fork name="preparations">
+		<transition to="Update ERP" name="erp update"></transition>
+		<transition to="Purchase tickets" name="book ticket"></transition>
+	</fork>
+
+	<node name="Update ERP">
+		<action
+			class="org.jbpm.examples.businesstrip.action.UpdateErpAction">
+		</action>
+		<transition to="join"></transition>
+	</node>
+
+	<node name="Contact travel agency">
+		<action
+			class="org.jbpm.examples.businesstrip.action.QueryTravelAgentDbAction">
+		</action>
+		<transition to="join"></transition>
+	</node>
+
+	<task-node name="Purchase tickets">
+		<task swimlane="hr" />
+		<transition to="Contact travel agency"></transition>
+	</task-node>
+
+	<join name="join">
+		<transition to="End"></transition>
+	</join>
+
+	<end-state name="End" />
+</process-definition>

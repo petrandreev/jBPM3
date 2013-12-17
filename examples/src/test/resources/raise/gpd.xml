@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="raise request" width="925" height="466">
+  <node name="submit raise request" x="489" y="75" width="172" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="manager evaluation" x="503" y="163" width="144" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-16" y="-12"/>
+      <bendpoint w1="-188" h1="-44" w2="175" h2="-44"/>
+    </edge>
+  </node>
+  <node name="fo evaluation" x="146" y="163" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-65" y="-22"/>
+      <bendpoint w1="177" h1="44" w2="-186" h2="44"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="update erp" x="147" y="330" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="end" x="508" y="330" width="132" height="36"/>
+</root-container>

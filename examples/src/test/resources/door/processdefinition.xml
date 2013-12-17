@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition name="door" initial="Closed">
+  <state name="Locked">
+    <transition name="unlock" to="Closed" />
+  </state>
+
+  <state name="Closed">
+    <transition name="lock" to="Locked" />
+    <transition name="open" to="Open" />
+  </state>
+
+  <state name="Open">
+    <transition name="close" to="Closed" />
+    <transition name="lock" to="Open Locked" />
+  </state>
+
+  <state name="Open Locked">
+    <transition name="unlock" to="Open" />
+  </state>
+</process-definition>

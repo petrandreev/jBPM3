@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jbpm-configuration>
+  <jbpm-context />
+  <int name="jbpm.mail.smtp.port" value="2525" />
+  <bean name="jbpm.mail.address.resolver" class="org.jbpm.examples.mail.MailTest$MyAddressResolver"
+    singleton="true" />
+</jbpm-configuration>

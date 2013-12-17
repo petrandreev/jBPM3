@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <class name="org.jbpm.graph.def.Event" 
+         table="JBPM_EVENT">
+    <id name="id" column="ID_"><generator class="native" /></id>
+
+    <property name="eventType" column="EVENTTYPE_"/>
+    
+    <any name="graphElement" id-type="long" meta-type="char">
+      <meta-value value="A" class="org.jbpm.taskmgmt.def.Task"/>
+      <meta-value value="C" class="org.jbpm.graph.node.ProcessState" />
+      <meta-value value="D" class="org.jbpm.graph.node.Decision" />
+      <meta-value value="E" class="org.jbpm.graph.node.EndState" />
+      <meta-value value="F" class="org.jbpm.graph.node.Fork" />
+      <meta-value value="J" class="org.jbpm.graph.node.Join" />
+      <meta-value value="K" class="org.jbpm.graph.node.TaskNode" />
+      <meta-value value="N" class="org.jbpm.graph.def.Node" />
+      <meta-value value="P" class="org.jbpm.graph.def.ProcessDefinition"/>
+      <meta-value value="R" class="org.jbpm.graph.node.StartState" />
+      <meta-value value="S" class="org.jbpm.graph.node.State" />
+      <meta-value value="T" class="org.jbpm.graph.def.Transition"/>
+      <meta-value value="U" class="org.jbpm.graph.def.SuperState" />
+      <column name="TYPE_"/>
+      <column name="GRAPHELEMENT_"/>
+    </any>
+
+    <list name="actions" cascade="all">
+      <key column="EVENT_" />
+      <list-index column="EVENTINDEX_" />
+      <one-to-many class="org.jbpm.graph.def.Action" />
+    </list>
+    
+  </class>
+</hibernate-mapping>

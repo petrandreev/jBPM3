@@ -1,0 +1,8 @@
+<process-definition>
+  <event type="node-enter">
+    <script>
+      System.out.println("this script is entering node "+node);
+    </script>
+  </event>
+  ...
+</process-definition>

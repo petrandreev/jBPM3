@@ -1,0 +1,39 @@
+<process-definition 
+    xmlns="urn:jbpm.org:jpdl-3.2" 
+    name="task process">
+
+  <task />
+
+  <task name="one">
+    <controller>
+      <variable name="a" />
+      <variable name="b" />
+      <variable name="c" />
+    </controller>
+  </task>
+
+  <task name="two">
+    <controller class="klazz" config-type="field">
+      <klazz />
+      mixed
+      <configuration />
+      of
+      <unknown />
+      types
+    </controller>
+  </task>
+
+  <task name="three">
+    <timer duedate="2 seconds"><action /></timer>
+    <timer duedate="2 seconds"><action /></timer>
+    <event type="" />
+    <event type="" />
+    <assignment />
+    <controller />
+    <event type="" />
+    <event type="" />
+    <timer duedate="2 seconds"><action /></timer>
+    <timer duedate="2 seconds"><action /></timer>
+  </task>
+
+</process-definition>

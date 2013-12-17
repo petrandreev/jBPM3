@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition
+  xmlns="urn:jbpm.org:jpdl-3.2"  name="CustomTaskInstance">
+   <swimlane name="reviewers">
+   		<assignment pooled-actors="reviewers"/>
+   	</swimlane>
+   <start-state name="start">
+      <transition name="" to="Review Order"></transition>
+   </start-state>
+   <end-state name="end1"></end-state>
+   <task-node name="Review Order">
+      <task name="Review Order" swimlane="reviewers">
+         <controller class="org.jbpm.examples.taskinstance.CustomTaskControllerHandler"></controller>
+      </task>
+      <transition name="" to="end1"></transition>
+   </task-node>
+</process-definition>

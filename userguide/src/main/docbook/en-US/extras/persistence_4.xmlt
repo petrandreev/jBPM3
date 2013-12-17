@@ -1,0 +1,13 @@
+<jbpm-context>
+  <service name="persistence">
+    <factory>
+      <bean class="org.jbpm.persistence.db.DbPersistenceServiceFactory">
+        <field name="isTransactionEnabled"><false /></field>
+        <field name="isCurrentSessionEnabled"><true /></field>
+        <field name="sessionFactoryJndiName">
+          <string value="java:/myHibSessFactJndiName" />
+        </field>
+      </bean>
+    </factory>
+  </service>
+</jbpm-context>
