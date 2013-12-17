@@ -1,0 +1,135 @@
+<chapter id="introduction">
+  <title>Introduction</title>
+  
+  <para>JBoss jBPM is a flexible, extensible framework for process languages. jPDL is
+  one process language that is build on top of that common framework.  It is an intuitive 
+  process language to express business processes graphically in terms 
+  of tasks, wait states for asynchronous communication, timers, automated actions,...
+  To bind these operations together, jPDL has the most powerful and extensible 
+  control flow mechanism.</para>
+  
+  <para>jPDL has minimal dependencies and can be used as easy as using a java library.
+  But it can also be used in environments where extreme throughput is crucial by 
+  deploying it on a J2EE clustered application server. </para>
+  
+  <para>jPDL can be configured with any database and it can be deployed on any 
+  application server.</para>
+  
+  <section>
+    <title>Overview</title>
+    <para>The core workflow and BPM functionality is packaged as a simple java library.
+    This library includes a service to manage and execute processes in the jPDL 
+    database.</para>
+    <figure id="overview.image">
+      <title>Overview of the jPDL components</title>
+      <mediaobject><imageobject><imagedata align="center" fileref="images/overview.gif"/></imageobject></mediaobject>
+    </figure>
+  </section>
+
+  <section>
+    <title>The jPDL suite</title>
+    <para>The suite is a download that contains all the jBPM components bundled in one easy
+    download.  The download includes:
+    </para>
+    <itemizedlist>
+      <listitem><para><emphasis role="bold">config</emphasis>, configuration files for a standard java environment</para></listitem>
+      <listitem><para><emphasis role="bold">db</emphasis>, SQL scripts for DB creation and compatibility information</para></listitem>
+      <listitem><para><emphasis role="bold">designer</emphasis>, the eclipse plugin to author jPDL processes and installation scripts (this is not part of the plain jpdl download) See also <xref linkend="jpdlgraphicalprocessdesigner"/>.</para></listitem>
+      <listitem><para><emphasis role="bold">doc</emphasis>, userguide and javadocs</para></listitem>
+      <listitem><para><emphasis role="bold">examples</emphasis></para></listitem>
+      <listitem><para><emphasis role="bold">lib</emphasis>, libraries on which jbpm depends.  For more information on this see <xref linkend="thirdpartylibraries" /></para></listitem>
+      <listitem><para><emphasis role="bold">server</emphasis>, a pre-configured jboss that contains jbpm inside the console web application (this is not part of the plain jpdl download)</para></listitem>
+      <listitem><para><emphasis role="bold">src</emphasis>, the jbpm and identity component java sources</para></listitem>
+    </itemizedlist>
+    
+    <para>The pre-configured JBoss application server has the following components installed :
+    </para>
+    <itemizedlist>
+      <listitem><para>The <emphasis role="bold">web console</emphasis>, packaged as a web archive. That console can be 
+      used by process participants as well as jBPM administrators.</para></listitem>
+      <listitem><para>The <emphasis role="bold">job executor</emphasis> enacts timers and asynchronous messages. There is
+      a servlet context listener in the console web app that launches the job executor, which  
+      spawns a thread pool for monitoring and executing timers and asynchronous messages.</para></listitem>
+      <listitem><para>The <emphasis role="bold">jBPM database</emphasis>, an in-process hypersonic database that 
+      contains the jBPM tables.</para></listitem>
+      <listitem><para>One <emphasis role="bold">example process</emphasis> is already deployed into the jBPM database.</para></listitem>
+      <listitem><para>The <emphasis role="bold">Identity component</emphasis> libraries are part of 
+      the console web application.  The tables of the identity component are available in the database (those are the tables 
+      that start with JBPM_ID_)</para></listitem>
+    </itemizedlist>
+  </section>
+  
+  <section id="jpdlgraphicalprocessdesigner">
+    <title>The jPDL graphical process designer</title>
+    <para>jPDL also includes a graphical designer tool.  The designer is a 
+    graphical tool for authoring business processes.  It's an eclipse plugin.</para>
+    <para>The most important feature of the graphical designer tool is that it 
+    includes support for both the business analyst as well as the 
+    technical developer.  This enables a smooth transition from business process 
+    modeling to the practical implementation.</para>
+    <para>The plugin is available as a local update site (plain zip file) for 
+    installation via the standard eclipse software updates mechanism.  The 
+    jPDL graphical process designer plugin is also included in 
+    <ulink url="http://www.jboss.org/tools/">JBoss Tools</ulink>, 
+    <ulink url="http://www.redhat.com/developer_studio/">JBoss Developer Studio</ulink> and 
+    the <ulink url="http://www.jboss.com/products/platforms/soa/">SOA Platform</ulink>.</para>
+  </section>
+
+  <section>
+    <title>The jBPM console web application</title>
+    <para>The jBPM console web application serves two purposes.  First, it serves as a central 
+    user interface for interacting with runtime tasks generated by the process 
+    executions.  Secondly, it is an administration and monitoring console that allows to 
+    inspect and manipulate runtime instances.  The third functionality is Business Activity 
+    Monitoring.  These are statistics about process executions.  This is useful information 
+    for managers to find bottlenecks or other kinds of optimizations.</para>
+  </section>
+  
+  <section>
+    <title>The jBPM core library</title>
+    <para>The JBoss jBPM core component is the plain java (J2SE) library for managing 
+    process definitions and the runtime environment for execution of process instances.
+    </para>
+    <para>JBoss jBPM is a java library.  As a consequence, it can be used in any java 
+    environment like e.g. a web application, a swing application, an EJB, a webservice,...
+    The jBPM library can also be packaged and exposed as a stateless session EJB.  This
+    allows clustered deployment and scalability for extreme high throughput.  The stateless
+    session EJB will be written against the J2EE 1.4 specifications so that it is 
+    deployable on any application server.
+    </para>
+    <para>Depending on the functionality that you use, the library <literal>lib/jbpm-jpdl.jar</literal> 
+    has some dependencies on other third party libraries such as e.g. hibernate, dom4j
+    and others.  We have done great efforts to require only those dependent libraries that 
+    you actually use.  The dependencies are further documented in <xref linkend="deployment" /></para>
+    <para>For its persistence, jBPM uses hibernate internally.  Apart from traditional 
+    O/R mapping, hibernate also resolves the SQL dialect differences between the different 
+    databases, making jBPM portable across all current databases.</para>
+    <para>The JBoss jBPM API can be accessed from any custom java software in your 
+    project, like e.g. your web application, your EJB's, your web service components, 
+    your message driven beans or any other java component.</para>
+  </section>
+
+  <section>
+    <title>The JBoss jBPM identity component</title>
+    <para>JBoss jBPM can integrate with any company directory that contains users and other 
+    organizational information.  But for projects where no organizational information component 
+    is readily available, JBoss jBPM includes this component.  The model used in the identity 
+    component is richer than the traditional servlet-, ejb- and portlet models.</para>
+    <para>For more information, see <xref linkend="theidentitycomponent" /></para>
+  </section>
+  
+  <section>
+    <title>The JBoss jBPM Job Executor</title>
+    <para>The job executor is a component for monitoring and executing jobs in 
+    a standard Java environment.  Jobs are used for timers and asynchronous messages.  In an 
+    enterprise environment, JMS and the EJB Timer Service can be used for that purpose.  Conversely,
+    the job executor can be used in an environment where neither JMS nor EJB are available.
+    </para>
+    <para>The job executor component is packaged in the core jbpm-jpdl library, but it needs 
+    to be deployed in one of the following ways: either register the <literal>JobExecutorLauncher</literal>
+    servlet context listener in the web app deployment descriptor to start/stop the job
+    executor during creation/destruction of the servlet context, or start up a separate JVM
+    and start the job executor in there programatically.</para>
+  </section>
+
+</chapter>

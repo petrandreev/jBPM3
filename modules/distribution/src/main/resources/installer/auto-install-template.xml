@@ -1,0 +1,34 @@
+<AutomatedInstallation langpack="eng">
+  <com.izforge.izpack.panels.HelloPanel />
+  <com.izforge.izpack.panels.TargetPanel>
+    <installpath>@user.home@/jbpm-jpdl-@product.version@</installpath>
+  </com.izforge.izpack.panels.TargetPanel>
+  <com.izforge.izpack.panels.TreePacksPanel>
+    <pack name="jBPM3 Standalone" index="0" selected="true"/>
+    <pack name="jBPM3 JBoss Integration" index="1" selected="true"/>
+    <pack name="JSF-Console" index="2" selected="true"/>
+    <pack name="GWT-Console" index="3" selected="true"/>
+    <pack name="Optional Components" index="4" selected="false"/>
+    <pack name="Download JBoss-5.0.0" index="5" selected="false"/>
+    <pack name="Download Eclipse-3.4.0" index="6" selected="false"/>
+  </com.izforge.izpack.panels.TreePacksPanel>
+  <com.izforge.izpack.panels.UserInputPanel>
+    <userInput>
+      <entry key="jbossTargetServer" value="default" />
+      <entry key="jbossSelection" value="@jbpm.target.container@" />
+    </userInput>
+  </com.izforge.izpack.panels.UserInputPanel>
+  <com.izforge.izpack.panels.UserInputPanel>
+    <userInput>
+      <entry key="dbSelection" value="@database@"/>
+    </userInput>
+  </com.izforge.izpack.panels.UserInputPanel>
+  <com.izforge.izpack.panels.UserInputPanel>
+    <userInput>
+      <entry key="jbossInstallPath" value="@jboss.home@" />
+    </userInput>
+  </com.izforge.izpack.panels.UserInputPanel>
+  <com.izforge.izpack.panels.SummaryPanel />
+  <com.izforge.izpack.panels.InstallPanel />
+  <com.izforge.izpack.panels.FinishPanel />
+</AutomatedInstallation>

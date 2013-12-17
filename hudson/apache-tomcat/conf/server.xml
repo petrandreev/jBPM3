@@ -1,0 +1,57 @@
+
+<Server port="@hudson.admin.port@" shutdown="SHUTDOWN">
+  
+  <!-- Comment these entries out to disable JMX MBeans support used for the 
+  administration web application -->
+  <Listener className="org.apache.catalina.core.AprLifecycleListener"/>
+  <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener"/>
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
+  <Listener className="org.apache.catalina.storeconfig.StoreConfigLifecycleListener"/>
+  
+  <!-- Global JNDI resources -->
+  <GlobalNamingResources>
+    
+    <!-- Test entry for demonstration purposes -->
+    <Environment name="simpleValue" type="java.lang.Integer" value="30"/>
+    
+    <!-- Editable user database that can also be used by
+    UserDatabaseRealm to authenticate users -->
+    <Resource name="UserDatabase" auth="Container" type="org.apache.catalina.UserDatabase" description="User database that can be updated and saved"
+      factory="org.apache.catalina.users.MemoryUserDatabaseFactory" pathname="conf/tomcat-users.xml"/>
+    
+  </GlobalNamingResources>
+  
+  <!-- Define the Tomcat Stand-Alone Service -->
+  <Service name="Catalina">
+    
+    <!-- Define a non-SSL HTTP/1.1 Connector on port 8080 -->
+    <Connector port="@hudson.http.port@" maxHttpHeaderSize="8192" maxThreads="150" 
+      minSpareThreads="25" maxSpareThreads="75" 
+      enableLookups="false" redirectPort="8443" acceptCount="100"
+      connectionTimeout="20000" disableUploadTimeout="true"/>
+    
+    <!-- Define the top level container in our container hierarchy -->
+    <Engine name="Catalina" defaultHost="localhost">
+      
+      <!-- This Realm uses the UserDatabase configured in the global JNDI
+      resources under the key "UserDatabase".  Any edits
+      that are performed against this UserDatabase are immediately
+      available for use by the Realm.  -->
+      <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
+      
+      <!-- Define the default virtual host
+      Note: XML Schema validation will not work with Xerces 2.2.
+      -->
+      <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="true" xmlValidation="false" xmlNamespaceAware="false">
+        
+        <Context path="/hudson">
+          <Environment description="" name="HUDSON_HOME" type="java.lang.String" value="@hudson.home@"/>
+        </Context>
+        
+      </Host>
+      
+    </Engine>
+    
+  </Service>
+  
+</Server>

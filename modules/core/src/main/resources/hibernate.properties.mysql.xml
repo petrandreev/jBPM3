@@ -1,0 +1,11 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">${jdbc.mysql.url}</property>
+    <property name="hibernate.connection.username">${jdbc.mysql.username}</property>
+    <property name="hibernate.connection.password">${jdbc.mysql.password}</property>
+    <property name="hibernate.query.substitutions">true 1, false 0</property>
+    <!-- JDBC connection properties (end) -->

@@ -1,4 +1,0 @@
-<task-node name='a'>
-    <task name='laundry' swimlane="grandma" notify='yes' />
-    <transition to='b' />
-</task-node>

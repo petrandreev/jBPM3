@@ -1,0 +1,434 @@
+<chapter id="configuration">
+  <title>Configuration</title>
+  
+  <para>The simplest way to configure jBPM is by putting the <literal>jbpm.cfg.xml</literal> 
+    configuration file in the root of the classpath.  If that file is not found as a 
+    resource, the default minimal configuration will be used that is included in the 
+    jbpm library (<literal>org/jbpm/default.jbpm.cfg.xml</literal>).  If a jbpm configuration 
+    file is provided, the values configured will be used as defaults.  So you only 
+    need to specify the parts that are different from the default configuration file. 
+  </para>
+  
+  <para>The jBPM configuration is represented by the java class <literal>org.jbpm.JbpmConfiguration</literal>.  
+  Most easy way to get a hold of the JbpmConfiguration is to make use of the singleton 
+  instance method <literal>JbpmConfiguration.getInstance()</literal>.
+  </para>
+
+  <para>If you want to load a configuration from another source, you can use the 
+    <literal>JbpmConfiguration.parseXxxx</literal> methods.
+  </para>
+
+  <programlisting language="java">static JbpmConfiguration jbpmConfiguration = JbpmConfiguration.parseResource("my.jbpm.cfg.xml");</programlisting>
+  
+  <para>The JbpmConfiguration is threadsafe and hence can be kept in a static member.  All threads can use 
+    the JbpmConfiguration as a factory for JbpmContext objects.  A JbpmContext typically represents one 
+    transaction.  The JbpmContext makes services available inside of a context block.  
+    A context block looks like this:
+  </para>
+ 
+  <programlisting language="java">JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+try {
+  // This is what we call a context block.
+  // Here you can perform workflow operations
+
+} finally {
+  jbpmContext.close();
+}</programlisting>
+
+  <para>The <literal>JbpmContext</literal> makes a set of services and the configuration available 
+    to jBPM.  These services are configured in the <literal>jbpm.cfg.xml</literal> configuration file and 
+  make it possible for 
+   jBPM to run in any Java environment and use whatever services are available in that environment.
+  </para> 
+
+  <para>Here's the default configuration for the JbpmContext:
+  </para>
+
+<programlisting language="xml">&lt;jbpm-configuration&gt;
+
+  &lt;jbpm-context&gt;
+    &lt;service name='persistence' factory='org.jbpm.persistence.db.DbPersistenceServiceFactory' /&gt;
+    &lt;service name='message' factory='org.jbpm.msg.db.DbMessageServiceFactory' /&gt;
+    &lt;service name='scheduler' factory='org.jbpm.scheduler.db.DbSchedulerServiceFactory' /&gt;
+    &lt;service name='logging' factory='org.jbpm.logging.db.DbLoggingServiceFactory' /&gt;
+    &lt;service name='authentication' factory='org.jbpm.security.authentication.DefaultAuthenticationServiceFactory' /&gt;
+  &lt;/jbpm-context&gt;
+
+  &lt;!-- configuration resource files pointing to default configuration files in jbpm-{version}.jar --&gt;
+  &lt;string name='resource.hibernate.cfg.xml' value='hibernate.cfg.xml' /&gt;
+
+  &lt;!-- &lt;string name='resource.hibernate.properties' value='hibernate.properties' /&gt; --&gt;
+  &lt;string name='resource.business.calendar' value='org/jbpm/calendar/jbpm.business.calendar.properties' /&gt;
+  &lt;string name='resource.default.modules' value='org/jbpm/graph/def/jbpm.default.modules.properties' /&gt;
+  &lt;string name='resource.converter' value='org/jbpm/db/hibernate/jbpm.converter.properties' /&gt;
+  &lt;string name='resource.action.types' value='org/jbpm/graph/action/action.types.xml' /&gt;
+  &lt;string name='resource.node.types' value='org/jbpm/graph/node/node.types.xml' /&gt;
+  &lt;string name='resource.parsers' value='org/jbpm/jpdl/par/jbpm.parsers.xml' /&gt;
+  &lt;string name='resource.varmapping' value='org/jbpm/context/exe/jbpm.varmapping.xml' /&gt;
+  &lt;string name='resource.mail.templates' value='jbpm.mail.templates.xml' /&gt;
+
+  &lt;int name='jbpm.byte.block.size' value="1024" singleton="true" /&gt;
+  &lt;bean name='jbpm.task.instance.factory' class='org.jbpm.taskmgmt.impl.DefaultTaskInstanceFactoryImpl' singleton='true' /&gt;
+  &lt;bean name='jbpm.variable.resolver' class='org.jbpm.jpdl.el.impl.JbpmVariableResolver' singleton='true' /&gt;
+  &lt;string name='jbpm.mail.smtp.host' value='localhost' /&gt;
+  &lt;bean   name='jbpm.mail.address.resolver' class='org.jbpm.identity.mail.IdentityAddressResolver' singleton='true' /&gt;
+  &lt;string name='jbpm.mail.from.address' value='jbpm@noreply' /&gt;
+
+  &lt;bean name='jbpm.job.executor' class='org.jbpm.job.executor.JobExecutor'&gt;
+    &lt;field name='jbpmConfiguration'&gt;&lt;ref bean='jbpmConfiguration' /&gt;&lt;/field&gt;
+    &lt;field name='name'&gt;&lt;string value='JbpmJobExecutor' /&gt;&lt;/field&gt;
+    &lt;field name='nbrOfThreads'&gt;&lt;int value='1' /&gt;&lt;/field&gt;
+    &lt;field name='idleInterval'&gt;&lt;int value='5000' /&gt;&lt;/field&gt;
+    &lt;field name='maxIdleInterval'&gt;&lt;int value='3600000' /&gt;&lt;/field&gt; &lt;!-- 1 hour --&gt;
+    &lt;field name='historyMaxSize'&gt;&lt;int value='20' /&gt;&lt;/field&gt;
+    &lt;field name='maxLockTime'&gt;&lt;int value='600000' /&gt;&lt;/field&gt; &lt;!-- 10 minutes --&gt;
+    &lt;field name='lockMonitorInterval'&gt;&lt;int value='60000' /&gt;&lt;/field&gt; &lt;!-- 1 minute --&gt;
+    &lt;field name='lockBufferTime'&gt;&lt;int value='5000' /&gt;&lt;/field&gt; &lt;!-- 5 seconds --&gt;
+  &lt;/bean&gt;
+
+&lt;/jbpm-configuration&gt;</programlisting>
+
+  <para>In this configuration file you can see 3 parts:
+  </para>
+  
+  <itemizedlist>
+    <listitem><para>The first part configures the jbpm context with a set of service 
+      implementations.  The possible configuration options are covered in the chapters 
+      that cover the specific service implementations.
+    </para></listitem>
+    <listitem><para>The second part are all mappings of references to configuration 
+      resources.  These resource references can be updated if you want to customize
+      one of these configuration files.  Typically, you make a copy the default configuration 
+      which is in the <literal>jbpm-3.x.jar</literal> and put it somewhere on the classpath.
+      Then you update the reference in this file and jbpm will use your customized version 
+      of that configuration file.
+    </para></listitem>
+    <listitem><para>The third part are some miscellaneous configurations used in jbpm.
+      These configuration options are described in the chapters that cover the 
+      specific topic.
+    </para></listitem>
+  </itemizedlist>
+
+  <para>The default configured set of services is targeted at a simple web-app environment
+    and minimal dependencies.  The persistence service will obtain a jdbc connection and all 
+    the other services will use the same connection to perform their services.  So all of your 
+    workflow operations are centralized into 1 transaction on a JDBC connection without the 
+    need for a transaction manager.
+  </para>
+
+  <para><literal>JbpmContext</literal> contains convenience methods for most of the common 
+    process operations:
+  </para>
+
+<programlisting language="java">public void deployProcessDefinition(ProcessDefinition processDefinition) {...}
+  public List getTaskList() {...}
+  public List getTaskList(String actorId) {...}
+  public List getGroupTaskList(List actorIds) {...}
+  public TaskInstance loadTaskInstance(long taskInstanceId) {...}
+  public TaskInstance loadTaskInstanceForUpdate(long taskInstanceId) {...}
+  public Token loadToken(long tokenId) {...}
+  public Token loadTokenForUpdate(long tokenId) {...}
+  public ProcessInstance loadProcessInstance(long processInstanceId) {...}
+  public ProcessInstance loadProcessInstanceForUpdate(long processInstanceId) {...}
+  public ProcessInstance newProcessInstance(String processDefinitionName) {...}
+  public void save(ProcessInstance processInstance) {...}
+  public void save(Token token) {...}
+  public void save(TaskInstance taskInstance) {...}
+  public void setRollbackOnly() {...}</programlisting>
+
+  <para>Note that the <literal>XxxForUpdate</literal> methods will register the loaded 
+    object for auto-save so that you don't have to call one of the save methods 
+    explicitly.
+  </para>
+
+  <para>It's possible to specify multiple <literal>jbpm-context</literal>s, but then you have 
+    to make sure that each <literal>jbpm-context</literal> is given a unique <literal>name</literal> 
+    attribute.  Named contexts can be retrieved with <literal>JbpmConfiguration.createContext(String name);</literal>
+  </para>
+
+  <para>A <literal>service</literal> element specifies the name of a service and the service factory
+    for that service.  The service will only be created in case it's asked for with 
+    <literal>JbpmContext.getServices().getService(String name)</literal>.
+  </para>
+  
+  <para>The factories 
+    can also be specified as an element instead of an attribute.  That might be necessary to 
+    inject some configuration information in the factory objects.  The component responsible
+    for parsing the XML, creating and wiring the objects is called the object factory.  
+  </para>
+
+  <section id="customizingfactories">
+    <title>Customizing factories</title>
+    <para>A common mistake when customizing factories is to mix the short and the long notation.
+    Examples of the short notation can be seen in the default configuration file and above: E.g.
+    </para>
+    <programlisting language="xml">&lt;service name='persistence' factory='org.jbpm.persistence.db.DbPersistenceServiceFactory' /&gt;</programlisting>
+    <para>If specific properties on a service need to be specified, the short notation can't be used, but instead, 
+    the long notation has to be used like this:
+    </para>
+    <programlisting language="xml">  &lt;service name="persistence"&gt;
+    &lt;factory&gt;
+      &lt;bean class="org.jbpm.persistence.db.DbPersistenceServiceFactory"&gt;
+        &lt;field name="dataSourceJndiName"&gt;&lt;string value="java:/myDataSource"/&gt;&lt;/field&gt; 
+        &lt;field name="isCurrentSessionEnabled"&gt;&lt;true /&gt;&lt;/field&gt; 
+        &lt;field name="isTransactionEnabled"&gt;&lt;false /&gt;&lt;/field&gt; 
+      &lt;/bean&gt;
+    &lt;/factory&gt;
+  &lt;/service&gt; </programlisting>
+  </section>
+
+  <section id="configurationproperties">
+    <title>Configuration properties</title>
+   
+    <para><emphasis role="bold">jbpm.byte.block.size</emphasis>:
+      File attachments and binary variables are stored in the database.  Not as blobs, but as a list of fixed sized binary objects.
+      This is done to improve portability amongst different databases and improve overall embeddability of jBPM.  This parameter 
+      controls the size of the fixed length chunks.
+    </para>
+    <para><emphasis role="bold">jbpm.task.instance.factory</emphasis>:
+      To customize the way that task instances are created, specify a fully qualified class name in this property.  This might be 
+      necessary when you want to customize the TaskInstance bean and add new properties to it.  See also <xref linkend="customizingtaskinstances" />  
+      The specified class should implement org.jbpm.taskmgmt.TaskInstanceFactory. 
+    </para>
+    <para><emphasis role="bold">jbpm.variable.resolver</emphasis>:
+      To customize the way that jBPM will look for the first term in JSF-like expressions.
+    </para>
+  </section>
+
+  <section id="configurationfiles">
+    <title>Other configuration files</title>
+    
+    <para>Here's a short description of all the configuration files that are customizable in jBPM.
+    </para>
+
+    <section id="hibernatecfgxmlfile">
+      <title>Hibernate Configuration file</title>
+      <para>This file contains hibernate configurations and references to the 
+      hibernate mapping resource files.</para>
+      <para>Location: <literal>hibernate.cfg.xml</literal> unless specified 
+      otherwise in the resource.hibernate.cfg.xml property in the jbpm.cfg.xml file.
+      In the jbpm project the default hibernate configuration file is located in 
+      directory <literal>src/config.files/hibernate.cfg.xml</literal></para>
+    </section>
+
+    <section id="hibernatequeriesconfigurationfile">
+      <title>Hibernate queries configuration file</title>
+      <para>This file contains hibernate queries that are used in the jBPM 
+        sessions <literal>org.jbpm.db.*Session</literal>.
+      </para>
+      <para>Location: <literal>org/jbpm/db/hibernate.queries.hbm.xml</literal>
+      </para>
+    </section>
+
+    <section id="nodetypesconfigurationfile">
+      <title>Node types configuration file</title>
+      <para>This file contains the mapping of XML node elements to 
+        Node implementation classes.  
+      </para>
+      <para>Location: <literal>org/jbpm/graph/node/node.types.xml</literal></para>
+    </section>
+
+    <section id="actiontypesconfigurationfile">
+      <title>Action types configuration file</title>
+      <para>This file contains the mapping of XML action elements to 
+        Action implementation classes.
+      </para>
+      <para>Location: <literal>org/jbpm/graph/action/action.types.xml</literal></para>
+    </section>
+
+    <section id="businesscalendarconfigurationfile">
+      <title>Business calendar configuration file</title>
+      <para>Contains the definition of business hours and free time.</para>
+      <para>Location: <literal>org/jbpm/calendar/jbpm.business.calendar.properties</literal></para>
+    </section>
+
+    <section id="variablemappingconfigurationfile">
+      <title>Variable mapping configuration file</title>
+      <para>Specifies how the values of the process variables (java objects) are 
+      converted to variable instances for storage in the jbpm database.</para>
+      <para>Location: <literal>org/jbpm/context/exe/jbpm.varmapping.xml</literal></para>
+    </section>
+
+    <section id="converterconfigurationfile">
+      <title>Converter configuration file</title>
+      <para>Specifies the id-to-classname mappings.  The id's are stored in the database.
+      The org.jbpm.db.hibernate.ConverterEnumType is used to map the ids to the singleton
+      objects.</para>
+      <para>Location: <literal>org/jbpm/db/hibernate/jbpm.converter.properties</literal></para>
+    </section>
+
+    <section id="defaultmodulesconfigurationfile">
+      <title>Default modules configuration file</title>
+      <para>specifies which modules are added to a new ProcessDefinition by default.</para>
+      <para>Location: <literal>org/jbpm/graph/def/jbpm.default.modules.properties</literal></para>
+    </section>
+    
+    <section id="parsersconfigurationfile">
+      <title>Process archive parsers configuration file</title>
+      <para>specifies the phases of process archive parsing</para>
+      <para>Location: <literal>org/jbpm/jpdl/par/jbpm.parsers.xml</literal></para>
+    </section>
+  </section>
+
+  <section id="loggingofoptimisticconcurrencyexceptions">
+    <title>Logging of optimistic concurrency exceptions</title>
+    <para>When running in a cluster, jBPM synchronizes on the database.  By default with optimistic 
+      locking.  This means that each operation is performed in a transaction.  And if at the end a
+      collision is detected, then the transaction is rolled back and has to be handled.  E.g. by a 
+      retry.  So optimistic locking exceptions are usually part of the normal operation.  Therefor,
+      by default, the <literal>org.hibernate.StateObjectStateException</literal>s the that hibernate 
+      throws in that case are not logged with error and a stack trace, but instead a simple info 
+      message 'optimistic locking failed' is displayed.
+    </para>
+    
+    <para>Hibernate itself will log the StateObjectStateException including a stack trace.  If you 
+    want to get rid of these stack traces, put the level of 
+    <literal>org.hibernate.event.def.AbstractFlushingEventListener</literal> to FATAL.  If you use 
+    log4j following line of configuration can be used for that:
+    <programlisting language="xml">log4j.logger.org.hibernate.event.def.AbstractFlushingEventListener=FATAL</programlisting>
+    </para>
+    
+    <para>If you want to enable logging of the jBPM stack traces, add the following line to your 
+    <filename>jbpm.cfg.xml</filename>:
+    <programlisting language="xml">&lt;boolean name="jbpm.hide.stale.object.exceptions" value="false" /&gt;</programlisting>.
+    </para>
+  </section>
+  
+  <section id="objectfactory">
+    <title>Object factory</title>
+    <para>The object factory can create objects according to a beans-like xml configuration file.
+      The configuration file specifies how objects should be created, configured and wired together
+      to form a complete object graph. The object factory can inject the configurations and other 
+      beans into a bean.
+    </para>
+    <para>In its simplest form, the object factory is able to create basic types and java beans
+      from such a configuration:
+    </para>
+    <programlisting language="xml">&lt;beans&gt;
+  &lt;bean name="task" class="org.jbpm.taskmgmt.exe.TaskInstance"/&gt;
+  &lt;string name="greeting"&gt;hello world&lt;/string&gt;
+  &lt;int name="answer"&gt;42&lt;/int&gt;
+  &lt;boolean name="javaisold"&gt;true&lt;/boolean&gt;
+  &lt;float name="percentage"&gt;10.2&lt;/float&gt;
+  &lt;double name="salary"&gt;100000000.32&lt;/double&gt;
+  &lt;char name="java"&gt;j&lt;/char&gt;
+  &lt;null name="dusttodust" /&gt;
+&lt;/beans&gt;
+
+---------------------------------------------------------
+
+ObjectFactory of = ObjectFactory.parseXmlFromAbove();
+assertEquals(TaskInstance.class, of.getNewObject("task").getClass());
+assertEquals("hello world", of.getNewObject("greeting"));
+assertEquals(new Integer(42), of.getNewObject("answer"));
+assertEquals(Boolean.TRUE, of.getNewObject("javaisold"));
+assertEquals(new Float(10.2), of.getNewObject("percentage"));
+assertEquals(new Double(100000000.32), of.getNewObject("salary"));
+assertEquals(new Character('j'), of.getNewObject("java"));
+assertNull(of.getNewObject("dusttodust"));</programlisting>
+
+
+    <para>Also you can configure lists:</para>
+
+    <programlisting language="xml">&lt;beans&gt;
+  &lt;list name="numbers"&gt;
+    &lt;string&gt;one&lt;/string&gt;
+    &lt;string&gt;two&lt;/string&gt;
+    &lt;string&gt;three&lt;/string&gt;
+  &lt;/list&gt;
+&lt;/beans&gt;</programlisting>
+
+    <para>and maps</para>
+
+    <programlisting language="xml">&lt;beans&gt;
+  &lt;map name="numbers"&gt;
+    &lt;entry&gt;&lt;key&gt;&lt;int&gt;1&lt;/int&gt;&lt;/key&gt;&lt;value&gt;&lt;string&gt;one&lt;/string&gt;&lt;/value&gt;&lt;/entry&gt;
+    &lt;entry&gt;&lt;key&gt;&lt;int&gt;2&lt;/int&gt;&lt;/key&gt;&lt;value&gt;&lt;string&gt;two&lt;/string&gt;&lt;/value&gt;&lt;/entry&gt;
+    &lt;entry&gt;&lt;key&gt;&lt;int&gt;3&lt;/int&gt;&lt;/key&gt;&lt;value&gt;&lt;string&gt;three&lt;/string&gt;&lt;/value&gt;&lt;/entry&gt;
+  &lt;/map&gt;
+&lt;/beans&gt;</programlisting>
+
+    <para>Beans can be configured with direct field injection and via property setters.</para>
+
+    <programlisting language="xml">&lt;beans&gt;
+  &lt;bean name="task" class="org.jbpm.taskmgmt.exe.TaskInstance" &gt;
+    &lt;field name="name"&gt;&lt;string&gt;do dishes&lt;/string&gt;&lt;/field&gt;
+    &lt;property name="actorId"&gt;&lt;string&gt;theotherguy&lt;/string&gt;&lt;/property&gt;
+  &lt;/bean&gt;
+&lt;/beans&gt;</programlisting>
+
+    <para>Beans can be referenced.  The referenced object doesn't have to be a bean,
+      it can be a string, integer or any other object.
+    </para>
+
+    <programlisting language="xml">&lt;beans&gt;
+  &lt;bean name="a" class="org.jbpm.A" />
+  &lt;ref name="b" bean="a" />
+&lt;/beans&gt;</programlisting>
+
+    <para>Beans can be constructed with any constructor</para>
+
+    <programlisting language="xml">&lt;beans&gt;
+  &lt;bean name="task" class="org.jbpm.taskmgmt.exe.TaskInstance" &gt;
+    &lt;constructor&gt;
+      &lt;parameter class="java.lang.String"&gt;
+        &lt;string&gt;do dishes&lt;/string&gt;
+      &lt;/parameter&gt;
+      &lt;parameter class="java.lang.String"&gt;
+        &lt;string&gt;theotherguy&lt;/string&gt;
+      &lt;/parameter&gt;
+    &lt;/constructor&gt;
+  &lt;/bean&gt;
+&lt;/beans&gt;</programlisting>
+
+    <para>... or with a factory method on a bean ...</para>
+
+    <programlisting language="xml">&lt;beans&gt;
+  &lt;bean name="taskFactory" 
+         class="org.jbpm.UnexistingTaskInstanceFactory" 
+         singleton="true"/&gt;
+
+  &lt;bean name="task" class="org.jbpm.taskmgmt.exe.TaskInstance" &gt;
+    &lt;constructor factory="taskFactory" method="createTask" &gt;
+      &lt;parameter class="java.lang.String"&gt;
+        &lt;string&gt;do dishes&lt;/string&gt;
+      &lt;/parameter&gt;
+      &lt;parameter class="java.lang.String"&gt;
+        &lt;string&gt;theotherguy&lt;/string&gt;
+      &lt;/parameter&gt;
+    &lt;/constructor&gt;
+  &lt;/bean&gt;
+&lt;/beans&gt;</programlisting>
+
+    <para>... or with a static factory method on a class ...</para>
+
+    <programlisting language="xml">&lt;beans&gt;
+  &lt;bean name="task" class="org.jbpm.taskmgmt.exe.TaskInstance" &gt;
+    &lt;constructor factory-class="org.jbpm.UnexistingTaskInstanceFactory" method="createTask" &gt;
+      &lt;parameter class="java.lang.String"&gt;
+        &lt;string&gt;do dishes&lt;/string&gt;
+      &lt;/parameter&gt;
+      &lt;parameter class="java.lang.String"&gt;
+        &lt;string&gt;theotherguy&lt;/string&gt;
+      &lt;/parameter&gt;
+    &lt;/constructor&gt;
+  &lt;/bean&gt;
+&lt;/beans&gt;</programlisting>
+
+    <para>Each named object can be marked as singleton with the attribute <literal>singleton="true"</literal>.
+      That means that a given object factory will always return the same object for each request.  Note that 
+      singletons are not shared between different object factories.
+    </para>
+
+    <para>The singleton feature causes the differentiation between the methods <literal>getObject</literal>
+      and <literal>getNewObject</literal>.  Typical users of the object factory will use the 
+      <literal>getNewObject</literal>.  This means that first the object factory's object cache is cleared
+      before the new object graph is constructed.  During construction of the object graph, the non-singleton
+      objects are stored in the object factory's object cache to allow for shared references to one object.
+      The singleton object cache is different from the plain object cache.  The singleton cache is never
+      cleared, while the plain object cache is cleared at the start of every <literal>getNewObject</literal>
+      method.
+    </para>
+  </section>
+
+</chapter>

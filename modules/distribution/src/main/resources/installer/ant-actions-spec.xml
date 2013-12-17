@@ -1,0 +1,14 @@
+<antactions>
+  <pack name="Download JBoss-5.0.0">
+    <antcall order="afterpack" buildfile="$INSTALL_PATH/Uninstaller/download-helper.xml">
+      <property name="install.path" value="$INSTALL_PATH"/>
+      <target name="download-jboss"/>
+    </antcall>
+  </pack>
+  <pack name="Download Eclipse-3.4.0">
+    <antcall order="afterpack" buildfile="$INSTALL_PATH/Uninstaller/download-helper.xml">
+      <property name="install.path" value="$INSTALL_PATH"/>
+      <target name="download-eclipse"/>
+    </antcall>
+  </pack>
+</antactions>

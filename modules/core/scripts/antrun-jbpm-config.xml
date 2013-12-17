@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: antrun-jbpm-config.xml 3847 2009-02-12 07:33:12Z thomas.diesler@jboss.com $ -->
+
+<project>
+
+  <property name="project.build.directory" value="${basedir}/target"/>
+  <property name="build.resources.directory" value="${basedir}/target/classes"/>
+
+  <macrodef name="macro-disable">
+    <attribute name="file" />
+    <attribute name="section" />
+    <sequential>
+      <replace file="@{file}" summary="true">
+        <replacetoken><![CDATA[<!-- ]]>@{section}<![CDATA[ (begin) -->]]></replacetoken>
+        <replacevalue><![CDATA[<!-- ]]>@{section}<![CDATA[ (begin) ===]]></replacevalue>
+      </replace>
+      <replace file="@{file}" summary="true">
+        <replacetoken><![CDATA[<!-- ]]>@{section}<![CDATA[ (end) -->]]></replacetoken>
+        <replacevalue><![CDATA[==== ]]>@{section}<![CDATA[ (end) -->]]></replacevalue>
+      </replace>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="macro-enable">
+    <attribute name="file" />
+    <attribute name="section" />
+    <sequential>
+      <replace file="@{file}" summary="true">
+        <replacetoken><![CDATA[<!-- ]]>@{section}<![CDATA[ (begin) ===]]></replacetoken>
+        <replacevalue><![CDATA[<!-- ]]>@{section}<![CDATA[ (begin) -->]]></replacevalue>
+      </replace>
+      <replace file="@{file}" summary="true">
+        <replacetoken><![CDATA[==== ]]>@{section}<![CDATA[ (end) -->]]></replacetoken>
+        <replacevalue><![CDATA[<!-- ]]>@{section}<![CDATA[ (end) -->]]></replacevalue>
+      </replace>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="macro-database-cfg">
+    <attribute name="database" />
+    <sequential>
+
+      <available property="@{database}.properties.available" file="${build.resources.directory}/hibernate.properties.@{database}.xml"/>
+      <fail message="hibernate.properties.@{database}.xml not available" unless="@{database}.properties.available"/>
+      
+      <condition property="hibernate.mapping.@{database}.xml" value="hibernate.mapping.@{database}.xml" else="hibernate.mapping.default.xml">
+        <available property="@{database}.mapping.available" file="${build.resources.directory}/hibernate.mapping.@{database}.xml"/>
+      </condition>
+      
+      <echo message="Concat hibernate.cfg.@{database}.xml using hibernate.properties.@{database}.xml, ${hibernate.mapping.@{database}.xml}" />
+      
+      <!-- Concat hibernate.cfg.xml -->
+      <concat destfile="${project.build.directory}/classes/hibernate.cfg.@{database}.xml">
+        <header><![CDATA[<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+  "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+  <session-factory>
+]]></header>
+        <fileset file="${build.resources.directory}/hibernate.properties.@{database}.xml" />
+        <fileset file="${build.resources.directory}/hibernate.common.xml" />
+        <fileset file="${build.resources.directory}/${hibernate.mapping.@{database}.xml}" />
+        <fileset file="${build.resources.directory}/hibernate.cache.xml" />
+        <footer><![CDATA[  </session-factory>
+</hibernate-configuration>]]></footer>
+      </concat>
+    </sequential>
+  </macrodef>
+
+  <!-- Concatenates the hibernate config scripts -->	
+  <target name="generate-hibernate-cfg" >
+    <macro-database-cfg database="db2" />
+    <macro-database-cfg database="derby" />
+    <macro-database-cfg database="firebird" />
+    <macro-database-cfg database="hsqldb"/>
+    <macro-database-cfg database="ingres" />
+    <macro-database-cfg database="interbase" />
+    <macro-database-cfg database="mckoi" />
+    <macro-database-cfg database="mssql" />
+    <macro-database-cfg database="mysql"/>
+    <macro-database-cfg database="postgresql"/>
+    <macro-database-cfg database="sapdb" />
+    <macro-database-cfg database="sybase"/>
+    <macro-database-cfg database="oracle" />
+    <macro-database-cfg database="postgresql" />
+    
+    <echo message="Copy hibernate.cfg.${database}.xml to hibernate.cfg.xml" />
+    <copy file="${project.build.directory}/classes/hibernate.cfg.${database}.xml" tofile="${project.build.directory}/classes/hibernate.cfg.xml"/>
+  	
+  	<loadfile property="hibernate.properties.xml" srcFile="${build.resources.directory}/hibernate.properties.${database}.xml"/>
+    <echo message="${hibernate.properties.xml}"/>
+    <echo/>
+  </target>
+ 
+  <!-- Generate the custom jbpm.cfg.xml for the SOA platform -->	
+  <target name="generate-jbpm-cfg-soa" depends="generate-hibernate-cfg">
+    <echo message="Generate the custom jbpm.cfg.xml for the SOA platform" />
+    <macro-disable section="Logging Service" file="${project.build.directory}/classes/org/jbpm/default.jbpm.cfg.xml"/>
+  </target>
+	
+</project>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee      http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <servlet>
+    <servlet-name>ServletRedirector</servlet-name>
+    <servlet-class>org.apache.cactus.server.ServletTestRedirector</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletRedirector</servlet-name>
+    <url-pattern>/ServletRedirector</url-pattern>
+  </servlet-mapping>
+  <ejb-ref>
+    <ejb-ref-name>ejb/CommandServiceBean</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <home>org.jbpm.ejb.RemoteCommandServiceHome</home>
+    <remote>org.jbpm.ejb.RemoteCommandService</remote>
+  </ejb-ref>
+  <resource-ref>
+    <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+    <res-type>javax.jms.ConnectionFactory</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+  <message-destination-ref>
+    <message-destination-ref-name>jms/CommandQueue</message-destination-ref-name>
+    <message-destination-type>javax.jms.Queue</message-destination-type>
+    <message-destination-usage>Produces</message-destination-usage>
+  </message-destination-ref>
+</web-app>

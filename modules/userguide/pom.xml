@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!-- ====================================================================== -->
+  <!--                                                                        -->
+  <!--  JBoss, the OpenSource J2EE webOS                                      -->
+  <!--                                                                        -->
+  <!--  Distributable under LGPL license.                                     -->
+  <!--  See terms of license at http://www.gnu.org.                           -->
+  <!--                                                                        -->
+  <!-- ====================================================================== -->
+
+  <!-- $Id: pom.xml 4208 2009-03-10 04:55:09Z alex.guizar@jboss.com $ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>JBoss jBPM3 - Userguide</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>jbpm-userguide</artifactId>
+  <packaging>jdocbook</packaging>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jbpm.jbpm3</groupId>
+    <artifactId>jbpm</artifactId>
+    <version>3.2.6.SP1</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <!-- Plugins -->
+  <build>
+    <plugins>
+      <!--
+        Maven JDocbook Plugin 
+        http://www.jboss.org/maven-jdocbook-plugin 
+        
+        mvn jdocbook:generate
+        mvn jdocbook:bundle
+      -->
+      <plugin>
+        <groupId>org.jboss.maven.plugins</groupId>
+        <artifactId>maven-jdocbook-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <sourceDocumentName>en/master.xml</sourceDocumentName>
+          <imageResource>
+            <directory>${basedir}/src/main/docbook/en</directory>
+            <includes>
+              <include>images/*.gif</include>
+              <include>images/*.jpg</include>
+              <include>images/*.png</include>
+            </includes>
+          </imageResource>
+          <formats>
+            <format>
+              <formatName>html</formatName>
+              <finalName>index.html</finalName>
+            </format>
+          </formats>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

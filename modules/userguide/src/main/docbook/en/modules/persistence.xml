@@ -1,0 +1,615 @@
+<chapter id="persistence">
+  <title>Persistence</title>
+  
+  <para>In most scenarios, jBPM is used to maintain execution of processes that 
+    span a long time.  In this context, "a long time" means spanning several 
+    transactions. The main purpose of persistence is to store process executions 
+    during wait  states.  So think of the process executions as state machines.  
+    In one transaction, we want to move the process execution state machine from 
+    one state to the next.
+  </para>
+
+  <para>A process definition can be represented in 3 different forms : as xml, as 
+    java objects and as records in the jBPM database.  Execution (or runtime)
+    information and logging information can be represented in 2 forms : as 
+    java objects and as records in the jBPM database.
+  </para>
+  
+  <figure id="model.transformations.image">
+    <title>The transformations and different forms</title>
+    <mediaobject><imageobject><imagedata align="center" fileref="images/model.transformations.jpg"/></imageobject></mediaobject>
+  </figure>
+  
+  <para>For more information about the xml representation of process definitions
+  and process archives, see <xref linkend="jpdl" />.</para>
+  
+  <para>More information on how to deploy a process archive to the database 
+  can be found in <xref linkend="deployingaprocessarchive" /> </para>
+  
+  <section>
+    <title>The persistence API</title>
+    
+    <section id="relationtotheconfigurationframework"><title>Relation to the configuration framework</title>
+
+    <para>The persistence API is an integrated with the 
+      configuration framework<footnote><para><xref linkend="configuration"/>.</para></footnote> by exposing some convenience persistence methods 
+      on the JbpmContext.  Persistence API operations can therefore be 
+      called inside a jBPM context block like this:
+    </para>
+
+    <programlisting language="java">JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+try {
+
+  // Invoke persistence operations here
+
+} finally {
+  jbpmContext.close();
+}</programlisting>     
+
+    <para>In what follows, we suppose that the configuration includes a persistence 
+      service similar to this one (as in the example configuration file 
+      <literal>src/config.files/jbpm.cfg.xml</literal>):
+    </para>
+
+    <programlisting language="xml">&lt;jbpm-configuration&gt;
+
+  &lt;jbpm-context&gt;
+    &lt;service name='persistence' factory='org.jbpm.persistence.db.DbPersistenceServiceFactory' /&gt;
+  &lt;/jbpm-context&gt;
+&lt;/jbpm-configuration&gt;</programlisting>
+
+    </section><section id="conveniencemethodsonjbpmcontext"><title>Convenience methods on JbpmContext</title>
+
+    <para>The three most common persistence operations are:
+      <itemizedlist>
+        <listitem><para>Deploying a process</para></listitem>
+        <listitem><para>Starting a new execution of a process</para></listitem>
+        <listitem><para>Continuing an execution</para></listitem>
+      </itemizedlist>
+    </para>
+    
+    <para>First deploying a process definition.  Typically, this will be done directly 
+      from the graphical process designer or from the deployprocess ant task.  But here 
+      you can see how this is done programmatically:
+    </para>
+
+    <programlisting language="java">JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+try {
+  ProcessDefinition processDefinition = ...;
+  jbpmContext.deployProcessDefinition(processDefinition);
+} finally {
+  jbpmContext.close();
+}</programlisting>
+
+    <para>For the creation of a new process execution, we need to specify of which process 
+      definition this execution will be an instance.  The most common way to specify this 
+      is to refer to the name of the process and let jBPM find the latest version of that 
+      process in the database:
+    </para>
+
+    <programlisting language="java">JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+try {
+  String processName = ...;
+  ProcessInstance processInstance = 
+      jbpmContext.newProcessInstance(processName);
+} finally {
+  jbpmContext.close();
+}</programlisting>
+
+    <para>For continuing a process execution, we need to fetch the process instance, the 
+      token or the taskInstance from the database, invoke some methods on the POJO jBPM
+      objects and afterward save the updates made to the processInstance into the database 
+      again.
+    </para>
+
+    <programlisting language="java">JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+try {
+  long processInstanceId = ...;
+  ProcessInstance processInstance = 
+      jbpmContext.loadProcessInstance(processInstanceId);
+  processInstance.signal();
+  jbpmContext.save(processInstance);
+} finally {
+  jbpmContext.close();
+}</programlisting>
+
+    <para>Note that if you use the xxx<emphasis role="bold">ForUpdate</emphasis> methods in 
+      the JbpmContext, an explicit invocation of the jbpmContext.save is not necessary any 
+      more because it will then occur automatically during the close of the jbpmContext.
+      E.g. suppose we want to inform jBPM about a taskInstance that has been completed. 
+      Note that task instance completion can trigger execution to continue so the 
+      processInstance related to the taskInstance must be saved.  The most convenient way
+      to do this is to use the loadTaskInstanceForUpdate method:
+    </para>
+
+    <programlisting language="java">JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+try {
+  long taskInstanceId = ...;
+  TaskInstance taskInstance = 
+      jbpmContext.loadTaskInstanceForUpdate(taskInstanceId);
+  taskInstance.end();
+} finally {
+  jbpmContext.close();
+}</programlisting>
+
+    <para>Just as background information, the next part is an explanation of how jBPM manages 
+      the persistence and uses hibernate.
+    </para>
+
+    <para>The <literal>JbpmConfiguration</literal> maintains a set of 
+      <literal>ServiceFactory</literal>s.  The service factories are configured in the 
+      <literal>jbpm.cfg.xml</literal> as shown above and instantiated lazy.  The 
+      <literal>DbPersistenceServiceFactory</literal> is only instantiated the first time 
+      when it is needed. After that, service factories are maintained in the 
+      <literal>JbpmConfiguration</literal>.  A <literal>DbPersistenceServiceFactory</literal>
+      manages a hibernate <literal>SessionFactory</literal>.  But also the hibernate 
+      session factory is created lazy when requested the first time.
+    </para>
+
+    <figure id="persistence.api.image">
+      <title>The persistence related classes</title>
+      <mediaobject><imageobject><imagedata align="center" fileref="images/persistence.api.gif"/></imageobject></mediaobject>
+    </figure>
+    
+    <para>During the invocation of <literal>jbpmConfiguration.createJbpmContext()</literal>, 
+      only the <literal>JbpmContext</literal> is created.  No further persistence related 
+      initializations are done at that time.  The <literal>JbpmContext</literal> manages 
+      a <literal>DbPersistenceService</literal>, which is instantiated upon first request. 
+      The <literal>DbPersistenceService</literal> manages the hibernate session.  Also the 
+      hibernate session inside the <literal>DbPersistenceService</literal> is created lazy.
+      As a result, a hibernate session will be only be opened when the first operation is 
+      invoked that requires persistence and not earlier.
+    </para>
+
+    </section><section id="managedtransactions"><title>Managed transactions</title>
+
+    <para>The most common scenario for managed transactions is when using jBPM in a JEE application 
+      server like JBoss.  The most common scenario is the following:
+    </para>
+    <itemizedlist>
+      <listitem><para>Configure a DataSource in your application server</para>
+      </listitem>
+      <listitem><para>Configure hibernate to use that data source for its connections</para>
+      </listitem>
+      <listitem><para>Use container managed transactions</para>
+      </listitem>
+      <listitem><para>Disable transactions in jBPM</para>
+      </listitem>
+    </itemizedlist>
+    
+    <para>A stateless session facade in front of jBPM is a good practice.  The easiest way 
+      on how to bind the jbpm transaction to the container transaction is to make sure that 
+      the hibernate configuration used by jbpm refers to an xa-datasource.  So jbpm will 
+      have its own hibernate session, there will only be 1 jdbc connection and 1 transaction.
+    </para>
+
+    <para>The transaction attribute of the jbpm session facade methods should be 'required'
+    </para>
+
+    <para>The the most important configuration property to specify in the <filename>hibernate.cfg.xml</filename>
+      that is used by jbpm is:
+    </para>
+
+    <programlisting language="xml">&lt;property name="hibernate.connection.datasource"&gt;datasource JNDI name -- e.g. java:/JbpmDS&lt;/property&gt;</programlisting>
+
+    <para>More information on how to configure jdbc connections in hibernate, see <ulink url="http://www.hibernate.org/hib_docs/reference/en/html/session-configuration.html#configuration-hibernatejdbc">
+      the hibernate reference manual, section 'Hibernate provided JDBC connections'</ulink>
+    </para>
+
+    <para>For more information on how to configure xa datasources in jboss, see <ulink url="http://docs.jboss.org/jbossas/jboss4guide/r4/html/ch7.chapt.html#ch7.jdbc.sect">
+      the jboss application server guide, section 'Configuring JDBC DataSources'</ulink>
+    </para>
+
+    </section><section id="injectingthehibernatesession"><title>Injecting the hibernate session</title>
+    
+    <para>In some scenarios, you already have a hibernate session and you want to combine all the 
+      persistence work from jBPM into that hibernate session.
+    </para>
+    
+    <para>Then the first thing to do is make sure that the hibernate configuration is aware of all 
+      the jBPM mapping files.  You should make sure that all the hibernate mapping files that are 
+      referenced in the file <literal>src/config.files/hibernate.cfg.xml</literal> are provided 
+      in the used hibernate configuration.
+    </para>
+    
+    <para>Then, you can inject a hibernate session into the jBPM context as is shown in the following 
+      API snippet:
+    </para>
+
+    <programlisting language="java">JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+try {
+  jbpmContext.setSession(SessionFactory.getCurrentSession());
+
+  // your jBPM operations on jbpmContext
+
+} finally {
+  jbpmContext.close();
+}</programlisting>
+
+    <para>That will pass in the current hibernate session used by the container to the jBPM 
+      context.  No hibernate transaction is initiated when a session is injected in the context.
+      So this can be used with the default configurations.
+    </para>
+    
+    <para>The hibernate session that is passed in, will <emphasis role="bold">not</emphasis> be 
+      closed in the jbpmContext.close() method.  This is in line with the overall philosophy of 
+      programmatic injection which is explained in the next section.
+    </para>
+    
+    </section><section id="injectingresourcesprogrammatically"><title>Injecting resources programmatically</title>
+
+    <para>The configuration of jBPM provides the necessary information for jBPM to create a hibernate 
+      session factory, hibernate session, jdbc connections, jbpm required services,...  But all of 
+      these resources can also be provided to jBPM programmatically.  Just inject them in the jbpmContext.
+      Injected resources always are taken before creating resources from the jbpm configuration information.
+    </para>
+    
+    <para>The main philosophy is that the API-user remains responsible for all the things that the user 
+      injects programmatically in the jbpmContext.  On the other hand, all items that are opened by 
+      jBPM, will be closed by jBPM.  There is one exception.  That is when fetching a connection that 
+      was created by hibernate.  When calling jbpmContext.getConnection(), this transfers responsibility
+      for closing the connection from jBPM to the API user.
+    </para>
+
+    <programlisting language="java">JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+try {
+  // to inject resources in the jbpmContext before they are used, you can use
+  jbpmContext.setConnection(connection);
+  // or
+  jbpmContext.setSession(session);
+  // or
+  jbpmContext.setSessionFactory(sessionFactory);
+
+} finally {
+  jbpmContext.close();
+}</programlisting>
+
+    </section><section id="advancedapiusage"><title>Advanced API usage</title>
+    
+    <para>The DbPersistenceService maintains a lazy initialized hibernate session.  All
+      database access is done through this hibernate session.  All queries and updates
+      done by jBPM are exposed by the XxxSession classes like e.g. GraphSession, 
+      SchedulerSession, LoggingSession,...  These session classes refer to the hibernate 
+      queries and all use the same hibernate session underneath.
+    </para>
+    
+    <para>The XxxxSession classes are accessible via the JbpmContext as well.
+    </para>
+
+    </section>
+  </section>
+    
+  <section id="configurationthepersistenceservice">
+    <title>Configuring the persistence service</title>
+    
+    <section id="thedbpersistenceservicefactory">
+      <title>The DbPersistenceServiceFactory</title>
+
+      <para>The DbPersistenceServiceFactory itself has 3 more configuration properties: isTransactionEnabled,
+        sessionFactoryJndiName and dataSourceJndiName. To specify any of these properties in the jbpm.cfg.xml, 
+        you need to specify the service factory as a bean in the factory element like this:
+      </para>
+      
+      <para>IMPORTANT: don't mix the short and long notation for configuring the factories.  See also 
+      <xref linkend="customizingfactories" />.   If the factory 
+      is just a new instance of a class, you can use the factory attribute to refer to the factory class name.
+      But if properties in a factory must be configured, the long notation must be used and factory and bean 
+      must be combined as nested elements. Like this:
+      </para>
+    
+      <programlisting language="xml">  &lt;jbpm-context&gt;
+    &lt;service name="persistence"&gt;
+      &lt;factory&gt;
+        &lt;bean class="org.jbpm.persistence.db.DbPersistenceServiceFactory"&gt;
+          &lt;field name="isTransactionEnabled"&gt;&lt;false /&gt;&lt;/field&gt;
+          &lt;field name="sessionFactoryJndiName"&gt;
+            &lt;string value="java:/myHibSessFactJndiName" /&gt;
+          &lt;/field&gt;
+          &lt;field name="dataSourceJndiName"&gt;
+            &lt;string value="java:/myDataSourceJndiName" /&gt;
+          &lt;/field&gt;
+        &lt;/bean&gt;
+      &lt;/factory&gt;
+    &lt;/service&gt;
+    ...
+  &lt;/jbpm-context&gt;</programlisting>
+
+    <itemizedlist> 
+      <listitem><para><emphasis role="bold">isTransactionEnabled</emphasis>: by default, jBPM will 
+        begin a hibernate transaction when the session is fetched the first time and if the 
+        jbpmContext is closed, the hibernate transaction will be ended.  The transaction is then
+        committed or rolled back depending on wether jbpmContext.setRollbackOnly was called.  The 
+        isRollbackOnly property is maintained in the TxService.  To disable transactions and 
+        prohibit jBPM from managing transactions with hibernate, configure the isTransactionEnabled 
+        property to false as in the example above.  This property only controls the behavior of 
+        the jbpmContext, you can still call the DbPersistenceService.beginTransaction() directly
+        with the API, which ignores the isTransactionEnabled setting.  
+        For more info about transactions, see
+        <xref linkend="hibernatetransactions" />.</para>
+      </listitem> 
+      <listitem><para><emphasis role="bold">sessionFactoryJndiName</emphasis>: by default, this
+        is null, meaning that the session factory is not fetched from JNDI.  If set and 
+        a session factory is needed to create a hibernate session, the session factory
+        will be fetched from jndi using the provided JNDI name.</para>
+      </listitem> 
+      <listitem><para><emphasis role="bold">dataSourceJndiName</emphasis>: by default, this is
+        null and creation of JDBC connections will be delegated to hibernate.  By specifying 
+        a datasource, jBPM will fetch a JDBC connection from the datasource and provide that 
+        to hibernate while opening a new session.  For user provided JDBC connections, 
+        see <xref linkend="injectingresourcesprogrammatically" />.</para>
+      </listitem>
+    </itemizedlist>
+    </section>
+
+    <section id="thehibernatesessionfactory">
+      <title>The hibernate session factory</title>
+      
+      <para>By default, the DbPersistenceServiceFactory will use the resource hibernate.cfg.xml
+        in the root of the classpath to create the hibernate session factory.  Note that the 
+        hibernate configuration file resource is mapped in the property 'jbpm.hibernate.cfg.xml' 
+        and can be customized in the jbpm.cfg.xml.  This is the default configuration:
+      </para>
+      
+      <programlisting language="xml">&lt;jbpm-configuration&gt;
+  &lt;!-- configuration resource files pointing to default configuration files in jbpm-{version}.jar --&gt;
+  &lt;string name='resource.hibernate.cfg.xml' 
+          value='hibernate.cfg.xml' /&gt;
+  &lt;!-- &lt;string name='resource.hibernate.properties' 
+                  value='hibernate.properties' /&gt; --&gt;
+&lt;/jbpm-configuration&gt;</programlisting>
+
+      <para>When the property <emphasis role="bold">resource.hibernate.properties</emphasis>
+        is specified, the properties in that resource file will <emphasis role="bold">overwrite 
+        all</emphasis> the properties in the hibernate.cfg.xml.  Instead of updating the hibernate.cfg.xml to 
+        point to your DB, the hibernate.properties can be used to handle jbpm upgrades conveniently: 
+        The hibernate.cfg.xml can then be copied without having to reapply the changes.
+      </para>
+    </section>
+    
+    <section id="configuringac3poconnectionpool">
+      <title>Configuring a c3po connection pool</title>
+      <para>Please refer to the hibernate documentation: 
+        <ulink url="http://www.hibernate.org/214.html">http://www.hibernate.org/214.html</ulink>
+      </para>
+    </section>
+    
+    <section id="configuringehcache">
+      <title>Configuring a ehcache cache provider</title>
+      <para>If you want to configure jBPM with JBossCache, have a look at <ulink url="http://wiki.jboss.org/wiki/Wiki.jsp?page=JbpmConfiguration">
+      the jBPM configuration wiki page</ulink>
+      </para>
+      <para>For more information about configuring a cache provider in hibernate, take a look at <ulink url="http://www.hibernate.org/hib_docs/reference/en/html/performance.html#performance-cache">
+      the hibernate documentation, section 'Second level cache'</ulink>
+      </para>
+      <para>The <filename>hibernate.cfg.xml</filename> that ships with jBPM includes the following line:
+      </para>
+      <programlisting language="xml">&lt;property name="hibernate.cache.provider_class"&gt;org.hibernate.cache.HashtableCacheProvider&lt;/property&gt;</programlisting>
+      <para>This is done to get people up and running as fast as possible without having to worry about classpaths.
+        Note that hibernate contains a warning that states not to use the HashtableCacheProvider in production.
+      </para>
+      <para>To use ehcache instead of the HashtableCacheProvider, simply remove that line and put ehcache.jar on the 
+      classpath.  Note that you might have to search for the right ehcache library version that is compatible with 
+      your environmment.  Previous incompatibilities between a JBoss version and a particular ehcache version were 
+      the reason to change the default to HashtableCacheProvider.
+      </para>
+    </section>
+    
+  </section>
+
+  <section id="hibernatetransactions">
+    <title>Hibernate transactions</title>
+    <para>By default, jBPM will delegate transaction to hibernate and use the session per transaction 
+      pattern.  jBPM will begin a hibernate transaction when a hibernate session is opened. 
+      This will happen the first time when a persistent operation is invoked on the jbpmContext.
+      The transaction will be committed right before the hibernate session is closed.  That 
+      will happen inside the jbpmContext.close().
+    </para>
+    <para>Use <literal>jbpmContext.setRollbackOnly()</literal> to mark a transaction for rollback.
+      In that case, the transaction will be rolled back right before the session is closed 
+      inside of the jbpmContext.close().
+    </para>
+    <para>To prohibit jBPM from invoking any of the transaction methods on the hibernate 
+      API, set the isTransactionEnabled property to false as explained in <xref linkend="thedbpersistenceservicefactory" />
+      above.
+    </para>
+  </section>
+
+  <section id="jtatransactions">
+    <title>JTA transactions</title>
+    <para>The most common scenario for managed transactions is when using jBPM in a JEE application 
+      server like JBoss.  The most common scenario to bind your transactions to JTA is the following:
+    </para>
+
+    <programlisting language="xml">  &lt;jbpm-context&gt;
+    &lt;service name="persistence"&gt;
+      &lt;factory class="org.jbpm.persistence.jta.JtaDbPersistenceServiceFactory"/&gt;
+    &lt;/service&gt;
+  &lt;/jbpm-context&gt;</programlisting>
+  
+    <para>Afterwards, you should specify in your hibernate session factory to use a datasource and 
+      bind hibernate to the transaction manager.  Make sure that you bind the datasource 
+      to an XA datasource in case you are using more than one resource.  For more information 
+      about binding hibernate to your transaction manager, please, refer to 
+      <ulink url="http://www.hibernate.org/hib_docs/v3/reference/en/html_single/#configuration-optional-transactionstrategy">paragraph 
+      'Transaction strategy configuration' in the hibernate documentation</ulink>.
+    </para>
+
+    <programlisting language="xml">&lt;hibernate-configuration&gt;
+  &lt;session-factory&gt;
+
+    &lt;!-- hibernate dialect --&gt;
+    &lt;property name="hibernate.dialect"&gt;org.hibernate.dialect.HSQLDialect&lt;/property&gt;
+
+    &lt;!-- DataSource properties (begin) --&gt;
+    &lt;property name="hibernate.connection.datasource"&gt;java:/JbpmDS&lt;/property&gt;
+
+    &lt;!-- JTA transaction properties (begin) --&gt;
+    &lt;property name="hibernate.transaction.factory_class"&gt;org.hibernate.transaction.JTATransactionFactory&lt;/property&gt;
+    &lt;property name="hibernate.transaction.manager_lookup_class"&gt;org.hibernate.transaction.JBossTransactionManagerLookup&lt;/property&gt;
+    &lt;property name="jta.UserTransaction"&gt;java:comp/UserTransaction&lt;/property&gt;
+
+  &lt;/session-factory&gt;
+&lt;/hibernate-configuration&gt;</programlisting>
+
+    <para>Then make sure that you have configured hibernate to use an XA datasource.
+    </para>
+    
+    <para>These configurations allow for the enterprise beans to use CMT and still allow the 
+    web console to use BMT.   That is why the property 'jta.UserTransaction' is also specified.
+    Note that 'java:comp/UserTransaction' is the value used if 'jta.UserTransaction' is absent.
+    </para>
+
+  </section>
+
+  <section id="customizingqueries">
+    <title>Customizing queries</title>
+    <para>All the HQL queries that jBPM uses are centralized in one configuration file.
+      That resource file is referenced in the hibernate.cfg.xml configuration file
+      like this:
+    </para>
+      <programlisting language="xml">&lt;hibernate-configuration&gt;
+    &lt;!-- hql queries and type defs --&gt;
+    &lt;mapping resource="org/jbpm/db/hibernate.queries.hbm.xml" /&gt;
+&lt;/hibernate-configuration&gt;</programlisting>
+    <para>To customize one or more of those queries, take a copy of the original file 
+      and put your customized version somewhere on the classpath.  Then update the 
+      reference 'org/jbpm/db/hibernate.queries.hbm.xml' in the hibernate.cfg.xml to point to your 
+      customized version.
+    </para>
+  </section>
+  
+  <section id="databasecompatibility">
+    <title>Database compatibility</title>
+    
+    <para>jBPM runs on any database that is supported by hibernate.
+    </para>
+
+    <para>The example configuration files in jBPM (<literal>src/config.files</literal>) specify
+      the use of the hypersonic in-memory database.  That database is ideal during development and 
+      for testing.  The hypersonic in-memory database keeps all its data in memory and doesn't 
+      store it on disk.
+    </para>
+    
+    <section id="isolationlevelofthejdbcconnection">
+      <title>Isolation level of the JDBC connection</title>
+      <para>Make sure that the database isolation level that you configure for your 
+      JDBC connection is at least READ_COMMITTED.
+      </para>
+      <para>Almost all features run OK even with READ_UNCOMMITTED (isolation level 0
+      and the only isolation level supported by HSQLDB).  But race conditions might occur in the 
+      job executor and with synchronizing multiple tokens.
+      </para>
+    </section>
+
+    <section id="changingthejbpmdb">
+      <title>Changing the jBPM DB</title>
+      <para>Following is an indicative list of things to do when changing jBPM to 
+        use a different database:
+      </para>
+      <itemizedlist>
+        <listitem><para>put the jdbc-driver library archive in the classpath</para>
+        </listitem>
+        <listitem><para>update the hibernate configuration used by jBPM</para>
+        </listitem>
+        <listitem><para>create the schema in the new database</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section id="thejbpmdbschema">
+      <title>The jBPM DB schema</title>
+      <para>The jbpm.db subproject, contains a number of drivers, instructions and 
+        scripts to help you getting started on your database of choice.  Please, 
+        refer to the readme.html in the root of the jbpm.db project for more 
+        information.
+      </para>
+      <para>While jBPM is capable of generating DDL scripts for all database, these 
+        schemas are not always optimized.  So you might want to have your DBA review 
+        the DDL that is generated to optimize the column types and use of indexes.
+      </para>
+      <para>In development you might be interested in the following hibernate configuration:
+        If you set hibernate configuration property 'hibernate.hbm2ddl.auto' to 'create-drop' 
+        (e.g. in the hibernate.cfg.xml), the schema will be automatically created in the 
+        database the first time it is used in an application.  When the application closes 
+        down, the schema will be dropped.
+      </para>
+      <para>The schema generation can also be invoked programmatically with 
+        <literal>jbpmConfiguration.createSchema()</literal> and 
+        <literal>jbpmConfiguration.dropSchema()</literal>.
+      </para>
+    </section>
+    
+  </section>
+  
+  <section id="customhibernateclasses">
+    <title>Combining your hibernate classes</title>
+    
+    <para>In your project, you might use hibernate for your persistence.  Combining your 
+      persistent classes with the jBPM persistent classes is optional.  There are two major 
+      benefits when combining your hibernate persistence with jBPM's hibernate persistence:
+    </para>
+    
+    <para>First, session, connection and transaction management become easier.  By combining 
+      jBPM and your persistence into one hibernate session factory, 
+      there is one hibernate session, one jdbc connection that handles both yours and 
+      jBPM's persistence.  So automatically the jBPM updates are in the same transaction 
+      as the updates to your own domain model.  This can eliminates the need for using 
+      a transaction manager.
+    </para>
+    
+    <para>Secondly, this enable you to drop your Hibernate persistent object in to the 
+      process variables without any further hassle.
+    </para>
+
+    <para>The easiest way
+      to integrate your persistent classes with the jBPM persistent classes is by 
+      creating one central hibernate.cfg.xml.  You can take the jBPM 
+      <literal>hibernate.cfg.xml</literal> as a starting point and 
+      add references to your own hibernate mapping files in there.
+    </para>
+  </section>
+
+  <section id="customizingmappings">
+    <title>Customizing the jBPM hibernate mapping files</title>
+    <para>To customize any of the jBPM hibernate mapping files, you can proceed as 
+      follows:
+    </para>
+    <itemizedlist>
+      <listitem><para>copy the jBPM hibernate mapping file(s) you want to copy from the 
+        sources (<literal>src/jbpm-jpdl-sources.jar</literal>)</para>
+      </listitem>
+      <listitem>
+        <para>put the copy anywhere you want on the classpath, but make sure it is not 
+        the exact same location as they were before</para>
+      </listitem>
+      <listitem>
+        <para>update the references to the customized mapping files in the hibernate.cfg.xml 
+        configuration file</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+
+  <section id="secondlevelcache">
+    <title>Second level cache</title>
+    <para>jBPM uses Hibernate's second level cache for keeping the process definitions 
+      in memory after loading them once.  The process definition classes and collections
+      are configured in the jBPM hibernate mapping files with the cache element like this:
+    </para>
+    <programlisting language="xml">&lt;cache usage="nonstrict-read-write"/&gt;</programlisting>
+    <para>Since process definitions (should) never change, it is ok to keep them in the 
+      second level cache.  See also <xref linkend="changingdeployedprocessdefinitions" />.
+    </para>
+    <para>The second level cache is an important aspect of the JBoss jBPM implementation.
+      If it weren't for this cache, JBoss jBPM could have a serious drawback in comparison 
+      to the other techniques to implement a BPM engine.
+    </para>
+    <para>The default caching strategy is set to <literal>nonstrict-read-write</literal>.  During 
+    runtime execution of processes, the process definitions are static.  This way,
+    we get the maximum caching during runtime execution of processes.  In theory, 
+    caching strategy <literal>read-only</literal> would be even better for runtime 
+    execution.  But in that case, deploying new process definitions would not be 
+    possible as that operation is not read-only.
+    </para>
+  </section>
+  
+</chapter>

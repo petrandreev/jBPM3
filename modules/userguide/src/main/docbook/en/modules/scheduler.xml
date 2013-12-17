@@ -1,0 +1,64 @@
+<chapter id="scheduler">
+  <title>Scheduler</title>
+  <para>This chapter describes how to work with timers in jBPM.</para>
+  
+  <para>Upon events in the process, timers can be created.  When a timer 
+  expires, an action can be executed or a transition can be taken.</para>
+  
+  <section id="timers">
+    <title>Timers</title>
+  
+    <para>The easiest way to specify a timer is by adding a timer element 
+    to the node.</para>
+  
+    <programlisting language="xml">&lt;state name='catch crooks'&gt;
+  &lt;timer name='reminder' 
+         duedate='3 business hours' 
+         repeat='10 business minutes'
+         transition='time-out-transition' &gt;
+    &lt;action class='the-remainder-action-class-name' /&gt;
+  &lt;/timer&gt;
+  &lt;transition name='time-out-transition' to='...' /&gt;
+&lt;/state&gt;</programlisting>
+
+    <para>A timer that is specified on a node, is not executed after the node 
+    is left.  Both the transition and the action are optional.  When a timer 
+    is executed, the following events occur in sequence : </para>
+    
+    <itemizedlist>
+      <listitem><para>an event is fired of type <literal>timer</literal></para></listitem>
+      <listitem><para>if an action is specified, the action is executed.</para></listitem>
+      <listitem><para>if a transition is specified, a signal will be sent to resume execution 
+      over the given transition.</para></listitem>
+    </itemizedlist>
+    
+    <para>Every timer must have a unique name.  If no name is specified in the 
+    <literal>timer</literal> element, the name of the node is taken as the name 
+    of the timer.</para>
+    
+    <para>The timer action can be any supported action element like e.g. 
+    <literal>action</literal> or <literal>script</literal>.</para>
+
+    <para>Timers are created and canceled by actions.  The 2 action-elements are 
+    <literal>create-timer</literal> and <literal>cancel-timer</literal>. Actually, the 
+    timer element shown above is just a short notation for a create-timer action 
+    on <literal>node-enter</literal> and a cancel-timer action on 
+    <literal>node-leave</literal>.</para>
+    
+  </section>
+  
+  <section id="schedulerdeployment">
+    <title>Scheduler deployment</title>
+    
+    <para>Process executions create and cancel timers.  The timers are stored in 
+    a timer store.  A separate timer runner must check the timer store and execute 
+    the timers when they are due.</para>
+
+    <figure id="scheduler.overview.image">
+      <title>Scheduler components overview</title>
+      <mediaobject><imageobject><imagedata align="center" fileref="images/scheduler.overview.gif"/></imageobject></mediaobject>
+    </figure>
+    
+  </section>
+    
+</chapter>

@@ -1,0 +1,23 @@
+    <!-- 
+       System Service QA Database Sybase
+       https://wiki.corp.jboss.com/bin/view/IT/SystemServiceQaDatabaseSybase
+
+       Install Sybase ASE 15.0.2 on Fedora
+       https://www.jboss.org/community/docs/DOC-12932
+
+       jBPM 3.3 on Sybase ASE 15
+       http://www.jboss.org/community/docs/DOC-12936
+    -->
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.SybaseDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <property name="hibernate.connection.driver_class">${jdbc.sybase.driver}</property>
+    <property name="hibernate.connection.url">${jdbc.sybase.url}</property>
+    <property name="hibernate.connection.username">${jdbc.sybase.username}</property>
+    <property name="hibernate.connection.password">${jdbc.sybase.password}</property>
+    <!-- JDBC connection properties (end) -->
+
+    <!-- jConnect does not support retrieving natively generated keys after insert -->
+    <property name="hibernate.jdbc.use_get_generated_keys">false</property>

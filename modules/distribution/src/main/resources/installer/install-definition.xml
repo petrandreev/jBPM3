@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<installation version="1.0">
+  <!-- 
+    Ant properties in this file can be referenced with @{},
+    otherwise use variables below in installer files with ${} 
+  -->
+  <info>
+    <appname>@{product.name}</appname>
+    <appversion>@{product.version}</appversion>
+    <uninstaller name="remove.task" write="yes" />
+  </info>
+  <guiprefs width="600" height="440" resizable="yes">
+    <!--
+    <laf name="kunststoff">
+      <os family="unix" />
+    </laf>
+    -->
+  </guiprefs>
+  <locale>
+    <langpack iso3="eng" />
+  </locale>
+
+  <!-- It is necessary to include everything needed, in this case ant self -->
+  <jar src="@{deploy.artifacts.dir}/lib/ant.jar" stage="both" />
+  <jar src="@{deploy.artifacts.dir}/lib/ant-launcher.jar" stage="both" />
+
+  <!-- Setup the Ant Action Listener -->  
+  <listeners>
+    <listener installer="AntActionInstallerListener" />
+  </listeners>
+
+  <!-- Resources -->
+  <resources>
+    <res id="AntActionsSpec.xml" src="@{filtered.resources.dir}/ant-actions-spec.xml" />
+    <res id="userInputSpec.xml" src="@{filtered.resources.dir}/user-input-spec.xml" />
+    <res id="TargetPanel.dir" src="@{filtered.resources.dir}/target-panel-dir.txt" />
+  </resources>
+
+  <!-- Variables -->
+  <variables>
+    <variable name="jboss422.home" value="@{jboss422.home}" />
+    <variable name="jboss423.home" value="@{jboss423.home}" />
+    <variable name="jboss500.home" value="@{jboss500.home}" />
+  </variables>
+
+  <!-- Dynamic Variables -->
+  <dynamicvariables>
+    <variable name="jboss.home" value="${jboss422.home}" condition="isJBoss422" />
+    <variable name="jboss.home" value="${jboss423.home}" condition="isJBoss423" />
+    <variable name="jboss.home" value="${jboss500.home}" condition="isJBoss500" />
+  </dynamicvariables>
+
+  <!-- Conditions -->
+  <conditions>
+    <!-- Target Server Conditions -->
+    <condition type="variable" id="isJBoss422">
+      <name>jbossSelection</name>
+      <value>jboss422</value>
+    </condition>
+    <condition type="variable" id="isJBoss423">
+      <name>jbossSelection</name>
+      <value>jboss423</value>
+    </condition>
+    <condition type="variable" id="isJBoss500">
+      <name>jbossSelection</name>
+      <value>jboss500</value>
+    </condition>
+    
+    <!-- Target Database Conditions -->
+    <condition type="variable" id="isHypersonic">
+      <name>dbSelection</name>
+      <value>hsqldb</value>
+    </condition>
+    <condition type="variable" id="isMySQL">
+      <name>dbSelection</name>
+      <value>mysql</value>
+    </condition>
+    <condition type="variable" id="isPostgreSQL">
+      <name>dbSelection</name>
+      <value>postgresql</value>
+    </condition>
+    <condition type="variable" id="isSybase">
+      <name>dbSelection</name>
+      <value>sybase</value>
+    </condition>
+  </conditions>
+
+  <!-- Panels -->
+  <panels>
+    <panel classname="HelloPanel" />
+    <panel classname="TargetPanel" />
+    <panel classname="TreePacksPanel" />
+    <panel classname="UserInputPanel" />
+    <panel classname="UserInputPanel" />
+    <panel classname="UserInputPanel" />
+    <panel classname="SummaryPanel" />
+    <panel classname="InstallPanel" />
+    <panel classname="FinishPanel" />
+  </panels>
+
+  <!-- Packs -->
+  <packs>
+  
+    <!-- 
+    ********************************
+    *                              *  
+    *   jBPM Standalone            *
+    *                              *
+    ********************************
+    -->
+    
+    <pack name="jBPM3 Standalone" required="yes" preselected="yes">
+      <description>The jBPM3 Standalone Components</description>
+
+      <!-- jbpm3/ -->
+      <file src="@{deploy.artifacts.dir}/etc/release.notes.html" targetdir="$INSTALL_PATH" override="true" />
+      <file src="@{deploy.artifacts.dir}/etc/JBossORG-EULA.txt" targetdir="$INSTALL_PATH" override="true" />
+
+      <!-- 
+        jbpm3/config 
+      -->
+      <file src="@{deploy.artifacts.dir}/lib/jbpm-jpdl-config.jar" targetdir="$INSTALL_PATH/config"
+        unpack="true" override="true" />
+      <file src="@{deploy.artifacts.dir}/etc/version.info.xml" targetdir="$INSTALL_PATH/config"
+        override="true" />
+
+      <!-- 
+        jbpm3/database 
+      -->
+      <file src="@{deploy.artifacts.dir}/lib/jbpm-db.jar" targetdir="$INSTALL_PATH/database"
+        unpack="true" override="true" />
+
+      <!-- 
+        jbpm3/designer 
+      -->
+      <fileset dir="@{deploy.artifacts.dir}/lib" targetdir="$INSTALL_PATH/designer" override="true">
+        <include name="jbpm-jpdl-designer-site.zip" />
+      </fileset>
+      <file src="@{deploy.artifacts.dir}/etc/version.info.xml" targetdir="$INSTALL_PATH/src/resources/gpd"
+        override="true" />
+
+      <!-- 
+        jbpm3/examples
+      -->
+      <file src="@{deploy.artifacts.dir}/lib/jbpm-examples-examples.jar" targetdir="$INSTALL_PATH/examples" unpack="true" override="true"/>
+
+      <!-- 
+        jbpm3/docs 
+      -->
+      <file src="@{deploy.artifacts.dir}/lib/jbpm-userguide.jdocbook" targetdir="$INSTALL_PATH/docs/userguide"  unpack="true" override="true" />
+      <fileset dir="@{deploy.artifacts.dir}/javadoc" targetdir="$INSTALL_PATH/docs" override="true"/>
+
+      <!-- 
+        jbpm3/lib 
+      -->
+      <fileset dir="@{deploy.artifacts.dir}/lib" targetdir="$INSTALL_PATH/lib" override="true">
+        <include name="activation.jar" />
+        <include name="antlr.jar" />
+        <include name="asm.jar" />
+        <include name="bsh.jar" />
+        <include name="cglib.jar" />
+        <include name="commons-collections.jar" />
+        <include name="commons-logging.jar" />
+        <include name="dom4j.jar" />
+        <include name="hibernate.jar" />
+        <include name="hsqldb.jar" />
+        <include name="jbpm-enterprise-bundle.ear" />
+        <include name="jbpm-jpdl.jar" />
+        <include name="jbpm-identity.jar" />
+        <include name="junit.jar" />
+        <include name="jsf-console.war" />
+        <include name="log4j.jar" />
+      </fileset>
+
+      <!-- 
+        jbpm3/src - Must be called 'src' because the GPD has a dependency on it
+      -->
+      <fileset dir="@{deploy.artifacts.dir}/src" targetdir="$INSTALL_PATH/src" override="true">
+        <include name="jsf-console-sources.jar" />
+        <include name="jbpm-jpdl-sources.jar" />
+        <include name="jbpm-enterprise-sources.jar" />
+        <include name="jbpm-identity-sources.jar" />
+      </fileset>
+    </pack>
+
+    <!-- 
+    ********************************
+    *                              *  
+    *   JBoss Integration          *
+    *                              *
+    ********************************
+    -->
+    
+    <pack name="jBPM3 JBoss Integration" required="no" preselected="yes">
+    
+      <description>The jBPM3 JBoss Integration</description>
+
+      <!-- jbpm/jbpm-service.sar -->
+      <fileset dir="@{deploy.artifacts.dir}/resources/jbpm-enterprise-config" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-service.sar" override="true">
+        <include name="jbpm.cfg.xml" />
+        <include name="hibernate.extra.hbm.xml" />
+      </fileset>
+      <fileset dir="@{deploy.artifacts.dir}/lib" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-service.sar" override="true">
+        <include name="jbpm-jpdl.jar" />
+        <include name="jbpm-identity.jar" />
+      </fileset>
+      <file src="@{deploy.artifacts.dir}/lib/jbpm-identity-service.zip" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-service.sar"
+        unpack="true" override="true" />
+
+      <!-- jbpm/jbpm-enterprise.jar -->
+      <file src="@{deploy.artifacts.dir}/lib/jbpm-enterprise.jar" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-enterprise.jar"
+        unpack="true" override="true" />
+
+      <!-- jbpm-destinations-service -->
+      <file src="@{resources.dir}/destination/jbpm-destinations-service.xml" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm" />
+      
+      <!-- Database configs to docs/examples/jbpm -->
+      <fileset dir="@{deploy.artifacts.dir}/resources/jbpm-jpdl-config" targetdir="${jbossInstallPath}/docs/examples/jbpm" override="true">
+        <include name="hibernate.cfg.hsqldb.xml"/>
+        <include name="hibernate.cfg.mysql.xml"/>
+        <include name="hibernate.cfg.postgresql.xml"/>
+        <include name="hibernate.cfg.sybase.xml"/>
+        <include name="jbpm-hsqldb-ds.xml"/>
+        <include name="jbpm-mysql-ds.xml"/>
+        <include name="jbpm-postgresql-ds.xml"/>
+        <include name="jbpm-sybase-ds.xml"/>
+      </fileset>
+      
+      <!-- Database Hypsersonic -->
+      <file src="@{deploy.artifacts.dir}/resources/jbpm-jpdl-config/jbpm-hsqldb-ds.xml" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm" condition="isHypersonic"/>
+      <singlefile src="@{deploy.artifacts.dir}/resources/jbpm-jpdl-config/hibernate.cfg.hsqldb.xml" condition="isHypersonic" 
+        target="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-service.sar/hibernate.cfg.xml" />
+      <fileset dir="@{resources.dir}/database" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/data" condition="isHypersonic">
+        <include name="hypersonic/jbpmDB.*" />
+      </fileset>
+        
+      <!-- Database MySQL -->
+      <file src="@{deploy.artifacts.dir}/resources/jbpm-jpdl-config/jbpm-mysql-ds.xml" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm" condition="isMySQL"/>
+      <singlefile src="@{deploy.artifacts.dir}/resources/jbpm-jpdl-config/hibernate.cfg.mysql.xml" condition="isMySQL" 
+        target="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-service.sar/hibernate.cfg.xml" />
+      <fileset dir="@{deploy.artifacts.dir}/lib" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-service.sar" override="true" condition="isMySQL">
+        <include name="mysql-connector-java.jar" />
+      </fileset>
+        
+      <!-- Database PostgreSQL -->
+      <file src="@{deploy.artifacts.dir}/resources/jbpm-jpdl-config/jbpm-postgresql-ds.xml" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm"  condition="isPostgreSQL"/>
+      <singlefile src="@{deploy.artifacts.dir}/resources/jbpm-jpdl-config/hibernate.cfg.postgresql.xml" condition="isPostgreSQL" 
+        target="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-service.sar/hibernate.cfg.xml" />
+      <fileset dir="@{deploy.artifacts.dir}/lib" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-service.sar" override="true" condition="isPostgreSQL">
+        <include name="postgresql.jar" />
+      </fileset>
+        
+      <!-- Database Sybase -->
+      <file src="@{deploy.artifacts.dir}/resources/jbpm-jpdl-config/jbpm-sybase-ds.xml" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm" condition="isSybase"/>
+      <singlefile src="@{deploy.artifacts.dir}/resources/jbpm-jpdl-config/hibernate.cfg.sybase.xml" condition="isSybase" 
+        target="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-service.sar/hibernate.cfg.xml" />
+      <fileset dir="@{deploy.artifacts.dir}/lib" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jbpm-service.sar" override="true" condition="isSybase">
+        <include name="jtds.jar" />
+      </fileset>
+    </pack>
+
+    <!-- 
+    ********************************
+    *                              *  
+    *   JSF Console                *
+    *                              *
+    ********************************
+    -->
+    <pack name="JSF-Console" parent="jBPM3 JBoss Integration" required="no" preselected="yes">
+      <description>JSF-Console</description>
+      
+      <!-- jbpm/jsf-console.war -->
+      <file src="@{deploy.artifacts.dir}/lib/jsf-console.war" targetdir="${jbossInstallPath}/server/${jbossTargetServer}/deploy/jbpm/jsf-console.war"
+        unpack="true" override="true" />
+        
+    </pack>
+    
+    <!-- 
+    ********************************
+    *                              *  
+    *   Optional Components        *
+    *                              *
+    ********************************
+    -->
+    
+    <pack name="Optional Components" required="no" preselected="no">
+      <description>Optional jBPM3 Components</description>
+    </pack>
+
+    <!-- JBoss-5.0.0 -->
+    <pack name="Download JBoss-5.0.0" required="no" parent="Optional Components" preselected="no">
+      <description>Download and Install JBoss-5.0.0</description>
+      <!-- http://jira.codehaus.org/browse/IZPACK-158 -->
+      <file src="@{resources.dir}/installer/download-helper.xml" targetdir="$INSTALL_PATH/Uninstaller"/>
+    </pack>
+
+    <!-- Eclipse-3.4.0 -->
+    <pack name="Download Eclipse-3.4.0" required="no" parent="Optional Components" preselected="no">
+      <description>Download and Install Eclipse-3.4.0</description>
+      <!-- http://jira.codehaus.org/browse/IZPACK-158 -->
+      <file src="@{resources.dir}/installer/download-helper.xml" targetdir="$INSTALL_PATH/Uninstaller"/>
+    </pack>
+
+  </packs>
+</installation>

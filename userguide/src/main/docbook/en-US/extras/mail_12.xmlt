@@ -1,5 +1,0 @@
-<jbpm-configuration>
-    <bean name='jbpm.mail.address.resolver' 
-        class='org.jbpm.identity.mail.IdentityAddressResolver' 
-        singleton='true' />
-</jbpm-configuration>

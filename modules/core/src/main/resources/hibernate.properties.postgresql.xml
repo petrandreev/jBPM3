@@ -1,0 +1,17 @@
+    <!-- 
+       System Service QA Database PostgreSQL
+       https://wiki.corp.jboss.com/bin/view/IT/SystemServiceQaDatabasePostgresql
+
+       Install PostgreSQL on Fedora
+       http://www.jboss.org/community/docs/DOC-13270
+    -->
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">${jdbc.postgresql.url}</property>
+    <property name="hibernate.connection.username">${jdbc.postgresql.username}</property>
+    <property name="hibernate.connection.password">${jdbc.postgresql.password}</property>
+    <!-- JDBC connection properties (end) -->

@@ -1,0 +1,262 @@
+<chapter id="mail">
+  <title>Email support</title>
+  
+  <para>This chapter describes the out-of-the-box email support in jBPM jPDL.
+  </para> 
+
+  <section id="mailinjpdl">
+    <title>Mail in jPDL</title>
+    
+    <para>There are four ways of specifying when emails should be sent from a process.
+    </para>
+
+    <section id="mailaction">
+      <title>Mail action</title>
+      <para>A mail action can be used when the sending of this email should not
+      be shown as a node in the process graph.
+      </para>
+      <para>Anywhere you are allowed to specify actions in the process, you can specify a mail action 
+      like this:
+      </para>
+      <programlisting language="xml">&lt;mail actors="#{president}" subject="readmylips" text="nomoretaxes" /&gt;</programlisting>
+      <para>The subject and text attributes can also be specified as an element like this:</para>
+      <programlisting language="xml">&lt;mail actors="#{president}" &gt;
+  &lt;subject&gt;readmylips&lt;/subject&gt;
+  &lt;text&gt;nomoretaxes&lt;/text&gt;
+&lt;/mail&gt;
+      </programlisting>
+      <para>Each of the fields can contain JSF like expressions.  For example:
+      </para>
+      <programlisting language="xml">&lt;mail to='#{initiator}' subject='websale' text='your websale of #{quantity} #{item} was approved' /&gt;</programlisting>
+      <para>For more information about expressions, see <xref linkend="expressions" />.
+      </para>
+      <para>There are two attribute to specify recipients: <literal>actors</literal> and 
+      <literal>to</literal>.  The <literal>to</literal> attribute should resolve to a semicolon
+      separated list of email addresses.  The <literal>actors</literal> attribute should resolve to a 
+      semicolon separated list of actorIds. Those actorIds will be resolved to email addresses with by 
+      means of address resolving<footnote><para><xref linkend="addressresolving"/>.</para></footnote>.
+      </para>
+      <programlisting language="xml">&lt;mail to='admin@mycompany.com' subject='urgent' text='the mailserver is down :-)' /&gt;</programlisting>
+      <para>For more about how to specify recipients, see <xref linkend="specifyingmailrecipients" /></para>
+      <para>Mails can be defined in templates and in the process you can overwrite properties of the 
+      templates like this:
+      </para>
+      <programlisting language="xml">&lt;mail template='sillystatement' actors="#{president}" /&gt;</programlisting>
+      <para>More about templates can be found in <xref linkend="mailtemplates" /></para>
+    </section>
+    
+    <section id="mailnode">
+      <title>Mail node</title>
+      <para>Just the same as with mail actions, sending of an email can also be modeled as a node.
+        In that case, the runtime behavior is just the same, but the email will show up as a node 
+        in the process graph.
+      </para>
+      <para>The attributes and elements supported by mail nodes are exactly the same as with 
+      the mail actions<footnote><para><xref linkend="mailaction"/>.</para></footnote>.
+      </para>
+      <programlisting language="xml">&lt;mail-node name="send email" to="#{president}" subject="readmylips" text="nomoretaxes"&gt;
+  &lt;transition to="the next node" /&gt;
+&lt;/mail-node&gt;</programlisting>
+      <para>Mail nodes should have exactly one leaving transition.</para>
+    </section>
+    
+    <section id="taskassignmails">
+      <title>Task assign mails</title>
+      <para>A notification email can be send when a task gets assigned to an actor.  Just use 
+      the <literal>notify="yes"</literal> attribute on a task like this:
+      </para>
+      <programlisting language="xml">&lt;task-node name='a'&gt;
+  &lt;task name='laundry' swimlane="grandma" notify='yes' /&gt;
+  &lt;transition to='b' /&gt;
+&lt;/task-node&gt;
+</programlisting>
+      <para>Setting notify to yes, true or on will cause jBPM to send an email to 
+      the actor that will be assigned to this task.  The email is based on a template (see 
+      <xref linkend="mailtemplates" />) and contains a link to the task page of the web application.
+      </para>
+    </section>
+  
+    <section id="taskremindermails">
+      <title>Task reminder mails</title>
+      <para>Similarly as with assignments, emails can be sent as a task reminder. The <literal>reminder</literal> 
+      element in jPDL is based upon the timer.  The most common attributes will be the <literal>duedate</literal> 
+      and the <literal>repeat</literal>. The only difference is that no action has to be specified.
+      </para>
+      <programlisting language="xml">&lt;task-node name='a'&gt;
+  &lt;task name='laundry' swimlane="grandma" notify='yes'&gt;
+    &lt;reminder duedate="2 business days" repeat="2 business hours"/&gt;
+  &lt;/task&gt;
+  &lt;transition to='b' /&gt;
+&lt;/task-node&gt;
+</programlisting>
+    </section>
+  </section>
+  
+  <section id="expressionsinmails">
+    <title>Expressions in mails</title>
+    <para>The fields <literal>to</literal>, <literal>recipients</literal>, <literal>subject</literal>
+    and <literal>text</literal> can contain JSF-like expressions.  For more information about expressions, 
+    see <xref linkend="expressions" />
+    </para>
+    <para>The variables in the expressions can be : swimlanes, process variables, transient variables 
+    beans configured in the jbpm.cfg.xml, ...
+    </para>
+    <para>These expressions can be combined with the address resolving<footnote><para><xref linkend="addressresolving"/>.</para></footnote> 
+    that is explained later in this chapter.  For example, suppose that you have a swimlane called president in 
+    your process, then look at the following mail specification:
+    </para>
+    <programlisting language="xml">&lt;mail actors="#{president}" subject="readmylips" text="nomoretaxes" /&gt;</programlisting>
+    <para>That will send an email to to the person that acts as the president for that particular process 
+    execution.
+    </para>
+  </section>
+  
+  <section id="specifyingmailrecipients">
+    <title>Specifying mail recipients</title>
+    <section id="multiplerecipients">
+      <title>Multiple recipients</title>
+      <para>In the <literal>actors</literal> and <literal>to</literal> fields, multiple recipients 
+      can be separated with a semi colon (;) or a colon (:).</para>
+    </section>
+    <section id="BCC">
+      <title>Sending Mails to a BCC target</title>
+      <para>Sometimes you want to send emails to a BCC target in addition to the normal receipient.
+      Currently, there are two supported ways of doing that: First you can specify an <literal>bccActors</literal> 
+      or <literal>bcc</literal> attribute (according to <literal>actors</literal> and <literal>to</literal>) in the process definition.
+      <programlisting>&lt;mail to='#{initiator}' bcc='bcc@mycompany.com' subject='websale' text='your websale of #{quantity} #{item} was approved' /&gt;</programlisting>
+      
+      
+      The second way is to always send an BCC Mail to some location you can configure in the central configuration (jbpm.cfg.xml) in a property:
+          <programlisting>&lt;jbpm-configuration&gt;
+  ...
+  <emphasis role="bold">&lt;string name="jbpm.mail.bcc.address" value="bcc@mycompany.com" /&gt;</emphasis>
+&lt;/jbpm-configuration&gt;</programlisting>
+      </para>
+    </section>
+    <section id="addressresolving">
+      <title>Address resolving</title>
+      <para>In all of jBPM, actors are referenced by actorId's.  This is a string that serves as the identifier 
+      of the process participant.   An address resolver translates actorId's into email addresses.
+      </para>
+      <para>Use the attribute actors in case you want to apply address resolving 
+      and use the attribute to in case you are specifying email addresses 
+      directly and don't want to apply address resolving.
+      </para>
+      <para>An address resolver should implement the following interface:
+      </para>
+      <programlisting language="java">public interface AddressResolver extends Serializable {
+  Object resolveAddress(String actorId);
+}</programlisting>
+      <para>An address resolver should return 1 of 3 types: a String, a Collection of Strings or an array
+      of Strings.  All strings should represent email addresses for the given actorId.
+      </para>
+      <para>The address resolver implementation should be a bean configured in the jbpm.cfg.xml with 
+      name <literal>jbpm.mail.address.resolver</literal> like this:
+      </para>
+      <programlisting language="xml">&lt;jbpm-configuration&gt;
+  &lt;bean name='jbpm.mail.address.resolver' class='org.jbpm.identity.mail.IdentityAddressResolver' singleton='true' /&gt;
+&lt;/jbpm-configuration&gt;
+      </programlisting>
+      <para>The identity component of jBPM includes an address resolver.  That address resolver 
+      will look for the User of the given actorId.  If the user exists, the user's email is returned,
+      otherwise null.  More on the identity component can be found in <xref linkend="theidentitycomponent" />.
+      </para>
+    </section>
+  </section>
+  
+  <section id="mailtemplates">
+    <title>Mail templates</title>
+    <para>Instead of specifying mails in the processdefinition.xml, mails can be specified in a template 
+    file.  When a template is used, each of the fields can still be overwritten in the processdefinition.xml.
+    The mail templates should be specified in an XML file like this:
+    </para>
+    <programlisting language="xml">
+&lt;mail-templates&gt;
+
+  &lt;variable name="BaseTaskListURL" value="http://localhost:8080/jbpm/task?id=" /&gt;
+
+  &lt;mail-template name='task-assign'&gt;
+    &lt;actors&gt;#{taskInstance.actorId}&lt;/actors&gt;
+    &lt;subject&gt;Task '#{taskInstance.name}'&lt;/subject&gt;
+    &lt;text&gt;&lt;![CDATA[Hi,
+Task '#{taskInstance.name}' has been assigned to you.
+Go for it: #{BaseTaskListURL}#{taskInstance.id}
+Thanks.
+---powered by JBoss jBPM---]]&gt;&lt;/text&gt;
+  &lt;/mail-template&gt;
+
+  &lt;mail-template name='task-reminder'&gt;
+    &lt;actors&gt;#{taskInstance.actorId}&lt;/actors&gt;
+    &lt;subject&gt;Task '#{taskInstance.name}' !&lt;/subject&gt;
+    &lt;text&gt;&lt;![CDATA[Hey,
+Don't forget about #{BaseTaskListURL}#{taskInstance.id} 
+Get going !
+---powered by JBoss jBPM---]]&gt;&lt;/text&gt;
+  &lt;/mail-template&gt;
+
+&lt;/mail-templates&gt;    
+    </programlisting>
+    <para>As you can see in this example (BaseTaskListURL), extra variables can be defined in 
+    the mail templates that will be available in the expressions.
+    </para>
+    <para>The resource that contains the templates should be configured in the jbpm.cfg.xml
+    like this:
+    </para>
+    <programlisting language="xml">&lt;jbpm-configuration&gt;
+  &lt;string name="resource.mail.templates" value="jbpm.mail.templates.xml" /&gt;
+&lt;/jbpm-configuration&gt;</programlisting>
+  </section>
+
+  <section id="mailserverconfiguration">
+    <title>Mail server configuration</title>
+    <para>The simplest way to configure the mail server is with the configuration property 
+    <literal>jbpm.mail.smtp.host</literal> in the jbpm.cfg.xml like this:
+    </para>
+    <programlisting language="xml">&lt;jbpm-configuration&gt;
+  &lt;string name="jbpm.mail.smtp.host" value="localhost" /&gt;
+&lt;/jbpm-configuration&gt;</programlisting>
+    <para>Alternatively, when more properties need to be specified, a resource reference to 
+    a properties file can be given with the key '' like this:
+    </para>
+    <programlisting language="xml">&lt;jbpm-configuration&gt;
+  &lt;string name='resource.mail.properties' value='jbpm.mail.properties' /&gt;
+&lt;/jbpm-configuration&gt;</programlisting>
+    
+  </section>
+
+  <section id="fromaddressconfiguration">
+    <title>From address configuration</title>
+    <para>The default value for the From address used in jPDL mails is <literal>jbpm@noreply</literal>.  
+    The from address of mails can be configured in the jBPM configuration file jbpm.xfg.xml with 
+    key 'jbpm.mail.from.address' like this:
+    </para>
+    <programlisting language="xml">&lt;jbpm-configuration&gt;
+  &lt;string name='jbpm.mail.from.address' value='jbpm@yourcompany.com' /&gt;
+&lt;/jbpm-configuration&gt;</programlisting>
+  </section>
+  
+  <section id="customizingmailsupport">
+    <title>Customizing mail support</title>
+    <para>All the mail support in jBPM is centralized in one class: <literal>org.jbpm.mail.Mail</literal>
+    This is an ActionHandler implementation.  Whenever an mail is specified in the process xml, this will 
+    result in a delegation to the mail class.  It is possible to inherit from the Mail class and customize 
+    certain behavior for your particular needs.  To configure your class to be used for mail delegations, 
+    specify a 'jbpm.mail.class.name' configuration string in the jbpm.cfg.xml like this:
+    </para>
+    <programlisting language="xml">&lt;jbpm-configuration&gt;
+  &lt;string name='jbpm.mail.class.name' value='com.your.specific.CustomMail' /&gt;
+&lt;/jbpm-configuration&gt;</programlisting>
+    <para>The customized mail class will be read during parsing and actions will be configured in the 
+    process that reference the configured (or the default) mail classname.  So if you change the 
+    property, all the processes that were already deployed will still refer to the old mail class name.
+    But they can be easily updated with one simple update statement to the jbpm database.</para>
+  </section>
+  
+  <section id="mailserver">
+    <title>Mail server</title>
+    <para>If you need a mail server that is easy to install, check out <ulink url="http://buni.org/">Meldware</ulink>
+    or <ulink url="http://james.apache.org/">Apache James</ulink>
+    </para>
+  </section>
+
+</chapter>

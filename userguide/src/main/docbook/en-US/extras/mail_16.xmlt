@@ -1,3 +1,0 @@
-<jbpm-configuration>
-   <string name='resource.mail.properties' value='jbpm.mail.properties' />
-</jbpm-configuration>

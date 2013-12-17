@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.2" name="jbpm-1903">
+
+  <start-state name="start-state1">
+    <transition to="node1" />
+  </start-state>
+
+  <node name="node1">
+    <action class="org.jbpm.enterprise.jbpm1903.ENCAction" />
+    <transition to="end-state1" />
+  </node>
+
+  <end-state name="end-state1" />
+
+</process-definition>

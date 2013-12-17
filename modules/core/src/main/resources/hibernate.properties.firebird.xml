@@ -1,0 +1,12 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.FirebirdDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <!-- fetch driver from http://firebird.sourceforge.net/ -->
+    <property name="hibernate.connection.driver_class">org.firebirdsql.jdbc.FBDriver</property>
+    <property name="hibernate.connection.url">jdbc:firebirdsql:localhost:jbpmtest</property>
+    <property name="hibernate.connection.username"></property>
+    <property name="hibernate.connection.password"></property>
+    <!-- JDBC connection properties (end) -->
+

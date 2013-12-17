@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="urn:jbpm.org:jpdl-3.2" name="ForkJoinExample3">
+ <start-state name="start">
+  <transition to="fork1"></transition>
+ </start-state>
+ <fork name="fork1">
+  <transition to="Prepare shipping" name="to Prepare shipping"></transition>
+  <transition to="Review Order" name="to Review Order"></transition>
+ </fork>
+
+ <task-node name="Review Order">
+  <task name="Do review order">
+   <assignment pooled-actors="sales"></assignment>
+  </task>
+  <transition to="join1" name="done with review order"></transition>
+ </task-node>
+
+ <task-node name="Prepare shipping">
+  <task name="Do prepare shipping">
+   <assignment pooled-actors="sales,hr"></assignment>
+  </task>
+  <transition to="join1" name="done with prepare shipping"></transition>
+ </task-node>
+
+ <join name="join1">
+  <transition to="Review results"></transition>
+ </join>
+
+ <task-node name="Review results">
+  <task name="Review previous steps">
+   <assignment pooled-actors="user"></assignment>
+  </task>
+  <transition to="Wrap up" name="review ok"></transition>
+ </task-node>
+
+ <task-node name="Wrap up">
+  <task name="Wrap up">
+   <assignment actor-id="fred"></assignment>
+  </task>
+  <transition to="end" name="finish this one"></transition>
+ </task-node>
+
+ <end-state name="end"></end-state>
+</process-definition>

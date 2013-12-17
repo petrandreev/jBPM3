@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="businesscalendar">
+  <title>Business calendar</title>
+
+  <para>This chapter describes the business calendar of jBPM. The business
+  calendar knows about business hours and is used in calculation of due dates
+  for tasks and timers.</para>
+
+  <para>The business calendar is able to calculate a due date by adding a
+  duration to or subtracting it from a base date. If the base date is omitted,
+  the 'current' date is used.</para>
+
+  <section id="duedate">
+    <title>Duedate</title>
+
+    <para>As mentioned the due date is composed of a duration and a base date.
+    If this base date is omitted, the duration is relative to the date (and
+    time) at the moment of calculating the duedate. The format is:</para>
+
+    <para><literal>duedate ::= [&lt;basedate&gt; +/-]
+    &lt;duration&gt;</literal></para>
+
+    <section id="duration">
+      <title>Duration</title>
+
+      <para>A duration is specified in absolute or in business hours. Let's
+      look at the syntax:</para>
+
+      <para><literal>duration ::= &lt;quantity&gt; [business]
+      &lt;unit&gt;</literal></para>
+
+      <para>Where <literal>&lt;quantity&gt;</literal> is a piece of text that
+      is parsable with Double.parseDouble(quantity).
+      <literal>&lt;unit&gt;</literal> is one of {second, seconds, minute,
+      minutes, hour, hours, day, days, week, weeks, month, months, year,
+      years}. And adding the optional indication <literal>business</literal>
+      means that only business hours should be taken into account for this
+      duration. Without the indication <literal>business</literal>, the
+      duration will be interpreted as an absolute time period.</para>
+    </section>
+
+    <section id="baseDate">
+      <title>Base date</title>
+
+      <para>A duration is specified in absolute or in business hours. Let's
+      look at the syntax:</para>
+
+      <para><literal>basedate ::= &lt;EL&gt;</literal></para>
+
+      <para>Where <literal>&lt;EL&gt;</literal> is any JAVA Expression
+      Language expression that resolves to a JAVA Date or Calendar object.
+      Referencing variable of other object types, even a String in a date
+      format like '2036-02-12', will throw a JbpmException</para>
+
+      <para>NOTE: This basedate is supported on the duedate attributes of a
+      plain timer, on the reminder of a task and the timer within a task. It
+      is <emphasis role="bold">not</emphasis> supported on the repeat
+      attributes of these elements.</para>
+    </section>
+
+    <section id="duedateExamples">
+      <title>Examples</title>
+
+      <para>The following examples of the usage are all possible</para>
+
+      <programlisting language="xml">&lt;timer name="daysBeforeHoliday" duedate="5 business days"&gt;...&lt;/timer&gt;
+
+&lt;timer name="pensionDate" duedate="#{dateOfBirth} + 65 years" &gt;...&lt;/timer&gt;
+
+&lt;timer name="pensionReminder" duedate="#{dateOfPension} - 1 year" &gt;...&lt;/timer&gt;
+
+&lt;timer name="fireWorks" duedate="#{chineseNewYear} repeat="1 year" &gt;...&lt;/timer&gt;
+
+&lt;reminder name="hitBoss" duedate="#{payRaiseDay} + 3 days" repeat="1 week" /&gt;
+</programlisting>
+    </section>
+  </section>
+
+  <section id="calendarconfiguration">
+    <title>Calendar configuration</title>
+
+    <para>The file
+    <literal>org/jbpm/calendar/jbpm.business.calendar.properties</literal>
+    specifies what business hours are. The configuration file can be
+    customized and a modified copy can be placed in the root of the
+    classpath.</para>
+
+    <para>This is the example business hour specification that is shipped by
+    default in <literal>jbpm.business.calendar.properties</literal>:</para>
+
+    <programlisting>hour.format=HH:mm
+#weekday ::= [&lt;daypart&gt; [&amp; &lt;daypart&gt;]*]
+#daypart ::= &lt;start-hour&gt;-&lt;to-hour&gt;
+#start-hour and to-hour must be in the hour.format
+#dayparts have to be ordered
+weekday.monday=    9:00-12:00 &amp; 12:30-17:00
+weekday.tuesday=   9:00-12:00 &amp; 12:30-17:00
+weekday.wednesday= 9:00-12:00 &amp; 12:30-17:00
+weekday.thursday=  9:00-12:00 &amp; 12:30-17:00
+weekday.friday=    9:00-12:00 &amp; 12:30-17:00
+weekday.saturday=
+weekday.sunday=
+
+day.format=dd/MM/yyyy
+# holiday syntax: &lt;holiday&gt;
+# holiday period syntax: &lt;start-day&gt;-&lt;end-day&gt;
+# below are the belgian official holidays
+holiday.1=  01/01/2005 # nieuwjaar
+holiday.2=  27/3/2005  # pasen 
+holiday.3=  28/3/2005  # paasmaandag 
+holiday.4=  1/5/2005   # feest van de arbeid
+holiday.5=  5/5/2005   # hemelvaart 
+holiday.6=  15/5/2005  # pinksteren 
+holiday.7=  16/5/2005  # pinkstermaandag 
+holiday.8=  21/7/2005  # my birthday 
+holiday.9=  15/8/2005  # moederkesdag 
+holiday.10= 1/11/2005  # allerheiligen 
+holiday.11= 11/11/2005 # wapenstilstand 
+holiday.12= 25/12/2005 # kerstmis 
+
+business.day.expressed.in.hours=             8
+business.week.expressed.in.hours=           40
+business.month.expressed.in.business.days=  21
+business.year.expressed.in.business.days=  220</programlisting>
+  </section>
+</chapter>

@@ -1,0 +1,269 @@
+<chapter id="context">
+  <title>Context</title>
+
+  <para>Context is about process variables. Process variables are
+  key-value pairs that maintain information related to the process instance.
+  Since the context must be storable in a database, some minor limitations
+  apply.</para>
+  
+  <section id="accessingvariables">
+    <title>Accessing variables</title>
+  
+    <para>org.jbpm.context.exe.ContextInstance serves as the central 
+    interface to work with process variables. You can obtain the 
+    ContextInstance from a ProcessInstance like this : </para>
+
+<programlisting language="java">ProcessInstance processInstance = ...;
+ContextInstance contextInstance = (ContextInstance) processInstance.getInstance(ContextInstance.class);</programlisting>
+
+    <para>The most basic operations are</para>
+
+<programlisting language="java">void ContextInstance.setVariable(String variableName, Object value);
+void ContextInstance.setVariable(String variableName, Object value, Token token);
+Object ContextInstance.getVariable(String variableName);
+Object ContextInstance.getVariable(String variableName, Token token);</programlisting>
+      
+    <para>The variable names are java.lang.String.  By default, jBPM supports the following 
+      value types: 
+    </para>
+  
+    <para>
+      <itemizedlist>
+        <listitem><para><literal>java.lang.String</literal></para></listitem>
+        <listitem><para><literal>java.lang.Boolean</literal></para></listitem>
+        <listitem><para><literal>java.lang.Character</literal></para></listitem>
+        <listitem><para><literal>java.lang.Float</literal></para></listitem>
+        <listitem><para><literal>java.lang.Double</literal></para></listitem>
+        <listitem><para><literal>java.lang.Long</literal></para></listitem>
+        <listitem><para><literal>java.lang.Byte</literal></para></listitem>
+        <listitem><para><literal>java.lang.Short</literal></para></listitem>
+        <listitem><para><literal>java.lang.Integer</literal></para></listitem>
+        <listitem><para><literal>java.util.Date</literal></para></listitem>
+        <listitem><para><literal>byte[]</literal></para></listitem>
+        <listitem><para><literal>java.io.Serializable</literal></para></listitem>
+        <listitem><para><literal>classes that are able to be persisted with hibernate</literal></para></listitem>
+      </itemizedlist>
+    </para>
+    
+    <para>Also an untyped null value can be stored persistently.
+    </para>
+      
+    <para>All other types can be stored in the process variables without any problem.  But 
+      it will cause an exception when you try to save the process instance.
+    </para>
+
+    <para>To configure jBPM for storing hibernate persistent objects in the variables,
+      see Storing hibernate persistent objects. 
+    </para>
+  </section>
+ 
+  <section id="variablelifetime">
+    <title>Variable lifetime</title>
+    
+    <para>Variables do not have to be declared in the process archive.  At runtime, you 
+    can just put any java object in the variables.  If that variable was not present, it will 
+    be created.  Just the same as with a plain <literal>java.util.Map</literal>.</para>
+   
+    <para>Variables can be deleted with</para>
+
+<programlisting language="java">ContextInstance.deleteVariable(String variableName);
+ContextInstance.deleteVariable(String variableName, Token token);</programlisting>
+      
+    <para>Automatic changing of types is now supported.  This means that it is allowed to 
+        overwrite a variable with a value of a different type.  Of course, you should try to 
+        limit the number of type changes since this creates a more db communication then a 
+        plain update of a column.
+      </para>
+  </section>
+  
+  <section id="variablepersistence">
+    <title>Variable persistence</title>
+    <para>The variables are a part of the process instance.  Saving the process instance 
+    in the database, brings the database in sync with the process instance.  The variables 
+    are created, updated and deleted from the database as a result of saving (=updating) 
+    the process instance in the database.  For more information, see 
+    <xref linkend="persistence" />.
+    </para>
+  </section>
+    
+  <section id="variablescopes">
+    <title>Variables scopes</title>
+    <para>Each path of execution (read: token) has its own set of process variables.  
+    Requesting a variable is always done on a token.  Process instances have a tree 
+    of tokens.
+    When requesting a variable without specifying a token, the default token is the 
+    root token.  
+    </para>
+    
+    <para>The variable lookup is done recursively over the parents of the given 
+    token.  The behavior is similar to the scoping of variables in programming 
+    languages.
+    </para>
+  
+    <para>When a non-existing variable is set on a token, the variable is created 
+    on the root-token.  This means that each variable has by default process 
+    scope.  To make a variable token-local, you have to create it explicitly
+    with:</para>
+
+<programlisting language="java">ContextInstance.createVariable(String name, Object value, Token token);</programlisting>
+      
+    <section id="variableoverloading">
+      <title>Variables overloading</title>
+      <para>Variable overloading means that each path of execution can have its
+      own copy of a variable with the same name.  They are treated independently
+      and hence can be of different types.  Variable overloading can be 
+      interesting if you launch multiple concurrent paths of execution over 
+      the same transition.  Then the only thing that distinguishes those paths
+      of executions are their respective set of variables.</para>
+    </section>
+  
+    <section id="variableoverriding">
+      <title>Variables overriding</title>
+      <para>Variable overriding means that variables of nested paths of execution
+      override variables in more global paths of execution.  Generally, nested paths 
+      of execution relate to concurrency : the paths of execution between a fork and 
+      a join are children (nested) of the path of execution that arrived in the 
+      fork. For example, if you have a variable 'contact' in the process instance 
+      scope, you can override this variable in the nested paths of execution 'shipping' 
+      and 'billing'.</para>
+    </section>
+
+    <section id="taskinstancevariablescope">
+      <title>Task instance variable scope</title>
+      <para>For more info on task instance variables, see <xref linkend="taskinstancevariables" />.
+      </para>
+    </section>
+  </section>
+  
+  <section id="transientvariables">
+    <title>Transient variables</title>
+  
+    <para>When a process instance is persisted in the database, normal variables 
+    are also persisted as part of the process instance.  In some situations 
+    you might want to use a variable in a delegation class, but you don't want 
+    to store it in the database.  An example could be a database connection that 
+    you want to pass from outside of jBPM to a delegation class.  This can be 
+    done with transient variables.
+    </para>
+    
+    <para>The lifetime of transient variables is the same as the ProcessInstance 
+    java object.</para>
+  
+    <para>Because of their nature, transient variables are not related to a token.
+    So there is only one map of transient variables for a process instance object.</para>
+    
+    <para>The transient variables are accessible with their own set of methods
+    in the context instance, and don't need to be declared in the 
+    processdefinition.xml</para>
+      
+<programlisting language="java">Object ContextInstance.getTransientVariable(String name);
+void ContextInstance.setTransientVariable(String name, Object value);</programlisting>      
+
+  </section>
+  
+  <section id="customizingvariablepersistence">
+    <title>Customizing variable persistence</title>
+  
+    <para>Variables are stored in the database in a 2-step approach :</para>
+    
+    <!-- TODO: this should be a figure -->
+    <programlisting>user-java-object &lt;---&gt; converter &lt;---&gt; variable instance</programlisting>
+
+    <para>Variables are stored in <literal>VariableInstance</literal>s.
+    The members of <literal>VariableInstance</literal>s are mapped to fields 
+    in the database with hibernate.  In the default configuration of jBPM,
+    6 types of VariableInstances are used:</para>      
+    
+    <itemizedlist>
+      <listitem><para><literal>DateInstance</literal> (with one java.lang.Date 
+      field that is mapped to a <literal>Types.TIMESTAMP</literal> in the 
+      database)</para></listitem>
+
+      <listitem><para><literal>DoubleInstance</literal> (with one java.lang.Double 
+      field that is mapped to a <literal>Types.DOUBLE</literal> in the 
+      database)</para></listitem>
+
+      <listitem><para><literal>StringInstance</literal> (with one java.lang.String 
+      field that is mapped to a <literal>Types.VARCHAR</literal> in the 
+      database)</para></listitem>
+      
+      <listitem><para><literal>LongInstance</literal> (with one java.lang.Long
+      field that is mapped to a <literal>Types.BIGINT</literal> in the 
+      database)</para></listitem>
+      
+      <listitem><para><literal>HibernateLongInstance</literal> (this is used for 
+      hibernatable types with a long id field. One java.lang.Object field is mapped 
+      as a reference to a hibernate entity in the database)</para></listitem>
+
+      <listitem><para><literal>HibernateStringInstance</literal> (this is used for 
+      hibernatable types with a string id field. One java.lang.Object field is mapped 
+      as a reference to a hibernate entity in the database)</para></listitem>
+    </itemizedlist>
+    
+    <para><literal>Converter</literal>s convert between java-user-objects
+    and the java objects that can be stored by the 
+    <literal>VariableInstance</literal>s.  So when a process variable is set
+    with e.g. <literal>ContextInstance.setVariable(String variableName, Object value)</literal>,
+    the value will optionally be converted with a converter.  Then the converted 
+    object will be stored in a <literal>VariableInstance</literal>.  
+    <literal>Converter</literal>s are implementations of the following 
+    interface: </para>
+      
+<programlisting language="java">public interface Converter extends Serializable {
+  boolean supports(Object value);
+  Object convert(Object o);
+  Object revert(Object o);
+}</programlisting>
+      
+    <para>Converters are optional.  Converters must be available to 
+    the jBPM class loader. See <xref linkend="thejbpmclassloader"/></para>
+    
+    <para>The way that user-java-objects are converted and stored in 
+    variable instances is configured in the file 
+    <literal>org/jbpm/context/exe/jbpm.varmapping.properties</literal>.
+    To customize this property file, put a modified version in the root of 
+    the classpath, as explained in <xref linkend="configurationfiles"/>
+    Each line of the properties file specifies 2 or 3 class-names separated by spaces : 
+    the class name of the user-java-object, optionally the class name of the converter 
+    and the class name of the variable instance.  When you refer your custom converters,
+    make sure they are in the jBPM class path (see <xref linkend="thejbpmclassloader"/>).
+    When you refer to your custom variable instances, they also have to be in
+    the the jBPM class path and the hibernate 
+    mapping file for <literal>org/jbpm/context/exe/VariableInstance.hbm.xml</literal> 
+    has to be updated to include the custom subclass of VariableInstance.
+    </para>
+    
+    <para>For example, take a look at the following xml snippet in the file 
+    <literal>org/jbpm/context/exe/jbpm.varmapping.xml</literal>.</para>
+      
+<programlisting language="xml">    &lt;jbpm-type&gt;
+      &lt;matcher&gt;
+        &lt;bean class="org.jbpm.context.exe.matcher.ClassNameMatcher"&gt;
+          &lt;field name="className"&gt;&lt;string value="java.lang.Boolean" /&gt;&lt;/field&gt;
+        &lt;/bean&gt;
+      &lt;/matcher&gt;
+      &lt;converter class="org.jbpm.context.exe.converter.BooleanToStringConverter" /&gt;
+      &lt;variable-instance class="org.jbpm.context.exe.variableinstance.StringInstance" /&gt;
+    &lt;/jbpm-type&gt;</programlisting>
+
+    <para>This snippet specifies that all objects of type <literal>java.lang.Boolean</literal> have 
+    to be converted with the converter <literal>BooleanToStringConverter</literal> and 
+    that the resulting object (a String) will be stored in a variable instance object 
+    of type StringInstance.</para>
+    
+    <para>If no converter is specified as in</para>
+
+<programlisting language="xml">    &lt;jbpm-type&gt;
+      &lt;matcher&gt;
+        &lt;bean class="org.jbpm.context.exe.matcher.ClassNameMatcher"&gt;
+          &lt;field name="className"&gt;&lt;string value="java.lang.Long" /&gt;&lt;/field&gt;
+        &lt;/bean&gt;
+      &lt;/matcher&gt;
+      &lt;variable-instance class="org.jbpm.context.exe.variableinstance.LongInstance" /&gt;
+    &lt;/jbpm-type&gt;</programlisting>
+
+    <para>that means that the Long objects that are put in the variables are just stored 
+    in a variable instance of type LongInstance without being converted.</para>
+  </section>
+
+</chapter>

@@ -1,6 +1,0 @@
-<task-node name='a'>
-    <task name='laundry' swimlane="grandma" notify='yes'>
-        <reminder duedate="2 business days" repeat="2 business hours"/>
-    </task>
-    <transition to='b' />
-</task-node>

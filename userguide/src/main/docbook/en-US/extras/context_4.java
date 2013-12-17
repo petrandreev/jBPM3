@@ -1,1 +1,0 @@
-ContextInstance.createVariable(String name, Object value, Token token);

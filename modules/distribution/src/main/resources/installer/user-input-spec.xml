@@ -1,0 +1,34 @@
+<userInput>
+  <panel order="0">
+    <createForPack name="jBPM3 JBoss Integration" />
+    <field type="radio" variable="jbossSelection">
+      <description align="left" txt="Please choose your target server" />
+      <spec>
+        <choice txt="JBoss-5.0.0" value="jboss500" set="true"/>
+        <choice txt="JBoss-4.2.3" value="jboss423"/>
+        <choice txt="JBoss-4.2.2" value="jboss422"/>
+      </spec>
+    </field>
+    <field type="text" variable="jbossTargetServer">
+      <spec txt="Server:" size="15" set="default" />
+    </field>
+  </panel>
+  <panel order="1">
+    <createForPack name="jBPM3 JBoss Integration" />
+    <field type="radio" variable="dbSelection">
+      <description align="left" txt="Please choose your target database" />
+      <spec>
+        <choice txt="Hypersonic" value="hsqldb"/>
+        <choice txt="MySQL" value="mysql" set="true"/>
+        <choice txt="PostgreSQL" value="postgresql"/>
+        <choice txt="Sybase" value="sybase"/>
+      </spec>
+    </field>
+  </panel>
+  <panel order="2">
+    <createForPack name="jBPM3 JBoss Integration" />
+    <field type="dir" align="left" variable="jbossInstallPath">
+      <spec txt="JBoss Home:" size="25" set="${jboss.home}" />
+    </field>
+  </panel>
+</userInput>

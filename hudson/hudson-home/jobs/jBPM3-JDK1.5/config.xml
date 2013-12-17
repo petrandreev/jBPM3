@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions class="vector" />
+  <description>Build and test @version.id@ on JDK1.5</description>
+  <logRotator>
+    <daysToKeep>60</daysToKeep>
+    <numToKeep>-1</numToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>CONTAINER</name>
+          <optional>false</optional>
+          <defaultValue>jboss422</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>DATABASE</name>
+          <optional>false</optional>
+          <defaultValue>hsqldb</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <hudson.security.AuthorizationMatrixProperty />
+  </properties>
+  <scm class="hudson.scm.SubversionSCM">
+    <locations>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>@hudson.jbpm.url@</remote>
+        <local>jbpm</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+    </locations>
+    <useUpdate>true</useUpdate>
+    <browser class="hudson.scm.browsers.FishEyeSVN">
+      <url>http://fisheye.jboss.com/browse/JbpmSvn/</url>
+      <rootModule></rootModule>
+    </browser>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <jdk>jdk1.5</jdk>
+  <triggers class="vector" />
+  <builders>
+    <hudson.tasks.Shell>
+      <command> 
+WORKSPACE=`pwd`
+JBPMDIR=$WORKSPACE/jbpm
+
+export JBPM_VERSION=@version.id@
+export JBOSS_SERVER=@jboss.server.instance@
+export JBOSS_BINDADDR=@jboss.bind.address@
+
+# copy the maven profile
+cp @hudson.maven.profile@ $JBPMDIR/profiles.xml
+
+#
+# call command.sh 
+#
+/bin/sh $JBPMDIR/hudson/hudson-home/command.sh
+      </command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.tasks.junit.JUnitResultArchiver>
+      <testResults>jbpm/modules/**/target/surefire-reports/TEST-*.xml</testResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
+    <hudson.tasks.Mailer>
+      <recipients></recipients>
+      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>true</sendToIndividuals>
+    </hudson.tasks.Mailer>
+  </publishers>
+  <buildWrappers />
+</project>

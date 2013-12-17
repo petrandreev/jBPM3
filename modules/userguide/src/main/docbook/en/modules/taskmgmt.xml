@@ -1,0 +1,618 @@
+<chapter id="taskmanagement">
+
+  <title>Task management</title>
+  <para>The core business of jBPM is the ability to persist the execution 
+  of a process.  A situation in which this feature is extremely useful is 
+  the management of tasks and task-lists for people.   jBPM allows to 
+  specify a piece of software describing an overall process which 
+  can have wait states for human tasks.</para>
+  
+  <section id="tasks">
+    <title>Tasks</title>
+    
+    <para>Tasks are part of the process definition and they define how 
+    task instances must be created and assigned during process 
+    executions.</para>
+    <para>Tasks can be defined in <literal>task-node</literal>s and in the 
+    <literal>process-definition</literal>.  The most common way is to define 
+    one or more <literal>task</literal>s in a <literal>task-node</literal>.
+    In that case the <literal>task-node</literal> represents a task to be 
+    done by the user and the process execution should wait until the actor 
+    completes the task.  When the actor completes the task, process execution 
+    should continue.  When more tasks are specified in a 
+    <literal>task-node</literal>, the default behavior is to wait for all the 
+    tasks to complete.
+    </para>
+    
+    <para>Tasks can also be specified on the <literal>process-definition</literal>.
+    Tasks specified on the process definition can be looked up by name and 
+    referenced from within <literal>task-node</literal>s or used from 
+    inside actions. In fact, all tasks (also in task-nodes) that are given a 
+    name can be looked up by name in the process-definition.
+    </para>
+    
+    <para>Task names must be unique in the whole process definition. Tasks 
+    can be given a <literal>priority</literal>.  This priority will be used 
+    as the initial priority for each task instance that is created for this task.  
+    TaskInstances can change this initial priority afterward.</para>
+  </section>
+
+  <section id="taskinstances">
+    <title>Task instances</title>
+    
+    <para>A task instance can be assigned to an actorId (java.lang.String).  All task instances
+    are stored in one table of the database (JBPM_TASKINSTANCE).  By querying this table for 
+    all task instances for a given actorId, you get the task list for that particular user.
+    </para>
+    
+    <para>The jBPM task list mechanism can combine jBPM tasks with other tasks, even when those
+    tasks are unrelated to a process execution.  That way jBPM developers can easily combine 
+    jBPM-process-tasks with tasks of other applications in one centralized task-list-repository.
+    </para>
+    
+    <section id="taskinstancelifecycle">
+      <title>Task instance life-cycle</title>
+      <para>The task instance life-cycle is straightforward: After creation, task instances can optionally 
+      be started.  Then, task instances can be ended, which means that the task instance is marked as 
+      completed.</para>
+      <para>Note that for flexibility, assignment is not part of the life cycle.  So task instances 
+      can be assigned or not assigned.  Task instance assignment does not have an influence on the 
+      task instance life cycle.</para>
+      <para>Task instances are typically created by the process execution entering a 
+      <literal>task-node</literal> (with the method <literal>TaskMgmtInstance.createTaskInstance(...)</literal>).
+      Then, a user interface component will query the database for the task lists using the 
+      <literal>TaskMgmtSession.findTaskInstancesByActorId(...)</literal>. Then, after collecting input 
+      from the user, the UI component calls <literal>TaskInstance.assign(String)</literal>, 
+      <literal>TaskInstance.start()</literal> or <literal>TaskInstance.end(...)</literal>.
+      </para>
+      <para>A task instance maintains its state by means of date-properties : <literal>create</literal>, 
+      <literal>start</literal> and <literal>end</literal>.  Those properties can be accessed by 
+      their respective getters on the <literal>TaskInstance</literal>.</para>
+      <para>Currently, completed task instances are marked with an end date so that they are not 
+      fetched with subsequent queries for tasks lists.  But they remain in the JBPM_TASKINSTANCE 
+      table.</para>
+    </section>
+    
+    <section id="taskinstancesandgraphexecution">
+      <title>Task instances and graph execution</title>
+      <para>Task instances are the items in an actor's task list.  Task instances 
+      can be signalling.  A signalling task instance is a task instance that, when 
+      completed, can send a signal to its token to continue the process execution.  
+      Task instances can be blocking, meaning that the related token (=path of 
+      execution) is not allowed to leave the task-node before the task instance is 
+      completed.  By default task instances are signalling and non-blocking.
+      </para>
+    
+      <para>In case more than one task instance are associated with a task-node,
+      the process developer can specify how completion of the task instances affects
+      continuation of the process.  Following is the list of values that can be 
+      given to the signal-property of a task-node.</para>
+      
+      <itemizedlist>
+        <listitem><para><emphasis role="bold">last</emphasis>: This is the default.  Proceeds execution when the last task instance is completed. When no tasks are created on entrance of this node, execution is continued.</para></listitem>
+        <listitem><para><emphasis role="bold">last-wait</emphasis>:                  Proceeds execution when the last task instance is completed. When no tasks are created on entrance of this node, execution waits in the task node until tasks are created.</para></listitem>
+        <listitem><para><emphasis role="bold">first</emphasis>:                      Proceeds execution when the first task instance is completed. When no tasks are created on entrance of this node, execution is continued.</para></listitem>
+        <listitem><para><emphasis role="bold">first-wait</emphasis>:                 Proceeds execution when the first task instance is completed. When no tasks are created on entrance of this node, execution waits in the task node until tasks are created.</para></listitem>
+        <listitem><para><emphasis role="bold">unsynchronized</emphasis>: Execution always continues, regardless whether tasks are created or still unfinished.</para></listitem>
+        <listitem><para><emphasis role="bold">never</emphasis>: Execution never continues, regardless whether tasks are created or still unfinished.</para></listitem>
+      </itemizedlist>
+    
+      <para>Task instance creation might be based upon a runtime calculation.  In that case, add an 
+      <literal>ActionHandler</literal> on the <literal>node-enter</literal> event of the <literal>task-node</literal> and 
+      set the attribute <literal>create-tasks="false"</literal>.  Here is an example of such an action handler implementation:
+      </para>
+    
+      <programlisting language="java">public class CreateTasks implements ActionHandler {
+  public void execute(ExecutionContext executionContext) throws Exception {
+    Token token = executionContext.getToken();
+    TaskMgmtInstance tmi = executionContext.getTaskMgmtInstance();
+      
+    TaskNode taskNode = (TaskNode) executionContext.getNode();
+    Task changeNappy = taskNode.getTask("change nappy");
+
+    // now, 2 task instances are created for the same task.
+    tmi.createTaskInstance(changeNappy, token);
+    tmi.createTaskInstance(changeNappy, token);
+  }
+}</programlisting>
+
+      <para>As shown in the example the tasks to be created can be specified 
+      in the task-node.  They could also be specified in the 
+      <literal>process-definition</literal> and fetched from the 
+      <literal>TaskMgmtDefinition</literal>.  <literal>TaskMgmtDefinition</literal> extends 
+      the ProcessDefinition with task management information.</para>
+    
+      <para>The API method for marking task instances as completed is 
+      <literal>TaskInstance.end()</literal>.  Optionally, you can specify a transition 
+      in the end method.   In case the completion of this task instance triggers 
+      continuation of the execution, the task-node is left over the specified 
+      transition.</para>
+    
+    </section>
+    
+  </section>
+
+  <section id="assignment">
+    <title>Assignment</title>
+
+    <para>A process definition contains task nodes.  A <literal>task-node</literal> 
+    contains zero or more tasks.  Tasks are a static description as part of the process 
+    definition.  At runtime, tasks result in the creation of task instances.  A task 
+    instance corresponds to one entry in a person's task list.</para>
+    
+    <para>With jBPM, push (personal task list)<footnote><para><xref linkend="thepersonaltasklist"/>.</para></footnote> and 
+    pull (group task list)<footnote><para><xref linkend="thegrouptasklist"/>.</para></footnote> model (see below) of 
+    task assignment can be applied in combination.  
+    The process can calculate the responsible for a task and push it in his/her task list.
+    Or alternatively, a task can be assigned to a pool of actors, in which case 
+    each of the actors in the pool can pull the task and put it in the actor's 
+    personal task list.
+    </para>
+    
+    <section id="assignmentinterfaces">
+      <title>Assignment interfaces</title>
+      <para>Assigning task instances is done via the interface 
+      <literal>AssignmentHandler</literal>:</para>
+    
+      <programlisting language="java">public interface AssignmentHandler extends Serializable {
+  void assign( Assignable assignable, ExecutionContext executionContext );
+}</programlisting>
+
+      <para>An assignment handler implementation is called when a task instance is 
+      created.  At that time, the task instance can be assigned to one or more actors.  
+      The <literal>AssignmentHandler</literal> implementation should 
+      call the <literal>Assignable</literal> methods (<literal>setActorId</literal> or 
+      <literal>setPooledActors</literal>) to assign a task.  The <literal>Assignable</literal> is either 
+      a <literal>TaskInstance</literal> or a <literal>SwimlaneInstance</literal> (=process role).
+      </para>
+    
+      <programlisting language="java">public interface Assignable {
+  public void setActorId(String actorId);
+  public void setPooledActors(String[] pooledActors);
+}</programlisting>
+
+      <para>Both <literal>TaskInstance</literal>s
+      and <literal>SwimlaneInstance</literal>s can be assigned to a specific user or to a pool 
+      of actors.  To assign a TaskInstance to a user, call 
+      <literal>Assignable.setActorId(String actorId)</literal>. To assign a TaskInstance to a pool
+      of candidate actors, call <literal>Assignable.setPooledActors(String[] actorIds)</literal>.
+      </para>
+      <para>Each task in the process definition can be associated with an assignment
+      handler implementation to perform the assignment at runtime.</para>
+      <para>When more than one task in a process should be assigned to the same person 
+      or group of actors, consider the usage of a swimlane<footnote><para><xref linkend="swimlanes"/>.</para></footnote></para>
+      <para>To allow for the creation of reusable <literal>AssignmentHandler</literal>s,
+      each usage of an <literal>AssignmentHandler</literal> can be configured in 
+      the <literal>processdefinition.xml</literal>.  See <xref linkend="delegation" /> 
+      for more information on how to add configuration to assignment handlers.</para>
+    </section>
+    
+    <section id="theassignmentdatamodel">
+      <title>The assignment data model</title>
+      <para>The data model for managing assignments of task instances and swimlane instances to 
+      actors is the following.  Each <literal>TaskInstance</literal> has an actorId
+      and a set of pooled actors.</para>
+      
+      <figure id="assignment.model.image">
+        <title>The assignment model class diagram</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/assignment.model.gif"/></imageobject></mediaobject>
+      </figure>
+
+      <para>The actorId is the responsible for the task, while the 
+      set of pooled actors represents a collection of candidates that can become responsible 
+      if they would take the task.  Both actorId and pooledActors are optional and can 
+      also be combined.</para>
+      
+    </section>
+    
+    <section id="thepersonaltasklist">
+      <title>The personal task list</title>
+      <para>The personal task list denotes all the task instances that are assigned to a specific individual.
+      This is indicated with the property <literal>actorId</literal> on a <literal>TaskInstance</literal>.  So 
+      to put a TaskInstance in someone's personal task list, you just use one of the following ways:
+      </para>
+      <itemizedlist>
+        <listitem><para>Specify an expression in the attribute <literal>actor-id</literal> of the task element in the process</para></listitem>
+        <listitem><para>Use TaskInstance.setActorId(String) from anywhere in your code</para></listitem>
+        <listitem><para>Use assignable.setActorId(String) in an AssignmentHandler</para></listitem>
+      </itemizedlist>
+      <para>To fetch the personal task list for a given user, use <literal>TaskMgmtSession.findTaskInstances(String actorId)</literal>.
+      </para>
+    </section>
+    
+    <section id="thegrouptasklist">
+      <title>The group task list</title>
+      <para>The pooled actors denote the candidates for the task instance. This means that the task is offered to many users 
+      and one candidate has to step up and take the task.  Users can not start working on tasks in their group task list 
+      immediately.  That would result in a potential conflict that many people start working on the same task.  To prevent this,
+      users can only take task instances of their group task list and move them into their personal task list.  Users are only 
+      allowed to start working on tasks that are in their personal task list.
+      </para>
+      <para>To put a taskInstance in someone's group task list, you must put the user's actorId or one of the user's 
+      groupIds in the pooledActorIds.  To specify the pooled actors, use one of the following:
+      </para>
+      <itemizedlist>
+        <listitem><para>Specify an expression in the attribute <literal>pooled-actor-ids</literal> of the task element in the process</para></listitem>
+        <listitem><para>Use TaskInstance.setPooledActorIds(String[]) from anywhere in your code</para></listitem>
+        <listitem><para>Use assignable.setPooledActorIds(String[]) in an AssignmentHandler</para></listitem>
+      </itemizedlist>
+      <para>To fetch the group task list for a given user, proceed as follows: Make a collection that includes the user's actorId 
+      and all the ids of groups that the user belongs to. With <literal>TaskMgmtSession.findPooledTaskInstances(String actorId)</literal> or
+      <literal>TaskMgmtSession.findPooledTaskInstances(List actorIds)</literal> you can search for task instances that are not in a personal 
+      task list (actorId==null) and for which there is a match in the pooled actorIds.  
+      </para>
+      <para>The motivation behind this is that we want to separate the identity component from jBPM task assignment. jBPM only stores 
+      Strings as actorIds and doesn't know the relation between the users, groups and other identity information.
+      </para>
+      
+      <para>The actorId will always override the pooled actors.  So a taskInstance that has an actorId and a list of pooledActorIds,
+      will only show up in the actor's personal task list.  Keeping the pooledActorIds around allows a user to put a task instance
+      back into the group by just setting the actorId property of the taskInstance to <literal>null</literal>.
+      </para>
+    </section>
+  </section>
+
+  <section id="taskinstancevariables">
+    <title>Task instance variables</title>
+    <para>A task instance can have its own set of variables and a task instance can 
+      also 'see' the process variables.  Task instances are usually created in an execution 
+      path (=token).  This creates a parent-child relation between the token and the task 
+      instance similar to the parent-child relation between the tokens themselves.  
+      The normal scoping rules apply between the variables of a task instance and the 
+      process variables of the related token.  More info about scoping can be found 
+      in <xref linkend="variablescopes" />.
+    </para>
+    <para>This means that a task instance can 'see' its own variables plus all the variables 
+      of its related token.
+    </para>
+    <para>The controller can be used to create, populate and submit variables between 
+      the task instance scope and the process scoped variables.
+    </para>
+  </section>
+    
+  <section id="taskcontrollers">
+    <title>Task controllers</title>
+    <para>At creation of a task instance, the task controllers can populate the task instance variables 
+      and when the task instance is finished, the task controller can submit the data of the 
+      task instance into the process variables.
+    </para>
+    <para>Note that you are not forced to use task controllers.  Task instances also are able 
+      to 'see' the process variables related to its token.  Use task controllers when you want 
+      to:
+    </para>
+    <itemizedlist>
+      <listitem><para>a) create copies of variables in the task instances so that intermediate updates 
+        to the task instance variables don't affect the process variables until the process 
+        is finished and the copies are submitted back into the process variables.</para>
+      </listitem>
+      <listitem><para>b) the task instance variables do not relate one-on-one with the process variables.
+        E.g. suppose the process has variables 'sales in January' 'sales in February' and 'sales in march'.
+        Then the form for the task instance might need to show the average sales in the 3 months.</para>
+      </listitem>
+    </itemizedlist>
+    <para>Tasks are intended to collect input from users.  But there are many user interfaces
+      which could be used to present the tasks to the users. E.g. a web application, a swing application,
+      an instant messenger, an email form,...  So the task controllers make the bridge between the 
+      process variables (=process context) and the user interface application.  The task controllers 
+      provide a view of process variables to the user interface application.
+    </para>
+    <para>The task controller makes the translation (if any) from the process variables to the 
+      task variables.  When a task instance is created, the task controller is responsible for extracting 
+      information from the process variables and creating the task variables.  The task variables serve 
+      as the input for the user interface form.  And the user input can be stored in the task variables.
+      When the user ends the task, the task controller is responsible for updating the process 
+      variables based on the task instance data.
+    </para>
+    <figure id="task.controllers.image">
+      <title>The task controllers</title>
+      <mediaobject><imageobject><imagedata align="center" fileref="images/task.controllers.jpg"/></imageobject></mediaobject>
+    </figure>
+    <para>In a simple scenario, there is a one-on-one mapping between process variables and the 
+      form parameters.  Task controllers are specified in a task element.  
+      In this case, the default jBPM task controller can be used and it takes a list of 
+      <literal>variable</literal> elements inside.  The variable elements express 
+      how the process variables are copied in the task variables.
+    </para>
+    
+    <para>The next example shows how you can create separate task instance variable copies
+      based on the process variables:
+    </para>
+    
+    <programlisting language="xml">&lt;task name=&quot;clean ceiling&quot;&gt;
+  &lt;controller&gt;
+    &lt;variable name=&quot;a&quot; access=&quot;read&quot; mapped-name=&quot;x&quot; /&gt;
+    &lt;variable name=&quot;b&quot; access=&quot;read,write,required&quot; mapped-name=&quot;y&quot; /&gt;
+    &lt;variable name=&quot;c&quot; access=&quot;read,write&quot; /&gt;
+  &lt;/controller&gt;
+&lt;/task&gt;</programlisting>
+
+    <para>The <literal>name</literal> attribute refers to the name of the process variable.  
+      The <literal>mapped-name</literal> is optional and refers to the name of the task instance 
+      variable.  If the mapped-name attribute is omitted, mapped-name defaults to the name.
+      Note that the mapped-name also is used as the label for the fields in the task instance 
+      form of the web application.
+    </para>
+    
+    <para>
+      The <literal>access</literal> attribute specifies if the variable is copied at task instance
+      creation, will be written back to the process variables at task end and whether it is 
+      required. This information can be used by the user interface to generate the proper
+      form controls.  The access attribute is optional and the default 
+      access is 'read,write'. 
+    </para>
+    
+    <para>A <literal>task-node</literal> can have many tasks and a <literal>start-state</literal> can have 
+      1 task.
+    </para>
+    
+    <para>If the simple one-to-one mapping between process variables and form parameters is too limiting, you 
+      can also write your own TaskControllerHandler implementation.  Here's the TaskControllerHandler interface:
+    </para>
+    
+    <programlisting language="java">public interface TaskControllerHandler extends Serializable {
+  void initializeTaskVariables(TaskInstance taskInstance, ContextInstance contextInstance, Token token);
+  void submitTaskVariables(TaskInstance taskInstance, ContextInstance contextInstance, Token token);
+}</programlisting>
+    
+    <para>And here's how to configure your custom task controller implementation in a task:</para>
+    
+    <programlisting language="xml">&lt;task name=&quot;clean ceiling&quot;&gt;
+  &lt;controller class=&quot;com.yourcom.CleanCeilingTaskControllerHandler&quot;&gt;
+    -- here goes your task controller handler configuration --
+  &lt;/controller&gt;
+&lt;/task&gt;</programlisting>
+  </section>
+
+  <section id="swimlanes">
+    <title>Swimlanes</title>
+    <para>A swimlane is a process role.  It is a mechanism to specify that 
+    multiple tasks in the process should be done by the same actor.  So 
+    after the first task instance is created for a given swimlane, the actor 
+    should be remembered in the process for all subsequent tasks that are in 
+    the same swimlane.  A swimlane therefore has one 
+    <literal>assignment</literal><footnote><para><xref linkend="assignment"/>.</para></footnote>
+    and all tasks that reference a swimlane should not specify an 
+    <literal>assignment</literal><footnote><para><xref linkend="assignment"/>.</para></footnote>. 
+    </para>
+    
+    <para>When the first task in a given swimlane is created, the 
+    <literal>AssignmentHandler</literal> of the swimlane is called.
+    The <literal>Assignable</literal> that is passed to the <literal>AssignmentHandler</literal>
+    will be the <literal>SwimlaneInstance</literal>.  Important to know is that 
+    all assignments that are done on the task instances in a given swimlane will 
+    propagate to the swimlane instance.  This behavior is implemented as the default 
+    because the person that takes a task to fulfilling a certain process role will
+    have the knowledge of that particular process.  So all subsequent assignments 
+    of task instances to that swimlane are done automatically to that user.
+    </para>
+    
+    <para>Swimlane is a terminology borrowed from UML activity diagrams.
+    </para>
+  </section>
+
+  <section id="swimlaneinstarttask">
+    <title>Swimlane in start task</title>
+    <para>A swimlane can be associated with the start task to capture the process 
+    initiator.</para>
+    <para>A task can be specified in a start-state.  That task be associated with a 
+    swimlane.  When a new task instance is created for such a task, the current 
+    authenticated actor will be captured with 
+    Authentication.getAuthenticatedActorId()<footnote><para><xref linkend="authentication"/>.</para></footnote>
+    and that actor will be stored in the swimlane of the start task.
+    </para>
+    <para>For example:</para>
+    <programlisting language="xml">&lt;process-definition&gt;
+  &lt;swimlane name='initiator' /&gt;
+  &lt;start-state&gt;
+    &lt;task swimlane='initiator' /&gt;
+    &lt;transition to='...' /&gt;
+  &lt;/start-state&gt;
+&lt;/process-definition&gt;</programlisting>
+    <para>Also variables can be added to the start task as with any other task to 
+    define the form associated with the task.  See <xref linkend="taskcontrollers"/></para>
+  </section>
+
+  <section id="taskevents">
+    <title>Task events</title>
+    <para>Tasks can have actions associated with them.  There are 4 standard event types defined 
+    for tasks: <literal>task-create</literal>, 
+    <literal>task-assign</literal>, <literal>task-start</literal> and <literal>task-end</literal>.</para>
+    <para><literal>task-create</literal> is fired when a task instance is created.</para>
+    <para><literal>task-assign</literal> is fired when a task instance is being assigned.  
+    Note that in actions that are executed on this event, you can access the previous 
+    actor with <literal>executionContext.getTaskInstance().getPreviousActorId();</literal>
+    </para>
+    <para><literal>task-start</literal> is fired when <literal>TaskInstance.start()</literal>
+    is called.  This can be used to indicate that the user is actually starting to work on this 
+    task instance.  Starting a task is optional.</para>
+    <para><literal>task-end</literal> is fired when <literal>TaskInstance.end(...)</literal>
+    is called.  This marks the completion of the task.  If the task is related to a process 
+    execution, this call might trigger the resuming of the process execution.
+    </para>
+    <para>Since tasks can have events and actions associated with them, also 
+    exception handlers can be specified on a task.  For more information about exception 
+    handling, see <xref linkend="exceptionhandling" />.</para>
+  </section>
+
+  <section id="tasktimers">
+    <title>Task timers</title>
+    <para>As on nodes, timers can be specified on tasks.  See <xref linkend="timers" />.</para>
+    <para>The special thing about timers for tasks is that the <literal>cancel-event</literal>
+    for task timers can be customized.  By default, a timer on a task will be canceled when 
+    the task is ended (=completed).  But with the <literal>cancel-event</literal> attribute
+    on the timer, process developers can customize that to e.g. <literal>task-assign</literal>
+    or <literal>task-start</literal>.  The <literal>cancel-event</literal> supports multiple
+    events.  The <literal>cancel-event</literal> types can be combined by specifying them in a 
+    comma separated list in the attribute.</para>
+  </section>
+
+
+  <section id="customizingtaskinstances">
+    <title>Customizing task instances</title>
+    <para>Task instances can be customized.  The easiest way to do this is
+    to create a subclass of <literal>TaskInstance</literal>.  Then create a 
+    <literal>org.jbpm.taskmgmt.TaskInstanceFactory</literal> implementation and 
+    configure it by setting the configuration property <literal>jbpm.task.instance.factory</literal> 
+    to the fully qualified class name in the jbpm.cfg.xml.  If you use a subclass of 
+    TaskInstance, also create a hibernate 
+    mapping file for the subclass (using the hibernate 
+    <literal>extends="org.jbpm.taskmgmt.exe.TaskInstance"</literal>).  Then 
+    add that mapping file to the list of mapping files in the 
+    <literal>hibernate.cfg.xml</literal></para>
+  </section>
+
+  <section id="theidentitycomponent">
+    <title>The identity component</title>
+    <para>Management of users, groups and permissions is commonly known 
+    as identity management. jBPM includes an optional identity component 
+    that can be easily replaced by a company's own identity data store.
+    </para>
+
+    <para>The jBPM identity management component 
+    includes knowledge of the organizational model.
+    Task assignment is typically done with organizational knowledge. 
+    So this implies knowledge of an organizational model, describing the 
+    users, groups, systems and the relations between them.  Optionally, 
+    permissions and roles can be included too in an organizational model.
+    Various academic research attempts failed, proving that no generic 
+    organizational model can be created that fits every organization.
+    </para>
+    
+    <para>The way jBPM handles this is by defining an actor as an actual 
+    participant in a process.  An actor is identified by its ID called an 
+    actorId.  jBPM has only knowledge about actorIds and they are represented 
+    as <literal>java.lang.String</literal>s for maximum flexibility. So any 
+    knowledge about the organizational model and the structure of that data 
+    is outside the scope of the jBPM core engine.</para>
+    <para>As an extension to jBPM we will provide (in the future) a component 
+    to manage that simple user-roles model.   This many to many relation between 
+    users and roles is the same model as is defined in the J2EE and the servlet 
+    specs and it could serve as a starting point in new developments.  People 
+    interested in contributing should check the jboss jbpm jira issue tracker
+    for more details.</para>
+
+    <para>Note that the user-roles model as it is used in the servlet, ejb and 
+    portlet specifications, is not sufficiently powerful for handling 
+    task assignments.  That model is a many-to-many relation between
+    users and roles.  This doesn't include information about the teams and 
+    the organizational structure of users involved in a process.</para>
+    
+    <section id="theidentitymodel">
+      <title>The identity model</title>
+
+      <figure id="identity.model.image">
+        <title>The identity model class diagram</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/identity.model.gif"/></imageobject></mediaobject>
+      </figure>
+
+      <para>The classes in yellow are the relevant classes for the expression 
+      assignment handler that is discussed next.</para>
+
+      <para>A <literal>User</literal> represents a user or a service. A 
+      <literal>Group</literal> is any kind of group of users.  
+      Groups can be nested to model the relation 
+      between a team, a business unit and the whole company.  Groups have 
+      a type to differentiate between the hierarchical groups and e.g. 
+      hair color groups. <literal>Membership</literal>s represent the 
+      many-to-many relation between users and groups.  A membership can be 
+      used to represent a position in a company.  The name of the membership 
+      can be used to indicate the role that the user fulfills in the 
+      group.</para>
+    </section>
+
+    <section id="assignmentexpressions">
+      <title>Assignment expressions</title>
+      <para>The identity component comes with one implementation that evaluates an
+      expression for the calculation of actors during assignment of tasks. Here's
+      an example of using the assignment expression in a process definition:</para>
+      
+      <programlisting language="xml">&lt;process-definition&gt;
+  &lt;task-node name='a'&gt;
+    &lt;task name='laundry'&gt;
+      &lt;assignment expression='previous --> group(hierarchy) --> member(boss)' /&gt;
+    &lt;/task&gt;
+    &lt;transition to='b' /&gt;
+  &lt;/task-node&gt;</programlisting>
+      
+      <para>Syntax of the assignment expression is like this:</para>
+      <programlisting>first-term --> next-term --> next-term --> ... --> next-term
+
+where
+
+first-term ::= previous |
+               swimlane(swimlane-name) |
+               variable(variable-name) |
+               user(user-name) |
+               group(group-name)
+
+and 
+
+next-term ::= group(group-type) |
+              member(role-name)
+</programlisting>
+      
+      <section id="firstterms">
+        <title>First terms</title>
+        
+        <para>An expression is resolved from left to right.  The first-term specifies 
+        a <literal>User</literal> or <literal>Group</literal> in the identity model.  
+        Subsequent terms calculate the next term from the intermediate user or 
+        group.</para>
+
+        <para><literal>previous</literal> means the task is assigned to the current 
+        authenticated actor.  This means the actor that performed the previous step in 
+        the process.</para>
+
+        <para><literal>swimlane(swimlane-name)</literal> means the user or group is taken 
+        from the specified swimlane instance.</para>
+      
+        <para><literal>variable(variable-name)</literal> means the user or group is taken 
+        from the specified variable instance.  The variable instance can contain a 
+        <literal>java.lang.String</literal>, in which case that user or group is fetched from 
+        the identity component.  Or the variable instance contains a <literal>User</literal> 
+        or <literal>Group</literal> object. </para>
+      
+        <para><literal>user(user-name)</literal> means the given user is taken from the 
+        identity component.</para>
+      
+        <para><literal>group(group-name)</literal> means the given group is taken from the 
+        identity component.</para>
+      </section>
+      
+      <section id="nextterms">
+        <title>Next terms</title>
+        
+        <para><literal>group(group-type)</literal> gets the group for a user.  Meaning that 
+        previous terms must have resulted in a <literal>User</literal>.  It searches for the 
+        the group with the given group-type in all the memberships for the user.</para>
+        
+        <para><literal>member(role-name)</literal> gets the user that performs a given role 
+        for a group.  The previous terms must have resulted in a <literal>Group</literal>.  
+        This term searches for the user with a membership to the group for which the name 
+        of the membership matches the given role-name.</para>
+      </section>
+      
+    </section>
+
+    <section id="removingtheidentitycomponent">
+      <title>Removing the identity component</title>
+      <para>When you want to use your own datasource for organizational 
+      information such as your company's user database or LDAP system, 
+      you can just rip out the jBPM identity component.  The only thing 
+      you need to do is make sure that you delete the line ...</para>
+      <programlisting language="xml">&lt;mapping resource="org/jbpm/identity/User.hbm.xml"/&gt;
+&lt;mapping resource="org/jbpm/identity/Group.hbm.xml"/&gt;
+&lt;mapping resource="org/jbpm/identity/Membership.hbm.xml"/&gt;</programlisting>
+      
+      <para>from the <literal>hibernate.cfg.xml</literal> </para>
+      <para>The <literal>ExpressionAssignmentHandler</literal> is dependent on the identity 
+      component so you will not be able to use it as is.  In case you want 
+      to reuse the <literal>ExpressionAssignmentHandler</literal> and bind it to your user data 
+      store, you can extend from the <literal>ExpressionAssignmentHandler</literal> and override
+      the method <literal>getExpressionSession</literal>.
+      </para>
+      <programlisting language="java">protected ExpressionSession getExpressionSession(AssignmentContext assignmentContext);</programlisting>
+    </section>
+  </section>
+
+</chapter>

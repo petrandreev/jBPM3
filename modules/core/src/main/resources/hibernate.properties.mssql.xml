@@ -1,0 +1,12 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <!-- fetch driver from http://msdn.microsoft.com/data/jdbc -->
+    <property name="hibernate.connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:jtds:sqlserver://localhost:1433/jbpmtest</property>
+    <property name="hibernate.connection.username"></property>
+    <property name="hibernate.connection.password"></property>
+    <!-- JDBC connection properties (end) -->
+

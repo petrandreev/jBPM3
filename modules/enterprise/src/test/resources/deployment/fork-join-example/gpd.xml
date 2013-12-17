@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="ForkJoinExample3" width="658" height="421">
+ <node name="start" x="150" y="25" width="140" height="40">
+  <edge>
+   <label x="5" y="-10" />
+  </edge>
+ </node>
+ <node name="fork1" x="96" y="95" width="252" height="24">
+  <edge>
+   <label x="5" y="-10" />
+  </edge>
+  <edge>
+   <label x="-92" y="-11" />
+  </edge>
+ </node>
+ <node name="Review Order" x="69" y="172" width="132" height="36">
+  <edge>
+   <label x="5" y="-10" />
+  </edge>
+ </node>
+ <node name="Prepare shipping" x="293" y="171" width="132" height="36">
+  <edge>
+   <label x="5" y="-10" />
+  </edge>
+ </node>
+ <node name="join1" x="118" y="256" width="252" height="24">
+  <edge>
+   <label x="5" y="-10" />
+  </edge>
+ </node>
+ <node name="Review results" x="183" y="299" width="132" height="36">
+  <edge>
+   <label x="5" y="-10" />
+  </edge>
+ </node>
+ <node name="Wrap up" x="367" y="320" width="132" height="36">
+  <edge>
+   <label x="5" y="-10" />
+  </edge>
+ </node>
+ <node name="end" x="176" y="359" width="140" height="40" />
+</root-container>

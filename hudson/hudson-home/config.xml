@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson>
+  <numExecutors>2</numExecutors>
+  <useSecurity>true</useSecurity>
+  <systemMessage>
+    <![CDATA[
+  <h2>jBPM-@version.id@ QA Environment</h2>
+  
+  <table>
+  <tr align="left"><th>SVN</th><td>@hudson.jbpm.url@</td></tr>
+  <tr align="left"><th>Bind Addr</th><td>@jboss.bind.address@</td></tr>
+  </table>
+]]>
+  </systemMessage>
+  <jdks>
+    <jdk>
+      <name>jdk1.5</name>
+      <javaHome>@java.home.jdk15@</javaHome>
+    </jdk>
+    <jdk>
+      <name>jdk1.6</name>
+      <javaHome>@java.home.jdk16@</javaHome>
+    </jdk>
+  </jdks>
+  <slaves/>
+  <quietPeriod>5</quietPeriod>
+</hudson>

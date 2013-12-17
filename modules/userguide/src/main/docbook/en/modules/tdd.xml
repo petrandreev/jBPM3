@@ -1,0 +1,137 @@
+
+<chapter id="tdd">
+  <title>Test Driven Development for Workflow</title>
+  
+  <section id="intoducingtddforworkflow">
+    <title>Introducing TDD for workflow</title>
+    <para>Since developing process oriented software is no different from 
+    developing any other software, we believe that process definitions should
+    be easily testable.  This chapter shows how you can use plain JUnit without
+    any extensions to unit test the process definitions that you author.</para>
+    
+    <para>The development cycle should be kept as short as possible.  Changes 
+    made to the sources of software should be immediately verifiable.  Preferably,
+    without any intermediate build steps.  The examples given below will show 
+    you how to develop and test jBPM processes without intermediate steps.</para>
+    
+    <para>Mostly the unit tests of process definitions are execution scenarios.
+    Each scenario is executed in one JUnit test method and will feed in the external 
+    triggers (read: signals) into a process execution and verifies after each signal 
+    if the process is in the expected state.</para>
+    
+    <para>Let's look at an example of such a test.  We take a simplified version of 
+    the auction process with the following graphical representation:</para>
+    
+	  <figure id="auction.test.image">
+	    <title>The auction test process</title>
+	    <mediaobject><imageobject><imagedata align="center" fileref="images/auction.test.gif"/></imageobject></mediaobject>
+	  </figure>
+	  
+    <para>Now, let's write a test that executes the main scenario:</para>
+
+      <programlisting language="java">public class AuctionTest extends TestCase {
+
+  // parse the process definition
+  static ProcessDefinition auctionProcess = 
+      ProcessDefinition.parseParResource("org/jbpm/tdd/auction.par");
+
+  // get the nodes for easy asserting
+  static StartState start = auctionProcess.getStartState();
+  static State auction = (State) auctionProcess.getNode("auction");
+  static EndState end = (EndState) auctionProcess.getNode("end");
+
+  // the process instance
+  ProcessInstance processInstance;
+
+  // the main path of execution
+  Token token;
+
+  public void setUp() {
+    // create a new process instance for the given process definition
+    processInstance = new ProcessInstance(auctionProcess);
+
+    // the main path of execution is the root token
+    token = processInstance.getRootToken();
+  }
+  
+  public void testMainScenario() {
+    // after process instance creation, the main path of 
+    // execution is positioned in the start state.
+    assertSame(start, token.getNode());
+    
+    token.signal();
+    
+    // after the signal, the main path of execution has 
+    // moved to the auction state
+    assertSame(auction, token.getNode());
+    
+    token.signal();
+    
+    // after the signal, the main path of execution has 
+    // moved to the end state and the process has ended
+    assertSame(end, token.getNode());
+    assertTrue(processInstance.hasEnded());
+  }
+}</programlisting>
+
+  </section>
+  
+  <section id="xmlsources">
+    <title>XML sources</title>
+    <para>Before you can start writing execution scenario's, you need a 
+    <literal>ProcessDefinition</literal>.  The easiest way to get a 
+    <literal>ProcessDefinition</literal> object is by parsing xml. If you 
+    have code completion, type <literal>ProcessDefinition.parse</literal> 
+    and activate code completion.  Then you get the various parsing methods.  
+    There are basically 3 ways to write xml that can be parsed to a 
+    <literal>ProcessDefinition</literal> object:</para>
+    
+    <section id="parsingaprocessarchive">
+      <title>Parsing a process archive</title>
+      <para>A process archive is a zip file that contains the process xml 
+      in a file called <literal>processdefinition.xml</literal>.  The jBPM
+      process designer reads and writes process archives. For example:</para>
+      
+      <programlisting language="java">static ProcessDefinition auctionProcess = 
+    ProcessDefinition.parseParResource("org/jbpm/tdd/auction.par");</programlisting>
+    </section>
+
+    <section id="parsinganxmlfile">
+      <title>Parsing an xml file</title>
+      <para>In other situations, you might want to write the 
+      processdefinition.xml file by hand and later package the zip file 
+      with e.g. an ant script.  In that case, you can use the 
+      <literal>JpdlXmlReader</literal></para>
+      
+      <programlisting language="java">static ProcessDefinition auctionProcess = 
+    ProcessDefinition.parseXmlResource("org/jbpm/tdd/auction.xml");</programlisting>
+    </section>
+
+    <section id="parsinganxmlstring">
+      <title>Parsing an xml String</title>
+      <para>The simplest option is to parse the xml in the unit test 
+      inline from a plain String.</para>
+      
+      <programlisting>static ProcessDefinition auctionProcess = 
+    ProcessDefinition.parseXmlString(
+  "&lt;process-definition>" + 
+  "  &lt;start-state name='start'&gt;" + 
+  "    &lt;transition to='auction'/&gt;" + 
+  "  &lt;/start-state&gt;" + 
+  "  &lt;state name='auction'&gt;" + 
+  "    &lt;transition to='end'/&gt;" + 
+  "  &lt;/state&gt;" + 
+  "  &lt;end-state name='end'/&gt;" + 
+  "&lt;/process-definition&gt;");
+...</programlisting>
+
+    </section>
+
+  </section>
+
+  <section id="testingsubprocesses">
+    <title>Testing sub processes</title>
+    <para>TODO (see test/java/org/jbpm/graph/exe/ProcessStateTest.java)</para>
+  </section>
+
+</chapter>

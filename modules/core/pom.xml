@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: pom.xml 4208 2009-03-10 04:55:09Z alex.guizar@jboss.com $ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>JBoss jBPM3 - Core</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>jbpm-jpdl</artifactId>
+  <packaging>jar</packaging>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jbpm.jbpm3</groupId>
+    <artifactId>jbpm</artifactId>
+    <version>3.2.6.SP1</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <!-- Properties -->
+  <properties>
+    <surefire.jvm.args>-Xmx512m</surefire.jvm.args>
+  </properties>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <!-- jBPM Dependencies -->
+    <dependency>
+      <groupId>bsh</groupId>
+      <artifactId>bsh</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>xml-apis</artifactId>
+          <groupId>xml-apis</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jackrabbit</groupId>
+      <artifactId>jackrabbit-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+    </dependency>
+
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>dumbster</groupId>
+      <artifactId>dumbster</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Remove this static dependency -->
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- Plugins -->
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>${project.build.finalName}</finalName>
+              <appendAssemblyId>true</appendAssemblyId>
+              <descriptors>
+                <descriptor>scripts/assembly-config.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <showDeprecation>false</showDeprecation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>hibernate.*</exclude>
+            <exclude>jbpm.cfg.xml</exclude>
+            <exclude>jbpm-*-ds.xml</exclude>
+            <exclude>jbpm.mail.templates.xml</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="database" value="${database}" />
+                <ant antfile="scripts/antrun-jbpm-config.xml" target="generate-hibernate-cfg" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>${surefire.jvm.args}</argLine>
+          <systemProperties>
+            <property>
+              <name>log4j.output.dir</name>
+              <value>${basedir}/target</value>
+            </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- Profiles -->
+  <profiles>
+
+    <!-- 
+    Name:  soa
+    Descr: Customizations for the SOA build   
+    -->
+    <profile>
+      <id>soa</id>
+      <build>
+        <plugins>
+            <plugin>
+              <artifactId>maven-antrun-plugin</artifactId>
+              <executions>
+                <execution>
+                  <phase>process-resources</phase>
+                  <goals>
+                    <goal>run</goal>
+                  </goals>
+                  <configuration>
+                    <tasks>
+                      <property name="database" value="${database}" />
+                      <ant antfile="scripts/antrun-jbpm-config.xml" target="generate-jbpm-cfg-soa" />
+                    </tasks>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>          
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- 
+    Name:  no-database
+    Descr: Setup the default database   
+    -->
+    <profile>
+      <id>no-database</id>
+      <activation>
+        <property>
+          <name>!database</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+    Name:  hsqldb
+    Descr: Hypersonic Database Setup   
+    -->
+    <profile>
+      <id>hsqldb</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>hsqldb</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+    Name:  mysql
+    Descr: MySQL Database Setup   
+    -->
+    <profile>
+      <id>mysql</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>mysql</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+    Name:  postgresql
+    Descr: PostgreSQL Database Setup   
+    -->
+    <profile>
+      <id>postgresql</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>postgresql</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+    Name:  sybase
+    Descr: Sybase Database Setup   
+    -->
+    <profile>
+      <id>sybase</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>sybase</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <!-- [JBPM-2042] failed jobs query fails -->
+                <exclude>org/jbpm/db/JobSessionDbTest.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

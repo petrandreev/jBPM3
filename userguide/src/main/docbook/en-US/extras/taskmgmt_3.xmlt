@@ -1,8 +1,0 @@
-<process-definition>
-  <swimlane name='initiator' />
-  <start-state>
-    <task swimlane='initiator' />
-    <transition to='...' />
-  </start-state>
-  ...
-</process-definition>

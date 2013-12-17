@@ -1,0 +1,28 @@
+<assembly xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.1.0-SNAPSHOT.xsd">
+
+  <id>test-dependencies</id>
+  <formats>
+    <format>dir</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+
+  <!-- Dependency Sets -->
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>/</outputDirectory>
+      <useStrictFiltering>true</useStrictFiltering>
+      <includes>
+        <include>aspectj:aspectjrt:jar</include>
+        <include>org.apache.cactus:cactus.integration.shared.api</include>
+        <include>org.apache.cactus:cactus.core.framework.wrapper.javaEE.14</include>
+        <include>org.apache.cactus:cactus.core.framework.javaEE.13-14</include>
+        <include>org.apache.cactus:cactus.core.framework.javaEE.12-13-14</include>
+        <include>junit:junit</include>
+      </includes>
+      <unpack>false</unpack>
+      <scope>test</scope>
+    </dependencySet>
+  </dependencySets>
+
+</assembly>

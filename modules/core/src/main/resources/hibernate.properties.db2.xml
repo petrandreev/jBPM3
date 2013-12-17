@@ -1,0 +1,12 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.DB2Dialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <!-- fetch driver from http://www-128.ibm.com/developerworks/db2/downloads/jcc -->
+    <property name="hibernate.connection.driver_class">com.ibm.db2.jcc.DB2Driver</property>
+    <property name="hibernate.connection.url">jdbc:db2://localhost:50000/testing</property>
+    <property name="hibernate.connection.username"></property>
+    <property name="hibernate.connection.password"></property>
+    <!-- JDBC connection properties (end) -->
+

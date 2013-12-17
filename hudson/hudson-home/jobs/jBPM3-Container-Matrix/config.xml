@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<matrix-project>
+  <actions class="java.util.concurrent.CopyOnWriteArrayList"/>
+  <description>Build and test the @version.id@ Container Matrix</description>
+  <logRotator>
+    <daysToKeep>60</daysToKeep>
+    <numToKeep>-1</numToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.security.AuthorizationMatrixProperty/>
+  </properties>
+  <scm class="hudson.scm.SubversionSCM">
+    <locations>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>@hudson.jbpm.url@</remote>
+        <local>jbpm</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+    </locations>
+    <useUpdate>true</useUpdate>
+    <browser class="hudson.scm.browsers.FishEyeSVN">
+      <url>http://fisheye.jboss.com/browse/JbpmSvn/</url>
+      <rootModule></rootModule>
+    </browser>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <triggers class="vector">
+    <hudson.triggers.TimerTrigger>
+      <spec>0 21 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <axes>
+    <axis>
+      <name>container</name>
+      <values>
+        <string>jboss423</string>
+        <string>jboss500</string>
+      </values>
+    </axis>
+    <axis>
+      <name>database</name>
+      <values>
+        <string>hsqldb</string>
+        <string>mysql</string>
+      </values>
+    </axis>
+    <axis>
+      <name>jdk</name>
+      <values>
+        <string>jdk1.5</string>
+        <string>jdk1.6</string>
+      </values>
+    </axis>
+  </axes>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>
+WORKSPACE=`pwd`
+JBPMDIR=$WORKSPACE/jbpm
+
+export CONTAINER=$container
+export DATABASE=$database
+
+export JBPM_VERSION=@version.id@
+export JBOSS_SERVER=@jboss.server.instance@
+export JBOSS_BINDADDR=@jboss.bind.address@
+
+# copy the maven profile
+cp @hudson.maven.profile@ $JBPMDIR/profiles.xml
+
+#
+# call command.sh 
+#
+/bin/sh $JBPMDIR/hudson/hudson-home/command.sh
+      </command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers class="vector">
+    <hudson.tasks.junit.JUnitResultArchiver>
+      <testResults>jbpm/modules/**/target/surefire-reports/TEST-*.xml</testResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
+    <hudson.tasks.Mailer>
+      <recipients>@hudson.mail.recipients@</recipients>
+      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>true</sendToIndividuals>
+    </hudson.tasks.Mailer>
+  </publishers>
+  <buildWrappers/>
+</matrix-project>

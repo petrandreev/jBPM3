@@ -1,0 +1,571 @@
+<chapter id="tutorial">
+
+  <title>Tutorial</title>
+
+  <para>This tutorial will show you basic process constructs in jpdl and 
+  the usage of the API for managing the runtime executions.</para>
+
+  <para>The format of this tutorial is explaining a set of examples.
+  The examples focus on a particular topic and contain extensive 
+  comments.  The examples can also be found in the jBPM download package 
+  in the directory <literal>src/java.examples</literal>.</para>
+
+  <para>The best way to learn is to create a project and experiment 
+  by creating variations on the examples given.</para>
+
+  <para>To get started first, <link linkend="downloadingandinstallingjbpm">
+  download and install</link> jBPM.</para>
+  
+  <para>jBPM includes a graphical designer tool for authoring the 
+  XML that is shown in the examples.  You can find download instructions 
+  for the graphical designer in <xref linkend="downloadingandinstallingjbpm" />.
+  You don't need the graphical designer tool to complete this tutorial.
+  </para>
+
+  <section id="helloworldexample">
+    <title>Hello World example</title>
+
+    <para>A process definition is a directed graph, made up of nodes and 
+    transitions.  The hello world process has 3 nodes. To see how the pieces fit 
+    together, we're going to start with a  simple process without the use of the 
+    designer tool.  The following picture shows the graphical representation of 
+    the hello world process:
+    </para>
+
+    <figure id="hello.world.image">
+      <title>The hello world process graph</title>
+      <mediaobject><imageobject><imagedata align="center" fileref="images/hello.world.gif"/></imageobject></mediaobject>
+    </figure>
+
+    <programlisting language="java">public void testHelloWorldProcess() {
+// This method shows a process definition and one execution
+// of the process definition.  The process definition has 
+// 3 nodes: an unnamed start-state, a state 's' and an 
+// end-state named 'end'.
+// The next line parses a piece of xml text into a
+// ProcessDefinition.  A ProcessDefinition is the formal 
+// description of a process represented as a java object.
+ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
+    &quot;&lt;process-definition&gt;&quot; +
+    &quot;  &lt;start-state&gt;&quot; +
+    &quot;    &lt;transition to='s' /&gt;&quot; +
+    &quot;  &lt;/start-state&gt;&quot; +
+    &quot;  &lt;state name='s'&gt;&quot; +
+    &quot;    &lt;transition to='end' /&gt;&quot; +
+    &quot;  &lt;/state&gt;&quot; +
+    &quot;  &lt;end-state name='end' /&gt;&quot; +
+    &quot;&lt;/process-definition&gt;&quot;
+);
+  
+  // The next line creates one execution of the process definition.
+  // After construction, the process execution has one main path
+  // of execution (=the root token) that is positioned in the
+  // start-state.
+  ProcessInstance processInstance = 
+      new ProcessInstance(processDefinition);
+  
+  // After construction, the process execution has one main path
+  // of execution (=the root token).
+  Token token = processInstance.getRootToken();
+  
+  // Also after construction, the main path of execution is positioned
+  // in the start-state of the process definition.
+  assertSame(processDefinition.getStartState(), token.getNode());
+  
+  // Let's start the process execution, leaving the start-state 
+  // over its default transition.
+  token.signal();
+  // The signal method will block until the process execution 
+  // enters a wait state.
+
+  // The process execution will have entered the first wait state
+  // in state 's'. So the main path of execution is now 
+  // positioned in state 's'
+  assertSame(processDefinition.getNode("s"), token.getNode());
+
+  // Let's send another signal.  This will resume execution by 
+  // leaving the state 's' over its default transition.
+  token.signal();
+  // Now the signal method returned because the process instance 
+  // has arrived in the end-state.
+  
+  assertSame(processDefinition.getNode("end"), token.getNode());
+}</programlisting>
+  </section>
+  
+  <section id="databaseexample">
+    <title>Database example</title>
+    <para>One of the basic features of jBPM is the ability to persist executions of processes 
+    in the database when they are in a wait state.  The next example will show you how to 
+    store a process instance in the jBPM database.  The example also suggests a context in 
+    which this might occur. Separate methods are created for different pieces of user code.  
+    E.g. an piece of user code in a web application starts a process and persists the 
+    execution in the database.  Later, a message driven bean loads the process instance from the 
+    database and resumes its execution.
+    </para>
+    
+    <para>More about the jBPM persistence can be found in <xref linkend="persistence" />.</para>
+    
+    <programlisting language="java">public class HelloWorldDbTest extends TestCase {
+
+  static JbpmConfiguration jbpmConfiguration = null; 
+
+  static {
+    // An example configuration file such as this can be found in 
+    // 'src/config.files'.  Typically the configuration information is in the 
+    // resource file 'jbpm.cfg.xml', but here we pass in the configuration 
+    // information as an XML string.
+    
+    // First we create a JbpmConfiguration statically.  One JbpmConfiguration
+    // can be used for all threads in the system, that is why we can safely 
+    // make it static.
+
+    jbpmConfiguration = JbpmConfiguration.parseXmlString(
+      "&lt;jbpm-configuration&gt;" +
+      
+      // A jbpm-context mechanism separates the jbpm core 
+      // engine from the services that jbpm uses from 
+      // the environment.  
+      
+      "  &lt;jbpm-context&gt;" +
+      "    &lt;service name='persistence' " +
+      "             factory='org.jbpm.persistence.db.DbPersistenceServiceFactory' /&gt;" + 
+      "  &lt;/jbpm-context&gt;" +
+      
+      // Also all the resource files that are used by jbpm are 
+      // referenced from the jbpm.cfg.xml
+      
+      "  &lt;string name='resource.hibernate.cfg.xml' " +
+      "          value='hibernate.cfg.xml' /&gt;" +
+      "  &lt;string name='resource.business.calendar' " +
+      "          value='org/jbpm/calendar/jbpm.business.calendar.properties' /&gt;" +
+      "  &lt;string name='resource.default.modules' " +
+      "          value='org/jbpm/graph/def/jbpm.default.modules.properties' /&gt;" +
+      "  &lt;string name='resource.converter' " +
+      "          value='org/jbpm/db/hibernate/jbpm.converter.properties' /&gt;" +
+      "  &lt;string name='resource.action.types' " +
+      "          value='org/jbpm/graph/action/action.types.xml' /&gt;" +
+      "  &lt;string name='resource.node.types' " +
+      "          value='org/jbpm/graph/node/node.types.xml' /&gt;" +
+      "  &lt;string name='resource.varmapping' " +
+      "          value='org/jbpm/context/exe/jbpm.varmapping.xml' /&gt;" +
+      "&lt;/jbpm-configuration&gt;"
+    );
+  }
+  
+  public void setUp() {
+    jbpmConfiguration.createSchema();
+  }
+  
+  public void tearDown() {
+    jbpmConfiguration.dropSchema();
+  }
+
+  public void testSimplePersistence() {
+    // Between the 3 method calls below, all data is passed via the 
+    // database.  Here, in this unit test, these 3 methods are executed
+    // right after each other because we want to test a complete process
+    // scenario.  But in reality, these methods represent different 
+    // requests to a server.
+    
+    // Since we start with a clean, empty in-memory database, we have to 
+    // deploy the process first.  In reality, this is done once by the 
+    // process developer.
+    deployProcessDefinition();
+
+    // Suppose we want to start a process instance (=process execution)
+    // when a user submits a form in a web application...
+    processInstanceIsCreatedWhenUserSubmitsWebappForm();
+
+    // Then, later, upon the arrival of an asynchronous message the 
+    // execution must continue.
+    theProcessInstanceContinuesWhenAnAsyncMessageIsReceived();
+  }
+
+  public void deployProcessDefinition() {
+    // This test shows a process definition and one execution 
+    // of the process definition.  The process definition has 
+    // 3 nodes: an unnamed start-state, a state 's' and an 
+    // end-state named 'end'.
+    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
+      "&lt;process-definition name='hello world'&gt;" +
+      "  &lt;start-state name='start'&gt;" +
+      "    &lt;transition to='s' /&gt;" +
+      "  &lt;/start-state&gt;" +
+      "  &lt;state name='s'&gt;" +
+      "    &lt;transition to='end' /&gt;" +
+      "  &lt;/state&gt;" +
+      "  &lt;end-state name='end' /&gt;" +
+      "&lt;/process-definition&gt;"
+    );
+
+    // Lookup the POJO persistence context-builder that is configured above
+    JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+    try {
+      // Deploy the process definition in the database 
+      jbpmContext.deployProcessDefinition(processDefinition);
+
+    } finally {
+      // Tear down the POJO persistence context.
+      // This includes flush the SQL for inserting the process definition  
+      // to the database.
+      jbpmContext.close();
+    }
+  }
+
+  public void processInstanceIsCreatedWhenUserSubmitsWebappForm() {
+    // The code in this method could be inside a struts-action 
+    // or a JSF managed bean. 
+
+    // Lookup the POJO persistence context-builder that is configured above
+    JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+    try {
+
+      GraphSession graphSession = jbpmContext.getGraphSession();
+      
+      ProcessDefinition processDefinition = 
+          graphSession.findLatestProcessDefinition("hello world");
+    
+      // With the processDefinition that we retrieved from the database, we 
+      // can create an execution of the process definition just like in the 
+      // hello world example (which was without persistence).
+      ProcessInstance processInstance = 
+          new ProcessInstance(processDefinition);
+      
+      Token token = processInstance.getRootToken(); 
+      assertEquals("start", token.getNode().getName());
+      // Let's start the process execution
+      token.signal();
+      // Now the process is in the state 's'.
+      assertEquals("s", token.getNode().getName());
+      
+      // Now the processInstance is saved in the database.  So the 
+      // current state of the execution of the process is stored in the 
+      // database.  
+      jbpmContext.save(processInstance);
+      // The method below will get the process instance back out 
+      // of the database and resume execution by providing another 
+      // external signal.
+
+    } finally {
+      // Tear down the POJO persistence context.
+      jbpmContext.close();
+    }
+  }
+
+  public void theProcessInstanceContinuesWhenAnAsyncMessageIsReceived() {
+    // The code in this method could be the content of a message driven bean.
+
+    // Lookup the POJO persistence context-builder that is configured above
+    JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+    try {
+
+      GraphSession graphSession = jbpmContext.getGraphSession();
+      // First, we need to get the process instance back out of the database.
+      // There are several options to know what process instance we are dealing 
+      // with here.  The easiest in this simple test case is just to look for 
+      // the full list of process instances.  That should give us only one 
+      // result.  So let's look up the process definition.
+      
+      ProcessDefinition processDefinition = 
+          graphSession.findLatestProcessDefinition("hello world");
+
+      // Now, we search for all process instances of this process definition.
+      List processInstances = 
+          graphSession.findProcessInstances(processDefinition.getId());
+      
+      // Because we know that in the context of this unit test, there is 
+      // only one execution.  In real life, the processInstanceId can be 
+      // extracted from the content of the message that arrived or from 
+      // the user making a choice.
+      ProcessInstance processInstance = 
+          (ProcessInstance) processInstances.get(0);
+      
+      // Now we can continue the execution.  Note that the processInstance
+      // delegates signals to the main path of execution (=the root token).
+      processInstance.signal();
+
+      // After this signal, we know the process execution should have 
+      // arrived in the end-state.
+      assertTrue(processInstance.hasEnded());
+      
+      // Now we can update the state of the execution in the database
+      jbpmContext.save(processInstance);
+
+    } finally {
+      // Tear down the POJO persistence context.
+      jbpmContext.close();
+    }
+  }
+}</programlisting>
+  </section>
+  
+  <section>
+    <title>Context example: process variables</title>
+    
+    <para>The process variables contain the context information during process executions.
+    The process variables are similar to a <literal>java.util.Map</literal> that maps 
+    variable names to values, which are java objects.  The process variables are persisted
+    as a part of the process instance.  To keep things simple, in this example we only show 
+    the API to work with variables, without persistence.</para>
+    
+    <para>More information about variables can be found in <xref linkend="context" /></para>
+    
+    <programlisting language="java">// This example also starts from the hello world process.
+// This time even without modification.
+ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
+  &quot;&lt;process-definition&gt;&quot; +
+  &quot;  &lt;start-state&gt;&quot; +
+  &quot;    &lt;transition to='s' /&gt;&quot; +
+  &quot;  &lt;/start-state&gt;&quot; +
+  &quot;  &lt;state name='s'&gt;&quot; +
+  &quot;    &lt;transition to='end' /&gt;&quot; +
+  &quot;  &lt;/state&gt;&quot; +
+  &quot;  &lt;end-state name='end' /&gt;&quot; +
+  &quot;&lt;/process-definition&gt;&quot;
+);
+
+ProcessInstance processInstance =
+  new ProcessInstance(processDefinition);
+
+// Fetch the context instance from the process instance 
+// for working with the process variables.
+ContextInstance contextInstance = 
+  processInstance.getContextInstance();
+
+// Before the process has left the start-state, 
+// we are going to set some process variables in the 
+// context of the process instance.
+contextInstance.setVariable("amount", new Integer(500));
+contextInstance.setVariable("reason", "i met my deadline");
+
+// From now on, these variables are associated with the 
+// process instance.  The process variables are now accessible 
+// by user code via the API shown here, but also in the actions 
+// and node implementations.  The process variables are also  
+// stored into the database as a part of the process instance.
+
+processInstance.signal();
+
+// The variables are accessible via the contextInstance. 
+
+assertEquals(new Integer(500), 
+             contextInstance.getVariable("amount"));
+assertEquals("i met my deadline", 
+             contextInstance.getVariable("reason"));</programlisting>
+  </section>
+
+  <section id="taskassignmentexample">
+    <title>Task assignment example</title>
+    <para>In the next example we'll show how you can assign a task to a user. Because 
+    of the separation between the jBPM workflow engine and the organizational model, 
+    an expression language for calculating actors would always be too limited.  
+    Therefore, you have to specify an implementation of AssignmentHandler for 
+    including the calculation of actors for tasks.  
+    </para>
+    
+    
+    
+    <programlisting language="java">public void testTaskAssignment() {
+  // The process shown below is based on the hello world process.
+  // The state node is replaced by a task-node.  The task-node 
+  // is a node in JPDL that represents a wait state and generates 
+  // task(s) to be completed before the process can continue to 
+  // execute.  
+  ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
+    &quot;&lt;process-definition name='the baby process'&gt;&quot; +
+    &quot;  &lt;start-state&gt;&quot; +
+    &quot;    &lt;transition name='baby cries' to='t' /&gt;&quot; +
+    &quot;  &lt;/start-state&gt;&quot; +
+    &quot;  &lt;task-node name='t'&gt;&quot; +
+    &quot;    &lt;task name='change nappy'&gt;&quot; +
+    &quot;      &lt;assignment class='org.jbpm.tutorial.taskmgmt.NappyAssignmentHandler' /&gt;&quot; +
+    &quot;    &lt;/task&gt;&quot; +
+    &quot;    &lt;transition to='end' /&gt;&quot; +
+    &quot;  &lt;/task-node&gt;&quot; +
+    &quot;  &lt;end-state name='end' /&gt;&quot; +
+    &quot;&lt;/process-definition&gt;&quot;
+  );
+  
+  // Create an execution of the process definition.
+  ProcessInstance processInstance = 
+      new ProcessInstance(processDefinition);
+  Token token = processInstance.getRootToken();
+  
+  // Let's start the process execution, leaving the start-state 
+  // over its default transition.
+  token.signal();
+  // The signal method will block until the process execution 
+  // enters a wait state.   In this case, that is the task-node.
+  assertSame(processDefinition.getNode("t"), token.getNode());
+
+  // When execution arrived in the task-node, a task 'change nappy'
+  // was created and the NappyAssignmentHandler was called to determine
+  // to whom the task should be assigned.  The NappyAssignmentHandler 
+  // returned 'papa'.
+
+  // In a real environment, the tasks would be fetched from the
+  // database with the methods in the org.jbpm.db.TaskMgmtSession.
+  // Since we don't want to include the persistence complexity in 
+  // this example, we just take the first task-instance of this 
+  // process instance (we know there is only one in this test
+  // scenario).
+  TaskInstance taskInstance = (TaskInstance)  
+      processInstance
+        .getTaskMgmtInstance()
+        .getTaskInstances()
+        .iterator().next();
+
+  // Now, we check if the taskInstance was actually assigned to 'papa'.
+  assertEquals("papa", taskInstance.getActorId() );
+  
+  // Now we suppose that 'papa' has done his duties and mark the task 
+  // as done. 
+  taskInstance.end();
+  // Since this was the last (only) task to do, the completion of this
+  // task triggered the continuation of the process instance execution.
+  
+  assertSame(processDefinition.getNode("end"), token.getNode());
+}</programlisting>
+  </section>
+
+  <section id="customactionexample">
+    <title>Custom action example</title>
+    <para>Actions are a mechanism to bind your custom java code into a jBPM process.
+    Actions can be associated with its own nodes (if they are relevant in the graphical 
+    representation of the process).  Or actions can be placed on events like e.g. 
+    taking a transition, leaving a node or entering a node.  In that case, the actions 
+    are not part of the graphical representation, but they are executed when execution 
+    fires the events in a runtime process execution.</para>
+    
+    <para>We'll start with a look at the action implementation that we are going to 
+    use in our example : <literal>MyActionHandler</literal>.  This action handler 
+    implementation does not do really spectacular things... it just sets the 
+    boolean variable <literal>isExecuted</literal> to <literal>true</literal>.  
+    The variable <literal>isExecuted</literal> is static so it can be accessed from 
+    within the action handler as well as from the action to verify it's value.
+    </para>
+    
+    <para>More information about actions can be found in <xref linkend="actions" /></para>
+    
+    <programlisting language="java">// MyActionHandler represents a class that could execute 
+// some user code during the execution of a jBPM process.
+public class MyActionHandler implements ActionHandler {
+
+  // Before each test (in the setUp), the isExecuted member 
+  // will be set to false.
+  public static boolean isExecuted = false;  
+
+  // The action will set the isExecuted to true so the 
+  // unit test will be able to show when the action
+  // is being executed.
+  public void execute(ExecutionContext executionContext) {
+    isExecuted = true;
+  }
+}</programlisting>
+
+    <para>As mentioned before, before each test, we'll set the static field 
+    <literal>MyActionHandler.isExecuted</literal> to false;</para>
+    
+    <programlisting language="java">  // Each test will start with setting the static isExecuted 
+  // member of MyActionHandler to false.
+  public void setUp() {
+    MyActionHandler.isExecuted = false;
+  }</programlisting>
+  
+    <para>We'll start with an action on a transition.</para>
+    
+  <programlisting language="java">public void testTransitionAction() {
+    // The next process is a variant of the hello world process.
+    // We have added an action on the transition from state 's' 
+    // to the end-state.  The purpose of this test is to show 
+    // how easy it is to integrate java code in a jBPM process.
+    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
+      &quot;&lt;process-definition&gt;&quot; +
+      &quot;  &lt;start-state&gt;&quot; +
+      &quot;    &lt;transition to='s' /&gt;&quot; +
+      &quot;  &lt;/start-state&gt;&quot; +
+      &quot;  &lt;state name='s'&gt;&quot; +
+      &quot;    &lt;transition to='end'&gt;&quot; +
+      &quot;      &lt;action class='org.jbpm.tutorial.action.MyActionHandler' /&gt;&quot; +
+      &quot;    &lt;/transition&gt;&quot; +
+      &quot;  &lt;/state&gt;&quot; +
+      &quot;  &lt;end-state name='end' /&gt;&quot; +
+      &quot;&lt;/process-definition&gt;&quot;
+    );
+    
+    // Let's start a new execution for the process definition.
+    ProcessInstance processInstance = 
+      new ProcessInstance(processDefinition);
+    
+    // The next signal will cause the execution to leave the start 
+    // state and enter the state 's'
+    processInstance.signal();
+
+    // Here we show that MyActionHandler was not yet executed. 
+    assertFalse(MyActionHandler.isExecuted);
+    // ... and that the main path of execution is positioned in 
+    // the state 's'
+    assertSame(processDefinition.getNode("s"), 
+               processInstance.getRootToken().getNode());
+    
+    // The next signal will trigger the execution of the root 
+    // token.  The token will take the transition with the
+    // action and the action will be executed during the  
+    // call to the signal method.
+    processInstance.signal();
+    
+    // Here we can see that MyActionHandler was executed during 
+    // the call to the signal method.
+    assertTrue(MyActionHandler.isExecuted);
+  }</programlisting>
+  
+    <para>The next example shows the same action, but now the actions are placed on 
+    the <literal>enter-node</literal> and <literal>leave-node</literal> events 
+    respectively.  Note that a node has more than one event type in contrast to 
+    a transition, which has only one event. Therefore actions placed on a  
+    node should be put in an event element.
+    </para>
+    
+    <programlisting language="java">ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
+  &quot;&lt;process-definition&gt;&quot; +
+  &quot;  &lt;start-state&gt;&quot; +
+  &quot;    &lt;transition to='s' /&gt;&quot; +
+  &quot;  &lt;/start-state&gt;&quot; +
+  &quot;  &lt;state name='s'&gt;&quot; +
+  &quot;    &lt;event type='node-enter'&gt;&quot; +
+  &quot;      &lt;action class='org.jbpm.tutorial.action.MyActionHandler' /&gt;&quot; +
+  &quot;    &lt;/event&gt;&quot; +
+  &quot;    &lt;event type='node-leave'&gt;&quot; +
+  &quot;      &lt;action class='org.jbpm.tutorial.action.MyActionHandler' /&gt;&quot; +
+  &quot;    &lt;/event&gt;&quot; +
+  &quot;    &lt;transition to='end'/&gt;&quot; +
+  &quot;  &lt;/state&gt;&quot; +
+  &quot;  &lt;end-state name='end' /&gt;&quot; +
+  &quot;&lt;/process-definition&gt;&quot;
+);
+
+ProcessInstance processInstance = 
+  new ProcessInstance(processDefinition);
+
+assertFalse(MyActionHandler.isExecuted);
+// The next signal will cause the execution to leave the start 
+// state and enter the state 's'.  So the state 's' is entered 
+// and hence the action is executed. 
+processInstance.signal();
+assertTrue(MyActionHandler.isExecuted);
+
+// Let's reset the MyActionHandler.isExecuted  
+MyActionHandler.isExecuted = false;
+
+// The next signal will trigger execution to leave the  
+// state 's'.  So the action will be executed again. 
+processInstance.signal();
+// Voila.  
+assertTrue(MyActionHandler.isExecuted);
+</programlisting>
+    
+  
+  </section>
+
+</chapter>

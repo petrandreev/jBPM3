@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss PUBLIC 
+  "-//JBoss//DTD JBOSS 4.0//EN"
+  "http://www.jboss.org/j2ee/dtd/jboss_4_0.dtd">
+
+<jboss>
+
+  <enterprise-beans>
+
+    <session>
+      <ejb-name>CommandServiceBean</ejb-name>
+      <jndi-name>jbpm/CommandServiceBean</jndi-name>
+      <local-jndi-name>java:jbpm/CommandServiceBean</local-jndi-name>
+      <resource-ref>
+        <res-ref-name>jdbc/JbpmDataSource</res-ref-name>
+        <jndi-name>java:JbpmDS</jndi-name>
+      </resource-ref>
+      <resource-ref>
+        <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+        <jndi-name>java:JmsXA</jndi-name>
+      </resource-ref>
+    </session>
+
+    <message-driven>
+      <ejb-name>CommandListenerBean</ejb-name>
+      <resource-ref>
+        <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+        <jndi-name>java:JmsXA</jndi-name>
+      </resource-ref>
+      <message-destination-ref>
+        <message-destination-ref-name>jms/DeadLetterQueue</message-destination-ref-name>
+        <jndi-name>queue/DLQ</jndi-name>
+      </message-destination-ref>
+    </message-driven>
+
+    <message-driven>
+      <ejb-name>JobListenerBean</ejb-name>
+      <resource-ref>
+        <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+        <jndi-name>java:JmsXA</jndi-name>
+      </resource-ref>
+      <message-destination-ref>
+        <message-destination-ref-name>jms/DeadLetterQueue</message-destination-ref-name>
+        <jndi-name>queue/DLQ</jndi-name>
+      </message-destination-ref>
+    </message-driven>
+
+    <entity>
+      <ejb-name>TimerEntityBean</ejb-name>
+      <jndi-name>jbpm/TimerEntityBean</jndi-name>
+      <local-jndi-name>java:jbpm/TimerEntityBean</local-jndi-name>
+    </entity>
+
+  </enterprise-beans>
+
+  <assembly-descriptor>
+
+    <message-destination>
+      <message-destination-name>JobQueue</message-destination-name>
+      <jndi-name>queue/JbpmJobQueue</jndi-name>
+    </message-destination>
+    <message-destination>
+      <message-destination-name>CommandQueue</message-destination-name>
+      <jndi-name>queue/JbpmCommandQueue</jndi-name>
+    </message-destination>
+
+  </assembly-descriptor>
+
+</jboss>

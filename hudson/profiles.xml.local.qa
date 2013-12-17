@@ -1,0 +1,44 @@
+<profilesXml xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/profiles-1.0.0.xsd">
+  <profiles>
+
+    <!-- This profile can also be defined in ~/.m2/settings.xml -->   
+    <profile>
+      <id>jboss-home-profile</id>
+
+      <activation>
+        <property>
+          <name>user.name</name>
+        </property>
+      </activation>
+
+      <properties>
+
+        <jdbc.mysql.server>localhost</jdbc.mysql.server>
+        <jdbc.mysql.port>3306</jdbc.mysql.port>
+        <jdbc.mysql.database>jbpmtest</jdbc.mysql.database>
+        <jdbc.mysql.url>jdbc:mysql://${jdbc.mysql.server}:${jdbc.mysql.port}/${jdbc.mysql.database}</jdbc.mysql.url>
+        <jdbc.mysql.username>jbpmtest</jdbc.mysql.username>
+        <jdbc.mysql.password></jdbc.mysql.password>
+
+        <jdbc.sybase.server>192.168.0.101</jdbc.sybase.server>
+        <jdbc.sybase.port>5000</jdbc.sybase.port>
+        <jdbc.sybase.database>jbpmtest</jdbc.sybase.database>
+        <jdbc.sybase.url>jdbc:sybase:Tds:${jdbc.sybase.server}:${jdbc.sybase.port}/${jdbc.sybase.database}</jdbc.sybase.url>
+        <jdbc.sybase.username>jbpmtest</jdbc.sybase.username>
+        <jdbc.sybase.password>jbpmtest</jdbc.sybase.password>
+        <jdbc.sybase.driver>com.sybase.jdbc3.jdbc.SybDriver</jdbc.sybase.driver>
+        <jdbc.sybase.datasource>com.sybase.jdbc3.jdbc.SybXADataSource</jdbc.sybase.datasource>
+
+        <jdbc.postgresql.server>localhost</jdbc.postgresql.server>
+        <jdbc.postgresql.port>5432</jdbc.postgresql.port>
+        <jdbc.postgresql.database>jbpmtest</jdbc.postgresql.database>
+        <jdbc.postgresql.url>jdbc:postgresql://${jdbc.postgresql.server}:${jdbc.postgresql.port}/${jdbc.postgresql.database}</jdbc.postgresql.url>
+        <jdbc.postgresql.username>jbpmtest</jdbc.postgresql.username>
+        <jdbc.postgresql.password></jdbc.postgresql.password>
+
+      </properties>
+    </profile>
+
+  </profiles>
+</profilesXml>

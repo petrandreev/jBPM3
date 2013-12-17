@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jbosscmp-jdbc PUBLIC
+	"-//JBoss//DTD JBOSSCMP-JDBC 4.0//EN"
+	"http://www.jboss.org/j2ee/dtd/jbosscmp-jdbc_4_0.dtd">
+
+<jbosscmp-jdbc>
+  <defaults>
+    <datasource>java:/JbpmDS</datasource>
+    <create-table>false</create-table>
+    <remove-table>false</remove-table>
+    <pk-constraint>false</pk-constraint>
+  </defaults>
+
+  <enterprise-beans>
+    <entity>
+      <ejb-name>TimerEntityBean</ejb-name>
+      <table-name>JBPM_JOB</table-name>
+      <cmp-field>
+        <field-name>timerId</field-name>
+        <column-name>ID_</column-name>
+      </cmp-field>
+      <cmp-field>
+        <field-name>name</field-name>
+        <column-name>NAME_</column-name>
+      </cmp-field>
+      <cmp-field>
+        <field-name>tokenId</field-name>
+        <column-name>TOKEN_</column-name>
+      </cmp-field>
+      <cmp-field>
+        <field-name>processInstanceId</field-name>
+        <column-name>PROCESSINSTANCE_</column-name>
+      </cmp-field>
+      <cmp-field>
+        <field-name>discriminator</field-name>
+        <column-name>CLASS_</column-name>
+      </cmp-field>
+    </entity>
+  </enterprise-beans>
+</jbosscmp-jdbc>

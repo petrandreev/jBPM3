@@ -1,0 +1,40 @@
+#
+# A sample ant properties file
+#
+# $Id: ant.properties.example 3995 2007-07-26 08:52:45Z thomas.diesler@jboss.com $
+
+# JBoss remote repository
+jboss.repository=http://repository.jboss.org
+
+# The JBoss settings
+jboss.server.instance=default
+jboss.bind.address=127.0.0.1
+
+# JDK settings
+java.home.jdk15=/usr/java/jdk1.5.0_15
+java.home.jdk16=/usr/java/jdk1.6.0_06
+
+# Hudson QA Environment
+hudson.username=changeme
+hudson.password=changeme
+
+hudson.maven.path=/usr/java/apache-maven-2.0.9
+
+hudson.root=/home/hudson/workspace
+
+hudson.maven.profile=$JBPMDIR/hudson/profiles.xml.local.qa
+
+hudson.host=jbpm.dyndns.org
+hudson.admin.port=8150
+hudson.http.port=8180
+
+#hudson.jboss422.zip=file:///home/hudson/download/java/jboss/jboss-4.2.2.GA.zip
+#hudson.jboss423.zip=file:///home/hudson/download/java/jboss/jboss-4.2.3.GA.zip
+#hudson.jboss500.zip=file:///home/hudson/download/java/jboss/jboss-5.0.0.GA.zip
+
+hudson.mail.recipients=
+hudson.smtp.host=localhost
+
+# Hudson (1.270)
+apache-tomcat=5.5.20
+sun-hudson=2402/122511

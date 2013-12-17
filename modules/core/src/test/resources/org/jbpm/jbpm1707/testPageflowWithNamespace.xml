@@ -1,0 +1,30 @@
+<pageflow-definition name="numberGuess" xmlns="http://jboss.com/products/seam/pageflow">
+
+  <i-do-not-belong-here>
+    <!-- the parser will notice because a schema is associated to the namespace above -->
+  </i-do-not-belong-here>
+
+  <start-state name="displayGuess">
+    <transition name="guess" to="evaluateGuess">
+      <action expression="#{numberGuess.guess}" />
+    </transition>
+  </start-state>
+
+  <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
+    <transition name="true" to="win" />
+    <transition name="false" to="evaluateRemainingGuesses" />
+  </decision>
+
+  <decision name="evaluateRemainingGuesses"
+    expression="#{numberGuess.lastGuess}">
+    <transition name="true" to="lose" />
+    <transition name="false" to="evaluateGuess">
+      <action expression="#{numberGuess.guess}" />
+    </transition>
+  </decision>
+
+  <end-state name="win" />
+
+  <end-state name="lose" />
+
+</pageflow-definition>

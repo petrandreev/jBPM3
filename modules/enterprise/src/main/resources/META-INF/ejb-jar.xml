@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ejb-jar version="2.1" xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+    http://java.sun.com/xml/ns/j2ee/ejb-jar_2_1.xsd">
+
+  <description>Component set for Java EE integration.</description>
+  <display-name>JBoss jBPM Enterprise Beans</display-name>
+
+  <enterprise-beans>
+
+    <session>
+      <description>Executes commands in a separate context.</description>
+      <display-name>jBPM Command Service</display-name>
+      <ejb-name>CommandServiceBean</ejb-name>
+      <home>org.jbpm.ejb.RemoteCommandServiceHome</home>
+      <remote>org.jbpm.ejb.RemoteCommandService</remote>
+      <local-home>org.jbpm.ejb.LocalCommandServiceHome</local-home>
+      <local>org.jbpm.ejb.LocalCommandService</local>
+      <ejb-class>org.jbpm.ejb.impl.CommandServiceBean</ejb-class>
+      <session-type>Stateless</session-type>
+      <transaction-type>Container</transaction-type>
+
+      <!-- Configuration resource ==> 
+      <env-entry>
+        <description>
+          The classpath resource from which to read the jBPM configuration. Optional, defaults to
+          jbpm.cfg.xml.
+        </description>
+        <env-entry-name>JbpmCfgResource</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>jbpm.cfg.xml</env-entry-value>
+      </env-entry>
+      <!== Configuration resource -->
+
+      <ejb-local-ref>
+        <description>
+          Link to the local entity bean that implements the scheduler service.
+          Required for that contain timers.
+        </description>
+        <ejb-ref-name>ejb/TimerEntityBean</ejb-ref-name>
+        <ejb-ref-type>Entity</ejb-ref-type>
+        <local-home>org.jbpm.ejb.LocalTimerEntityHome</local-home>
+        <local>org.jbpm.ejb.LocalTimerEntity</local>
+        <ejb-link>TimerEntityBean</ejb-link>
+      </ejb-local-ref>
+
+      <!-- Timer service bean ==>
+      <ejb-local-ref>
+        <description>
+          Link to the local session bean that implements the scheduler service.
+          Deprecated, replaced by LocalTimerEntityBean.
+        </description>
+        <ejb-ref-name>ejb/LocalTimerServiceBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local-home>org.jbpm.scheduler.ejbtimer.LocalTimerServiceHome</local-home>
+        <local>org.jbpm.scheduler.ejbtimer.LocalTimerService</local>
+        <ejb-link>TimerServiceBean</ejb-link>
+      </ejb-local-ref>
+      <!== Timer service bean -->
+
+      <resource-ref>
+        <description>
+          Logical name of the data source that provides connections to the persistence service.
+          Must match the hibernate.connection.datasource property.
+        </description>
+        <res-ref-name>jdbc/JbpmDataSource</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+      </resource-ref>
+
+      <resource-ref>
+        <description>
+          Logical name of the factory that provides JMS connections to the message service.
+          Required for processes that contain asynchronous continuations.
+        </description>
+        <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+        <res-type>javax.jms.ConnectionFactory</res-type>
+        <res-auth>Container</res-auth>
+      </resource-ref>
+
+      <message-destination-ref>
+        <description>
+          The message service sends job messages to the queue referenced here. To ensure this is the
+          same queue from which the JobListenerBean receives messages, the message-destination-link
+          element points to a common logical destination, JobQueue.
+        </description>
+        <message-destination-ref-name>jms/JobQueue</message-destination-ref-name>
+        <message-destination-type>javax.jms.Queue</message-destination-type>
+        <message-destination-usage>Produces</message-destination-usage>
+        <message-destination-link>JobQueue</message-destination-link>
+      </message-destination-ref>
+
+      <message-destination-ref>
+      	<description>
+          The command listener bean receives messages from the queue referenced here. To ensure this
+          is the same queue to which command messages can be sent, the message-destination-link
+          element points to a common logical destination, CommandQueue.
+        </description>
+      	<message-destination-ref-name>jms/CommandQueue</message-destination-ref-name>
+      	<message-destination-type>javax.jms.Queue</message-destination-type>
+      	<message-destination-usage>Produces</message-destination-usage>
+      	<message-destination-link>CommandQueue</message-destination-link>
+      </message-destination-ref>
+
+    </session>
+
+    <!-- Timer service bean ==>
+    <session>
+      <description>
+        Interacts with the EJB timer service to schedule jBPM timers. Deprecated, replaced by the
+        TimerEntityBean.
+      </description>
+      <display-name>jBPM Timer Service</display-name>
+      <ejb-name>TimerServiceBean</ejb-name>
+      <local-home>org.jbpm.scheduler.ejbtimer.LocalTimerServiceHome</local-home>
+      <local>org.jbpm.scheduler.ejbtimer.LocalTimerService</local>
+      <ejb-class>org.jbpm.scheduler.ejbtimer.TimerServiceBean</ejb-class>
+      <session-type>Stateless</session-type>
+      <transaction-type>Container</transaction-type>
+
+      <ejb-local-ref>
+        <description>
+          Link to the session bean that executes timers on a separate context.
+        </description>
+        <ejb-ref-name>ejb/LocalCommandServiceBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local-home>org.jbpm.ejb.LocalCommandServiceHome</local-home>
+        <local>org.jbpm.ejb.LocalCommandService</local>
+        <ejb-link>CommandServiceBean</ejb-link>
+      </ejb-local-ref>
+    </session>
+    <!== Timer service bean -->
+
+    <message-driven>
+      <description>
+        Listens for serialized commands and routes them to the command service session bean.
+      </description>
+      <display-name>jBPM Command Listener</display-name>
+      <ejb-name>CommandListenerBean</ejb-name>
+      <ejb-class>org.jbpm.ejb.impl.CommandListenerBean</ejb-class>
+      <transaction-type>Container</transaction-type>
+      <message-destination-type>javax.jms.Queue</message-destination-type>
+      <message-destination-link>CommandQueue</message-destination-link>
+
+      <ejb-local-ref>
+        <description>
+          Link to the local session bean that executes commands on a separate context.
+        </description>
+        <ejb-ref-name>ejb/LocalCommandServiceBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local-home>org.jbpm.ejb.LocalCommandServiceHome</local-home>
+        <local>org.jbpm.ejb.LocalCommandService</local>
+        <ejb-link>CommandServiceBean</ejb-link>
+      </ejb-local-ref>
+
+      <resource-ref>
+        <description>
+          Logical name of the factory that provides JMS connections for producing result messages.
+          Required for command messages that indicate a reply destination.
+        </description>
+        <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+        <res-type>javax.jms.ConnectionFactory</res-type>
+        <res-auth>Container</res-auth>
+      </resource-ref>
+
+      <message-destination-ref>
+        <description>
+          Messages that do not contain a command are sent to the queue referenced here.
+          If absent, said messages are rejected, which may cause the container to redeliver.
+        </description>
+        <message-destination-ref-name>jms/DeadLetterQueue</message-destination-ref-name>
+        <message-destination-type>javax.jms.Queue</message-destination-type>
+        <message-destination-usage>Produces</message-destination-usage>
+      </message-destination-ref>
+    </message-driven>
+
+    <message-driven>
+      <description>
+        Listens for job references and delegates execution of the referenced Job to the command
+        service session bean.
+      </description>
+      <display-name>jBPM Job Listener</display-name>
+      <ejb-name>JobListenerBean</ejb-name>
+      <ejb-class>org.jbpm.ejb.impl.JobListenerBean</ejb-class>
+      <transaction-type>Container</transaction-type>
+      <message-destination-type>javax.jms.Queue</message-destination-type>
+      <message-destination-link>JobQueue</message-destination-link>
+
+      <ejb-local-ref>
+        <description>
+          Link to the local session bean that executes jobs on a separate context.
+        </description>
+        <ejb-ref-name>ejb/LocalCommandServiceBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local-home>org.jbpm.ejb.LocalCommandServiceHome</local-home>
+        <local>org.jbpm.ejb.LocalCommandService</local>
+        <ejb-link>CommandServiceBean</ejb-link>
+      </ejb-local-ref>
+
+      <resource-ref>
+        <description>
+          Logical name of the factory that provides JMS connections for producing result messages.
+          Required for job messages that indicate a reply destination.
+        </description>
+        <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+        <res-type>javax.jms.ConnectionFactory</res-type>
+        <res-auth>Container</res-auth>
+      </resource-ref>
+
+      <message-destination-ref>
+        <description>
+          Messages that do not contain a job ID are sent to the queue referenced here. Optional; if
+          absent, such messages are rejected, which may cause the container to redeliver.
+        </description>
+        <message-destination-ref-name>jms/DeadLetterQueue</message-destination-ref-name>
+        <message-destination-type>javax.jms.Queue</message-destination-type>
+        <message-destination-usage>Produces</message-destination-usage>
+      </message-destination-ref>
+    </message-driven>
+
+    <entity>
+      <description>Interacts with the EJB timer service to schedule jBPM timers.</description>
+      <display-name>jBPM Timer</display-name>
+      <ejb-name>TimerEntityBean</ejb-name>
+      <home>org.jbpm.ejb.TimerEntityHome</home>
+      <remote>org.jbpm.ejb.TimerEntity</remote>
+      <local-home>org.jbpm.ejb.LocalTimerEntityHome</local-home>
+      <local>org.jbpm.ejb.LocalTimerEntity</local>
+      <ejb-class>org.jbpm.ejb.impl.TimerEntityBean</ejb-class>
+      <persistence-type>Container</persistence-type>
+      <prim-key-class>java.lang.Long</prim-key-class>
+      <reentrant>true</reentrant>
+      <cmp-version>2.x</cmp-version>
+      <abstract-schema-name>TimerEntityBean</abstract-schema-name>
+      <cmp-field>
+        <field-name>timerId</field-name>
+      </cmp-field>
+      <cmp-field>
+        <field-name>name</field-name>
+      </cmp-field>
+      <cmp-field>
+        <field-name>tokenId</field-name>
+      </cmp-field>
+      <cmp-field>
+        <field-name>processInstanceId</field-name>
+      </cmp-field>
+      <cmp-field>
+        <field-name>discriminator</field-name>
+      </cmp-field>
+      <primkey-field>timerId</primkey-field>
+
+      <ejb-local-ref>
+        <description>
+          Link to the session bean that executes timers on a separate context.
+        </description>
+        <ejb-ref-name>ejb/LocalCommandServiceBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local-home>org.jbpm.ejb.LocalCommandServiceHome</local-home>
+        <local>org.jbpm.ejb.LocalCommandService</local>
+        <ejb-link>CommandServiceBean</ejb-link>
+      </ejb-local-ref>
+
+      <query>
+        <description>Retrieve all timers by name and token identifier</description>
+        <query-method>
+          <method-name>findByNameAndTokenId</method-name>
+          <method-params>
+            <method-param>java.lang.String</method-param>
+            <method-param>java.lang.Long</method-param>
+          </method-params>
+        </query-method>
+        <ejb-ql><![CDATA[
+          select object(obj)
+          from TimerEntityBean obj
+          where obj.name = ?1 and obj.tokenId = ?2 and obj.discriminator = 'T'
+        ]]></ejb-ql>
+      </query>
+
+      <query>
+        <description>Retrieve all timers by process instance identifier</description>
+        <query-method>
+          <method-name>findByProcessInstanceId</method-name>
+          <method-params>
+            <method-param>java.lang.Long</method-param>
+          </method-params>
+        </query-method>
+        <ejb-ql><![CDATA[
+          select object(obj)
+          from TimerEntityBean obj
+          where obj.processInstanceId = ?1 and obj.discriminator = 'T'
+        ]]></ejb-ql>
+      </query>
+    </entity>
+
+  </enterprise-beans>
+
+  <assembly-descriptor>
+
+    <container-transaction>
+      <method>
+        <ejb-name>CommandServiceBean</ejb-name>
+        <method-name>*</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+
+    <!-- Timer service bean ==>
+    <container-transaction>
+      <method>
+        <ejb-name>TimerServiceBean</ejb-name>
+        <method-name>*</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+    <!== Timer service bean -->
+
+    <container-transaction>
+      <method>
+        <ejb-name>CommandListenerBean</ejb-name>
+        <method-name>*</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+
+    <container-transaction>
+      <method>
+        <ejb-name>JobListenerBean</ejb-name>
+        <method-name>*</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+
+    <container-transaction>
+      <method>
+        <ejb-name>TimerEntityBean</ejb-name>
+        <method-name>*</method-name>
+      </method>
+      <trans-attribute>Required</trans-attribute>
+    </container-transaction>
+
+    <message-destination>
+      <message-destination-name>JobQueue</message-destination-name>
+    </message-destination>
+
+    <message-destination>
+      <message-destination-name>CommandQueue</message-destination-name>
+    </message-destination>
+
+  </assembly-descriptor>
+
+</ejb-jar>

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!-- ====================================================================== -->
+  <!--                                                                        -->
+  <!--  JBoss, the OpenSource J2EE webOS                                      -->
+  <!--                                                                        -->
+  <!--  Distributable under LGPL license.                                     -->
+  <!--  See terms of license at http://www.gnu.org.                           -->
+  <!--                                                                        -->
+  <!-- ====================================================================== -->
+
+  <!-- $Id: pom.xml 4208 2009-03-10 04:55:09Z alex.guizar@jboss.com $ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>JBoss jBPM3 - Enterprise</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>jbpm-enterprise</artifactId>
+  <packaging>ejb</packaging>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jbpm.jbpm3</groupId>
+    <artifactId>jbpm</artifactId>
+    <version>3.2.6.SP1</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <!-- Properties -->
+  <properties>
+    <surefire.security.args>-Djava.security.manager -Djava.security.policy=src/test/resources/tst.policy</surefire.security.args>
+  </properties>
+  
+  <!-- Dependencies -->
+  <dependencies>
+    <!-- jBPM Dependencies -->
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <version>${version}</version>
+    </dependency>
+
+    <!-- Provided Dependencies -->
+    <dependency>
+      <groupId>javax.ejb</groupId>
+      <artifactId>ejb-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.jms</groupId>
+      <artifactId>jms</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>org.apache.cactus</groupId>
+      <artifactId>cactus.core.framework.wrapper.javaEE.14</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>org.mortbay.jetty</artifactId>
+          <groupId>org.mortbay.jetty</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cactus</groupId>
+      <artifactId>cactus.integration.shared.api</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>org.mortbay.jetty</artifactId>
+          <groupId>org.mortbay.jetty</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.client</groupId>
+      <artifactId>jbossall-client</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.bpm</groupId>
+      <artifactId>bpm-spec-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- Plugins -->
+  <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>build-test-jars</id>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="tests.output.dir" value="${project.build.directory}" />
+                <property name="tests.resources.dir" value="${basedir}/src/test/resources" />
+                <ant antfile="scripts/antrun-test-jars.xml" target="build-test-jars" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>assembly-config</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>${project.build.finalName}</finalName>
+              <appendAssemblyId>true</appendAssemblyId>
+              <descriptors>
+                <descriptor>scripts/assembly-config.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+          <execution>
+            <id>assembly-test-dependencies</id>
+            <phase>generate-test-resources</phase>
+            <goals>
+              <goal>directory-single</goal>
+            </goals>
+            <configuration>
+              <finalName>test-dependencies</finalName>
+              <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>scripts/assembly-test-dependencies.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <showDeprecation>false</showDeprecation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>${surefire.security.args}</argLine>
+          <systemProperties>
+            <property>
+              <name>log4j.output.dir</name>
+              <value>${basedir}/target</value>
+            </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- Profiles -->
+  <profiles>
+
+    <!--
+    Name:  no-jboss-bind-address
+    Descr: Skip tests if no jboss.bind address is given
+    -->
+    <profile>
+      <id>no-jboss-bind-address</id>
+      <activation>
+        <property>
+          <name>!jboss.bind.address</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- 
+    Name:  no-database
+    Descr: Setup the default database   
+    -->
+    <profile>
+      <id>no-database</id>
+      <activation>
+        <property>
+          <name>!database</name>
+        </property>
+      </activation>
+      <properties>
+        <database>hsqldb</database>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <!-- [JBPM-1708] Enterprise EjbSchedulerTest fails -->
+                <exclude>org/jbpm/enterprise/ejbtimer/EjbSchedulerTest.java</exclude>
+                <!-- [JBPM-1952] StaleObjectStateException with multiple JobExecutors -->
+                <exclude>org/jbpm/enterprise/jbpm1952/JBPM1952Test.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+    Name:  hsqldb
+    Descr: Hypersonic Database Setup   
+    -->
+    <profile>
+      <id>hsqldb</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>hsqldb</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <!-- [JBPM-1708] Enterprise EjbSchedulerTest fails -->
+                <exclude>org/jbpm/enterprise/ejbtimer/EjbSchedulerTest.java</exclude>
+                <!-- [JBPM-1952] StaleObjectStateException with multiple JobExecutors -->
+                <exclude>org/jbpm/enterprise/jbpm1952/JBPM1952Test.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+    Name:  mysql
+    Descr: MySQL Database Setup   
+    -->
+    <profile>
+      <id>mysql</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>mysql</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <!-- [JBPM-1952] StaleObjectStateException with multiple JobExecutors -->
+                <exclude>org/jbpm/enterprise/jbpm1952/JBPM1952Test.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+    Name:  postgresql
+    Descr: PostgreSQL Database Setup   
+    -->
+    <profile>
+      <id>postgresql</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>postgresql</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <!-- [JBPM-1952] StaleObjectStateException with multiple JobExecutors -->
+                <exclude>org/jbpm/enterprise/jbpm1952/JBPM1952Test.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- 
+    Name:  sybase
+    Descr: Sybase Database Setup   
+    -->
+    <profile>
+      <id>sybase</id>
+      <activation>
+        <property>
+          <name>database</name>
+          <value>sybase</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <!-- [JBPM-1818] Use Sybase instance that supports XA Transaction -->
+                <exclude>org/jbpm/enterprise/deployment/DeploymentPARTest.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

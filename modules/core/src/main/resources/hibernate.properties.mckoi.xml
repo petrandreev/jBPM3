@@ -1,0 +1,12 @@
+
+    <!-- hibernate dialect -->
+    <property name="hibernate.dialect">org.hibernate.dialect.MckoiDialect</property>
+
+    <!-- JDBC connection properties (begin) -->
+    <!-- fetch driver from http://google.com -->
+    <property name="hibernate.connection.driver_class"></property>
+    <property name="hibernate.connection.url"></property>
+    <property name="hibernate.connection.username"></property>
+    <property name="hibernate.connection.password"></property>
+    <!-- JDBC connection properties (end) -->
+

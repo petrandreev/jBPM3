@@ -1,0 +1,42 @@
+<profilesXml xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/profiles-1.0.0.xsd">
+  <profiles>
+
+    <!-- This profile can also be defined in ~/.m2/settings.xml -->   
+    <profile>
+      <id>jboss-home-profile</id>
+
+      <activation>
+        <property>
+          <name>user.name</name>
+        </property>
+      </activation>
+
+      <properties>
+
+        <jdbc.mysql.url>jdbc:mysql://dev02.qa.atl2.redhat.com/jbpm3</jdbc.mysql.url>
+        <jdbc.mysql.server>dev02.qa.atl2.redhat.com</jdbc.mysql.server>
+        <jdbc.mysql.port>3306</jdbc.mysql.port>
+        <jdbc.mysql.database>jbpmtest</jdbc.mysql.database>
+        <jdbc.mysql.username>jbpm3</jdbc.mysql.username>
+        <jdbc.mysql.password>jbpm3</jdbc.mysql.password>
+
+        <jdbc.sybase.url>jdbc:jtds:sybase://dev77.qa.atl2.redhat.com:4100/jbpm3</jdbc.sybase.url>
+        <jdbc.sybase.server>dev77.qa.atl2.redhat.com</jdbc.sybase.server>
+        <jdbc.sybase.port>4100</jdbc.sybase.port>
+        <jdbc.sybase.database>jbpm3</jdbc.sybase.database>
+        <jdbc.sybase.username>jbpm3</jdbc.sybase.username>
+        <jdbc.sybase.password>jbpm3</jdbc.sybase.password>
+
+        <jdbc.postgresql.url>jdbc:postgresql://dev01.qa.atl2.redhat.com:5432/jbpm3</jdbc.postgresql.url>
+        <jdbc.postgresql.server>dev01.qa.atl2.redhat.com</jdbc.postgresql.server>
+        <jdbc.postgresql.port>5432</jdbc.postgresql.port>
+        <jdbc.postgresql.database>jbpm3</jdbc.postgresql.database>
+        <jdbc.postgresql.username>jbpm3</jdbc.postgresql.username>
+        <jdbc.postgresql.password>jbpm3</jdbc.postgresql.password>
+
+      </properties>
+    </profile>
+
+  </profiles>
+</profilesXml>

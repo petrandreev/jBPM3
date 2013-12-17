@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jboss-web PUBLIC 
+  "-//JBoss//DTD Web Application 2.4//EN" 
+  "http://www.jboss.org/j2ee/dtd/jboss-web_4_0.dtd" >
+<jboss-web>
+  
+  <resource-ref>
+    <res-ref-name>jms/JbpmConnectionFactory</res-ref-name>
+    <jndi-name>java:JmsXA</jndi-name>
+  </resource-ref>
+  
+  <ejb-ref>
+    <ejb-ref-name>ejb/CommandServiceBean</ejb-ref-name>
+    <jndi-name>java:jbpm/CommandServiceBean</jndi-name>
+  </ejb-ref>
+
+  <message-destination-ref>
+    <message-destination-ref-name>jms/CommandQueue</message-destination-ref-name>
+    <jndi-name>queue/JbpmCommandQueue</jndi-name>
+  </message-destination-ref>
+
+</jboss-web>

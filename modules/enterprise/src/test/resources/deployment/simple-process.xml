@@ -1,0 +1,16 @@
+<process-definition name="simpleProcess" xmlns="urn:jbpm.org:jpdl-3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:jbpm.org:jpdl-3.2 http://jbpm.org/xsd/jpdl-3.2.xsd">
+  <start-state name='start'>
+    <transition to='a' />
+  </start-state>
+  <state name='a'>
+    <transition to='b' />
+  </state>
+  <state name='b'>
+    <transition to='c' />
+  </state>
+  <state name='c'>
+    <transition to='end' />
+  </state>
+  <end-state name='end' />
+</process-definition>

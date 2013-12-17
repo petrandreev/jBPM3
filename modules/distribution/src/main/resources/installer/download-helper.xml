@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: download-helper.xml 3319 2008-12-10 14:29:01Z thomas.diesler@jboss.com $ -->
+<project>
+
+  <target name="download-jboss">
+    <get src="http://downloads.sourceforge.net/jboss/jboss-5.0.0.GA.zip?modtime=1228452561&amp;big_mirror=1" dest="${install.path}/Uninstaller/jboss-5.0.0.GA.zip" usetimestamp="true"/>
+    <unzip src="${install.path}/Uninstaller/jboss-5.0.0.GA.zip" dest="${install.path}"/>
+  </target>
+  <target name="download-eclipse">
+    <get src="http://download.eclipse.org/technology/epp/downloads/release/ganymede/R/eclipse-java-ganymede-linux-gtk.tar.gz" 
+      dest="${install.path}/Uninstaller/eclipse-java-ganymede-linux-gtk.tar.gz" usetimestamp="true"/>
+    <untar src="${install.path}/Uninstaller/eclipse-java-ganymede-linux-gtk.tar.gz" dest="${install.path}" compression="gzip"/>
+  </target>
+
+</project>

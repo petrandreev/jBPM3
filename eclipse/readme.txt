@@ -1,24 +1,26 @@
-1. Edit your subversion configuration ~/.subversion/config
-Set the following properties in their corresponding section:
+#
+# $Id: $ 
+#
+
+1. Edit your subversion config ~/.subversion/config and set the following in each section:
 
 [miscellany]
 enable-auto-props = yes
 
 [auto-props]
-*.bat  = svn:eol-style=CRLF
-*.java = svn:eol-style=native
-*.properties = svn:eol-style=native
-*.sh   = svn:eol-style=LF;svn:executable
-*.txt  = svn:eol-style=native
-*.xml  = svn:eol-style=native
-*.xsd  = svn:eol-style=native
+*.bat = svn:keywords=Id Revision;svn:eol-style=LF
+*.java = svn:keywords=Id Revision;svn:eol-style=LF
+*.sh = svn:keywords=Id Revision;svn:eol-style=LF
+*.txt = svn:keywords=Id Revision;svn:eol-style=LF
+*.wsdl = svn:keywords=Id Revision;svn:eol-style=LF
+*.xml = svn:keywords=Id Revision;svn:eol-style=LF
+*.xsd = svn:keywords=Id Revision;svn:eol-style=LF
 
-2. If you are using an IDE, make sure that it refers to the same config.
-With Eclipse and Subclipse this is already the case if 
-Preferences -> Team -> SVN -> Configuration location is set to 
-"Use default config location"
+2. If you are using an IDE, make sure that it refers to the same config. So, 
+for example, if you are using Eclipse with Subclipse on windows, you need to
+set Team->SVN->Configuration Location to:
 
-3. If you are using Eclipse, import jbpm.code.templates.xml with
-Preferences -> Java -> Code Style -> Code Templates -> Import
-and jbpm.code.style.xml with 
-Preferences -> Java -> Code Style -> Formatter -> Import 
+/home/<your user name>/.subversion
+
+3. If you are using Eclipse, set your code style to jbpm.code.templates.xml with 
+Window --> Preferences --> Java --> Code Style --> Formatter --> Import 

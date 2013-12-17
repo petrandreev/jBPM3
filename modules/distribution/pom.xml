@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: pom.xml 4208 2009-03-10 04:55:09Z alex.guizar@jboss.com $ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>JBoss jBPM3 - Distribution</name>
+  <groupId>org.jbpm.jbpm3</groupId>
+  <artifactId>jbpm-distribution</artifactId>
+  <packaging>pom</packaging>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jbpm.jbpm3</groupId>
+    <artifactId>jbpm</artifactId>
+    <version>3.2.6.SP1</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-db</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-enterprise</artifactId>
+      <version>${version}</version>
+      <type>ejb</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-enterprise</artifactId>
+      <classifier>config</classifier>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-examples</artifactId>
+      <classifier>examples</classifier>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <classifier>config</classifier>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <classifier>service</classifier>
+      <version>${version}</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <classifier>config</classifier>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-userguide</artifactId>
+      <version>${version}</version>
+      <type>jdocbook</type>
+    </dependency>
+
+    <!-- jBPM Projects -->
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jsf-console</artifactId>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl-designer-site</artifactId>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>report-server</artifactId>
+      <type>war</type>
+    </dependency>
+
+    <!-- Sources -->
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-enterprise</artifactId>
+      <classifier>sources</classifier>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <classifier>sources</classifier>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <classifier>sources</classifier>
+      <version>${version}</version>
+    </dependency>
+
+    <!-- Javadoc -->
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-enterprise</artifactId>
+      <classifier>javadoc</classifier>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-identity</artifactId>
+      <classifier>javadoc</classifier>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
+      <classifier>javadoc</classifier>
+      <version>${version}</version>
+    </dependency>
+
+    <!-- Thirdparty Dependencies -->
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.birt</groupId>
+      <artifactId>report-engine</artifactId>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>izpack</groupId>
+      <artifactId>standalone-compiler</artifactId>
+    </dependency>
+
+    <!-- Database Drivers -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.jtds</groupId>
+      <artifactId>jtds</artifactId>
+    </dependency>
+  </dependencies>
+
+  <!-- Plugins -->
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>directory-single</goal>
+            </goals>
+            <configuration>
+              <finalName>deploy-artifacts</finalName>
+              <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>scripts/assembly-deploy-artifacts.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>izpack</id>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="maven.runtime.classpath" refid="maven.runtime.classpath" />
+                <property name="database" value="${database}" />
+                <property name="jboss.home" value="${jboss.home}" />
+                <property name="jboss422.home" value="${jboss422.home}" />
+                <property name="jboss423.home" value="${jboss423.home}" />
+                <property name="jboss500.home" value="${jboss500.home}" />
+                <property name="jbpm.target.container" value="${jbpm.target.container}" />
+                <property name="product.name" value="${project.name}" />
+                <property name="product.short.name" value="${artifactId}" />
+                <property name="product.version" value="${project.version}" />
+                <property name="user.home" value="${user.home}" />
+                <ant antfile="scripts/antrun-installer.xml" target="build-installer" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <profiles>
+    <profile>
+      <id>soa</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jbpm.jbpm3</groupId>
+          <artifactId>jsf-console</artifactId>
+          <classifier>soa</classifier>
+          <type>war</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+            <plugin>
+              <artifactId>maven-antrun-plugin</artifactId>
+              <executions>
+                <execution>
+                  <phase>process-resources</phase>
+                  <goals>
+                    <goal>run</goal>
+                  </goals>
+                  <configuration>
+                    <tasks>
+                      <!-- replace jsf-console.war with the SOA platform build -->
+                      <property name="targetDir" value="${project.build.directory}/deploy-artifacts/lib/"/>
+                      <echo>**** Replacing jsf-console with SOA-P build ****</echo>                      
+                      <delete file="${targetDir}/jsf-console.war"/>
+                      <copy file="${targetDir}/jsf-console-soa.war" tofile="${targetDir}/jsf-console.war"/>
+                    </tasks>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>          
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

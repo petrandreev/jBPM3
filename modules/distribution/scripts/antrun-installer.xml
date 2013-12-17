@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: antrun-installer.xml 3319 2008-12-10 14:29:01Z thomas.diesler@jboss.com $ -->
+<project>
+
+  <macrodef name="macro-disable">
+    <attribute name="file" />
+    <attribute name="section" />
+    <sequential>
+      <replace file="@{file}" summary="true">
+        <replacetoken><![CDATA[<!-- ]]>@{section}<![CDATA[ (begin) -->]]></replacetoken>
+        <replacevalue><![CDATA[<!-- ]]>@{section}<![CDATA[ (begin) ===]]></replacevalue>
+      </replace>
+      <replace file="@{file}" summary="true">
+        <replacetoken><![CDATA[<!-- ]]>@{section}<![CDATA[ (end) -->]]></replacetoken>
+        <replacevalue><![CDATA[==== ]]>@{section}<![CDATA[ (end) -->]]></replacevalue>
+      </replace>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="macro-enable">
+    <attribute name="file" />
+    <attribute name="section" />
+    <sequential>
+      <replace file="@{file}" summary="true">
+        <replacetoken><![CDATA[<!-- ]]>@{section}<![CDATA[ (begin) ===]]></replacetoken>
+        <replacevalue><![CDATA[<!-- ]]>@{section}<![CDATA[ (begin) -->]]></replacevalue>
+      </replace>
+      <replace file="@{file}" summary="true">
+        <replacetoken><![CDATA[==== ]]>@{section}<![CDATA[ (end) -->]]></replacetoken>
+        <replacevalue><![CDATA[<!-- ]]>@{section}<![CDATA[ (end) -->]]></replacevalue>
+      </replace>
+    </sequential>
+  </macrodef>
+
+  <!-- ================================================================== -->
+  <!-- Setup                                                              -->
+  <!-- ================================================================== -->
+  <property name="output.dir" value="${basedir}/target" />
+  <property name="resources.dir" value="${basedir}/src/main/resources" />
+  <property name="filtered.resources.dir" value="${output.dir}/resources" />
+  <property name="deploy.artifacts.dir" value="${output.dir}/deploy-artifacts" />
+  <property name="deploy.artifacts.lib" value="${deploy.artifacts.dir}/lib" />
+  <property name="deploy.artifacts.resources" value="${deploy.artifacts.dir}/resources" />
+
+  <!-- ================================================================== -->
+  <!-- Initialization                                                     -->
+  <!-- ================================================================== -->
+  <target name="init">
+
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Configuration                                                     -->
+  <!-- ================================================================== -->
+  <target name="configure" depends="init">
+
+    <property name="hsqldb.cfg.xml" value="${deploy.artifacts.resources}/jbpm-jpdl-config/hibernate.cfg.hsqldb.xml"/>
+    <macro-disable file="${hsqldb.cfg.xml}" section="JDBC connection properties"/>
+    <macro-disable file="${hsqldb.cfg.xml}" section="Automatic schema creation"/>
+    <macro-enable file="${hsqldb.cfg.xml}" section="DataSource properties"/>
+    <macro-enable file="${hsqldb.cfg.xml}" section="JTA transaction properties"/>
+
+    <property name="mysql.cfg.xml" value="${deploy.artifacts.resources}/jbpm-jpdl-config/hibernate.cfg.mysql.xml"/>
+    <macro-disable file="${mysql.cfg.xml}" section="JDBC connection properties"/>
+    <macro-disable file="${mysql.cfg.xml}" section="Automatic schema creation"/>
+    <macro-enable file="${mysql.cfg.xml}" section="DataSource properties"/>
+    <macro-enable file="${mysql.cfg.xml}" section="JTA transaction properties"/>
+
+    <property name="postgresql.cfg.xml" value="${deploy.artifacts.resources}/jbpm-jpdl-config/hibernate.cfg.postgresql.xml"/>
+    <macro-disable file="${postgresql.cfg.xml}" section="JDBC connection properties"/>
+    <macro-disable file="${postgresql.cfg.xml}" section="Automatic schema creation"/>
+    <macro-enable file="${postgresql.cfg.xml}" section="DataSource properties"/>
+    <macro-enable file="${postgresql.cfg.xml}" section="JTA transaction properties"/>
+
+    <property name="sybase.cfg.xml" value="${deploy.artifacts.resources}/jbpm-jpdl-config/hibernate.cfg.sybase.xml"/>
+    <macro-disable file="${sybase.cfg.xml}" section="JDBC connection properties"/>
+    <macro-disable file="${sybase.cfg.xml}" section="Automatic schema creation"/>
+    <macro-enable file="${sybase.cfg.xml}" section="DataSource properties"/>
+    <macro-enable file="${sybase.cfg.xml}" section="JTA transaction properties"/>
+
+    <condition property="database.is.hsqldb" value="true" else="false">
+      <equals arg1="${database}" arg2="hsqldb"/>
+    </condition>
+    <condition property="database.is.mysql" value="true" else="false">
+      <equals arg1="${database}" arg2="mysql"/>
+    </condition>
+    <condition property="database.is.postgresql" value="true" else="false">
+      <equals arg1="${database}" arg2="postgresql"/>
+    </condition>
+    <condition property="database.is.sybase" value="true" else="false">
+      <equals arg1="${database}" arg2="sybase"/>
+    </condition>
+
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Distribution                                                       -->
+  <!-- ================================================================== -->
+  <target name="build-installer" depends="configure">
+
+    <copy todir="${filtered.resources.dir}" filtering="true" overwrite="true">
+      <fileset dir="${resources.dir}/installer" />
+      <filterset>
+        <filter token="database" value="${database}" />
+        <filter token="database.is.hsqldb" value="${database.is.hsqldb}" />
+        <filter token="database.is.mysql" value="${database.is.mysql}" />
+        <filter token="database.is.postgresql" value="${database.is.postgresql}" />
+      	<filter token="database.is.sybase" value="${database.is.sybase}" />
+        <filter token="jbpm.target.container" value="${jbpm.target.container}" />
+        <filter token="jboss.home" value="${jboss.home}" />
+        <filter token="product.version" value="${product.version}" />
+        <filter token="user.home" value="${user.home}" />
+      </filterset>
+    </copy>
+
+    <!-- Allows us to use the IzPack Ant task, standalone-compiler.jar added to Ant lib -->
+    <taskdef name="izpack" classname="com.izforge.izpack.ant.IzPackTask">
+      <classpath>
+        <pathelement path="${maven.runtime.classpath}" />
+      </classpath>
+    </taskdef>
+    <property name="izpack.temp.dir" value="${output.dir}/izpack-temp" />
+    <mkdir dir="${izpack.temp.dir}" />
+
+    <!-- Run installer build -->
+    <echo message="Running IzPack to build the installer..." />
+    <izpack input="${resources.dir}/installer/install-definition.xml" output="${output.dir}/jbpm-installer-${product.version}.jar"
+      installerType="standard" inheritAll="true" basedir="${izpack.temp.dir}" />
+
+    <!-- Clean working directory -->
+    <delete dir="${izpack.temp.dir}" quiet="true" includeemptydirs="true" />
+  </target>
+</project>

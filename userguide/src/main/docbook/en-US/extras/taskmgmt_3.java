@@ -1,1 +1,0 @@
-protected ExpressionSession getExpressionSession(AssignmentContext assignmentContext);
