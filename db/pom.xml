@@ -18,11 +18,11 @@
   <parent>
     <groupId>org.jbpm.jbpm3</groupId>
     <artifactId>jbpm</artifactId>
-    <version>3.2.14</version>
+    <version>3.2.14.SP1</version>
   </parent>
 
   <properties>
-    <previous.version>3.2.13</previous.version>
+    <previous.version>3.2.14</previous.version>
     <previous.version.directory>${project.build.directory}/${previous.version}</previous.version.directory>
   </properties>
 

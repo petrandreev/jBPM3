@@ -13,7 +13,7 @@
   <groupId>org.jbpm.jbpm3</groupId>
   <artifactId>jbpm</artifactId>
   <packaging>pom</packaging>
-  <version>3.2.14</version>
+  <version>3.2.14.SP1</version>
 
   <!-- Parent -->
   <parent>
