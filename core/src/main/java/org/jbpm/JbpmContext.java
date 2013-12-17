@@ -344,8 +344,11 @@ public class JbpmContext implements Serializable {
    * @see #loadProcessInstanceForUpdate(long)
    * @see #getProcessInstanceForUpdate(long)
    */
-  public ProcessInstance loadProcessInstance(long processInstanceId) {
-    return getGraphSession().loadProcessInstance(processInstanceId);
+  public ProcessInstance loadProcessInstance(long processInstanceId)
+  {
+      final ProcessInstance processInstance = getGraphSession().loadProcessInstance(processInstanceId);
+      getGraphSession().lockProcessInstance(processInstance);
+      return processInstance;
   }
 
   /**
@@ -358,8 +361,14 @@ public class JbpmContext implements Serializable {
    * @see #loadProcessInstanceForUpdate(long)
    * @see #getProcessInstanceForUpdate(long)
    */
-  public ProcessInstance getProcessInstance(long processInstanceId) {
-    return getGraphSession().getProcessInstance(processInstanceId);
+  public ProcessInstance getProcessInstance(long processInstanceId)
+  {
+      final ProcessInstance processInstance = getGraphSession().getProcessInstance(processInstanceId);
+      if (processInstance != null)
+      {
+          getGraphSession().lockProcessInstance(processInstance);
+      }
+      return processInstance;
   }
 
   /**
@@ -375,6 +384,7 @@ public class JbpmContext implements Serializable {
    */
   public ProcessInstance loadProcessInstanceForUpdate(long processInstanceId) {
     ProcessInstance processInstance = getGraphSession().loadProcessInstance(processInstanceId);
+    getGraphSession().lockProcessInstance(processInstance);
     addAutoSaveProcessInstance(processInstance);
     return processInstance;
   }
@@ -392,8 +402,10 @@ public class JbpmContext implements Serializable {
    */
   public ProcessInstance getProcessInstanceForUpdate(long processInstanceId) {
     ProcessInstance processInstance = getGraphSession().getProcessInstance(processInstanceId);
-    if (processInstance != null) {
-      addAutoSaveProcessInstance(processInstance);
+    if (processInstance != null)
+    {
+        getGraphSession().lockProcessInstance(processInstance);
+        addAutoSaveProcessInstance(processInstance);
     }
     return processInstance;
   }
@@ -401,28 +413,35 @@ public class JbpmContext implements Serializable {
   /**
    * returns the process instance with the given key or null if no such instance exists.
    */
-  public ProcessInstance getProcessInstance(ProcessDefinition processDefinition, String key) {
-    return getGraphSession().getProcessInstance(processDefinition, key);
+  public ProcessInstance getProcessInstance(ProcessDefinition processDefinition, String key)
+  {
+      final ProcessInstance processInstance = getGraphSession().getProcessInstance(processDefinition, key);
+      getGraphSession().lockProcessInstance(processInstance);
+      return processInstance;
   }
 
   /**
    * returns the process instance with the given key or throws an exception if no such instance
    * exists.
    */
-  public ProcessInstance loadProcessInstance(ProcessDefinition processDefinition, String key) {
-    return getGraphSession().loadProcessInstance(processDefinition, key);
+  public ProcessInstance loadProcessInstance(ProcessDefinition processDefinition, String key)
+  {
+      final ProcessInstance processInstance = getGraphSession().loadProcessInstance(processDefinition, key);
+      getGraphSession().lockProcessInstance(processInstance);
+      return processInstance;
   }
 
   /**
    * returns the process instance with the given key or null if no such instance exists. Upon
    * close of this jbpmContext, the fetched process instance will be automatically saved.
    */
-  public ProcessInstance getProcessInstanceForUpdate(ProcessDefinition processDefinition,
-    String key) {
-    ProcessInstance processInstance = getGraphSession().getProcessInstance(processDefinition,
-      key);
-    if (processInstance != null) {
-      addAutoSaveProcessInstance(processInstance);
+  public ProcessInstance getProcessInstanceForUpdate(ProcessDefinition processDefinition, String key)
+  {
+    ProcessInstance processInstance = getGraphSession().getProcessInstance(processDefinition, key);
+    if (processInstance != null)
+    {
+        addAutoSaveProcessInstance(processInstance);
+        getGraphSession().lockProcessInstance(processInstance);
     }
     return processInstance;
   }
@@ -438,6 +457,7 @@ public class JbpmContext implements Serializable {
       key);
     if (processInstance != null) {
       addAutoSaveProcessInstance(processInstance);
+      getGraphSession().lockProcessInstance(processInstance);
     }
     return processInstance;
   }
