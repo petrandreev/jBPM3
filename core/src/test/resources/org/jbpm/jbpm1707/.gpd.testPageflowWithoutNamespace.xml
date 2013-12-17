@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="numberGuess" width="842" height="614">
+  <node name="displayGuess" x="36" y="36" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="evaluateGuess" x="36" y="108" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="-22" y="8"/>
+    </edge>
+  </node>
+  <node name="evaluateRemainingGuesses" x="228" y="108" width="193" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="1" y="-19"/>
+    </edge>
+  </node>
+  <node name="win" x="36" y="180" width="132" height="36"/>
+  <node name="lose" x="264" y="180" width="120" height="36"/>
+</root-container>

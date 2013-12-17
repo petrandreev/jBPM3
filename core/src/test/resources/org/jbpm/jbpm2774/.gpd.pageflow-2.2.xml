@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="jbpm2774" width="784" height="581">
+  <node name="guess number" x="36" y="108" width="145" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="is guess correct?" x="36" y="180" width="145" height="37">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="108" h1="1" w2="108" h2="73"/>
+      <bendpoint w1="108" h1="-73" w2="108" h2="-1"/>
+    </edge>
+  </node>
+  <node name="show attempts" x="36" y="264" width="144" height="36"/>
+</root-container>
