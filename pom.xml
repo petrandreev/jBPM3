@@ -444,8 +444,13 @@
   <repositories>
     <repository>
       <id>repository.jboss.org</id>
-      <url>http://repository.jboss.org/maven2</url>
+      <url>https://repository.jboss.org/nexus</url>
     </repository>
+	<repository>
+      <id>jboss.deprecated</id>
+      <url>https://repository.jboss.org/nexus/content/repositories/deprecated</url>
+    </repository>
+	
   </repositories>
 
   <!-- Profiles -->
