@@ -34,7 +34,8 @@ public class JbpmVariableResolver implements VariableResolver {
     if (contextInstance != null) {
       Token token = executionContext.getToken();
       if (contextInstance.hasVariable(name, token)) {
-        return contextInstance.getVariable(name);
+        //https://issues.jboss.org/browse/JBPM-3729
+        return contextInstance.getVariable(name, token); 
       }
       if (contextInstance.hasTransientVariable(name)) {
         return contextInstance.getTransientVariable(name);
