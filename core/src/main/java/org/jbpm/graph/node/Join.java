@@ -97,7 +97,9 @@ public class Join extends Node {
 
   public void enter(ExecutionContext executionContext) {
     Token token = executionContext.getToken();
-    token.end(false);
+    // do not end root tokens https://issues.jboss.org/browse/JBPM-3735
+    if(token.getParent() != null)
+        token.end(false);
     token.setAbleToReactivateParent(true);
     super.enter(executionContext);
   }
@@ -128,7 +130,8 @@ public class Join extends Node {
       }
     }
 
-    Token parentToken = arrivingToken.getParent();
+    //https://issues.jboss.org/browse/JBPM-3735
+    Token parentToken = arrivingToken.getParent() != null ? arrivingToken.getParent() : arrivingToken;
     boolean reactivateParent;
     // if this is a discriminator
     if (isDiscriminator) {
