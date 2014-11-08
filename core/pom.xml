@@ -18,7 +18,7 @@
   <parent>
     <groupId>org.jbpm.jbpm3</groupId>
     <artifactId>jbpm</artifactId>
-    <version>3.2.14.SP1</version>
+    <version>3.2.14.SP1.hib36</version>
   </parent>
 
   <!-- Dependencies -->
