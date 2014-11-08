@@ -21,6 +21,7 @@
  */
 package org.jbpm.svc.save;
 
+import org.hibernate.Session;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.persistence.PersistenceService;
@@ -28,17 +29,20 @@ import org.jbpm.persistence.db.DbPersistenceService;
 
 public class HibernateSaveOperation implements SaveOperation {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  public void save(ProcessInstance processInstance, JbpmContext jbpmContext) {
-    // check if transaction is active before saving process instance
-    // https://jira.jboss.org/browse/JBPM-2983
-    PersistenceService persistenceService = jbpmContext.getServices().getPersistenceService();
-    if (persistenceService instanceof DbPersistenceService) {
-      DbPersistenceService dbPersistenceService = (DbPersistenceService) persistenceService;
-      if (dbPersistenceService.isTransactionActive()) {
-        dbPersistenceService.getSession().save(processInstance);
-      }
+    public void save(ProcessInstance processInstance, JbpmContext jbpmContext) {
+        // check if transaction is active before saving process instance
+        // https://jira.jboss.org/browse/JBPM-2983
+        PersistenceService persistenceService = jbpmContext.getServices().getPersistenceService();
+        if (persistenceService instanceof DbPersistenceService) {
+            DbPersistenceService dbPersistenceService = (DbPersistenceService) persistenceService;
+            if (dbPersistenceService.isTransactionActive()) {
+                Session session = dbPersistenceService.getSession();
+                if (session != null && session.isOpen()) {
+                    session.save(processInstance);
+                }
+            }
+        }
     }
-  }
 }
