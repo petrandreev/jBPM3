@@ -29,6 +29,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 /**
  * interface for creating customized task instances.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface TaskInstanceFactory extends Serializable {
 
   /**

@@ -32,6 +32,9 @@ import org.jbpm.JbpmContext;
  * this test verifies that services are closed in the 
  * order as they are specified in the jbpmConfiguration (=jbpm.cfg.xml)
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CloseSequenceTest extends AbstractJbpmTestCase {
   
   static List closedServices = null; 

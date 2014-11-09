@@ -29,19 +29,22 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 
 /**
- * Specialized object input stream that allows classes to be fetched through a
- * custom class loader if the stream is unable to resolve them in the usual
- * manner.
+ * Specialized object input stream that allows classes to be fetched through a custom class
+ * loader if the stream is unable to resolve them in the usual manner.
  * 
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CustomLoaderObjectInputStream extends ObjectInputStream {
 
   private final ClassLoader customLoader;
 
   /**
-   * Provide a way for subclasses to not have to allocate private data just used
-   * by the platform's implementation of ObjectInputStream.
+   * Provide a way for subclasses to not have to allocate private data just used by the
+   * platform's implementation of ObjectInputStream.
+   * 
    * @throws IOException if an I/O error occurs
    */
   protected CustomLoaderObjectInputStream() throws IOException {
@@ -49,28 +52,28 @@ public class CustomLoaderObjectInputStream extends ObjectInputStream {
   }
 
   /**
-   * Creates a <code>CustomLoaderObjectInputStream</code> that reads from the
-   * specified input stream and resolves classes using the context class loader.
+   * Creates a <code>CustomLoaderObjectInputStream</code> that reads from the specified input
+   * stream and resolves classes using the context class loader.
+   * 
    * @param in input stream to read from
    * @throws IOException if an I/O error occurs while reading stream header
-   * @throws SecurityException if untrusted subclass illegally overrides
-   * security-sensitive methods; note that this class does <em>not</em>
-   * override said methods
+   * @throws SecurityException if untrusted subclass illegally overrides security-sensitive
+   * methods; note that this class does <em>not</em> override said methods
    */
   public CustomLoaderObjectInputStream(InputStream in) throws IOException {
     this(in, Thread.currentThread().getContextClassLoader());
   }
 
   /**
-   * Creates a <code>CustomLoaderObjectInputStream</code> that reads from the
-   * specified input stream and resolves classes using the given class loader.
+   * Creates a <code>CustomLoaderObjectInputStream</code> that reads from the specified input
+   * stream and resolves classes using the given class loader.
+   * 
    * @param in input stream to read from
    * @param customLoader the loader to use for resolving classes
    * @throws IOException if an I/O error occurs while reading stream header
    * @throws IllegalArgumentException if <code>customLoader</code> is <code>null</code>
-   * @throws SecurityException if untrusted subclass illegally overrides
-   * security-sensitive methods; note that this class does <em>not</em>
-   * override said methods
+   * @throws SecurityException if untrusted subclass illegally overrides security-sensitive
+   * methods; note that this class does <em>not</em> override said methods
    */
   public CustomLoaderObjectInputStream(InputStream in, ClassLoader customLoader)
     throws IOException {
@@ -120,8 +123,7 @@ public class CustomLoaderObjectInputStream extends ObjectInputStream {
         classes[i] = cl;
       }
       try {
-        return Proxy.getProxyClass(nonPublicLoader != null ? nonPublicLoader : customLoader,
-          classes);
+        return Proxy.getProxyClass(nonPublicLoader != null ? nonPublicLoader : customLoader, classes);
       }
       catch (IllegalArgumentException iae) {
         throw new ClassNotFoundException("could not get proxy class for interfaces: "

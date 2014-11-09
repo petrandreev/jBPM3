@@ -20,6 +20,9 @@ import org.jbpm.sim.report.dto.ValueStatisticResult;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ScenarioReport {
 
   private String scenarioName;

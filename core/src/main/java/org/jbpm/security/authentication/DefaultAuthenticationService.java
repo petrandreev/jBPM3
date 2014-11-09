@@ -23,6 +23,9 @@ package org.jbpm.security.authentication;
 
 import org.jbpm.security.AuthenticationService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DefaultAuthenticationService implements AuthenticationService {
 
   private static final long serialVersionUID = 1L;

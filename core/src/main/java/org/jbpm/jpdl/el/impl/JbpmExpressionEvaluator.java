@@ -5,9 +5,12 @@ import java.util.regex.Pattern;
 import org.jbpm.JbpmConfiguration.Configs;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.el.ExpressionEvaluator;
-import org.jbpm.jpdl.el.VariableResolver;
 import org.jbpm.jpdl.el.FunctionMapper;
+import org.jbpm.jpdl.el.VariableResolver;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class JbpmExpressionEvaluator {
 
   private static ExpressionEvaluator expressionEvaluator;
@@ -69,22 +72,19 @@ public class JbpmExpressionEvaluator {
 
   public static Object evaluate(String expression, ExecutionContext executionContext,
     Class expectedType) {
-    return evaluate(expression, executionContext, expectedType, getVariableResolver(),
-      getFunctionMapper());
+    return evaluate(expression, executionContext, expectedType, getVariableResolver(), getFunctionMapper());
   }
 
   public static Object evaluate(String expression, ExecutionContext executionContext,
     VariableResolver variableResolver, FunctionMapper functionMapper) {
-    return evaluate(expression, executionContext, Object.class, variableResolver,
-      functionMapper);
+    return evaluate(expression, executionContext, Object.class, variableResolver, functionMapper);
   }
 
   public static Object evaluate(String expression, ExecutionContext executionContext,
     Class expectedType, VariableResolver variableResolver, FunctionMapper functionMapper) {
     ExecutionContext.pushCurrentContext(executionContext);
     try {
-      return getExpressionEvaluator().evaluate(translateExpressionToDollars(expression),
-        expectedType, variableResolver, functionMapper);
+      return getExpressionEvaluator().evaluate(translateExpressionToDollars(expression), expectedType, variableResolver, functionMapper);
     }
     finally {
       ExecutionContext.popCurrentContext(executionContext);

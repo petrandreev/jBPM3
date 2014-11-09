@@ -42,6 +42,9 @@ import org.jbpm.taskmgmt.def.Task;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ExecutionContext {
 
   protected Token token;

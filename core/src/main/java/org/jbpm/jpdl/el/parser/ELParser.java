@@ -13,6 +13,9 @@ import java.util.List;
  * @author Shawn Bayern
  */
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ELParser implements ELParserConstants {
 
   public static void main(String args[])

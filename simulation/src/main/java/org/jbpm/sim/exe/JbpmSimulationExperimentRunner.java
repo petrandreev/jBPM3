@@ -13,6 +13,9 @@ import org.xml.sax.InputSource;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmSimulationExperimentRunner {
 
   /**

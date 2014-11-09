@@ -26,6 +26,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class IdAssignmentDbTest extends AbstractDbTestCase {
   static int successfullInvocations = 0;
 

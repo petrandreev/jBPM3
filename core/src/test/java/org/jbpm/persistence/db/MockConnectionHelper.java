@@ -5,6 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class MockConnectionHelper implements InvocationHandler{
 	
   public Connection createMockConnection() {

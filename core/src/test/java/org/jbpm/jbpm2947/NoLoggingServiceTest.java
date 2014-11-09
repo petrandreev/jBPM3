@@ -35,6 +35,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2947">JBPM-2947</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class NoLoggingServiceTest extends AbstractDbTestCase {
 
   protected String getJbpmTestConfig() {

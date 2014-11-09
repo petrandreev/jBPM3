@@ -36,6 +36,9 @@ import org.jbpm.util.ClassUtil;
 /**
  * base for classes that store variable values in the database.
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public abstract class VariableInstance implements Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -6,6 +6,9 @@ import org.jbpm.sim.exe.ExperimentReader;
 import org.jbpm.sim.kpi.BusinessFigureCalculator;
 import org.jbpm.sim.report.ScenarioReport;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class BusinessFiguresTest extends AbstractSimTestCase {
 
   private static final String testProcessXml = "<process-definition name='test' start-distribution='startDist'>"

@@ -11,6 +11,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ExpressionTest extends AbstractJbpmTestCase {
   
   public static class MyBean {

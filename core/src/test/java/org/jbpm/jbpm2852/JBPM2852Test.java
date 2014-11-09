@@ -30,8 +30,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import junit.framework.Test;
-
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
@@ -48,12 +46,15 @@ import org.subethamail.wiser.WiserMessage;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2852">JBPM-2852</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2852Test extends AbstractJbpmTestCase {
 
   private JbpmContext jbpmContext;
   private ProcessInstance processInstance;
 
-  private JbpmConfiguration getJbpmConfiguration( int smtpPort ) { 
+  private JbpmConfiguration getJbpmConfiguration(int smtpPort) {
     return JbpmConfiguration.parseXmlString(XML_DECL
       + "<jbpm-configuration>"
       + "  <jbpm-context />"
@@ -61,7 +62,7 @@ public class JBPM2852Test extends AbstractJbpmTestCase {
       + "  <int name='jbpm.mail.smtp.port' value='" + smtpPort + "' />"
       + "</jbpm-configuration>");
   }
-  
+
   private Wiser wiser;
 
   protected void setUp() throws Exception {
@@ -84,7 +85,7 @@ public class JBPM2852Test extends AbstractJbpmTestCase {
     wiser.getMessages().clear();
     wiser.stop();
     wiser = null;
-    
+
     jbpmContext.close();
     super.tearDown();
   }

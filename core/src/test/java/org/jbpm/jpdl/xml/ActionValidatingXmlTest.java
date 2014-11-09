@@ -35,6 +35,9 @@ import org.jbpm.jpdl.JpdlException;
 
 // TODO create validation paths for each element positive test and negative test
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ActionValidatingXmlTest extends AbstractXmlTestCase {
 
   private static final String jpdlNamespace = "urn:jbpm.org:jpdl-3.2";

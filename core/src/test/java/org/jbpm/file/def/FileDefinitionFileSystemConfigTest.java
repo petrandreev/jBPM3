@@ -24,6 +24,9 @@ package org.jbpm.file.def;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class FileDefinitionFileSystemConfigTest extends
     FileDefinitionDbConfigTest {
 

@@ -10,8 +10,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import junit.framework.Test;
-
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
@@ -29,30 +27,28 @@ import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
 import org.subethamail.wiser.Wiser;
 import org.subethamail.wiser.WiserMessage;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskMailTest extends AbstractJbpmTestCase {
 
   private JbpmContext jbpmContext;
 
-  private static JbpmConfiguration getJbpmConfiguration(int smtpPort) { 
-   return JbpmConfiguration.parseXmlString(XML_DECL
-    + "<jbpm-configuration>"
-    + "  <jbpm-context>"
-    + "    <service name='scheduler' factory='"
-    + TestSchedulerService.class.getName()
-    + "' />"
-    + "  </jbpm-context>"
-    + "  <int name='jbpm.mail.smtp.port' value='" + smtpPort + "' />"
-    + "  <bean name='jbpm.mail.address.resolver' class='"
-    + MailTest.TestAddressResolver.class.getName()
-    + "' singleton='true' />"
-    + "</jbpm-configuration>");
+  private static JbpmConfiguration getJbpmConfiguration(int smtpPort) {
+    return JbpmConfiguration.parseXmlString(XML_DECL + "<jbpm-configuration>"
+      + "  <jbpm-context>" + "    <service name='scheduler' factory='"
+      + TestSchedulerService.class.getName() + "' />" + "  </jbpm-context>"
+      + "  <int name='jbpm.mail.smtp.port' value='" + smtpPort + "' />"
+      + "  <bean name='jbpm.mail.address.resolver' class='"
+      + MailTest.TestAddressResolver.class.getName() + "' singleton='true' />"
+      + "</jbpm-configuration>");
   }
 
   private static Wiser wiser;
 
   protected void setUp() throws Exception {
     super.setUp();
-    
+
     wiser = MailTestSetup.getWiser();
     int smtpPort = wiser.getServer().getPort();
     jbpmContext = getJbpmConfiguration(smtpPort).createJbpmContext();
@@ -80,9 +76,7 @@ public class TaskMailTest extends AbstractJbpmTestCase {
       + "      <assignment actor-id='you' />"
       + "    </task>"
       + "    <transition to='b' />"
-      + "  </task-node>"
-      + "  <state name='b' />"
-      + "</process-definition>");
+      + "  </task-node>" + "  <state name='b' />" + "</process-definition>");
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
     processInstance.signal();
 
@@ -92,8 +86,7 @@ public class TaskMailTest extends AbstractJbpmTestCase {
     WiserMessage message = (WiserMessage) messages.get(0);
     MimeMessage email = message.getMimeMessage();
 
-    assert Arrays.equals(InternetAddress.parse("you@example.domain"),
-      email.getRecipients(RecipientType.TO));
+    assert Arrays.equals(InternetAddress.parse("you@example.domain"), email.getRecipients(RecipientType.TO));
     assertEquals("Task notification: laundry", email.getSubject());
     // just to make sure that all expressions were resolved
     String content = (String) email.getContent();
@@ -170,8 +163,7 @@ public class TaskMailTest extends AbstractJbpmTestCase {
     WiserMessage message = (WiserMessage) messages.get(0);
     MimeMessage email = message.getMimeMessage();
 
-    assert Arrays.equals(InternetAddress.parse("you@example.domain"),
-      email.getRecipients(RecipientType.TO));
+    assert Arrays.equals(InternetAddress.parse("you@example.domain"), email.getRecipients(RecipientType.TO));
     assertEquals("Task reminder: laundry", email.getSubject());
     // just to make sure that all expressions were resolved
     String content = (String) email.getContent();
@@ -197,9 +189,7 @@ public class TaskMailTest extends AbstractJbpmTestCase {
       + "      <assignment actor-id='ghost' />"
       + "    </task>"
       + "    <transition to='b' />"
-      + "  </task-node>"
-      + "  <state name='b' />"
-      + "</process-definition>");
+      + "  </task-node>" + "  <state name='b' />" + "</process-definition>");
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
     processInstance.signal();
 

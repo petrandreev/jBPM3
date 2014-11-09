@@ -1,3 +1,6 @@
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class AmountUpdate implements ActionHandler {
   public void execute(ExecutionContext ctx) throws Exception {
     // business logic

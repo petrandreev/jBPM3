@@ -48,6 +48,9 @@ import org.jbpm.util.ClassLoaderUtil;
  * 'jbpm.authenticator.principal.allow.overwrite' attribute. If this is set to false, setActorId
  * is simply ignored.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SubjectAuthenticationService implements AuthenticationService {
 
   private static final long serialVersionUID = 1L;

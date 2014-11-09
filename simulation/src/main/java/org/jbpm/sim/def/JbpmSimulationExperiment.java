@@ -32,6 +32,9 @@ import desmoj.core.simulator.Units;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmSimulationExperiment {
   
   public static int MILLISECONDS = Units.MS;

@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 /** @deprecated no use for this class */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JobHistoryEntry implements Serializable {
 
   private static final long serialVersionUID = 1L;

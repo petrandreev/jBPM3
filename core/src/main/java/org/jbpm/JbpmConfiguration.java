@@ -234,6 +234,9 @@ import org.jbpm.util.ClassLoaderUtil;
  * 
  * </p>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmConfiguration implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -447,6 +450,7 @@ public class JbpmConfiguration implements Serializable {
     /**
      * @deprecated call {@link JbpmConfiguration#setDefaultObjectFactory(ObjectFactory)} instead
      */
+    @Deprecated
     public static void setDefaultObjectFactory(ObjectFactory objectFactory) {
       JbpmConfiguration.setDefaultObjectFactory(objectFactory);
     }
@@ -534,9 +538,7 @@ public class JbpmConfiguration implements Serializable {
       // close remaining contexts
       List contextStack = (List) threadLocalContextStack.get();
       if (contextStack != null && !contextStack.isEmpty()) {
-        log.warn("closing "
-          + contextStack.size()
-          + " open contexts;"
+        log.warn("closing " + contextStack.size() + " open contexts;"
           + " make sure to close JbpmContext after use");
 
         // copy to array because JbpmContext.close() pops the context off the stack
@@ -617,9 +619,9 @@ public class JbpmConfiguration implements Serializable {
     try {
       // ThreadLocal.remove does not exist in JDK 1.4.2
       // invoke via reflection if available
-      Method removeMethod = ThreadLocal.class.getMethod("remove", null);
+      Method removeMethod = ThreadLocal.class.getMethod("remove");
       try {
-        removeMethod.invoke(threadLocal, null);
+        removeMethod.invoke(threadLocal);
       }
       catch (IllegalAccessException e) {
         // method should be public, otherwise Class.getMethod would not return it
@@ -677,13 +679,11 @@ public class JbpmConfiguration implements Serializable {
     }
 
     if (threadSafetyFlag) {
-      log.warn(jbpmContext
-        + " was not closed in the thread that created it;"
+      log.warn(jbpmContext + " was not closed in the thread that created it;"
         + " JbpmContext is not safe for access from multiple threads!");
     }
     else if (creationOrderFlag) {
-      log.warn(jbpmContext
-        + " was not closed in a block-structured manner;"
+      log.warn(jbpmContext + " was not closed in a block-structured manner;"
         + " check try-finally clauses around JbpmContext blocks");
     }
   }
@@ -703,6 +703,7 @@ public class JbpmConfiguration implements Serializable {
     return jobExecutor;
   }
 
+  @Override
   public String toString() {
     return "JbpmConfiguration"
       + (resourceName != null ? '(' + resourceName + ')'

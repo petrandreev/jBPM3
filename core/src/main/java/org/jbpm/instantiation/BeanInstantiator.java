@@ -28,6 +28,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Element;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class BeanInstantiator extends FieldInstantiator {
 
   protected void setPropertyValue(Class clazz, Object newInstance, String propertyName,

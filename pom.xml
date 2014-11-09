@@ -6,8 +6,8 @@
 <!--  Distributable under LGPL license.                                     -->
 <!--  See terms of license at http://www.gnu.org.                           -->
 <!-- ====================================================================== -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <name>jBPM3</name>
   <groupId>org.jbpm.jbpm3</groupId>
@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.jboss</groupId>
     <artifactId>jboss-parent</artifactId>
-    <version>5</version>
+    <version>10</version>
   </parent>
 
   <!-- Modules -->
@@ -36,16 +36,17 @@
   
   <!-- Properties -->
   <properties>
-    <maven.compiler.source>1.5</maven.compiler.source>
-    <maven.compiler.target>1.5</maven.compiler.target>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
 
     <!-- Dependency versions -->
-    <cargo.version>1.0.3</cargo.version>
-    <hibernate.version>3.2.4.sp1</hibernate.version>
+    <cargo.version>1.4.10</cargo.version>
+    <hibernate.version>3.6.10.Final</hibernate.version>
+    <version.javassist>3.12.0.GA</version.javassist>
+    <version.slf4j>1.6.1</version.slf4j>
 
     <!-- Plugin versions -->
-    <version.javadoc.plugin>2.7</version.javadoc.plugin>
-    
+    <version.javadoc.plugin>2.10.1</version.javadoc.plugin>
     <jdbc.driver.group>hsqldb</jdbc.driver.group>
     <jdbc.driver.artifact>hsqldb</jdbc.driver.artifact>
     <jdbc.driver.version>1.8.0.7</jdbc.driver.version>
@@ -200,8 +201,13 @@
       </dependency>
       <dependency>
         <groupId>org.hibernate</groupId>
-        <artifactId>hibernate</artifactId>
+        <artifactId>hibernate-core</artifactId>
         <version>${hibernate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javassist</groupId>
+        <artifactId>javassist</artifactId>
+        <version>${version.javassist}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.cluster</groupId>
@@ -341,6 +347,11 @@
           </exclusion>
         </exclusions>
       </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${version.slf4j}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -354,6 +365,11 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -370,7 +386,6 @@
           <detectOfflineLinks>false</detectOfflineLinks>
         </configuration>
       </plugin>
-
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
@@ -383,7 +398,6 @@
           </systemProperties>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
@@ -394,7 +408,6 @@
           <autoVersionSubmodules>true</autoVersionSubmodules>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
@@ -415,10 +428,8 @@
             </configuration>
           </execution>
         </executions>
-  	  </plugin>
-
+      </plugin>
     </plugins>
-
     <pluginManagement>
       <plugins>
         <plugin>
@@ -426,13 +437,11 @@
           <artifactId>izpack-maven-plugin</artifactId>
           <version>1.0-alpha-5</version>
         </plugin>
-
         <plugin>
           <groupId>org.jboss.maven.plugins</groupId>
           <artifactId>maven-jdocbook-plugin</artifactId>
           <version>2.3.6</version>
         </plugin>
-
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>sql-maven-plugin</artifactId>
@@ -480,7 +489,6 @@
       </snapshots>
     </repository>
   </repositories>
-
   <pluginRepositories>
     <pluginRepository>
       <id>jboss-public-repository-group</id>
@@ -792,7 +800,6 @@
         </plugins>
       </build>
     </profile>
-    
     <profile>
       <id>quality-check</id>
       <activation>
@@ -866,5 +873,4 @@
     <url>scm:git:file:///home/mrietvel/Workspace/jbpm_3/jbpm-release</url>
     <tag>HEAD</tag>
   </scm>
-
 </project>

@@ -37,6 +37,9 @@ import org.hibernate.engine.SessionFactoryImplementor;
 import org.jbpm.JbpmException;
 import org.jbpm.persistence.db.DbPersistenceService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JtaDbPersistenceService extends DbPersistenceService {
 
   private UserTransaction userTransaction;

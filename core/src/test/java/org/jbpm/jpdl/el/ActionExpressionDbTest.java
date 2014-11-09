@@ -8,6 +8,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ActionExpressionDbTest extends AbstractDbTestCase {
   
   public static class MyActionObject implements Serializable

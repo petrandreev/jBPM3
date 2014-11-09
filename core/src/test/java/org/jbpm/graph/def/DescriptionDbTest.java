@@ -3,6 +3,9 @@ package org.jbpm.graph.def;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.node.TaskNode;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DescriptionDbTest extends AbstractDbTestCase {
 
   public void testProcessDefinitionDescription() {

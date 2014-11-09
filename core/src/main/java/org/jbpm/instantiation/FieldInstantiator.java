@@ -46,6 +46,9 @@ import org.dom4j.Element;
 import org.jbpm.JbpmException;
 import org.jbpm.util.ClassLoaderUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class FieldInstantiator implements Instantiator {
 
   public Object instantiate(Class clazz, String configuration) {

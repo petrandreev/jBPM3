@@ -21,15 +21,17 @@
  */
 package org.jbpm.identity.assignment;
 
-import org.jbpm.identity.*;
+import org.jbpm.identity.Group;
+import org.jbpm.identity.User;
 
 /**
- * interface used by the {@link org.jbpm.identity.assignment.ExpressionAssignmentHandler}
- * to get information from the users data store. 
+ * interface used by the {@link org.jbpm.identity.assignment.ExpressionAssignmentHandler} to get
+ * information from the users data store.
+ * 
  * @see org.jbpm.identity.hibernate.IdentitySession
  */
 public interface ExpressionSession {
-  
+
   /**
    * retrieves a group from the user datastore including the membership relations.
    */

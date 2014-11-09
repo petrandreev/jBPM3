@@ -28,7 +28,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-
 import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.identity.Entity;
@@ -39,6 +38,9 @@ import org.jbpm.identity.assignment.ExpressionSession;
 import org.jbpm.identity.security.IdentityService;
 import org.jbpm.persistence.JbpmPersistenceException;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class IdentitySession implements IdentityService, ExpressionSession {
 
   private final Session session;

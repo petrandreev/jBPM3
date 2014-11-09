@@ -26,6 +26,9 @@ import java.util.Map;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.node.State;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class MultipleProcessDefinitionEventsDbTest extends AbstractDbTestCase {
 
   public void testEventPersistence() {

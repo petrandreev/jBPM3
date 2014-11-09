@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 /** @deprecated not in use anymore */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class StringUtil implements Serializable {
 
   private static final long serialVersionUID = 1L;

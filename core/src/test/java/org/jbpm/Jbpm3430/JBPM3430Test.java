@@ -62,6 +62,9 @@ import org.jbpm.svc.Services;
  * (Needs the postgresql jdbc driver jar to be attached to the build path
  * to work, as well as a local postgresql db, of course.)
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM3430Test extends AbstractDbTestCase {
 
   private static final String PROCESS_NAME = "jbpm3430";

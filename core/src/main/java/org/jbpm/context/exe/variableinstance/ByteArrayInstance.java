@@ -21,7 +21,7 @@
  */
 package org.jbpm.context.exe.variableinstance;
 
-import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.jbpm.JbpmContext;
 import org.jbpm.bytes.ByteArray;
@@ -51,20 +51,20 @@ public class ByteArrayInstance extends VariableInstance {
       ByteArray valueToUpdate = null;
       if (jbpmContext != null) {
         Session session = jbpmContext.getSession();
-        if (session != null) { 
-          valueToUpdate = (ByteArray) session.get(ByteArray.class, new Long(this.value.getId()), LockMode.UPGRADE);
-          if( valueToUpdate != null ) { 
+        if (session != null) {
+          valueToUpdate = (ByteArray) session.get(ByteArray.class, new Long(this.value.getId()), LockOptions.UPGRADE);
+          if (valueToUpdate != null) {
             valueToUpdate.update((ByteArray) value);
           }
         }
       }
-     
-      // if for some reason, this.value is NOT in the (hibernate) session, update it anyway. 
-      if( valueToUpdate == null ) { 
+
+      // if for some reason, this.value is NOT in the (hibernate) session, update it anyway.
+      if (valueToUpdate == null) {
         this.value.update((ByteArray) value);
       }
     }
-    else { 
+    else {
       this.value = (ByteArray) value;
     }
   }

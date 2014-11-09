@@ -17,6 +17,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.logging.db.DbLoggingService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class VariableContainer implements Serializable {
 
   protected Map variableInstances;

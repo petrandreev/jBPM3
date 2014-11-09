@@ -35,6 +35,9 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jbpm.util.ClassLoaderUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class HibernateHelper {
 
   private HibernateHelper() {
@@ -104,7 +107,7 @@ public class HibernateHelper {
         configuration.addProperties(properties);
       }
     }
-
+    configuration.buildMappings();
     return configuration;
   }
 
@@ -122,18 +125,18 @@ public class HibernateHelper {
   }
 
   public static void clearHibernateCache(SessionFactory sessionFactory) {
-    sessionFactory.evictQueries();
+    sessionFactory.getCache().evictQueryRegions();
 
     Map classMetadata = sessionFactory.getAllClassMetadata();
     for (Iterator iter = classMetadata.keySet().iterator(); iter.hasNext();) {
       String entityName = (String) iter.next();
-      sessionFactory.evictEntity(entityName);
+      sessionFactory.getCache().evictEntityRegion(entityName);
     }
 
     Map collectionMetadata = sessionFactory.getAllCollectionMetadata();
     for (Iterator iter = collectionMetadata.keySet().iterator(); iter.hasNext();) {
       String collectionName = (String) iter.next();
-      sessionFactory.evictCollection(collectionName);
+      sessionFactory.getCache().evictCollectionRegion(collectionName);
     }
   }
 

@@ -1,5 +1,8 @@
 // MyActionHandler represents a class that could execute 
 // some user code during the execution of a jBPM process.
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class MyActionHandler implements ActionHandler {
 
   // Before each test (in the setUp), the isExecuted member 

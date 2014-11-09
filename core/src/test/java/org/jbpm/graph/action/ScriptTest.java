@@ -38,6 +38,9 @@ import org.jbpm.graph.exe.Token;
 
 import bsh.ParseException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ScriptTest extends AbstractJbpmTestCase {
 
   public void testActionScript() {

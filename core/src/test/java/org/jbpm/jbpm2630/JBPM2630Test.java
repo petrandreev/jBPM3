@@ -33,6 +33,9 @@ import org.jbpm.JbpmContext;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2630">JBPM-2630</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2630Test extends AbstractJbpmTestCase {
 
   JbpmConfiguration baseConfiguration;

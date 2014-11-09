@@ -33,6 +33,9 @@ import org.jbpm.graph.def.ProcessDefinition;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class GetSimulationInputCommand extends GetProcessDefinitionCommand {
 
   private static final long serialVersionUID = 1L;

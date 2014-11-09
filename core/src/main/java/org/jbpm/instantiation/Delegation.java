@@ -37,6 +37,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.jpdl.xml.Parsable;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Delegation implements Parsable, Serializable {
 
   private static final long serialVersionUID = 1L;

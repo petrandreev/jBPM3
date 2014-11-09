@@ -32,6 +32,9 @@ import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.jpdl.xml.Parsable;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Action implements ActionHandler, Parsable {
 
   private static final long serialVersionUID = 1L;

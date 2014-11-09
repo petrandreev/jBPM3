@@ -21,12 +21,13 @@
  */
 package org.jbpm.db.hibernate;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Properties;
 
-import org.hibernate.type.StringType;
+import org.hibernate.dialect.Dialect;
+import org.hibernate.type.AbstractSingleColumnStandardBasicType;
+import org.hibernate.type.DiscriminatorType;
+import org.hibernate.type.descriptor.java.StringTypeDescriptor;
 import org.hibernate.usertype.ParameterizedType;
 
 /**
@@ -34,26 +35,47 @@ import org.hibernate.usertype.ParameterizedType;
  * parameter values to column size.
  * 
  * @author Alejandro Guizar
+ * @author pan
  */
-public class LimitedStringType extends StringType implements ParameterizedType {
-
-  private int limit;
+public class LimitedStringType extends AbstractSingleColumnStandardBasicType<String> implements
+  DiscriminatorType<String>, ParameterizedType {
 
   private static final long serialVersionUID = 1L;
 
-  public int getLimit() {
-    return limit;
+  private static final String TYPE_NAME = "ltdstring";
+
+  private static final String PARAMETER_LIMIT = "limit";
+
+  public LimitedStringType() {
+    super(new LimitedVarcharTypeDescriptor(), StringTypeDescriptor.INSTANCE);
   }
 
-  public void set(PreparedStatement st, Object value, int index) throws SQLException {
-    String text = (String) value;
-    if (text.length() > limit) text = text.substring(0, limit);
+  @Override
+  protected boolean registerUnderJavaType() {
+    return false;
+  }
 
-    st.setString(index, text);
+  public String objectToSQLString(String value, Dialect dialect) throws Exception {
+    return '\'' + value + '\'';
+  }
+
+  public String stringToObject(String xml) throws Exception {
+    return xml;
+  }
+
+  public String toString(String value) {
+    return value;
+  }
+
+  public int getLimit() {
+    return ((LimitedVarcharTypeDescriptor) getSqlTypeDescriptor()).getLimit();
   }
 
   public void setParameterValues(Properties parameters) {
-    limit = Integer.parseInt(parameters.getProperty("limit"));
+    ((LimitedVarcharTypeDescriptor) getSqlTypeDescriptor()).setLimit(Integer.parseInt(parameters.getProperty(PARAMETER_LIMIT)));
   }
 
+  public String getName() {
+    return TYPE_NAME;
+  }
 }

@@ -9,6 +9,9 @@ import org.jbpm.graph.exe.Token;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2948">JBPM-2948</a>
  * @author Brad Davis
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SignalTokenJob extends Job {
 
 	private static final long serialVersionUID = 1L;

@@ -39,6 +39,9 @@ import org.jbpm.util.ClassLoaderUtil;
  * 
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SharedProcessClassLoaderFactory implements ProcessClassLoaderFactory {
 
   private JbpmConfiguration jbpmConfiguration;

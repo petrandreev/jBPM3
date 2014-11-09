@@ -23,6 +23,9 @@ import edu.emory.mathcs.backport.java.util.concurrent.Semaphore;
  * 
  * @see <a href='https://jira.jboss.org/jira/browse/JBPM-1071'>JBPM-1071</a>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM1071Test extends AbstractDbTestCase {
 
   static final int nbrOfThreads = 4;

@@ -3,6 +3,9 @@ package org.jbpm.jpdl.par;
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class InstantiateAction implements ActionHandler {
 
   private static final long serialVersionUID = 1L;

@@ -12,6 +12,9 @@ import org.jbpm.sim.report.ScenarioReport;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ScenarioDetailsReport extends AbstractBaseJasperReport {
 
   private ScenarioReport report;

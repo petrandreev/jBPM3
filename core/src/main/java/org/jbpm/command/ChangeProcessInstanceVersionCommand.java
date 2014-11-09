@@ -49,6 +49,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * 
  * @author Bernd Ruecker (bernd.ruecker@camunda.com)
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ChangeProcessInstanceVersionCommand extends AbstractProcessInstanceBaseCommand {
 
   private static final long serialVersionUID = 2277080393930008224L;

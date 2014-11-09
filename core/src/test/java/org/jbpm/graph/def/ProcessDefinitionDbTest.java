@@ -27,6 +27,9 @@ import org.jbpm.file.def.FileDefinition;
 import org.jbpm.graph.node.StartState;
 import org.jbpm.taskmgmt.def.TaskMgmtDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessDefinitionDbTest extends AbstractDbTestCase {
 
   public void testProcessDefinitionVersion() {

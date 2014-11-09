@@ -60,6 +60,9 @@ import org.jbpm.util.Clock;
  * objects is with {@link ProcessInstance#getRootToken()} or
  * {@link org.jbpm.graph.exe.ProcessInstance#findToken(String)}.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Token implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 1L;

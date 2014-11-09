@@ -33,6 +33,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.instantiation.Delegation;
 import org.jbpm.taskmgmt.def.Task;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JpdlDbTest extends AbstractDbTestCase {
 
   public void testDecision() {

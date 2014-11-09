@@ -8,6 +8,9 @@ import org.jbpm.graph.exe.ExecutionContext;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class EmptyAction implements ActionHandler {
 
   private static final long serialVersionUID = 1L;

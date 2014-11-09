@@ -30,6 +30,9 @@ import java.util.Set;
  * common supertype for users, groups and memberships 
  * that manages the name and permissions.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Entity implements Serializable {
 
   private static final long serialVersionUID = 1L;

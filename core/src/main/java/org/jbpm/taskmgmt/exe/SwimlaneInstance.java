@@ -28,6 +28,9 @@ import org.jbpm.taskmgmt.def.Swimlane;
 /**
  * is a process role for a one process instance.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SwimlaneInstance implements Assignable {
 
   private static final long serialVersionUID = 1L;

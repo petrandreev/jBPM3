@@ -18,6 +18,9 @@ import org.jbpm.taskmgmt.def.TaskControllerHandler;
 import org.jbpm.taskmgmt.exe.Assignable;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class UserCodeInterceptorTest extends AbstractJbpmTestCase {
 
   static List logs = new ArrayList();

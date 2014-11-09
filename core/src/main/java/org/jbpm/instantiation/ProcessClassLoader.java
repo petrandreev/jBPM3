@@ -38,6 +38,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.persistence.PersistenceService;
 import org.jbpm.persistence.db.DbPersistenceService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessClassLoader extends ClassLoader {
 
   private ProcessDefinition processDefinition;

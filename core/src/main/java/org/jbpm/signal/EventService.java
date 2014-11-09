@@ -10,6 +10,9 @@ import org.jbpm.svc.Service;
  * @author thomas.diesler@jboss.com
  * @since 20-Dec-2008
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface EventService extends Service
 {
   static String SERVICE_NAME = "event";

@@ -25,6 +25,9 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class PersistenceConfigurationDbTest extends AbstractJbpmTestCase {
 
   public void testDisableHibernateTransactions() {

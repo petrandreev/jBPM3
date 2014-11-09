@@ -25,9 +25,9 @@ package org.jbpm.identity.security;
  * the password as a private credential of a Subject.
  */
 public class Password {
-  
+
   String text;
-  
+
   Password(String text) {
     this.text = text;
   }

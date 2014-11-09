@@ -39,6 +39,9 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
  * Alternatively, the back and done transitions can be specified 
  * in this interleave handler.
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class InterleaveEnd extends Node {
   
   private static final long serialVersionUID = 1L;

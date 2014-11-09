@@ -27,6 +27,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.taskmgmt.def.Swimlane;
 import org.jbpm.taskmgmt.def.TaskMgmtDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class StartStateDbTest extends AbstractDbTestCase {
 
   public void testStartState() {

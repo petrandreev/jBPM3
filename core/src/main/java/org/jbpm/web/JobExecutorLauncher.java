@@ -47,6 +47,9 @@ import org.jbpm.job.executor.JobExecutor;
  * 
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JobExecutorLauncher implements ServletContextListener {
 
   private JbpmConfiguration jbpmConfiguration;

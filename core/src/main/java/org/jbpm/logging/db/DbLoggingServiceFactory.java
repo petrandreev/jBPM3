@@ -24,6 +24,9 @@ package org.jbpm.logging.db;
 import org.jbpm.svc.Service;
 import org.jbpm.svc.ServiceFactory;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DbLoggingServiceFactory implements ServiceFactory {
 
   private static final long serialVersionUID = 1L;

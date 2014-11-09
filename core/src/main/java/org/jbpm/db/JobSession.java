@@ -28,7 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
-import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -42,17 +42,20 @@ import org.jbpm.job.executor.JobExecutor;
 import org.jbpm.persistence.JbpmPersistenceException;
 
 /**
- * This is the utility class that deals with Job persistence. 
- * It has a bunch of methods that have been grouped according to who uses the methods: 
+ * This is the utility class that deals with Job persistence. It has a bunch of methods that
+ * have been grouped according to who uses the methods:
  * <ul>
- *   <li>General use</li>
- *   <li>DispatcherThread, {@link JobExecutor}, etc.</li>
- *   <li>Service</li>
- *   <li>{@link Token}</li>
- *   <li>{@link ProcessInstance}</li>
- *   <li>Various commands, including the {@link ExecuteJobsCommand}</li>
+ * <li>General use</li>
+ * <li>DispatcherThread, {@link JobExecutor}, etc.</li>
+ * <li>Service</li>
+ * <li>{@link Token}</li>
+ * <li>{@link ProcessInstance}</li>
+ * <li>Various commands, including the {@link ExecuteJobsCommand}</li>
  * </ul>
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class JobSession {
 
   private final Session session;
@@ -69,8 +72,7 @@ public class JobSession {
         Timer timer = (Timer) job;
         Action action = timer.getAction();
         // if action is transient, save it
-        if (action != null && action.getId() == 0L) 
-          session.save(action);
+        if (action != null && action.getId() == 0L) session.save(action);
       }
     }
     catch (HibernateException e) {
@@ -97,7 +99,7 @@ public class JobSession {
   // JobExecutor, ExecuteJobsCommand
   public void reattachJob(Job job) {
     try {
-      session.lock(job, LockMode.NONE);
+      session.buildLockRequest(LockOptions.NONE).lock(job);
     }
     catch (HibernateException e) {
       throw new JbpmPersistenceException("could not reattach " + job, e);
@@ -112,7 +114,7 @@ public class JobSession {
         .setString("name", name)
         .setParameter("token", token)
         .executeUpdate();
-  
+
       // prevent further repetitions
       List timers = session.getNamedQuery("JobSession.findRepeatingTimersByName")
         .setString("name", name)
@@ -143,12 +145,12 @@ public class JobSession {
       throw new JbpmPersistenceException("could not get first acquirable job", e);
     }
   }
-  
+
   // Job Executor
-  public Date getNextUnownedDueJobDueDate(Date wakeUpDate) { 
+  public Date getNextUnownedDueJobDueDate(Date wakeUpDate) {
     try {
       Query query = session.getNamedQuery("JobSession.getNextUnownedDueJobDueDate")
-                           .setTimestamp("wakeUpDate", wakeUpDate);
+        .setTimestamp("wakeUpDate", wakeUpDate);
       return (Timestamp) query.uniqueResult();
     }
     catch (HibernateException e) {
@@ -164,8 +166,7 @@ public class JobSession {
         .list();
     }
     catch (HibernateException e) {
-      throw new JbpmPersistenceException("could not find jobs with lock time over " + threshold,
-        e);
+      throw new JbpmPersistenceException("could not find jobs with lock time over " + threshold, e);
     }
   }
 
@@ -276,7 +277,7 @@ public class JobSession {
     }
   }
 
-  //ESB  
+  // ESB
   public Job loadJob(long jobId) {
     try {
       return (Job) session.load(Job.class, new Long(jobId));
@@ -308,7 +309,7 @@ public class JobSession {
         + "' ignoring jobs " + monitoredJobs, e);
     }
   }
-  
+
   // Public API
   public List loadJobs(long[] jobIds) {
     int jobCount = jobIds.length;
@@ -318,5 +319,5 @@ public class JobSession {
     }
     return session.createCriteria(Job.class).add(Restrictions.in("id", jobs)).list();
   }
-  
+
 }

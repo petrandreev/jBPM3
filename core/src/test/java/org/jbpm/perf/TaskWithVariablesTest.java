@@ -32,6 +32,9 @@ import org.jbpm.taskmgmt.def.AssignmentHandler;
 import org.jbpm.taskmgmt.exe.Assignable;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskWithVariablesTest extends AbstractDbTestCase {
 
   public static class ErnieAssignmentHandler implements AssignmentHandler {

@@ -27,6 +27,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.graph.node.Join;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp10NOutOfMJoinTest extends AbstractJbpmTestCase {
 
   private static ProcessDefinition nOutOfMProcessDefinition = createNOutOfMProcessDefinition();

@@ -9,6 +9,9 @@ import org.jbpm.taskmgmt.def.TaskControllerHandler;
 import org.jbpm.taskmgmt.exe.Assignable;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface UserCodeInterceptor {
   
   void executeAction(Action action, ExecutionContext executionContext) throws Exception;

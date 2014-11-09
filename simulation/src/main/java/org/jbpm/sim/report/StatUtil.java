@@ -8,6 +8,9 @@ package org.jbpm.sim.report;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class StatUtil {
 
   /**

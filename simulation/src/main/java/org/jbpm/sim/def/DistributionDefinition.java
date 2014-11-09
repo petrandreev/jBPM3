@@ -21,6 +21,9 @@ import desmoj.core.simulator.Model;
  * @author bernd.ruecker@camunda.com
  * TODO: Make this class configurable to allow custom distributions later
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DistributionDefinition {
 
   public static boolean showInTrace = true;

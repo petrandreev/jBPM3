@@ -32,6 +32,9 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.graph.node.MilestoneEvent;
 import org.jbpm.instantiation.Delegation;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp19MilestoneTest extends AbstractJbpmTestCase {
 
   public static ProcessDefinition milestoneProcessDefinition = createMilestoneProcessDefinition();

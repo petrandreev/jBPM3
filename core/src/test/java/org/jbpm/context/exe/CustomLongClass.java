@@ -21,6 +21,9 @@
  */
 package org.jbpm.context.exe;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CustomLongClass {
 
   long id;

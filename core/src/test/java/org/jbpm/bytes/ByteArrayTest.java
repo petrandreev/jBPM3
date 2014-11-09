@@ -26,6 +26,9 @@ import java.util.List;
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.JbpmConfiguration;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ByteArrayTest extends AbstractJbpmTestCase {
 
   public void testByteChoppingBlockCount() {

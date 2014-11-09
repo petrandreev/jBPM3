@@ -28,6 +28,9 @@ import java.util.Date;
 
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class HolidayTest extends AbstractJbpmTestCase {
 
   public void testHolidaySingleDayParsing() throws Exception {

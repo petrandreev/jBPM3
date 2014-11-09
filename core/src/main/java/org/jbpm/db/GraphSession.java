@@ -28,12 +28,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
-import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-
 import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.graph.def.ProcessDefinition;
@@ -45,13 +44,18 @@ import org.jbpm.persistence.JbpmPersistenceException;
 /**
  * graph-related database operations.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class GraphSession {
 
   private final Session session;
   /** @deprecated */
+  @Deprecated
   private final JbpmSession jbpmSession;
 
   /** @deprecated use {@link #GraphSession(Session)} instead */
+  @Deprecated
   public GraphSession(JbpmSession jbpmSession) {
     this.session = jbpmSession.getSession();
     this.jbpmSession = jbpmSession;
@@ -109,8 +113,7 @@ public class GraphSession {
    */
   public ProcessDefinition loadProcessDefinition(long processDefinitionId) {
     try {
-      return (ProcessDefinition) session.load(ProcessDefinition.class,
-        new Long(processDefinitionId));
+      return (ProcessDefinition) session.load(ProcessDefinition.class, new Long(processDefinitionId));
     }
     catch (HibernateException e) {
       handle(e);
@@ -127,8 +130,7 @@ public class GraphSession {
    */
   public ProcessDefinition getProcessDefinition(long processDefinitionId) {
     try {
-      return (ProcessDefinition) session.get(ProcessDefinition.class,
-        new Long(processDefinitionId));
+      return (ProcessDefinition) session.get(ProcessDefinition.class, new Long(processDefinitionId));
     }
     catch (HibernateException e) {
       handle(e);
@@ -281,6 +283,7 @@ public class GraphSession {
   /**
    * @deprecated use {@link org.jbpm.JbpmContext#save(ProcessInstance)} instead.
    */
+  @Deprecated
   public void saveProcessInstance(ProcessInstance processInstance) {
     JbpmContext.getCurrentJbpmContext().save(processInstance);
   }
@@ -296,8 +299,7 @@ public class GraphSession {
     }
     catch (HibernateException e) {
       handle(e);
-      throw new JbpmPersistenceException("could not load process instance "
-        + processInstanceId, e);
+      throw new JbpmPersistenceException("could not load process instance " + processInstanceId, e);
     }
   }
 
@@ -312,8 +314,7 @@ public class GraphSession {
     }
     catch (HibernateException e) {
       handle(e);
-      throw new JbpmPersistenceException("could not get process instance "
-        + processInstanceId, e);
+      throw new JbpmPersistenceException("could not get process instance " + processInstanceId, e);
     }
   }
 
@@ -352,12 +353,11 @@ public class GraphSession {
    */
   public void lockProcessInstance(long processInstanceId) {
     try {
-      session.load(ProcessInstance.class, new Long(processInstanceId), LockMode.UPGRADE);
+      session.load(ProcessInstance.class, new Long(processInstanceId), LockOptions.UPGRADE);
     }
     catch (HibernateException e) {
       handle(e);
-      throw new JbpmPersistenceException("could not lock process instance "
-        + processInstanceId, e);
+      throw new JbpmPersistenceException("could not lock process instance " + processInstanceId, e);
     }
   }
 
@@ -366,7 +366,7 @@ public class GraphSession {
    */
   public void lockProcessInstance(ProcessInstance processInstance) {
     try {
-      session.lock(processInstance, LockMode.UPGRADE);
+      session.buildLockRequest(LockOptions.UPGRADE).lock(processInstance);
     }
     catch (HibernateException e) {
       handle(e);
@@ -570,8 +570,7 @@ public class GraphSession {
     }
     catch (HibernateException e) {
       handle(e);
-      throw new JbpmPersistenceException("could not find active nodes for "
-        + processInstance, e);
+      throw new JbpmPersistenceException("could not find active nodes for " + processInstance, e);
     }
   }
 

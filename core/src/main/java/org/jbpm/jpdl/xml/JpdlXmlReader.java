@@ -66,6 +66,9 @@ import org.jbpm.taskmgmt.def.Task;
 import org.jbpm.taskmgmt.def.TaskController;
 import org.jbpm.taskmgmt.def.TaskMgmtDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JpdlXmlReader implements ProblemListener {
 
   protected InputSource inputSource;

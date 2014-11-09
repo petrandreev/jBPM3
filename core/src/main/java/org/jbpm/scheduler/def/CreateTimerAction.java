@@ -40,6 +40,9 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.scheduler.SchedulerService;
 import org.jbpm.util.Clock;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CreateTimerAction extends Action {
 
   private static final long serialVersionUID = 1L;

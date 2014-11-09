@@ -22,6 +22,9 @@ import org.jbpm.util.ArrayUtil;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class AbstractProcessInstanceBaseCommand extends AbstractBaseCommand {
 
   protected final Log log = LogFactory.getLog(getClass());

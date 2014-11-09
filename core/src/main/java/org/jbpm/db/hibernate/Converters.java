@@ -37,6 +37,9 @@ import org.jbpm.util.ClassLoaderUtil;
 /**
  * provides access to the list of converters and ensures that the converter objects are unique.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Converters {
 
   private static final Map convertersByResource = new HashMap();

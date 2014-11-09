@@ -26,6 +26,9 @@ import java.net.ServerSocket;
 
 import org.subethamail.wiser.Wiser;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class MailTestSetup {
 
   public static Wiser getWiser() { 

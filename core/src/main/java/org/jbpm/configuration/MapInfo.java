@@ -28,6 +28,9 @@ import java.util.Map;
 import org.jbpm.util.XmlUtil;
 import org.w3c.dom.Element;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class MapInfo extends AbstractObjectInfo {
 
   private static final long serialVersionUID = 1L;

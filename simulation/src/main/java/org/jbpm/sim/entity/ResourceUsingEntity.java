@@ -14,6 +14,9 @@ import desmoj.core.simulator.Model;
 import desmoj.core.simulator.Queue;
 import desmoj.core.simulator.SimTime;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class ResourceUsingEntity extends Entity {
 
   private Map acquiredResourceEntities = new HashMap();

@@ -46,6 +46,9 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.jpdl.xml.Parsable;
 import org.jbpm.util.Clock;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Node extends GraphElement implements Parsable {
 
   private static final long serialVersionUID = 1L;

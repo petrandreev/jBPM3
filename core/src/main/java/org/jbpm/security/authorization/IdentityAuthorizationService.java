@@ -26,6 +26,9 @@ import java.security.Permission;
 
 import org.jbpm.security.AuthorizationService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class IdentityAuthorizationService implements AuthorizationService {
 
   private static final long serialVersionUID = 1L;

@@ -23,6 +23,9 @@ package org.jbpm.graph.log;
 
 import org.jbpm.db.AbstractDbTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessInstanceLogsDbTest extends AbstractDbTestCase
 {
 

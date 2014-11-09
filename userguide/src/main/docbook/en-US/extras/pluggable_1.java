@@ -1,3 +1,6 @@
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface ProcessArchiveParser {
 
   void writeToArchive(

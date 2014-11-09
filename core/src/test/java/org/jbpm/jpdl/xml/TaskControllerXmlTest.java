@@ -32,6 +32,9 @@ import org.jbpm.instantiation.Delegation;
 import org.jbpm.taskmgmt.def.Task;
 import org.jbpm.taskmgmt.def.TaskController;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskControllerXmlTest extends AbstractJbpmTestCase {
 
   public void testTaskControllerWithVariableAccesses() {

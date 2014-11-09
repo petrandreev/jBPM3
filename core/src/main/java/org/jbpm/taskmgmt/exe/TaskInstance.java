@@ -58,6 +58,9 @@ import org.jbpm.util.Clock;
  * is one task instance that can be assigned to an actor (read: put in someone's task list) and
  * that can trigger the continuation of execution of the token upon completion.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskInstance extends VariableContainer implements Identifiable, Assignable {
 
   private static final long serialVersionUID = 1L;

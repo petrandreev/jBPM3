@@ -25,9 +25,9 @@ package org.jbpm.identity.security;
  * the username as a public credential of a Subject.
  */
 public class Username {
-  
+
   String text;
-  
+
   Username(String text) {
     this.text = text;
   }

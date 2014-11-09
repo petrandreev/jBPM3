@@ -34,6 +34,9 @@ import org.jbpm.graph.def.Event;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ActionExecutionTest extends AbstractJbpmTestCase {
   
   ProcessDefinition processDefinition = null;

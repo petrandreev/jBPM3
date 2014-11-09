@@ -29,6 +29,9 @@ import org.jbpm.graph.node.Merge;
 /**
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_8.swf
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp08MultiMergeTest extends AbstractJbpmTestCase {
 
   private static ProcessDefinition multiMergeProcessDefinition = createMultiMergeProcessDefinition();

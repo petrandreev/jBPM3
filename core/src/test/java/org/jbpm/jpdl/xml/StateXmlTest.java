@@ -25,6 +25,9 @@ import org.dom4j.Element;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.node.State;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class StateXmlTest extends AbstractXmlTestCase {
 
   public void testMultipleStates() {

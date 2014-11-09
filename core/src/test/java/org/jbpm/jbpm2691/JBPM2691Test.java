@@ -36,6 +36,9 @@ import org.jbpm.job.Job;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2691">JBPM-2691</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2691Test extends AbstractDbTestCase {
 
   protected JbpmConfiguration getJbpmConfiguration() {

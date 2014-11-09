@@ -12,6 +12,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * 
  * @author Bernd Ruecker (bernd.ruecker@camunda.com)
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class GetTaskInstanceCommand extends AbstractGetObjectBaseCommand {
 
   private static final long serialVersionUID = -8436697080972165601L;

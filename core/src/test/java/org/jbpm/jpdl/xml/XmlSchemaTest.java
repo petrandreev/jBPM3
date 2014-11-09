@@ -25,6 +25,9 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.jpdl.JpdlException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class XmlSchemaTest extends AbstractJbpmTestCase {
   
   /**

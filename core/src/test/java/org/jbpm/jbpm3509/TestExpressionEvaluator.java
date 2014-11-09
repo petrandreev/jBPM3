@@ -7,6 +7,9 @@ import org.jbpm.jpdl.el.FunctionMapper;
 import org.jbpm.jpdl.el.VariableResolver;
 import org.jbpm.jpdl.el.impl.ExpressionEvaluatorImpl;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TestExpressionEvaluator extends ExpressionEvaluator {
 
   protected static String BAD_VALUE = "bad value";

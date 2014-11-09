@@ -40,6 +40,9 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
 /**
  * decision node.
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class Decision extends Node {
 
   private List decisionConditions;

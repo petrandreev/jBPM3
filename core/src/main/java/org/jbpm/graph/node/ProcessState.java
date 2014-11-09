@@ -49,6 +49,9 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.msg.MessageService;
 import org.jbpm.util.Clock;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessState extends Node {
 
   private static final long serialVersionUID = 1L;

@@ -31,6 +31,9 @@ import org.jbpm.svc.ServiceFactory;
 import org.jbpm.svc.Services;
 import org.jbpm.svc.save.SaveOperation;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmContextTest extends AbstractJbpmTestCase {
 
   protected void setUp() throws Exception {

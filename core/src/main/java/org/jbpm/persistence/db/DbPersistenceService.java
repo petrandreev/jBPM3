@@ -53,6 +53,9 @@ import org.jbpm.persistence.PersistenceService;
 import org.jbpm.svc.Services;
 import org.jbpm.tx.TxService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DbPersistenceService implements PersistenceService {
 
   private static final long serialVersionUID = 1L;

@@ -1,5 +1,8 @@
 package org.jbpm.sim;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SimulationConstants {
 
   public static String NAME_PREFIX_PROCESS_CYCLE_TIME = "Cycle times for '";

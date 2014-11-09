@@ -39,6 +39,9 @@ import org.jbpm.scheduler.SchedulerService;
 import org.jbpm.svc.Service;
 import org.jbpm.svc.ServiceFactory;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SchedulerTest extends AbstractJbpmTestCase {
 
   public static class TestSchedulerServiceFactory implements ServiceFactory {

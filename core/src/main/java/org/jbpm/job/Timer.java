@@ -17,6 +17,9 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Timer extends Job {
 
   private static final long serialVersionUID = 1L;

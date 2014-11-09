@@ -5,6 +5,9 @@ import java.io.Serializable;
 /**
  * translates actorId's into email addresses.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface AddressResolver extends Serializable {
 
   /**

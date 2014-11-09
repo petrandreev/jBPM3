@@ -30,6 +30,9 @@ import org.jbpm.identity.Entity;
 import org.jbpm.identity.Group;
 import org.jbpm.identity.User;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class IdentityXmlParsingTest extends AbstractJbpmTestCase {
   
   private Map users = new HashMap();

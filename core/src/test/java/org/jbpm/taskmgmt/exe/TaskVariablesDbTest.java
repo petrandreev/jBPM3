@@ -24,9 +24,8 @@ package org.jbpm.taskmgmt.exe;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
-
+import org.hibernate.type.StandardBasicTypes;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ActionHandler;
@@ -36,6 +35,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.node.TaskNode;
 import org.jbpm.taskmgmt.def.Task;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskVariablesDbTest extends AbstractDbTestCase {
 
   public void testDefaultVariablePersistence() {
@@ -44,8 +46,8 @@ public class TaskVariablesDbTest extends AbstractDbTestCase {
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
-    TaskInstance taskInstance = processInstance.getTaskMgmtInstance().createTaskInstance(
-      processInstance.getRootToken());
+    TaskInstance taskInstance = processInstance.getTaskMgmtInstance()
+      .createTaskInstance(processInstance.getRootToken());
     taskInstance.setVariable("key", "value");
 
     taskInstance = saveAndReload(taskInstance);
@@ -179,10 +181,7 @@ public class TaskVariablesDbTest extends AbstractDbTestCase {
       + "      <controller>"
       + "        <variable name='a' />"
       + "        <variable name='b' />"
-      + "      </controller>"
-      + "    </task>"
-      + "  </task-node>"
-      + "</process-definition>");
+      + "      </controller>" + "    </task>" + "  </task-node>" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
@@ -238,8 +237,7 @@ public class TaskVariablesDbTest extends AbstractDbTestCase {
       + "        <variable name='v' />"
       + "      </controller>"
       + "    </task>"
-      + "  </task-node>"
-      + "</process-definition>");
+      + "  </task-node>" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
@@ -266,9 +264,7 @@ public class TaskVariablesDbTest extends AbstractDbTestCase {
       + "  <task-node name='t'>"
       + "    <task name='vartask' />"
       + "    <transition to='u' />"
-      + "  </task-node>"
-      + "  <state name='u' />"
-      + "</process-definition>");
+      + "  </task-node>" + "  <state name='u' />" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
@@ -316,8 +312,7 @@ public class TaskVariablesDbTest extends AbstractDbTestCase {
       + "    <task name='vartask'>"
       + "      <assignment actor-id='me' />"
       + "    </task>"
-      + "  </task-node>"
-      + "</process-definition>");
+      + "  </task-node>" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
@@ -332,11 +327,13 @@ public class TaskVariablesDbTest extends AbstractDbTestCase {
   }
 
   private TaskInstance getTask(String variableName, long variableValue, String actorId) {
-    return (TaskInstance) jbpmContext.getSession().createCriteria(TaskInstance.class).add(
-      Restrictions.eq("actorId", actorId)).createCriteria("variableInstances").add(
-      Restrictions.eq("name", variableName)).add(
-      Restrictions.sqlRestriction("{alias}.LONGVALUE_ = ?", new Long(variableValue),
-        Hibernate.LONG)).uniqueResult();
+    return (TaskInstance) jbpmContext.getSession()
+      .createCriteria(TaskInstance.class)
+      .add(Restrictions.eq("actorId", actorId))
+      .createCriteria("variableInstances")
+      .add(Restrictions.eq("name", variableName))
+      .add(Restrictions.sqlRestriction("{alias}.LONGVALUE_ = ?", new Long(variableValue), StandardBasicTypes.LONG))
+      .uniqueResult();
   }
 
   public static final class CreateTasksAction implements ActionHandler {

@@ -36,6 +36,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.util.ClassLoaderUtil;
 import org.jbpm.util.IoUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessArchiveClassLoadingDbTest extends AbstractDbTestCase {
 
   String getTestClassesDir() {

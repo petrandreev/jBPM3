@@ -33,6 +33,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2908">JBPM-2908</a>
  * @author Toshiya Kobayashi
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2908Test extends AbstractDbTestCase {
 
   public void testChangingJbpmConfigurationInActionHandler() throws Exception {

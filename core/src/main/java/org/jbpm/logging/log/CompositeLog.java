@@ -24,6 +24,9 @@ package org.jbpm.logging.log;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CompositeLog extends ProcessLog {
 
   private static final long serialVersionUID = 1L;

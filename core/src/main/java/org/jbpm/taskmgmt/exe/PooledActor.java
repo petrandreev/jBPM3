@@ -26,6 +26,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class PooledActor implements Serializable {
 
   private static final long serialVersionUID = 1L;

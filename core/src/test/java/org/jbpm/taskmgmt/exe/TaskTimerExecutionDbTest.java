@@ -32,6 +32,9 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.job.Timer;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskTimerExecutionDbTest extends AbstractDbTestCase {
 
   public static class PlusPlus implements ActionHandler {

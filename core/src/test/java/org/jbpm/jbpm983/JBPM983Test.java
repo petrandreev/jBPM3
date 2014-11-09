@@ -12,6 +12,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-983">JBPM-983</a>
  * @author Tom Baeyens
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM983Test extends AbstractDbTestCase {
 
   protected void setUp() throws Exception {

@@ -14,6 +14,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class StartTaskAndPlanCompletion extends Action {
 
   private static final long serialVersionUID = 1L;

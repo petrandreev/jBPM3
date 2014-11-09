@@ -33,6 +33,9 @@ import org.jbpm.graph.exe.Token;
  * 
  * @author Bernd Ruecker
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class SignalCommand extends AbstractBaseCommand {
 
   private static final long serialVersionUID = 1L;

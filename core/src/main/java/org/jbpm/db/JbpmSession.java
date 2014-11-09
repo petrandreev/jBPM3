@@ -60,6 +60,9 @@ import org.jbpm.JbpmException;
  * 
  * @deprecated use {@link org.jbpm.JbpmContext} and {@link org.jbpm.JbpmConfiguration} instead.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmSession {
   
   static ThreadLocal currentJbpmSessionStack = new ThreadLocal();

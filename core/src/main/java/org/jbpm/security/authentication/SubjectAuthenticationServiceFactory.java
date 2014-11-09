@@ -59,6 +59,9 @@ import org.jbpm.svc.ServiceFactory;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SubjectAuthenticationServiceFactory implements ServiceFactory {
 
   private static final long serialVersionUID = 1L;

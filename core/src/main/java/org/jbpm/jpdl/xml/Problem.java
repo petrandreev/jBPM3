@@ -25,6 +25,9 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Problem implements Serializable {
 
   private static final long serialVersionUID = 1L;

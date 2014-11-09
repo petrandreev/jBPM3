@@ -42,6 +42,9 @@ import org.jbpm.util.Clock;
  * execution. When the process instance gets saved, the process logs will be saved by the
  * {@link org.jbpm.db.LoggingSession}.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class LoggingInstance extends ModuleInstance {
 
   private static final long serialVersionUID = 1L;

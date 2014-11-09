@@ -28,22 +28,28 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.SessionImplementor;
+import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.Type;
 import org.hibernate.usertype.CompositeUserType;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class PermissionUserType implements CompositeUserType {
 
-  private static final String[] PROPERTY_NAMES = new String[] { "class", "name", "actions" };
+  private static final String[] PROPERTY_NAMES = new String[] {
+    "class", "name", "actions"
+  };
 
   public String[] getPropertyNames() {
     return PROPERTY_NAMES;
   }
 
-  private static final Type[] PROPERTY_TYPES = new Type[] { Hibernate.STRING, Hibernate.STRING,
-      Hibernate.STRING };
+  private static final Type[] PROPERTY_TYPES = new Type[] {
+    StandardBasicTypes.STRING, StandardBasicTypes.STRING, StandardBasicTypes.STRING
+  };
 
   public Type[] getPropertyTypes() {
     return PROPERTY_TYPES;
@@ -82,10 +88,11 @@ public class PermissionUserType implements CompositeUserType {
   }
 
   private static final Class[] NAME_ACTIOS_CONSTRUCTOR_PARAMETER_TYPES = new Class[] {
-      String.class, String.class };
+    String.class, String.class
+  };
 
   public Object nullSafeGet(ResultSet resultSet, String[] names, SessionImplementor session,
-      Object owner) throws HibernateException, SQLException {
+    Object owner) throws HibernateException, SQLException {
     Object permission = null;
     String className = resultSet.getString(names[0]);
     String name = resultSet.getString(names[1]);
@@ -96,23 +103,21 @@ public class PermissionUserType implements CompositeUserType {
       ClassLoader classLoader = PermissionUserType.class.getClassLoader();
       Class permissionClass = Class.forName(className, false, classLoader);
       Constructor constructor = permissionClass.getDeclaredConstructor(NAME_ACTIOS_CONSTRUCTOR_PARAMETER_TYPES);
-      permission = constructor.newInstance(new Object[] { name, actions });
+      permission = constructor.newInstance(new Object[] {
+        name, actions
+      });
     }
     catch (Exception e) {
       throw new HibernateException("couldn't create permission from database record ["
-          + className
-          + "|"
-          + name
-          + "|"
-          + actions
-          + "].  Does the permission class have a (String name,String actions) constructor ?", e);
+        + className + "|" + name + "|" + actions
+        + "].  Does the permission class have a (String name,String actions) constructor ?", e);
     }
 
     return permission;
   }
 
   public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index,
-      SessionImplementor session) throws HibernateException, SQLException {
+    SessionImplementor session) throws HibernateException, SQLException {
     Permission permission = (Permission) value;
     preparedStatement.setString(index, permission.getClass().getName());
     preparedStatement.setString(index + 1, permission.getName());
@@ -128,17 +133,17 @@ public class PermissionUserType implements CompositeUserType {
   }
 
   public Serializable disassemble(Object value, SessionImplementor session)
-      throws HibernateException {
+    throws HibernateException {
     return (Serializable) value;
   }
 
   public Object assemble(Serializable cached, SessionImplementor session, Object owner)
-      throws HibernateException {
+    throws HibernateException {
     return cached;
   }
 
   public Object replace(Object original, Object target, SessionImplementor session, Object owner)
-      throws HibernateException {
+    throws HibernateException {
     return original;
   }
 }

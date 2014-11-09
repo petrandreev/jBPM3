@@ -35,6 +35,9 @@ import org.jbpm.configuration.ObjectFactory;
 /**
  * centralized class loader access.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ClassLoaderUtil {
 
   private ClassLoaderUtil() {

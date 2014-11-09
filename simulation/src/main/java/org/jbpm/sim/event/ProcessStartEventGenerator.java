@@ -9,6 +9,9 @@ import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimTime;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessStartEventGenerator extends ExternalEvent {
 
   private JbpmSimulationModel model;

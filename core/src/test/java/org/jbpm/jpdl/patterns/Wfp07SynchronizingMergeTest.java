@@ -25,6 +25,9 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.Token;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp07SynchronizingMergeTest extends AbstractJbpmTestCase {
 
   private static ProcessDefinition synchronizingMergeProcessDefinition = createSynchronizingMergeProcessDefinition();

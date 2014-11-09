@@ -27,6 +27,9 @@ import java.util.List;
 import org.jbpm.util.XmlUtil;
 import org.w3c.dom.Element;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ListInfo extends AbstractObjectInfo {
 
   private static final long serialVersionUID = 1L;

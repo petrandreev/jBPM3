@@ -13,6 +13,9 @@ import org.jbpm.graph.exe.Token;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessInstanceCommandTest extends AbstractDbTestCase {
 
   public void testCancelProcessInstanceCommand() throws Exception {

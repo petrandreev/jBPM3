@@ -25,6 +25,9 @@ import java.io.Serializable;
 
 import org.jbpm.graph.def.*;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface ProcessArchiveParser extends Serializable {
 
   ProcessDefinition readFromArchive(ProcessArchive archive, ProcessDefinition processDefinition);

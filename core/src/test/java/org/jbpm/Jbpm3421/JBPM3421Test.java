@@ -10,6 +10,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.jpdl.JpdlException;
 import org.jbpm.jpdl.xml.Problem;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM3421Test extends TestCase {
 
   private static final Log log = LogFactory.getLog(JBPM3421Test.class);

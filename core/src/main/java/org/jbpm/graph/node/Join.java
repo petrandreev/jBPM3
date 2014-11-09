@@ -29,8 +29,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Element;
 import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.Session;
-
 import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.graph.action.Script;
@@ -40,6 +40,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class Join extends Node {
 
   private static final long serialVersionUID = 1L;
@@ -89,7 +92,7 @@ public class Join extends Node {
       if (lockMode != null)
         parentLockMode = lockMode.toString();
       else if ("pessimistic".equals(lock))
-        parentLockMode = LockMode.UPGRADE.toString();
+        parentLockMode = LockMode.PESSIMISTIC_WRITE.toString();
       else
         jpdlReader.addError("invalid parent lock mode '" + lock + "'");
     }
@@ -98,8 +101,7 @@ public class Join extends Node {
   public void enter(ExecutionContext executionContext) {
     Token token = executionContext.getToken();
     // do not end root tokens https://issues.jboss.org/browse/JBPM-3735
-    if(token.getParent() != null)
-        token.end(false);
+    if (token.getParent() != null) token.end(false);
     token.setAbleToReactivateParent(true);
     super.enter(executionContext);
   }
@@ -120,8 +122,8 @@ public class Join extends Node {
         LockMode lockMode = LockMode.parse(parentLockMode);
         // call load() instead of lock() to obtain an unversioned lock
         // https://jira.jboss.org/browse/SOA-1476
-        ProcessInstance processInstance = (ProcessInstance) session.load(ProcessInstance.class,
-          new Long(arrivingToken.getProcessInstance().getId()), lockMode);
+        ProcessInstance processInstance = (ProcessInstance) session.load(ProcessInstance.class, new Long(arrivingToken.getProcessInstance()
+          .getId()), new LockOptions(lockMode));
         // load() hits the database as required, no need to flush() here
         // session.flush();
         if (log.isDebugEnabled()) {
@@ -130,8 +132,9 @@ public class Join extends Node {
       }
     }
 
-    //https://issues.jboss.org/browse/JBPM-3735
-    Token parentToken = arrivingToken.getParent() != null ? arrivingToken.getParent() : arrivingToken;
+    // https://issues.jboss.org/browse/JBPM-3735
+    Token parentToken = arrivingToken.getParent() != null ? arrivingToken.getParent()
+      : arrivingToken;
     boolean reactivateParent;
     // if this is a discriminator
     if (isDiscriminator) {

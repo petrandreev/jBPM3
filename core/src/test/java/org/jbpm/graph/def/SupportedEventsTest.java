@@ -51,6 +51,9 @@ import org.jbpm.taskmgmt.def.Task;
  * @author Jim Rigsbee
  * @since 3.0
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SupportedEventsTest extends AbstractJbpmTestCase {
 
   public void testNodeEvents() {

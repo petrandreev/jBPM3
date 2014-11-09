@@ -54,5 +54,5 @@ public class DayPartTest extends AbstractJbpmTestCase {
     assertEquals(12, dayPart.endHour);
     assertEquals(15, dayPart.endMinute);
   }
-  
+
 }

@@ -21,6 +21,9 @@
  */
 package org.jbpm.instantiation;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public interface Instantiator {
 
   Object instantiate(Class clazz, String configuration);

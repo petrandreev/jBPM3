@@ -34,6 +34,9 @@ import org.jbpm.util.ArrayUtil;
 import org.jbpm.util.ClassLoaderUtil;
 import org.jbpm.util.XmlUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ConstructorInfo implements Serializable {
 
   private static final long serialVersionUID = 1L;

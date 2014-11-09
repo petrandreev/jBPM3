@@ -26,6 +26,9 @@ import java.util.List;
 
 import org.jbpm.util.ArrayUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Invocation {
 
   String methodName = null;

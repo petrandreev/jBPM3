@@ -9,6 +9,9 @@ import org.jbpm.JbpmConfiguration.Configs;
 import org.jbpm.util.XmlUtil;
 import org.w3c.dom.Element;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 class MailTemplates {
 
   private static final Map templatePropertiesByResource = new HashMap();
@@ -81,5 +84,5 @@ class MailTemplates {
       templateProperties.setProperty(property, XmlUtil.getContentText(element));
     }
   }
-  
+
 }

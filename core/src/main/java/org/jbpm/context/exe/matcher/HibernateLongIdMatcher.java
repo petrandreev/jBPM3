@@ -21,14 +21,16 @@
  */
 package org.jbpm.context.exe.matcher;
 
-import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.proxy.HibernateProxy;
-
+import org.hibernate.type.StandardBasicTypes;
 import org.jbpm.JbpmContext;
 import org.jbpm.context.exe.JbpmTypeMatcher;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class HibernateLongIdMatcher implements JbpmTypeMatcher {
 
   private static final long serialVersionUID = 1L;
@@ -44,7 +46,7 @@ public class HibernateLongIdMatcher implements JbpmTypeMatcher {
       if (sessionFactory != null) {
         ClassMetadata classMetadata = sessionFactory.getClassMetadata(valueClass);
         return classMetadata != null
-          && classMetadata.getIdentifierType() == Hibernate.LONG;
+          && classMetadata.getIdentifierType() == StandardBasicTypes.LONG;
       }
     }
     return false;

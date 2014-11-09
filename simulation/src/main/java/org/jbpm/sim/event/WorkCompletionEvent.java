@@ -12,6 +12,9 @@ import desmoj.core.simulator.Model;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class WorkCompletionEvent extends Event {
 
   public WorkCompletionEvent(Model owner) {

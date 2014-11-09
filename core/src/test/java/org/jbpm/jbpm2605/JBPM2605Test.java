@@ -36,6 +36,9 @@ import org.jbpm.persistence.db.MockSessionFactory;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2605">JBPM-2605</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2605Test extends AbstractJbpmTestCase {
 
   public void testExternalSessionFactory() {

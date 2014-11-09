@@ -8,6 +8,9 @@ import org.jbpm.util.ClassLoaderUtil;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DefaultProcessClassLoaderFactory implements ProcessClassLoaderFactory {
 
   private static final long serialVersionUID = 1L;

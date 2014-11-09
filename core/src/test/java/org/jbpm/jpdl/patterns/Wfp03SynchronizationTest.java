@@ -29,6 +29,9 @@ import org.jbpm.graph.exe.Token;
 /**
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_3.swf
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp03SynchronizationTest extends AbstractJbpmTestCase {
 
   public ProcessDefinition createSynchronizationProcessDefinition() {

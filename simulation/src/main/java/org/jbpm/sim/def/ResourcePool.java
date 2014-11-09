@@ -14,6 +14,9 @@ import desmoj.core.simulator.SimTime;
 import desmoj.core.statistic.Tally;
 import desmoj.core.statistic.TimeSeries;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ResourcePool {
   
   private static Log log = LogFactory.getLog(ResourcePool.class);

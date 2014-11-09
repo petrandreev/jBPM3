@@ -8,6 +8,9 @@ import org.hsqldb.util.DatabaseManager;
 /**
  * use this in combination with the HQL editor of the hibernate plugin.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DbServer {
 
   public static void main(String[] args) {

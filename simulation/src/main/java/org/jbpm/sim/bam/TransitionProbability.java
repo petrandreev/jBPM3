@@ -5,6 +5,9 @@ package org.jbpm.sim.bam;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TransitionProbability {
 
   private String transitionName;

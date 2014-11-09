@@ -6,11 +6,10 @@
 <!--  Distributable under LGPL license.                                     -->
 <!--  See terms of license at http://www.gnu.org.                           -->
 <!-- ====================================================================== -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <name>jBPM3 - 4JSF</name>
-  <groupId>org.jbpm.jbpm3</groupId>
   <artifactId>jsf-console-jbpm4jsf</artifactId>
   <packaging>jar</packaging>
 
@@ -45,8 +44,8 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-    	<groupId>org.jbpm.jbpm3</groupId>
-    	<artifactId>jbpm-jpdl</artifactId>
+      <groupId>org.jbpm.jbpm3</groupId>
+      <artifactId>jbpm-jpdl</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -64,14 +63,6 @@
   <!-- Plugins -->
   <build>
     <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
-
       <plugin>
         <groupId>net.sourceforge.maven-taglib</groupId>
         <artifactId>maven-taglib-plugin</artifactId>

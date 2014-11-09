@@ -67,9 +67,9 @@ import org.jbpm.jpdl.el.VariableResolver;
 /**
  * 
  * <p>
- * Represents an operator that obtains a Map entry, an indexed value, a property
- * value, or an indexed property value of an object. The following are the rules
- * for evaluating this operator:
+ * Represents an operator that obtains a Map entry, an indexed value, a property value, or an
+ * indexed property value of an object. The following are the rules for evaluating this
+ * operator:
  * 
  * <ul>
  * 
@@ -114,6 +114,9 @@ import org.jbpm.jpdl.el.VariableResolver;
  * @version $Change: 181177 $$DateTime: 2001/06/26 08:45:09 $$Author$
  */
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class ArraySuffix extends ValueSuffix {
 
   // -------------------------------------
@@ -133,6 +136,7 @@ public class ArraySuffix extends ValueSuffix {
   public Expression getIndex() {
     return mIndex;
   }
+
   public void setIndex(Expression pIndex) {
     mIndex = pIndex;
   }
@@ -151,7 +155,8 @@ public class ArraySuffix extends ValueSuffix {
    * 
    * Gets the value of the index
    */
-  Object evaluateIndex(VariableResolver pResolver, FunctionMapper functions, Logger pLogger) throws ELException {
+  Object evaluateIndex(VariableResolver pResolver, FunctionMapper functions, Logger pLogger)
+    throws ELException {
     return mIndex.evaluate(pResolver, functions, pLogger);
   }
 
@@ -178,10 +183,10 @@ public class ArraySuffix extends ValueSuffix {
   // -------------------------------------
   /**
    * 
-   * Evaluates the expression in the given context, operating on the given
-   * value.
+   * Evaluates the expression in the given context, operating on the given value.
    */
-  public Object evaluate(Object pValue, VariableResolver pResolver, FunctionMapper functions, Logger pLogger) throws ELException {
+  public Object evaluate(Object pValue, VariableResolver pResolver, FunctionMapper functions,
+    Logger pLogger) throws ELException {
     Object indexVal;
     String indexStr;
     BeanInfoProperty beanInfoProperty;
@@ -214,42 +219,51 @@ public class ArraySuffix extends ValueSuffix {
       Integer indexObj = Coercions.coerceToInteger(indexVal, pLogger);
       if (indexObj == null) {
         if (pLogger.isLoggingError()) {
-          pLogger.logError(Constants.BAD_INDEX_VALUE, getOperatorSymbol(), indexVal.getClass().getName());
+          pLogger.logError(Constants.BAD_INDEX_VALUE, getOperatorSymbol(), indexVal.getClass()
+            .getName());
         }
         return null;
-      } else if (pValue instanceof List) {
+      }
+      else if (pValue instanceof List) {
         try {
           return ((List) pValue).get(indexObj.intValue());
-        } catch (ArrayIndexOutOfBoundsException exc) {
+        }
+        catch (ArrayIndexOutOfBoundsException exc) {
           if (pLogger.isLoggingWarning()) {
             pLogger.logWarning(Constants.EXCEPTION_ACCESSING_LIST, exc, indexObj);
           }
           return null;
-        } catch (IndexOutOfBoundsException exc) {
+        }
+        catch (IndexOutOfBoundsException exc) {
           if (pLogger.isLoggingWarning()) {
             pLogger.logWarning(Constants.EXCEPTION_ACCESSING_LIST, exc, indexObj);
           }
           return null;
-        } catch (Exception exc) {
+        }
+        catch (Exception exc) {
           if (pLogger.isLoggingError()) {
             pLogger.logError(Constants.EXCEPTION_ACCESSING_LIST, exc, indexObj);
           }
           return null;
         }
-      } else {
+      }
+      else {
         try {
           return Array.get(pValue, indexObj.intValue());
-        } catch (ArrayIndexOutOfBoundsException exc) {
+        }
+        catch (ArrayIndexOutOfBoundsException exc) {
           if (pLogger.isLoggingWarning()) {
             pLogger.logWarning(Constants.EXCEPTION_ACCESSING_ARRAY, exc, indexObj);
           }
           return null;
-        } catch (IndexOutOfBoundsException exc) {
+        }
+        catch (IndexOutOfBoundsException exc) {
           if (pLogger.isLoggingWarning()) {
             pLogger.logWarning(Constants.EXCEPTION_ACCESSING_ARRAY, exc, indexObj);
           }
           return null;
-        } catch (Exception exc) {
+        }
+        catch (Exception exc) {
           if (pLogger.isLoggingError()) {
             pLogger.logError(Constants.EXCEPTION_ACCESSING_ARRAY, exc, indexObj);
           }
@@ -265,17 +279,22 @@ public class ArraySuffix extends ValueSuffix {
     }
 
     // Look for a JavaBean property
-    else if ((beanInfoProperty = BeanInfoManager.getBeanInfoProperty(pValue.getClass(), indexStr, pLogger)) != null && beanInfoProperty.getReadMethod() != null) {
+    else if ((beanInfoProperty = BeanInfoManager.getBeanInfoProperty(pValue.getClass(), indexStr, pLogger)) != null
+      && beanInfoProperty.getReadMethod() != null) {
       try {
         return beanInfoProperty.getReadMethod().invoke(pValue, sNoArgs);
-      } catch (InvocationTargetException exc) {
+      }
+      catch (InvocationTargetException exc) {
         if (pLogger.isLoggingError()) {
-          pLogger.logError(Constants.ERROR_GETTING_PROPERTY, exc.getTargetException(), indexStr, pValue.getClass().getName());
+          pLogger.logError(Constants.ERROR_GETTING_PROPERTY, exc.getTargetException(), indexStr, pValue.getClass()
+            .getName());
         }
         return null;
-      } catch (Exception exc) {
+      }
+      catch (Exception exc) {
         if (pLogger.isLoggingError()) {
-          pLogger.logError(Constants.ERROR_GETTING_PROPERTY, exc, indexStr, pValue.getClass().getName());
+          pLogger.logError(Constants.ERROR_GETTING_PROPERTY, exc, indexStr, pValue.getClass()
+            .getName());
         }
         return null;
       }
@@ -285,14 +304,18 @@ public class ArraySuffix extends ValueSuffix {
     else if ((beanMethod = BeanInfoManager.getBeanMethod(pValue.getClass(), indexStr, pLogger)) != null) {
       try {
         return beanMethod.invoke(pValue);
-      } catch (InvocationTargetException exc) {
+      }
+      catch (InvocationTargetException exc) {
         if (pLogger.isLoggingError()) {
-          pLogger.logError(Constants.ERROR_INVOKING_METHOD, exc.getTargetException(), indexStr, pValue.getClass().getName());
+          pLogger.logError(Constants.ERROR_INVOKING_METHOD, exc.getTargetException(), indexStr, pValue.getClass()
+            .getName());
         }
         return null;
-      } catch (Exception exc) {
+      }
+      catch (Exception exc) {
         if (pLogger.isLoggingError()) {
-          pLogger.logError(Constants.ERROR_INVOKING_METHOD, exc, indexStr, pValue.getClass().getName());
+          pLogger.logError(Constants.ERROR_INVOKING_METHOD, exc, indexStr, pValue.getClass()
+            .getName());
         }
         return null;
       }

@@ -32,13 +32,15 @@ import javax.jcr.Session;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.context.exe.VariableInstance;
 import org.jbpm.jcr.JcrService;
 import org.jbpm.svc.Services;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class JcrNodeInstance extends VariableInstance {
 
   private static final long serialVersionUID = 1L;

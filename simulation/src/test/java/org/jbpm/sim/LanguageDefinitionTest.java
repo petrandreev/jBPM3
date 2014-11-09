@@ -17,6 +17,9 @@ import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
 import desmoj.core.simulator.Experiment;
 import desmoj.core.simulator.SimTime;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class LanguageDefinitionTest extends AbstractSimTestCase {
 
   public void testDistributionsOnProcessElements() {

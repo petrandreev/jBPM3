@@ -29,6 +29,9 @@ import org.jbpm.graph.exe.Token;
 /**
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_1.swf
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp01SequenceTest extends AbstractJbpmTestCase {
 
   public void testSequence() {

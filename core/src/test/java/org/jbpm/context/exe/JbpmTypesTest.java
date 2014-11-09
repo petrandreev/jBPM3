@@ -39,6 +39,9 @@ import org.jbpm.context.exe.variableinstance.DoubleInstance;
 import org.jbpm.context.exe.variableinstance.LongInstance;
 import org.jbpm.context.exe.variableinstance.StringInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmTypesTest extends AbstractJbpmTestCase {
 
   public void testString() {

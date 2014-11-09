@@ -39,6 +39,9 @@ import org.jbpm.job.Timer;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2608">JBPM-2608</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2608Test extends AbstractDbTestCase {
 
   protected void setUp() throws Exception {

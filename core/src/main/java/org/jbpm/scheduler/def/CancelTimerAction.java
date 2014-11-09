@@ -28,6 +28,9 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.scheduler.SchedulerService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CancelTimerAction extends Action {
 
   private static final long serialVersionUID = 1L;

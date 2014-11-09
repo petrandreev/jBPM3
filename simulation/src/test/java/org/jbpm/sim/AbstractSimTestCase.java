@@ -4,6 +4,9 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class AbstractSimTestCase extends AbstractJbpmTestCase {
 
   private JbpmContext jbpmContext;

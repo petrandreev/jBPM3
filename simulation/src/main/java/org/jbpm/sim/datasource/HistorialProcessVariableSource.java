@@ -11,6 +11,9 @@ import org.jbpm.graph.exe.ExecutionContext;
  * TODO: implement
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class HistorialProcessVariableSource implements ProcessDataSource {
 
   /**

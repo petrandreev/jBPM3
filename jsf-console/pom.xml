@@ -17,7 +17,6 @@
   </parent>
 
   <name>jBPM3 - Console Parent</name>
-  <groupId>org.jbpm.jbpm3</groupId>
   <artifactId>jsf-console-parent</artifactId>
   <packaging>pom</packaging>
 
@@ -32,9 +31,6 @@
 
   <!-- Properties -->
   <properties>
-    <maven.compiler.target>1.4</maven.compiler.target>
-    <maven.compiler.source>1.4</maven.compiler.source>
-
     <!-- Dependency versions -->
     <javax.faces.version>1.2_13</javax.faces.version>
   </properties>

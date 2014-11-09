@@ -36,6 +36,9 @@ import org.jbpm.util.ClassLoaderUtil;
 /**
  * a calendar that knows about business hours.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class BusinessCalendar implements Serializable {
 
   private static final long serialVersionUID = 1L;

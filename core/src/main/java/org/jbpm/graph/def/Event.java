@@ -25,6 +25,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Event implements Serializable {
 
   private static final long serialVersionUID = 1L;

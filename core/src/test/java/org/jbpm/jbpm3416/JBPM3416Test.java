@@ -16,6 +16,9 @@ import org.jbpm.graph.exe.Token;
  * 
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-3416">JBPM-3416</a>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM3416Test extends AbstractJbpmTestCase {
 
   private static final int LOOP_NUM = 100;

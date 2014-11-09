@@ -6,6 +6,9 @@ import org.jbpm.graph.def.EventCallback;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM3421TimerTest extends AbstractDbTestCase {
 
   public void testCancelEventExecutionInTaskTimer() {

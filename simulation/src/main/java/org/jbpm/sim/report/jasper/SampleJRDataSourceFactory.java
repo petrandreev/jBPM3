@@ -13,6 +13,9 @@ import org.jbpm.sim.report.dto.ValueStatisticResult;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SampleJRDataSourceFactory {
 //
 //  public static JRBeanArrayDataSource createTaskDistributionDS() {

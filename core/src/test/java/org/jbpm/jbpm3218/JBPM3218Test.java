@@ -39,6 +39,9 @@ import org.jbpm.job.Timer;
  * 
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-3218">JBPM-3218</a>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM3218Test extends AbstractDbTestCase {
 
   private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy_HH:mm:ss");

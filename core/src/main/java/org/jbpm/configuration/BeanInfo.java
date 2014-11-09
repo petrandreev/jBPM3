@@ -30,6 +30,9 @@ import org.w3c.dom.Element;
 import org.jbpm.JbpmException;
 import org.jbpm.util.XmlUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class BeanInfo extends AbstractObjectInfo {
 
   private static final long serialVersionUID = 1L;

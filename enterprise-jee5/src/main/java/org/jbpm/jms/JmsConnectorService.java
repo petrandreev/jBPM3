@@ -39,6 +39,9 @@ import org.jbpm.job.Timer;
 import org.jbpm.msg.MessageService;
 import org.jbpm.scheduler.SchedulerService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JmsConnectorService implements MessageService, SchedulerService {
 
   private final JmsConnectorServiceFactory serviceFactory;

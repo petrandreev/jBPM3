@@ -21,20 +21,21 @@
  */
 package org.jbpm.identity.security;
 
-import org.jbpm.identity.*;
+import org.jbpm.identity.User;
 
 /**
- * decouples the IdentityLoginModule from the underlying medium that stores the users, groups, memberships and permissions.
+ * decouples the IdentityLoginModule from the underlying medium that stores the users, groups,
+ * memberships and permissions.
  */
 public interface IdentityService {
 
   /**
-   * verifies if the userName matches the password and 
-   * in case of success, returns the userId.  the userId can be
-   * an implementation specific id.
-   * @return userId if verification succeeded or null otherwise. 
+   * verifies if the userName matches the password and in case of success, returns the userId.
+   * the userId can be an implementation specific id.
+   * 
+   * @return userId if verification succeeded or null otherwise.
    */
   Object verify(String userName, String pwd);
-  
+
   User getUserById(Object userId);
 }

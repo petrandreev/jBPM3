@@ -7,6 +7,9 @@ import java.util.Set;
 
 import org.jbpm.db.AbstractDbTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SuperStateDbTest extends AbstractDbTestCase {
 
   public void testGetNodesWithSuperState() {

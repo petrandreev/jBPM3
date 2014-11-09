@@ -6,6 +6,9 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class PersistenceDbServiceTest extends AbstractJbpmTestCase {
 
   JbpmConfiguration jbpmConfiguration;

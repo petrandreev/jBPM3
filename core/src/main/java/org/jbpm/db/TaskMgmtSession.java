@@ -32,6 +32,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.persistence.JbpmPersistenceException;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class TaskMgmtSession {
 
   final Session session;

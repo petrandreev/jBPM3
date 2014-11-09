@@ -52,6 +52,9 @@ import org.jbpm.taskmgmt.exe.SwimlaneInstance;
  *               member(role-name)
  * </pre>
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class ExpressionAssignmentHandler implements AssignmentHandler {
 
   private static final long serialVersionUID = 1L;

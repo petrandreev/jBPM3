@@ -30,6 +30,9 @@ import javax.rmi.PortableRemoteObject;
 
 import org.jbpm.JbpmConfiguration.Configs;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JndiUtil {
 
   private JndiUtil() {

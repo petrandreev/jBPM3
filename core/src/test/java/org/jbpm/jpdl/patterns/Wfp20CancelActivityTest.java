@@ -26,6 +26,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp20CancelActivityTest extends AbstractJbpmTestCase {
   
   public static ProcessDefinition cancelProcessDefinition = createCancelProcessDefinition();

@@ -9,6 +9,9 @@ import java.util.List;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TasklistEagerLoadingTest extends AbstractDbTestCase {
 
   private List taskInstanceIds = new ArrayList();

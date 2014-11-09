@@ -24,6 +24,9 @@ package org.jbpm.graph.log;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.exe.Token;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TokenLogsDbTest extends AbstractDbTestCase
 {
 

@@ -10,6 +10,9 @@ import java.util.Date;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ReturnOrder {
 
   /**

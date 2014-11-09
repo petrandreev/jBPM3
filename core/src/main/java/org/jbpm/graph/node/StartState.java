@@ -31,6 +31,9 @@ import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class StartState extends Node {
 
   private static final long serialVersionUID = 1L;

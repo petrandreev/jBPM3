@@ -8,6 +8,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.logging.log.ProcessLog;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class LoggingConfigDbTest extends AbstractDbTestCase {
 
   protected JbpmConfiguration getJbpmConfiguration() {

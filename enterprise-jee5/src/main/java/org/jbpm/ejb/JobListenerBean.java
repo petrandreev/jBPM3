@@ -23,6 +23,9 @@ import org.jbpm.jms.ExecuteJobCommand;
  * 
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JobListenerBean extends CommandListenerBean {
 
   private static final long serialVersionUID = 1L;

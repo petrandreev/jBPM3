@@ -45,6 +45,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * {@link org.jbpm.context.def.VariableAccess}s to perform the default behaviour of the
  * controller functionality for a task.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskController implements Serializable {
 
   private static final long serialVersionUID = 1L;

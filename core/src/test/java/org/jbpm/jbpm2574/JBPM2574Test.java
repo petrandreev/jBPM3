@@ -14,6 +14,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2574">JBPM-2574</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2574Test extends AbstractDbTestCase {
 
   protected void setUp() throws Exception {

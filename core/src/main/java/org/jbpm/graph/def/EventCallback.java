@@ -37,6 +37,9 @@ import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.util.Semaphore;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class EventCallback implements Serializable {
 
   public static final int DEFAULT_TIMEOUT = 5 * 60 * 1000;

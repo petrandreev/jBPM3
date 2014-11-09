@@ -26,6 +26,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.node.TaskNode;
 import org.jbpm.instantiation.Delegation;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SwimlaneDbTest extends AbstractDbTestCase {
 
   ProcessDefinition processDefinition;

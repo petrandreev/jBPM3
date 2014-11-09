@@ -4,6 +4,9 @@ import java.util.Collection;
 
 import desmoj.core.statistic.TimeSeries;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TimeSeriesResult extends BaseResult { // org.jbpm.sim.report.dto.TimeSeriesResult
 
   private static final long serialVersionUID = 6608924829017323537L;

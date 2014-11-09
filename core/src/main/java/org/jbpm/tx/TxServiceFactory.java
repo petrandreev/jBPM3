@@ -3,6 +3,9 @@ package org.jbpm.tx;
 import org.jbpm.svc.Service;
 import org.jbpm.svc.ServiceFactory;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TxServiceFactory implements ServiceFactory {
 
   private static final long serialVersionUID = 1L;

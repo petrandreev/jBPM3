@@ -30,6 +30,9 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.mock.Jdbc;
 import org.jbpm.mock.Jndi;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class PersistenceServiceFactoryDbTest extends AbstractJbpmTestCase {
 
   protected void setUp() throws Exception {

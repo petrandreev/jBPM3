@@ -28,6 +28,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.node.EndState;
 import org.jbpm.graph.node.StartState;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessDefinitionXmlTest extends AbstractXmlTestCase {
 
   public void testParseProcessDefinition() {

@@ -27,6 +27,9 @@ import java.util.Map;
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ObjectFactoryUserGuideTest extends AbstractJbpmTestCase {
   
   protected ObjectFactoryImpl objectFactory = null;

@@ -32,6 +32,9 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.graph.node.TaskNode;
 import org.jbpm.taskmgmt.def.Task;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class RuntimeTaskCreationTest extends AbstractJbpmTestCase {
 
   public static class CreateTasks implements ActionHandler {

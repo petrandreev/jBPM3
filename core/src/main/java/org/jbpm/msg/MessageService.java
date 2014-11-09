@@ -24,6 +24,9 @@ package org.jbpm.msg;
 import org.jbpm.job.Job;
 import org.jbpm.svc.Service;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface MessageService extends Service {
 
   void send(Job job);

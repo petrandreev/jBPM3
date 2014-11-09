@@ -19,6 +19,9 @@ import org.jbpm.util.ArrayUtil;
  * 
  * @author Bernd Ruecker (bernd.ruecker@camunda.com)
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class GetTaskListCommand extends AbstractGetObjectBaseCommand {
 
   private static final long serialVersionUID = -1627380259541998349L;

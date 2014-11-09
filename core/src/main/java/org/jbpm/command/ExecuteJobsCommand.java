@@ -17,6 +17,9 @@ import org.jbpm.job.Job;
  * 
  * @author ruecker
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class ExecuteJobsCommand extends AbstractBaseCommand {
 
   private static final long serialVersionUID = -2457066688404533959L;

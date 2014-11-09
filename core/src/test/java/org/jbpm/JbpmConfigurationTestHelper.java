@@ -21,6 +21,9 @@
  */
 package org.jbpm;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmConfigurationTestHelper {
 
   public static JbpmConfiguration getCurrentJbpmConfiguration() {

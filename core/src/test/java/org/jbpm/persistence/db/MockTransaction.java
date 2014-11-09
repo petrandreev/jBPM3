@@ -5,6 +5,9 @@ import javax.transaction.Synchronization;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class MockTransaction implements Transaction {
 
   boolean wasCommitted = false;

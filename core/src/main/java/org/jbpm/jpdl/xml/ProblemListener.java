@@ -21,6 +21,9 @@
  */
 package org.jbpm.jpdl.xml;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface ProblemListener {
 
   void addProblem(Problem problem);

@@ -93,6 +93,9 @@ import org.jbpm.persistence.jta.JtaDbPersistenceServiceFactory;
   @Resource(name = "jms/JbpmConnectionFactory", type = ConnectionFactory.class, shareable = true),
   @Resource(name = "jms/JobQueue", type = Queue.class)
 })
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CommandServiceBean implements LocalCommandService {
 
   private static final long serialVersionUID = 1L;

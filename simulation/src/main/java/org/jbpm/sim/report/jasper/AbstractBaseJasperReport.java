@@ -38,6 +38,9 @@ import net.sf.jasperreports.view.JasperViewer;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class AbstractBaseJasperReport {
 
   private boolean initialized = false;

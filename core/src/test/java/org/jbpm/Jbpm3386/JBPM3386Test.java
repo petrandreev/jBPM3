@@ -56,6 +56,9 @@ import org.subethamail.wiser.WiserMessage;
  * 
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-3386">JBPM-3386</a>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM3386Test extends AbstractJbpmTestCase {
 
   protected static Logger log = Logger.getLogger(JBPM3386Test.class);

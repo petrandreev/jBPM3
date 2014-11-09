@@ -46,6 +46,9 @@ import org.jbpm.util.IoUtil;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-522">JBPM-522</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM522Test extends AbstractDbTestCase {
 
   static String buildFilePath;

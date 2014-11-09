@@ -27,6 +27,9 @@ import java.util.List;
 
 import org.jbpm.graph.exe.Token;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class ProcessLog implements Serializable {
 
   private static final long serialVersionUID = 1L;

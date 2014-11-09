@@ -24,6 +24,9 @@ package org.jbpm.taskmgmt.log;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskLogDbTest extends AbstractDbTestCase {
 
   TaskInstance taskInstance;

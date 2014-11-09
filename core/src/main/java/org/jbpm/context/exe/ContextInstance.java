@@ -44,6 +44,9 @@ import org.jbpm.module.exe.ModuleInstance;
  * href="../../../../../userguide/en/html/reference.html#context">the userguide, section
  * context</a>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ContextInstance extends ModuleInstance {
 
   private static final long serialVersionUID = 1L;

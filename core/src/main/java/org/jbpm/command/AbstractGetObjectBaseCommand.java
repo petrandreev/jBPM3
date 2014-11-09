@@ -22,6 +22,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * 
  * @author Bernd Ruecker (bernd.ruecker@camunda.com)
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public abstract class AbstractGetObjectBaseCommand extends AbstractBaseCommand {
 
   static final Log log = LogFactory.getLog(AbstractGetObjectBaseCommand.class);

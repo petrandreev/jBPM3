@@ -48,6 +48,9 @@ import org.jbpm.svc.Services;
  * In order to see actual queries and query times, I used p6spy-2.0-SNAPSHOT. (see spy.properties in org/jbpm/jbpm3235/). 
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-3235">JBPM-3235</a>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM3235Test extends AbstractDbTestCase {
 
   private static final String PROCESS_NAME = "JBPM3235";

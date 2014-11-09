@@ -34,6 +34,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author Alejandro Guizar
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2784">JBPM-2784</a>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2784Test extends AbstractJbpmTestCase {
 
   public void testTransitionConditionAttribute() {

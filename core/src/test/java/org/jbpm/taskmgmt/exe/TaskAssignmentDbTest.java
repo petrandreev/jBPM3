@@ -31,6 +31,9 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.def.AssignmentHandler;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskAssignmentDbTest extends AbstractDbTestCase {
 
   public void testPersonalTasklist() {

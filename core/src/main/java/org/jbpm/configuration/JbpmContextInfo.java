@@ -32,6 +32,9 @@ import org.jbpm.JbpmContext;
 import org.jbpm.svc.Services;
 import org.jbpm.util.XmlUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmContextInfo extends AbstractObjectInfo {
 
   private static final long serialVersionUID = 1L;

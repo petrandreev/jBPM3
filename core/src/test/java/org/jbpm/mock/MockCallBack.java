@@ -28,6 +28,9 @@ import java.util.List;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class MockCallBack implements MethodInterceptor {
   
   Object o = null;

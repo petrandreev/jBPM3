@@ -43,6 +43,9 @@ import org.jbpm.module.def.ModuleDefinition;
 import org.jbpm.module.exe.ModuleInstance;
 import org.jbpm.util.IoUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class FileDefinition extends ModuleDefinition {
 
   private static final long serialVersionUID = 1L;

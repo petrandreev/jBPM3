@@ -2,6 +2,9 @@ package org.jbpm.sim.report.dto;
 
 import java.io.Serializable;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TimedValue implements Serializable { // org.jbpm.sim.report.dto.TimedValue
 
   private static final long serialVersionUID = 7092856556996284567L;

@@ -11,6 +11,9 @@ package org.jbpm.sim.report;
  * 
  * @author <a href="mailto:sherali.karimov@proxima-tech.com">Sherali Karimov</a>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class AcklamStatUtil {
 
   private static final double P_LOW = 0.02425D;

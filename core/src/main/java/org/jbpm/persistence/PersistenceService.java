@@ -28,6 +28,9 @@ import org.jbpm.db.LoggingSession;
 import org.jbpm.db.TaskMgmtSession;
 import org.jbpm.svc.Service;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface PersistenceService extends Service {
 
   void assignId(Object object);

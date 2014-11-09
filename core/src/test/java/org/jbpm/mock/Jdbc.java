@@ -30,6 +30,9 @@ import javax.sql.DataSource;
 
 import org.hsqldb.jdbc.jdbcDataSource;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Jdbc {
   
   public static void clearHsqlInMemoryDatabase() {

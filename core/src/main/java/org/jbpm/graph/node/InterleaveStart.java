@@ -35,36 +35,35 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 
 /**
- * is an unordered set of child nodeMap.  the path of execution will 
- * be given to each node exactly once.   the sequence of the child
- * nodeMap will be determined at runtime.  this implements the 
- * workflow pattern interleved parallel routing. 
+ * is an unordered set of child nodeMap. the path of execution will be given to each node
+ * exactly once. the sequence of the child nodeMap will be determined at runtime. this
+ * implements the workflow pattern interleved parallel routing.
  * 
- * If no script is supplied, the transition names will be sequenced
- * in arbitrary order.
- * If a script is provided, the variable transitionNames contains the 
- * available transition names. The returned value has to be one of 
- * those transitionNames.
- * Instead of supplying a script, its also possible to subclass this 
- * class and override the selectTransition method.
+ * If no script is supplied, the transition names will be sequenced in arbitrary order. If a
+ * script is provided, the variable transitionNames contains the available transition names. The
+ * returned value has to be one of those transitionNames. Instead of supplying a script, its
+ * also possible to subclass this class and override the selectTransition method.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class InterleaveStart extends Node {
-  
+
   private static final long serialVersionUID = 1L;
 
   String variableName = "interleave-transition-names";
-  Interleaver interleaver = new DefaultInterleaver(); 
-  
+  Interleaver interleaver = new DefaultInterleaver();
+
   public interface Interleaver {
     String selectNextTransition(Collection transitionNames);
   }
-  
+
   public class DefaultInterleaver implements Interleaver {
     public String selectNextTransition(Collection transitionNames) {
       return (String) transitionNames.iterator().next();
     }
   }
-  
+
   public InterleaveStart() {
   }
 
@@ -74,11 +73,11 @@ public class InterleaveStart extends Node {
 
   public void read(Element element, JpdlXmlReader jpdlReader) {
     // TODO
-    
+
     // just making sure that the context definition is present
     // because the interleave node needs the context instance at runtime
     ProcessDefinition processDefinition = jpdlReader.getProcessDefinition();
-    if (processDefinition.getDefinition(ContextDefinition.class)==null) {
+    if (processDefinition.getDefinition(ContextDefinition.class) == null) {
       processDefinition.addDefinition(new ContextDefinition());
     }
   }
@@ -91,18 +90,18 @@ public class InterleaveStart extends Node {
     Token token = executionContext.getToken();
     Collection transitionNames = retrieveTransitionNames(token);
     // if this is the first time we enter
-    if ( transitionNames == null ) {
+    if (transitionNames == null) {
       // collect all leaving transition names
       transitionNames = new ArrayList(getTransitionNames(token));
     }
-    
+
     // select one of the remaining transition names
     String nextTransition = interleaver.selectNextTransition(transitionNames);
     // remove it from the remaining transitions
     transitionNames.remove(nextTransition);
 
     // store the transition names
-    storeTransitionNames(transitionNames,token);
+    storeTransitionNames(transitionNames, token);
 
     // pass the token over the selected transition
     token.getNode().leave(executionContext, nextTransition);
@@ -115,8 +114,9 @@ public class InterleaveStart extends Node {
 
   protected void storeTransitionNames(Collection transitionNames, Token token) {
     ContextInstance ci = token.getProcessInstance().getContextInstance();
-    if (ci==null) throw new JbpmException("an interleave start node requires the availability of a context");
-    ci.setVariable(variableName,transitionNames, token);
+    if (ci == null)
+      throw new JbpmException("an interleave start node requires the availability of a context");
+    ci.setVariable(variableName, transitionNames, token);
   }
 
   public Collection retrieveTransitionNames(Token token) {
@@ -126,12 +126,13 @@ public class InterleaveStart extends Node {
 
   public void removeTransitionNames(Token token) {
     ContextInstance ci = token.getProcessInstance().getContextInstance();
-    ci.setVariable(variableName,null, token);
+    ci.setVariable(variableName, null, token);
   }
-  
+
   public Interleaver getInterleaver() {
     return interleaver;
   }
+
   public void setInterleaver(Interleaver interleaver) {
     this.interleaver = interleaver;
   }

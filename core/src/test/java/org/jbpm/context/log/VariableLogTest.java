@@ -34,6 +34,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.logging.exe.LoggingInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class VariableLogTest extends AbstractJbpmTestCase {
   
   private ProcessDefinition processDefinition = null;

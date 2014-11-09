@@ -5,6 +5,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.job.executor.JobExecutor;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JobExecutorCustomizationTest extends AbstractDbTestCase {
 
   protected String getJbpmTestConfig() {

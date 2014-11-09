@@ -20,6 +20,9 @@ import org.jbpm.sim.def.JbpmSimulationScenario;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class BamSimulationProposal
 {
   private static final Log log = LogFactory.getLog(BamSimulationProposal.class);

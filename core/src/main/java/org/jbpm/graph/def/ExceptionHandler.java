@@ -30,6 +30,9 @@ import org.jbpm.JbpmException;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.util.ClassLoaderUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ExceptionHandler implements Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -37,6 +37,9 @@ import org.xml.sax.InputSource;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ExperimentReader implements ProblemListener {
   
   private static final long serialVersionUID = 1L;

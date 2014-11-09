@@ -28,6 +28,9 @@ import java.util.Set;
 
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ArrivingTransitionsTest extends AbstractJbpmTestCase {
 
   private Node n = new Node("n");

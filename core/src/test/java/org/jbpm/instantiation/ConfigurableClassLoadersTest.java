@@ -35,6 +35,9 @@ import org.jbpm.util.ClassLoaderUtil;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ConfigurableClassLoadersTest extends AbstractJbpmTestCase {
 
   private ProcessDefinition processDefinition = new ProcessDefinition();

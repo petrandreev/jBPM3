@@ -46,6 +46,9 @@ import org.jbpm.util.ClassLoaderUtil;
 import org.jbpm.util.IoUtil;
 import org.jbpm.util.XmlUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessArchive implements ProblemListener, Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -24,6 +24,9 @@ package org.jbpm.graph.log;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.Transition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SignalLogDbTest extends AbstractDbTestCase
 {
 

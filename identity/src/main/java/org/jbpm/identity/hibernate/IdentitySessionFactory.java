@@ -25,7 +25,6 @@ import java.sql.Connection;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
 import org.jbpm.identity.Group;
 import org.jbpm.identity.Membership;
 import org.jbpm.identity.User;
@@ -75,9 +74,9 @@ public class IdentitySessionFactory {
   }
 
   public void evictCachedIdentities() {
-    sessionFactory.evict(User.class);
-    sessionFactory.evict(Membership.class);
-    sessionFactory.evict(Group.class);
+    sessionFactory.getCache().evictEntityRegion(User.class);
+    sessionFactory.getCache().evictEntityRegion(Membership.class);
+    sessionFactory.getCache().evictEntityRegion(Group.class);
   }
 
   public Configuration getConfiguration() {

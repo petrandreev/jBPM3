@@ -11,6 +11,9 @@ import org.jbpm.sim.def.JbpmSimulationExperiment;
 import org.jbpm.sim.def.JbpmSimulationScenario;
 import org.jbpm.sim.exe.ExperimentReader;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class VariableSourceAndFilterTest extends AbstractSimTestCase {
 
   private static final String testProcessXml = "<process-definition name='test' start-distribution='startDist'>"

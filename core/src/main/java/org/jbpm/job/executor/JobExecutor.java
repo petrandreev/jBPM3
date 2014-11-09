@@ -23,6 +23,9 @@ import edu.emory.mathcs.backport.java.util.concurrent.locks.Condition;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.Lock;
 import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantLock;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JobExecutor implements Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -1,3 +1,6 @@
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class AuctionTest extends TestCase {
 
   // parse the process definition

@@ -3,6 +3,9 @@ package org.jbpm.graph.node;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskNotificationDbTest extends AbstractDbTestCase {
 
   public void testDeleteProcessWithTaskNotification() {

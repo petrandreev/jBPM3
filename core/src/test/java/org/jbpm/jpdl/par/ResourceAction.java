@@ -33,6 +33,9 @@ import org.apache.commons.logging.LogFactory;
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ResourceAction implements ActionHandler {
 
   private static final long serialVersionUID = 1L;

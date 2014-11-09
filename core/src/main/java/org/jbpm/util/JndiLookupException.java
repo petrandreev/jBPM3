@@ -23,6 +23,9 @@ package org.jbpm.util;
 
 import org.jbpm.JbpmException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JndiLookupException extends JbpmException {
   private static final long serialVersionUID = 1L;
   public JndiLookupException(String message, Throwable cause) {

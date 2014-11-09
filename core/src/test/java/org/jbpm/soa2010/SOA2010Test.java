@@ -40,6 +40,9 @@ import org.jbpm.jpdl.xml.Problem;
  * @see <a href="https://jira.jboss.org/browse/SOA-2010">SOA-2010</a>
  * @author Marco Rietveld
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SOA2010Test extends AbstractDbTestCase {
   
   protected void setUp() throws Exception {

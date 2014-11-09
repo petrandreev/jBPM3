@@ -23,6 +23,9 @@ package org.jbpm.persistence;
 
 import org.jbpm.JbpmException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmPersistenceException extends JbpmException {
 
   private static final long serialVersionUID = 1L;

@@ -29,6 +29,9 @@ import org.jbpm.JbpmContext;
 import org.jbpm.svc.Service;
 import org.jbpm.svc.ServiceFactory;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmContextTest extends AbstractJbpmTestCase {
 
   private static ObjectFactory parse(String xml) {

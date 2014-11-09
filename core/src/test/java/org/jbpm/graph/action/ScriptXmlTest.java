@@ -25,6 +25,9 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ScriptXmlTest extends AbstractJbpmTestCase {
 
   public void testReadScriptExpression() {

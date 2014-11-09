@@ -36,6 +36,9 @@ import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
 /**
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_14.swf
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp15MiWithAPrioriRuntimeKnowledgeTest extends AbstractJbpmTestCase {
 
   public static int scenario = -1;

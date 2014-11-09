@@ -23,6 +23,9 @@ package org.jbpm.security.permission;
 
 import java.security.BasicPermission;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CreateProcessInstancePermission extends BasicPermission {
 
   private static final long serialVersionUID = 1L;

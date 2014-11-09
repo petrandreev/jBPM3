@@ -23,6 +23,9 @@ package org.jbpm.taskmgmt.def;
 
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SwimlaneTest extends AbstractJbpmTestCase {
 
   private Swimlane buyer = new Swimlane("buyer");

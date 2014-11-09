@@ -30,6 +30,9 @@ import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.def.Transition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TokenDbTest extends AbstractDbTestCase {
 
   public void testTokenName() {

@@ -8,6 +8,9 @@ import org.jbpm.sim.exe.ExperimentReader;
 import org.jbpm.sim.report.ScenarioReport;
 import org.jbpm.sim.report.dto.ValueStatisticResult;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ScenarioTest extends AbstractSimTestCase {
   
   private static final String testProcessXml =     

@@ -8,6 +8,9 @@ import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.persistence.JbpmPersistenceException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class PersistenceDbServiceNoTxTest extends AbstractJbpmTestCase {
 
   JbpmConfiguration jbpmConfiguration;

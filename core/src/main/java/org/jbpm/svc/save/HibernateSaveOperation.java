@@ -27,6 +27,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.persistence.PersistenceService;
 import org.jbpm.persistence.db.DbPersistenceService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class HibernateSaveOperation implements SaveOperation {
 
     private static final long serialVersionUID = 1L;

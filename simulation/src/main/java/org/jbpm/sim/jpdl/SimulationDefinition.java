@@ -25,6 +25,9 @@ import org.jbpm.taskmgmt.def.Task;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SimulationDefinition extends ModuleDefinition {
 
   private static final long serialVersionUID = 1L;

@@ -34,6 +34,9 @@ import org.jbpm.taskmgmt.def.TaskMgmtDefinition;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskMgmtSessionDbTest extends AbstractDbTestCase {
 
   ProcessInstance processInstance;

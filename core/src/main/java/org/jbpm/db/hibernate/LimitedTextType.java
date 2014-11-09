@@ -21,13 +21,11 @@
  */
 package org.jbpm.db.hibernate;
 
-import java.io.StringReader;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Properties;
 
-import org.hibernate.type.TextType;
+import org.hibernate.type.AbstractSingleColumnStandardBasicType;
+import org.hibernate.type.descriptor.java.StringTypeDescriptor;
 import org.hibernate.usertype.ParameterizedType;
 
 /**
@@ -35,30 +33,30 @@ import org.hibernate.usertype.ParameterizedType;
  * values to column size.
  * 
  * @author Alejandro Guizar
+ * @author pan
  */
-public class LimitedTextType extends TextType implements ParameterizedType {
-
-  private int limit;
+public class LimitedTextType extends AbstractSingleColumnStandardBasicType<String> implements
+  ParameterizedType {
 
   private static final long serialVersionUID = 1L;
 
-  public int getLimit() {
-    return limit;
+  private static final String TYPE_NAME = "ltdstring";
+
+  private static final String PARAMETER_LIMIT = "limit";
+
+  public LimitedTextType() {
+    super(new LimitedLongVarcharTypeDescriptor(), StringTypeDescriptor.INSTANCE);
   }
 
-  public void set(PreparedStatement st, Object value, int index) throws SQLException {
-    String text = (String) value;
-    int length = text.length();
-    if (length > limit) {
-      text = text.substring(0, limit);
-      length = limit;
-    }
-
-    st.setCharacterStream(index, new StringReader(text), length);
+  public int getLimit() {
+    return ((LimitedLongVarcharTypeDescriptor) getSqlTypeDescriptor()).getLimit();
   }
 
   public void setParameterValues(Properties parameters) {
-    limit = Integer.parseInt(parameters.getProperty("limit"));
+    ((LimitedLongVarcharTypeDescriptor) getSqlTypeDescriptor()).setLimit(Integer.parseInt(parameters.getProperty(PARAMETER_LIMIT)));
   }
 
+  public String getName() {
+    return TYPE_NAME;
+  }
 }

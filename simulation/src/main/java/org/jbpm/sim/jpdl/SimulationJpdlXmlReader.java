@@ -33,6 +33,9 @@ import org.jbpm.taskmgmt.def.TaskMgmtDefinition;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SimulationJpdlXmlReader extends JpdlXmlReader {
 
   private static final long serialVersionUID = 1L;

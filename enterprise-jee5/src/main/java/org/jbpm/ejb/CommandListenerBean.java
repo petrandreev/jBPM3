@@ -79,6 +79,9 @@ import org.jbpm.persistence.db.StaleObjectLogConfigurer;
  * 
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CommandListenerBean implements MessageListener {
 
   private static final long serialVersionUID = 1L;

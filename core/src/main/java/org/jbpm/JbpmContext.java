@@ -96,6 +96,9 @@ import org.jbpm.tx.TxService;
  * <code>jbpmContext.close();</code>
  * </p>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmContext implements Serializable {
 
   private static final long serialVersionUID = 1L;

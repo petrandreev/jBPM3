@@ -42,6 +42,9 @@ import org.jbpm.taskmgmt.exe.PooledActor;
 import org.jbpm.taskmgmt.exe.SwimlaneInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class ExpressionAssignmentHandlerTest extends IdentityDbTestCase {
 
   ExpressionAssignmentHandler expressionAssignmentHandler;

@@ -45,6 +45,9 @@ import org.jbpm.security.AuthenticationService;
 import org.jbpm.security.AuthorizationService;
 import org.jbpm.security.authentication.DefaultAuthenticationService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ServicesTest extends AbstractJbpmTestCase {
 
   public void testUnavailableServiceFactory() {

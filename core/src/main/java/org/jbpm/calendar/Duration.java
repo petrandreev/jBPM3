@@ -47,6 +47,9 @@ import java.util.Properties;
  * </ul>
  * </p>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Duration implements Serializable {
 
   private static final long serialVersionUID = 2L;

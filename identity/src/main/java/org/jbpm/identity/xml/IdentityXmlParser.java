@@ -40,6 +40,9 @@ import org.jbpm.identity.Membership;
 import org.jbpm.identity.User;
 import org.jbpm.util.ClassLoaderUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class IdentityXmlParser {
 
   private List entities = new ArrayList();

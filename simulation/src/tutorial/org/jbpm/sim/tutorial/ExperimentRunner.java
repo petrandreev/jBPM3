@@ -17,6 +17,9 @@ import org.xml.sax.InputSource;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ExperimentRunner {
   
   public static void main(String[] args) {

@@ -8,6 +8,9 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.node.Decision;
 import org.jbpm.sim.def.JbpmSimulationModel;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SimDecision extends Decision {
 
   private static final long serialVersionUID = 1L;

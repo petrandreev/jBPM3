@@ -11,6 +11,9 @@ import org.jbpm.sim.jpdl.SimulationDefinition;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class UseDataFilterAction extends Action {
 
   private String name;

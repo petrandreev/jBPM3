@@ -27,6 +27,9 @@ import java.util.List;
 import org.jbpm.JbpmException;
 import org.jbpm.jpdl.xml.Problem;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JpdlException extends JbpmException {
 
   private static final long serialVersionUID = 1L;

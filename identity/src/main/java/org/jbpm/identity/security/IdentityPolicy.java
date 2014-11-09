@@ -21,23 +21,33 @@
  */
 package org.jbpm.identity.security;
 
-import java.security.*;
-import java.util.*;
+import java.security.AllPermission;
+import java.security.CodeSource;
+import java.security.Permission;
+import java.security.PermissionCollection;
+import java.security.Permissions;
+import java.security.Policy;
+import java.security.Principal;
+import java.security.ProtectionDomain;
+import java.util.Iterator;
+
 import org.jbpm.identity.Entity;
 
 /**
- * a java.security.Policy implementation that in combination with the 
- * IdentityLoginModule enforces the secirity permissions modelled as
- * in the package org.jbpm.identity.
+ * a java.security.Policy implementation that in combination with the IdentityLoginModule
+ * enforces the secirity permissions modelled as in the package org.jbpm.identity.
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class IdentityPolicy extends Policy {
-  
+
   public static final PermissionCollection ALL_PERMISSIONSCOLLECTION = new Permissions();
   static {
     ALL_PERMISSIONSCOLLECTION.add(new AllPermission());
     ALL_PERMISSIONSCOLLECTION.setReadOnly();
   }
-  
+
   public void refresh() {
   }
 
@@ -46,29 +56,29 @@ public class IdentityPolicy extends Policy {
     // checks are only based on *who* is running the code.
     return ALL_PERMISSIONSCOLLECTION;
   }
-  
+
   public PermissionCollection getPermissions(ProtectionDomain domain) {
     PermissionCollection permissionCollection = new Permissions();
-    
+
     Principal[] principals = domain.getPrincipals();
     // if there are principals
-    if (principals!=null) {
+    if (principals != null) {
       // loop over the principals
-      for (int i=0; i<principals.length; i++) {
+      for (int i = 0; i < principals.length; i++) {
         // if the principal is a org.jbpm.identity.Entity
         if (Entity.class.isAssignableFrom(principals[i].getClass())) {
           // add all the identity's permissions to the set of permissions.
-          Iterator iter = ((Entity)principals[i]).getPermissions().iterator();
+          Iterator iter = ((Entity) principals[i]).getPermissions().iterator();
           while (iter.hasNext()) {
             permissionCollection.add((Permission) iter.next());
           }
         }
       }
     }
-    
+
     return super.getPermissions(domain);
   }
-  
+
   public boolean implies(ProtectionDomain domain, Permission permission) {
     return getPermissions(domain).implies(permission);
   }

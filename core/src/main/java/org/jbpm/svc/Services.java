@@ -50,6 +50,9 @@ import org.jbpm.svc.save.SaveLogsOperation;
 import org.jbpm.svc.save.SaveOperation;
 import org.jbpm.tx.TxService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Services implements Serializable {
 
   private static final long serialVersionUID = 1L;

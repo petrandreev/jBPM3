@@ -1,3 +1,6 @@
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CreateTasks implements ActionHandler {
   public void execute(ExecutionContext executionContext) throws Exception {
     Token token = executionContext.getToken();

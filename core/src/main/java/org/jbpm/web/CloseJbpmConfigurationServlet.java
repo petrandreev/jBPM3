@@ -25,6 +25,9 @@ import org.jbpm.JbpmConfiguration;
  * 
  * @deprecated Replaced by {@link org.jbpm.web.JbpmConfigurationCloser}
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CloseJbpmConfigurationServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;

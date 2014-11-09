@@ -28,6 +28,9 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskVariablesTest extends AbstractJbpmTestCase {
 
   public void testVariables() {

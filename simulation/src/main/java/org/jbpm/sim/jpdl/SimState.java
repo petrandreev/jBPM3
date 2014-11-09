@@ -6,6 +6,9 @@ import org.jbpm.graph.node.State;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.sim.action.StartWorkOnStateAndPlanCompletion;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SimState extends State {
 
   private static final long serialVersionUID = 1L;

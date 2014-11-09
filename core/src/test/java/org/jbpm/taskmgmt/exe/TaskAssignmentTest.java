@@ -38,6 +38,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.security.authentication.DefaultAuthenticationServiceFactory;
 import org.jbpm.taskmgmt.def.AssignmentHandler;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskAssignmentTest extends AbstractJbpmTestCase {
   
   public static class TestAssignmentHandler implements AssignmentHandler {

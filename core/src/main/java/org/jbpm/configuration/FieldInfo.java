@@ -24,11 +24,13 @@ package org.jbpm.configuration;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
-import org.w3c.dom.Element;
-
 import org.jbpm.JbpmException;
 import org.jbpm.util.XmlUtil;
+import org.w3c.dom.Element;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class FieldInfo implements Serializable {
 
   private final String fieldName;

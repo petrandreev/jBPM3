@@ -2,6 +2,9 @@ package org.jbpm.sim.report.dto;
 
 import desmoj.core.statistic.Count;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CountResult extends BaseResult {
   
   private long count;

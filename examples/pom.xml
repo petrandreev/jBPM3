@@ -6,11 +6,10 @@
 <!--  Distributable under LGPL license.                                     -->
 <!--  See terms of license at http://www.gnu.org.                           -->
 <!-- ====================================================================== -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <name>jBPM3 - Examples</name>
-  <groupId>org.jbpm.jbpm3</groupId>
   <artifactId>jbpm-examples</artifactId>
   <packaging>jar</packaging>
 
@@ -55,6 +54,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-compiler</artifactId>
       <scope>test</scope>
@@ -75,21 +79,21 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>net.sf.retrotranslator</groupId>
-    	<artifactId>retrotranslator-runtime</artifactId>
-    	<scope>test</scope>
+      <groupId>net.sf.retrotranslator</groupId>
+      <artifactId>retrotranslator-runtime</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>org.subethamail</groupId>
-    	<artifactId>subethasmtp-smtp</artifactId>
-    	<classifier>java14</classifier>
-    	<scope>test</scope>
+      <groupId>org.subethamail</groupId>
+      <artifactId>subethasmtp-smtp</artifactId>
+      <classifier>java14</classifier>
+      <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>org.subethamail</groupId>
-    	<artifactId>subethasmtp-wiser</artifactId>
-    	<classifier>java14</classifier>
-    	<scope>test</scope>
+      <groupId>org.subethamail</groupId>
+      <artifactId>subethasmtp-wiser</artifactId>
+      <classifier>java14</classifier>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

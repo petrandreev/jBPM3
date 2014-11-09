@@ -1,3 +1,6 @@
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class RemoveEmployeeUpdate implements ActionHandler {
   public void execute(ExecutionContext ctx) throws Exception {
     // get the fired employee from the process variables.

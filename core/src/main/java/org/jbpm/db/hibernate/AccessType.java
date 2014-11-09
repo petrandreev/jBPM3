@@ -31,6 +31,9 @@ import org.hibernate.type.DiscriminatorType;
 import org.hibernate.type.ImmutableType;
 import org.jbpm.context.def.Access;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class AccessType extends ImmutableType implements DiscriminatorType {
 
   private static final long serialVersionUID = 1L;

@@ -30,6 +30,9 @@ import org.jbpm.jpdl.el.VariableResolver;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.util.ClassLoaderUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Mail implements ActionHandler {
 
   private static final Log log = LogFactory.getLog(Mail.class);

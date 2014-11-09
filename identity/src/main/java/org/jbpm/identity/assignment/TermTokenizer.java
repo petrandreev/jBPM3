@@ -28,23 +28,24 @@ public class TermTokenizer {
 
   private String expression = null;
   private int index = 0;
-  
+
   public TermTokenizer(String expression) {
     this.expression = expression;
   }
 
   public boolean hasMoreTerms() {
-    return (index!=-1);
+    return (index != -1);
   }
-  
+
   public String nextTerm() {
     String term = null;
     int startIndex = index;
     index = expression.indexOf("-->", index);
-    if (index!=-1) {
+    if (index != -1) {
       term = expression.substring(startIndex, index).trim();
-      index+=3;
-    } else {
+      index += 3;
+    }
+    else {
       term = expression.substring(startIndex).trim();
     }
     return term;

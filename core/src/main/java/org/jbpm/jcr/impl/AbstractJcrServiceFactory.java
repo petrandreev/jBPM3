@@ -30,6 +30,9 @@ import org.jbpm.JbpmException;
 import org.jbpm.svc.Service;
 import org.jbpm.svc.ServiceFactory;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class AbstractJcrServiceFactory implements ServiceFactory {
 
   private static final long serialVersionUID = 1L;

@@ -28,6 +28,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessStateTest extends AbstractJbpmTestCase {
 
   public void testBasicScenario() {

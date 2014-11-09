@@ -47,6 +47,9 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.jbpm.jpdl.par.ProcessArchive;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Converter {
 
   private static final String STYLESHEET_NAME = "convert-pdl-2.0-to-3.0.xslt";

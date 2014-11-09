@@ -37,6 +37,9 @@ import org.jbpm.instantiation.ProcessClassLoader;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-1024">JBPM-1024</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM1024Test extends AbstractDbTestCase {
 
   public void testCustomSerializableVariableClass() throws IOException {

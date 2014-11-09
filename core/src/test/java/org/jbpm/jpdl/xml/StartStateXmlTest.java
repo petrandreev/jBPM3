@@ -25,6 +25,9 @@ import org.dom4j.Element;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.node.StartState;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class StartStateXmlTest extends AbstractXmlTestCase {
 
   public void testParseStartState() {

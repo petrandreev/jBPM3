@@ -43,6 +43,9 @@ import java.util.Set;
  * </ul>
  * </p> 
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Group extends Entity {
 
   private static final long serialVersionUID = 1L;

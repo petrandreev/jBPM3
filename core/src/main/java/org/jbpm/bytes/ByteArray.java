@@ -38,6 +38,9 @@ import org.jbpm.util.ArrayUtil;
  * ByteArray is used in process variableInstances and in the file module (that stores the
  * non-parsed process archive files).
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ByteArray implements Serializable {
 
   private static final long serialVersionUID = 1L;

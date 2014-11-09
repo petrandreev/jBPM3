@@ -23,6 +23,9 @@ package org.jbpm.context.exe.matcher;
 
 import org.jbpm.context.exe.JbpmTypeMatcher;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class ClassNameMatcher implements JbpmTypeMatcher {
 
   private static final long serialVersionUID = 1L;

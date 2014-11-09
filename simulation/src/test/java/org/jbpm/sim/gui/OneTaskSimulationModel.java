@@ -5,6 +5,9 @@ import org.jbpm.sim.exe.DesmojExperimentRunner;
 
 import desmoj.extensions.experimentation.ui.ExperimentStarterApplication;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class OneTaskSimulationModel extends DefaultJbpmSimulationModel {
   
   public OneTaskSimulationModel() {

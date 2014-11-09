@@ -22,8 +22,10 @@
 package org.jbpm.calendar;
 
 import java.io.Serializable;
-import java.text.*;
-import java.util.*;
+import java.text.DateFormat;
+import java.text.ParsePosition;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * is part of a day that can for example be used to represent business hours.

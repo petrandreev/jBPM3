@@ -37,6 +37,9 @@ import org.jbpm.svc.Service;
 import org.jbpm.svc.ServiceFactory;
 import org.jbpm.util.JndiUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DbPersistenceServiceFactory implements ServiceFactory {
 
   private static final long serialVersionUID = 1L;

@@ -29,6 +29,9 @@ import java.util.List;
 
 import org.jbpm.util.ClassLoaderUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProxyEnhancer {
 
   public static Object addRecorder(Object o, Class[] interfaces) {

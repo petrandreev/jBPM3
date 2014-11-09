@@ -10,6 +10,9 @@ package org.jbpm.jpdl.el.parser;
  * You can modify this class to customize your error reporting
  * mechanisms so long as you retain the public fields.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ParseException extends Exception {
 
   private static final long serialVersionUID = 1L;

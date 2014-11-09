@@ -5,6 +5,9 @@ import org.jbpm.sim.def.DefaultJbpmSimulationModel;
 import desmoj.core.simulator.Experiment;
 import desmoj.core.simulator.SimTime;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class OneTaskTest extends AbstractSimTestCase {
 
   public void testOneState() {

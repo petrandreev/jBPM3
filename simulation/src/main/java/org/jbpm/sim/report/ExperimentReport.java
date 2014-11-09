@@ -13,6 +13,9 @@ import java.util.Map;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ExperimentReport {
   
   private String experimentName; 

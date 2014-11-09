@@ -22,7 +22,6 @@
 package org.jbpm.db;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.sql.Connection;
 import java.util.Collection;
 import java.util.HashSet;
@@ -38,7 +37,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
-
 import org.jbpm.JbpmConfiguration.Configs;
 import org.jbpm.JbpmException;
 import org.jbpm.util.ClassLoaderUtil;
@@ -56,9 +54,10 @@ import org.jbpm.util.JndiUtil;
  * 
  * @deprecated use {@link org.jbpm.JbpmContext} and {@link org.jbpm.JbpmConfiguration} instead.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmSessionFactory {
-
-  private static final long serialVersionUID = 1L;
 
   private static String jndiName = getJndiName();
 

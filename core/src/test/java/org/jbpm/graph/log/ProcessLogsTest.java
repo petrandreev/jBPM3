@@ -29,6 +29,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.logging.exe.LoggingInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessLogsTest extends AbstractJbpmTestCase {
 
   public void testProcessInstanceStartLog() {

@@ -34,6 +34,9 @@ import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.node.State;
 import org.jbpm.instantiation.Delegation;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ActionXmlTest extends AbstractXmlTestCase {
   
   public void testReadProcessDefinitionAction() {

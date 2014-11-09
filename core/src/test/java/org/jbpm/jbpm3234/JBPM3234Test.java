@@ -39,6 +39,9 @@ import org.jbpm.mail.Mail;
  * 
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-3234">JBPM-3234</a>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM3234Test extends TestCase {
 
   protected void setUp() throws Exception {

@@ -8,6 +8,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 
 import desmoj.core.simulator.Model;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskInstanceEntity extends ResourceUsingEntity {
 
   private static Log log = LogFactory.getLog(TaskInstanceEntity.class);

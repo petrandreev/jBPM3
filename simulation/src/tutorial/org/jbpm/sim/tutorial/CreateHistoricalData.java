@@ -23,6 +23,9 @@ import org.jbpm.util.Clock.DateGenerator;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CreateHistoricalData {
   
   private Server hsqlServer;

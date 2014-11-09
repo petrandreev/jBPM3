@@ -31,7 +31,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
@@ -45,6 +44,9 @@ import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.jbpm.svc.Services;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class AbstractDbTestCase extends AbstractJbpmTestCase {
 
   protected JbpmConfiguration jbpmConfiguration;
@@ -63,11 +65,13 @@ public abstract class AbstractDbTestCase extends AbstractJbpmTestCase {
 
   private static final long JOB_TIMEOUT = 90 * 1000;
 
+  @Override
   protected void setUp() throws Exception {
     super.setUp();
     createJbpmContext();
   }
 
+  @Override
   protected void runTest() throws Throwable {
     try {
       super.runTest();
@@ -79,6 +83,7 @@ public abstract class AbstractDbTestCase extends AbstractJbpmTestCase {
     }
   }
 
+  @Override
   protected void tearDown() throws Exception {
     if (processDefinitionIds != null) deleteProcessDefinitions();
     closeJbpmContext();
@@ -88,7 +93,7 @@ public abstract class AbstractDbTestCase extends AbstractJbpmTestCase {
   }
 
   protected void deleteProcessDefinitions() {
-    if( processDefinitionIds == null ) return;
+    if (processDefinitionIds == null) return;
     for (Iterator i = processDefinitionIds.iterator(); i.hasNext();) {
       newTransaction();
       try {
@@ -102,8 +107,7 @@ public abstract class AbstractDbTestCase extends AbstractJbpmTestCase {
   }
 
   protected void ensureCleanDatabase() {
-    DbPersistenceServiceFactory persistenceServiceFactory =
-      (DbPersistenceServiceFactory) getJbpmConfiguration().getServiceFactory("persistence");
+    DbPersistenceServiceFactory persistenceServiceFactory = (DbPersistenceServiceFactory) getJbpmConfiguration().getServiceFactory("persistence");
     if (persistenceServiceFactory == null) return;
 
     boolean hasLeftOvers = false;
@@ -130,11 +134,13 @@ public abstract class AbstractDbTestCase extends AbstractJbpmTestCase {
   }
 
   /** @deprecated call {@link #createJbpmContext()} instead */
+  @Deprecated
   protected void beginSessionTransaction() {
     createJbpmContext();
   }
 
   /** @deprecated call {@link #closeJbpmContext()} instead */
+  @Deprecated
   protected void commitAndCloseSession() {
     closeJbpmContext();
   }
@@ -213,8 +219,8 @@ public abstract class AbstractDbTestCase extends AbstractJbpmTestCase {
 
   /**
    * Waits until all jobs are processed or a specified amount of time has elapsed. Unlike
-   * {@link #processJobs(long)}, this method is not concerned about the job executor or
-   * the jBPM context.
+   * {@link #processJobs(long)}, this method is not concerned about the job executor or the jBPM
+   * context.
    */
   protected void waitForJobs(final long timeout) {
     final long startTime = System.currentTimeMillis();

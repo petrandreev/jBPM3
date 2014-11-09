@@ -11,6 +11,9 @@ import org.jbpm.graph.exe.Token;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TokenCommandTest extends AbstractDbTestCase {
 
   public void testUnlockTokenCommand() throws Exception {

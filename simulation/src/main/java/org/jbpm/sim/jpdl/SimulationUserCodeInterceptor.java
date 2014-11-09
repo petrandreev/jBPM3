@@ -12,6 +12,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 
 // TODO this serves mostly as an example of how the UserCodeInterceptor could be used.
 // It remains to be seen weather this is the right technique for the job.
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SimulationUserCodeInterceptor implements UserCodeInterceptor {
 
   public void executeAction(Action action, ExecutionContext executionContext) throws Exception {

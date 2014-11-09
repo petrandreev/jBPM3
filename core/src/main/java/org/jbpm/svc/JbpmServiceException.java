@@ -2,6 +2,9 @@ package org.jbpm.svc;
 
 import org.jbpm.JbpmException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmServiceException extends JbpmException {
 
   private static final long serialVersionUID = 1L;

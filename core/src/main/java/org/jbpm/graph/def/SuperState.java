@@ -36,6 +36,9 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
  * brings hierarchy into the elements of a process definition by creating a
  * parent-child relation between {@link GraphElement}s.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SuperState extends Node implements NodeCollection {
 
   private static final long serialVersionUID = 1L;

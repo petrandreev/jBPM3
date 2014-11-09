@@ -33,6 +33,9 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.graph.log.TransitionLog;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Transition extends GraphElement {
 
   private static final long serialVersionUID = 1L;

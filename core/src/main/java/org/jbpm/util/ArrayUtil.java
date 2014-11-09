@@ -26,6 +26,9 @@ import java.util.List;
 /**
  * Various methods for manipulating arrays.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ArrayUtil {
 
   private ArrayUtil() {

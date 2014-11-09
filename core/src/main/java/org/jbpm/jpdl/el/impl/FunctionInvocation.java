@@ -51,7 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  *
- */ 
+ */
 
 package org.jbpm.jpdl.el.impl;
 
@@ -66,104 +66,107 @@ import org.jbpm.jpdl.el.VariableResolver;
 
 /**
  *
- * <p>Represents a function call.</p>
+ * <p>
+ * Represents a function call.
+ * </p>
  * 
  * @author Shawn Bayern (in the style of Nathan's other classes)
  **/
 
-public class FunctionInvocation
-  extends Expression
-{
-  //-------------------------------------
+@SuppressWarnings({
+  "rawtypes"
+})
+public class FunctionInvocation extends Expression {
+  // -------------------------------------
   // Properties
-  //-------------------------------------
+  // -------------------------------------
   // property index
 
   private String functionName;
   private List argumentList;
-  public String getFunctionName() { return functionName; }
-  public void setFunctionName(String f) { functionName = f; }
-  public List getArgumentList() { return argumentList; }
-  public void setArgumentList(List l) { argumentList = l; }
 
-  //-------------------------------------
+  public String getFunctionName() {
+    return functionName;
+  }
+
+  public void setFunctionName(String f) {
+    functionName = f;
+  }
+
+  public List getArgumentList() {
+    return argumentList;
+  }
+
+  public void setArgumentList(List l) {
+    argumentList = l;
+  }
+
+  // -------------------------------------
   /**
    * Constructor
    **/
-  public FunctionInvocation (String functionName, List argumentList)
-  {
+  public FunctionInvocation(String functionName, List argumentList) {
     this.functionName = functionName;
     this.argumentList = argumentList;
   }
 
-  //-------------------------------------
+  // -------------------------------------
   // Expression methods
-  //-------------------------------------
+  // -------------------------------------
   /**
    * Returns the expression in the expression language syntax
    **/
-  public String getExpressionString ()
-  {
+  public String getExpressionString() {
     StringBuffer b = new StringBuffer();
     b.append(functionName);
     b.append("(");
     Iterator i = argumentList.iterator();
     while (i.hasNext()) {
       b.append(((Expression) i.next()).getExpressionString());
-      if (i.hasNext())
-        b.append(", ");
+      if (i.hasNext()) b.append(", ");
     }
     b.append(")");
     return b.toString();
   }
 
-
-  //-------------------------------------
+  // -------------------------------------
   /**
    *
    * Evaluates by looking up the name in the VariableResolver
    **/
-  public Object evaluate (VariableResolver pResolver,
-			  FunctionMapper functions,
-                          Logger pLogger)
-    throws ELException
-  {
+  public Object evaluate(VariableResolver pResolver, FunctionMapper functions, Logger pLogger)
+    throws ELException {
 
     // if the Map is null, then the function is invalid
-    if (functions == null)
-      pLogger.logError(Constants.UNKNOWN_FUNCTION, functionName);
+    if (functions == null) pLogger.logError(Constants.UNKNOWN_FUNCTION, functionName);
 
     // normalize function name
     String prefix = null;
     String localName = null;
-    int index = functionName.indexOf( ':' );
+    int index = functionName.indexOf(':');
     if (index == -1) {
       prefix = "";
       localName = functionName;
-    } else {
-      prefix = functionName.substring( 0, index );
-      localName = functionName.substring( index + 1 );
+    }
+    else {
+      prefix = functionName.substring(0, index);
+      localName = functionName.substring(index + 1);
     }
 
     // ensure that the function's name is mapped
     Method target = functions.resolveFunction(prefix, localName);
-    if (target == null)
-      pLogger.logError(Constants.UNKNOWN_FUNCTION, functionName);
+    if (target == null) pLogger.logError(Constants.UNKNOWN_FUNCTION, functionName);
 
     // ensure that the number of arguments matches the number of parameters
     Class[] params = target.getParameterTypes();
     if (params.length != argumentList.size())
-      pLogger.logError(Constants.INAPPROPRIATE_FUNCTION_ARG_COUNT,
-		       functionName, new Integer(params.length),
-		       new Integer(argumentList.size()));
+      pLogger.logError(Constants.INAPPROPRIATE_FUNCTION_ARG_COUNT, functionName, new Integer(params.length), new Integer(argumentList.size()));
 
     // now, walk through each parameter, evaluating and casting its argument
     Object[] arguments = new Object[argumentList.size()];
     for (int i = 0; i < params.length; i++) {
       // evaluate
-      arguments[i] = ((Expression) argumentList.get(i)).evaluate(pResolver,
-								 functions,
-								 pLogger);
+      arguments[i] = ((Expression) argumentList.get(i)).evaluate(pResolver, functions, pLogger);
       // coerce
       arguments[i] = Coercions.coerce(arguments[i], params[i], pLogger);
     }
@@ -171,16 +174,16 @@ public class FunctionInvocation
     // finally, invoke the target method, which we know to be static
     try {
       return (target.invoke(null, arguments));
-    } catch (InvocationTargetException ex) {
-      pLogger.logError(Constants.FUNCTION_INVOCATION_ERROR,
-			ex.getTargetException(),
-			functionName);
+    }
+    catch (InvocationTargetException ex) {
+      pLogger.logError(Constants.FUNCTION_INVOCATION_ERROR, ex.getTargetException(), functionName);
       return null;
-    } catch (Exception ex) {
+    }
+    catch (Exception ex) {
       pLogger.logError(Constants.FUNCTION_INVOCATION_ERROR, ex, functionName);
       return null;
     }
   }
 
-  //-------------------------------------
+  // -------------------------------------
 }

@@ -23,6 +23,9 @@ package org.jbpm.instantiation;
 
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DefaultInstantiatorTest extends AbstractJbpmTestCase {
   
   public DefaultInstantiator defaultInstantiator = new DefaultInstantiator();

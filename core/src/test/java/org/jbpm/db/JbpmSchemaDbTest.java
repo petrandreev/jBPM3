@@ -35,6 +35,9 @@ import org.jbpm.AbstractJbpmTestCase;
  * @author thomas.diesler@jboss.com
  * @since 06-Nov-2008
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmSchemaDbTest extends AbstractJbpmTestCase {
 
   JbpmSchema jbpmSchema;

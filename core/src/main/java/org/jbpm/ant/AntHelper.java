@@ -35,6 +35,9 @@ import org.jbpm.util.ClassLoaderUtil;
 /**
  * common strategy for jbpm ant tasks to obtain configuration instances.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class AntHelper {
 
   private static final Map configurations = new HashMap();

@@ -21,9 +21,10 @@
  */
 package org.jbpm.context.log.variableinstance;
 
-import java.util.*;
-import org.jbpm.context.exe.*;
-import org.jbpm.context.log.*;
+import java.util.Date;
+
+import org.jbpm.context.exe.VariableInstance;
+import org.jbpm.context.log.VariableUpdateLog;
 
 public class DateUpdateLog extends VariableUpdateLog {
 

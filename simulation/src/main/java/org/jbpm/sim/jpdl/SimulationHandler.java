@@ -12,6 +12,9 @@ import org.jbpm.graph.exe.ExecutionContext;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface SimulationHandler {
 
   public void simExecute(ExecutionContext executionContext);

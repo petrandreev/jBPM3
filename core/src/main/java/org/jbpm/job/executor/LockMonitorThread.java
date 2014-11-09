@@ -13,6 +13,9 @@ import org.jbpm.job.Job;
 import org.jbpm.persistence.db.DbPersistenceService;
 import org.jbpm.persistence.db.StaleObjectLogConfigurer;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class LockMonitorThread extends Thread implements Deactivable {
 
   public static final String DEFAULT_NAME = "Monitor";

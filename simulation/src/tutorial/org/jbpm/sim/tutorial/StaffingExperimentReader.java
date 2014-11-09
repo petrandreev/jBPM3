@@ -23,6 +23,9 @@ import org.xml.sax.InputSource;
  * @author ruecker
  *
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class StaffingExperimentReader extends ExperimentReader {
   
   private long addCount = 2;

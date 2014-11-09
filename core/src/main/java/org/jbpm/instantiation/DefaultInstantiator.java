@@ -25,6 +25,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jbpm.JbpmException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DefaultInstantiator implements Instantiator {
 
   public Object instantiate(Class clazz, String configuration) {

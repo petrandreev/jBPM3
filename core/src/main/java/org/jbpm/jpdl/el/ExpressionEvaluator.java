@@ -51,6 +51,9 @@ package org.jbpm.jpdl.el;
  *
  * @since 2.0
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public abstract class ExpressionEvaluator {
 
     /**

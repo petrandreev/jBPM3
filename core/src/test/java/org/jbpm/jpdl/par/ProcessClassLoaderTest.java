@@ -19,6 +19,9 @@ import org.jbpm.util.ClassLoaderUtil;
  * @author Tom Baeyens
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessClassLoaderTest extends AbstractJbpmTestCase {
 
   public static class TestClassLoader extends ClassLoader {

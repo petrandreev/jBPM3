@@ -8,6 +8,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class VariablesCommand extends AbstractBaseCommand {
 
   private static final long serialVersionUID = 1L;

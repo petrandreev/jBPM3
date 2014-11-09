@@ -27,6 +27,9 @@ import org.jbpm.graph.def.ExceptionHandler;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.node.TaskNode;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskDbTest extends AbstractDbTestCase {
 
   public void testTaskName() {

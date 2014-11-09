@@ -41,6 +41,9 @@ import org.jbpm.svc.Services;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2958">JBPM-2958</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TimerCalendarTest extends AbstractDbTestCase {
 
   protected JbpmConfiguration getJbpmConfiguration() {

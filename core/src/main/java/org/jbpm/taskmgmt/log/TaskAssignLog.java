@@ -23,6 +23,9 @@ package org.jbpm.taskmgmt.log;
 
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskAssignLog extends TaskLog {
 
   private static final long serialVersionUID = 1L;

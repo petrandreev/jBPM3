@@ -30,6 +30,9 @@ import org.jbpm.JbpmException;
 import org.jbpm.util.XmlUtil;
 import org.w3c.dom.Element;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class PropertyInfo implements Serializable {
 
   private static final long serialVersionUID = 1L;

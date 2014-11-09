@@ -23,6 +23,9 @@ package org.jbpm.taskmgmt.def;
 
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskMgmtDefinitionTest extends AbstractJbpmTestCase {
   
   TaskMgmtDefinition taskMgmtDefinition = new TaskMgmtDefinition();

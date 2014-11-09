@@ -31,6 +31,9 @@ import org.jbpm.taskmgmt.def.Swimlane;
 import org.jbpm.taskmgmt.def.Task;
 import org.jbpm.taskmgmt.def.TaskMgmtDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskNodeXmlTest extends AbstractJbpmTestCase {
   
   public void testTaskNodeName() {

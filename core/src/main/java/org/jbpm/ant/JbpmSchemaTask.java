@@ -36,6 +36,9 @@ import org.hibernate.cfg.Configuration;
 import org.jbpm.db.JbpmSchema;
 import org.jbpm.util.IoUtil;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class JbpmSchemaTask extends Task {
 
   String config = "hibernate.cfg.xml";

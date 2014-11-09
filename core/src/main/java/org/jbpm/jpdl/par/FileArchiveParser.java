@@ -27,6 +27,9 @@ import java.util.Map;
 import org.jbpm.file.def.FileDefinition;
 import org.jbpm.graph.def.ProcessDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class FileArchiveParser implements ProcessArchiveParser {
 
   private static final long serialVersionUID = 1L;

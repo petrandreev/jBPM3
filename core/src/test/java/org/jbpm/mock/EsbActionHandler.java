@@ -35,6 +35,9 @@ import org.jbpm.persistence.db.DbPersistenceService;
 /**
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class EsbActionHandler implements ActionHandler {
 
   private String esbCategoryName;

@@ -44,6 +44,9 @@ import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
  * is a node that relates to one or more tasks. Property <code>signal</code> specifies how task
  * completion triggers continuation of execution.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskNode extends Node {
 
   private static final long serialVersionUID = 1L;

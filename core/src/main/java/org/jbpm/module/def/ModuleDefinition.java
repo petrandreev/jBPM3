@@ -26,6 +26,9 @@ import java.io.Serializable;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.module.exe.ModuleInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class ModuleDefinition implements Serializable {
 
   long id;

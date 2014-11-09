@@ -28,6 +28,9 @@ import java.io.OutputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class IoUtil {
 
   private static final int BUFFER_SIZE = 4096;

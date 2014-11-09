@@ -23,6 +23,9 @@ package org.jbpm.identity.security;
 
 import org.jbpm.identity.*;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class AuthenticatedUser {
   
   static ThreadLocal authenticatedUser = new ThreadLocal();

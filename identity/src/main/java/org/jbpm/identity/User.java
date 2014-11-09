@@ -30,6 +30,9 @@ import java.util.Set;
 /**
  * user or a system.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class User extends Entity implements Principal {
 
   private static final long serialVersionUID = 1L;

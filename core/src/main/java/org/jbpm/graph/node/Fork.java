@@ -57,6 +57,9 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
  * {@link ActionHandler}.
  * </p>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Fork extends Node {
 
   private static final long serialVersionUID = 1L;

@@ -30,6 +30,9 @@ import org.jbpm.graph.exe.Token;
 /**
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM642Test extends AbstractJbpmTestCase {
 
   protected void setUp() throws Exception {

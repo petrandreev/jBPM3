@@ -11,6 +11,9 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.graph.node.DecisionHandler;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class AsyncTimerAndSubProcessDbTest extends AbstractDbTestCase {
 
   public static class TimedDecisionHandler implements DecisionHandler {

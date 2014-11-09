@@ -23,6 +23,9 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SimAction extends Action {
 
   private static final long serialVersionUID = 1L;

@@ -12,6 +12,9 @@ import org.jbpm.graph.def.SuperState;
 import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.exe.ProcessInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class AvailableTransitionsDbTest extends AbstractDbTestCase {
 
   public void testSimpleAvailableTransitions() {

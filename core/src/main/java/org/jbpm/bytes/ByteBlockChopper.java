@@ -33,6 +33,9 @@ import org.jbpm.JbpmConfiguration.Configs;
  * is used by {@link org.jbpm.bytes.ByteArray} to chop a byte arrays into a list of chunks and
  * glue them back together.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ByteBlockChopper {
 
   private static final Log log = LogFactory.getLog(ByteBlockChopper.class);

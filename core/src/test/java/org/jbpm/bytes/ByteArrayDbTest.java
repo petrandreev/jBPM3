@@ -25,6 +25,9 @@ import java.util.Arrays;
 
 import org.jbpm.db.AbstractDbTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ByteArrayDbTest extends AbstractDbTestCase {
 
   public void testManyBlocks() {

@@ -22,11 +22,10 @@
 package org.jbpm.identity;
 
 /**
- * one association between user and a group. The name of the membership
- * represents the role-name that the user fulfills in the group. A membership
- * can be a position in an organisation, therefore permissions can be associated
- * with a membership. The name of the membership can be used as the role name.
- * Meaning which role does the user play in the group.
+ * one association between user and a group. The name of the membership represents the role-name
+ * that the user fulfills in the group. A membership can be a position in an organisation,
+ * therefore permissions can be associated with a membership. The name of the membership can be
+ * used as the role name. Meaning which role does the user play in the group.
  */
 public class Membership extends Entity {
 

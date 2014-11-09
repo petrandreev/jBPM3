@@ -26,6 +26,9 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class MembershipTest extends TestCase {
 
   public void testGroupsForGroupType() {
@@ -34,7 +37,7 @@ public class MembershipTest extends TestCase {
     Group marketingTeam = new Group("marketing team", "hierarchy");
     Membership.create(john, "mgr", qaTeam);
     Membership.create(john, "mgr", marketingTeam);
-    
+
     Set groups = john.getGroupsForGroupType("hierarchy");
     assertEquals(2, groups.size());
     assertEquals(2, groups.size());
@@ -48,12 +51,12 @@ public class MembershipTest extends TestCase {
     Group marketingTeam = new Group("marketing team", "hierarchy");
     Membership.create(john, "mgr", qaTeam);
     Membership.create(john, "mgr", marketingTeam);
-    
+
     Set groups = john.getGroupsForGroupType("non-existing-group-type");
     assertNotNull(groups);
     assertEquals(0, groups.size());
   }
-  
+
   public void testGetGroupsForRole() {
     User john = new User("johndoe");
     Group qaTeam = new Group("qa team", "hierarchy");
@@ -62,18 +65,18 @@ public class MembershipTest extends TestCase {
     Membership.create(john, "mgr", qaTeam);
     Membership.create(john, "mgr", marketingTeam);
     Membership.create(john, "member", nozems);
-    
+
     Set groups = john.getGroupsForMembershipRole("mgr");
     assertEquals(2, groups.size());
   }
-  
+
   public void testGetUsersInRole() {
     User john = new User("johndoe");
     Group qaTeam = new Group("qa team", "hierarchy");
     Group marketingTeam = new Group("marketing team", "hierarchy");
     Membership.create(john, "mgr", qaTeam);
     Membership.create(john, "mgr", marketingTeam);
-    
+
     assertEquals(1, qaTeam.getUsersForMembershipRole("mgr").size());
     assertSame(john, qaTeam.getUsersForMembershipRole("mgr").iterator().next());
     assertEquals(1, marketingTeam.getUsersForMembershipRole("mgr").size());
@@ -89,7 +92,7 @@ public class MembershipTest extends TestCase {
   public boolean containsGroup(Set groups, String groupName) {
     Iterator iter = groups.iterator();
     while (iter.hasNext()) {
-      if( groupName.equals(((Group)iter.next()).getName())) {
+      if (groupName.equals(((Group) iter.next()).getName())) {
         return true;
       }
     }

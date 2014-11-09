@@ -31,6 +31,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2812">JBPM-2812</a>
  * @author Martin Putz
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2812Test extends AbstractDbTestCase {
 
   public void testTimerWithSuperState() {

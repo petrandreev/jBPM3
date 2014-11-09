@@ -1,5 +1,8 @@
 package org.jbpm.util;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ByteUtil {
 
   private ByteUtil() {

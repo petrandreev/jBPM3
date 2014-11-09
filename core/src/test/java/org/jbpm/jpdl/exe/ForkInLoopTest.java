@@ -25,6 +25,9 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ForkInLoopTest extends AbstractJbpmTestCase {
 
   public void testCycle() {

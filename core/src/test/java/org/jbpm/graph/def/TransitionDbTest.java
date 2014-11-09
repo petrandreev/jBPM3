@@ -23,6 +23,9 @@ package org.jbpm.graph.def;
 
 import org.jbpm.db.AbstractDbTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TransitionDbTest extends AbstractDbTestCase {
 
   public void testTranisitionName() {

@@ -27,6 +27,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.svc.Service;
 import org.jbpm.svc.Services;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ModuleInstance implements Serializable {
 
   private static final long serialVersionUID = 1L;

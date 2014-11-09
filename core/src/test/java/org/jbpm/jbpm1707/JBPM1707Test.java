@@ -34,6 +34,9 @@ import org.jbpm.jpdl.xml.Problem;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-1707">JBPM-1707</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM1707Test extends AbstractJbpmTestCase {
 
   public void testPageflowWithoutNamespace() {

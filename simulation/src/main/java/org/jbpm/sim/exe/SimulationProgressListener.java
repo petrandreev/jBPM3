@@ -6,6 +6,9 @@ package org.jbpm.sim.exe;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface SimulationProgressListener {
 
   public void newScenario(String scenarioName, int scenarioNumber, int scenarioCount);

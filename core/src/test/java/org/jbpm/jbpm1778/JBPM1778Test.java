@@ -14,6 +14,9 @@ import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
  * 
  * @author Thomas.Diesler@jboss.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM1778Test extends AbstractJbpmTestCase {
 
   public void testEmptyMapVariables() {

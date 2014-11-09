@@ -35,6 +35,9 @@ import java.util.Properties;
 /**
  * identifies a continuous set of days.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Holiday implements Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -38,6 +38,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2017">JBPM-2017</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2017Test extends AbstractDbTestCase {
 
   public void testTextVariable() throws IOException {

@@ -35,6 +35,9 @@ import org.jbpm.util.ClassLoaderUtil;
 /**
  * specifies how jbpm can persist objects of a given type in the database.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmType {
 
   private static Map typesByResource = new HashMap();

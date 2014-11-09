@@ -19,6 +19,9 @@ import desmoj.core.simulator.SimTime;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmSimulationClock implements Clock.DateGenerator, Observer {
   
   /**

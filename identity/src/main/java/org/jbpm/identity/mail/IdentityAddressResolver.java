@@ -6,9 +6,8 @@ import org.jbpm.mail.AddressResolver;
 import org.jbpm.svc.Service;
 
 /**
- * translates actorIds into email addresses with the jBPM identity module. Only
- * user actorIds are resolved to their email addresses. Group actorIds return
- * null.
+ * translates actorIds into email addresses with the jBPM identity module. Only user actorIds
+ * are resolved to their email addresses. Group actorIds return null.
  */
 public class IdentityAddressResolver implements AddressResolver {
 
@@ -25,16 +24,14 @@ public class IdentityAddressResolver implements AddressResolver {
   }
 
   /**
-   * @deprecated this address resolver does not fit the {@linkplain Service
-   * service} model.
+   * @deprecated this address resolver does not fit the {@linkplain Service service} model.
    */
   public Service openService() {
     return null;
   }
 
   /**
-   * @deprecated this address resolver does not fit the {@linkplain Service
-   * service} model.
+   * @deprecated this address resolver does not fit the {@linkplain Service service} model.
    */
   public void close() {
   }

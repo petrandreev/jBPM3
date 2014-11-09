@@ -22,7 +22,6 @@
 package org.jbpm.context.exe;
 
 import org.hibernate.cfg.Configuration;
-
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.context.def.ContextDefinition;
@@ -33,8 +32,12 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.jbpm.svc.Services;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class StringIdVariableDbTest extends AbstractDbTestCase {
 
+  @Override
   protected JbpmConfiguration getJbpmConfiguration() {
     if (jbpmConfiguration == null) {
       // disable logging service to prevent logs from referencing custom object
@@ -42,10 +45,9 @@ public class StringIdVariableDbTest extends AbstractDbTestCase {
 
       JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
       try {
-        DbPersistenceServiceFactory persistenceServiceFactory =
-          (DbPersistenceServiceFactory) jbpmContext.getServiceFactory(Services.SERVICENAME_PERSISTENCE);
+        DbPersistenceServiceFactory persistenceServiceFactory = (DbPersistenceServiceFactory) jbpmContext.getServiceFactory(Services.SERVICENAME_PERSISTENCE);
         Configuration configuration = persistenceServiceFactory.getConfiguration();
-        configuration.addClass(CustomStringClass.class);
+        configuration.addClass(CustomStringClass.class).buildMappings();
 
         JbpmSchema jbpmSchema = new JbpmSchema(configuration);
         jbpmSchema.createTable("JBPM_TEST_CUSTOMSTRINGID");
@@ -57,6 +59,7 @@ public class StringIdVariableDbTest extends AbstractDbTestCase {
     return jbpmConfiguration;
   }
 
+  @Override
   protected void tearDown() throws Exception {
     super.tearDown();
     jbpmConfiguration.close();

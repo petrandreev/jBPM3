@@ -34,6 +34,9 @@ import org.jbpm.graph.exe.Comment;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskInstanceDbTest extends AbstractDbTestCase {
 
   public void testTaskInstanceUnrelatedToAProcess() {

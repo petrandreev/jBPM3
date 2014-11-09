@@ -31,6 +31,9 @@ import org.jbpm.identity.IdentityDbTestCase;
 import org.jbpm.identity.Membership;
 import org.jbpm.identity.User;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class UserDbTest extends IdentityDbTestCase {
 
   public void testUser() {

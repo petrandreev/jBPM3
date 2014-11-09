@@ -21,6 +21,9 @@
  */
 package org.jbpm.logging.log;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class MessageLog extends ProcessLog {
 
   private static final long serialVersionUID = 1L;

@@ -10,6 +10,9 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class FunctionMapperTest extends AbstractJbpmTestCase {
 
   public void testDefault() {

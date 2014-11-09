@@ -48,6 +48,9 @@ import org.jbpm.persistence.db.DbPersistenceService;
 import org.jbpm.signal.EventService;
 import org.jbpm.util.ClassUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class GraphElement implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 1L;

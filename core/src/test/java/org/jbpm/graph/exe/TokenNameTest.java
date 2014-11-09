@@ -24,6 +24,9 @@ package org.jbpm.graph.exe;
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TokenNameTest extends AbstractJbpmTestCase {
   
   public void testFindRoot() {

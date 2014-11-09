@@ -2,6 +2,9 @@ package org.jbpm.sim.tutorial.business;
 
 import org.jbpm.sim.exe.JbpmSimulationExperimentRunner;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class UC1ExperimentRunner {
 
   public static void main(String[] args) {

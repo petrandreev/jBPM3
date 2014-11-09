@@ -32,14 +32,18 @@ import org.hibernate.usertype.UserType;
 import org.jbpm.context.exe.Converter;
 
 /**
- * is the hibernate UserType for storing converters as a char in the database.
- * The conversion can be found (and customized) in the file
- * jbpm.converter.properties.
+ * is the hibernate UserType for storing converters as a char in the database. The conversion
+ * can be found (and customized) in the file jbpm.converter.properties.
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class ConverterEnumType implements UserType, Serializable {
 
   private static final long serialVersionUID = 1L;
-  private static final int[] SQLTYPES = { Types.CHAR };
+  private static final int[] SQLTYPES = {
+    Types.CHAR
+  };
 
   public boolean equals(Object o1, Object o2) {
     return o1 == o2;
@@ -78,13 +82,13 @@ public class ConverterEnumType implements UserType, Serializable {
   }
 
   public Object nullSafeGet(ResultSet resultSet, String[] names, Object owner)
-      throws HibernateException, SQLException {
+    throws HibernateException, SQLException {
     String converterDatabaseId = resultSet.getString(names[0]);
     return Converters.getConverterByDatabaseId(converterDatabaseId);
   }
 
-  public void nullSafeSet(PreparedStatement preparedStatement, Object value,
-      int index) throws HibernateException, SQLException {
+  public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index)
+    throws HibernateException, SQLException {
     String converterDatabaseId = Converters.getConverterId((Converter) value);
     preparedStatement.setString(index, converterDatabaseId);
   }

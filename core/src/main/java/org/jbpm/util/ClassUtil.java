@@ -26,6 +26,9 @@ package org.jbpm.util;
  * 
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ClassUtil {
 
   private ClassUtil() {

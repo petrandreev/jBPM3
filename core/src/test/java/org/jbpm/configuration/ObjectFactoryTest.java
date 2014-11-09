@@ -27,6 +27,9 @@ import java.util.Map;
 
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ObjectFactoryTest extends AbstractJbpmTestCase {
   
   protected ObjectFactoryImpl objectFactory = null;

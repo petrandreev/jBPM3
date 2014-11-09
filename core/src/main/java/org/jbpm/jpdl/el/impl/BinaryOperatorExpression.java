@@ -51,7 +51,7 @@
  * information on the Apache Software Foundation, please see
  * <http://www.apache.org/>.
  *
- */ 
+ */
 
 package org.jbpm.jpdl.el.impl;
 
@@ -63,115 +63,120 @@ import org.jbpm.jpdl.el.VariableResolver;
 
 /**
  *
- * <p>An expression representing a binary operator on a value
+ * <p>
+ * An expression representing a binary operator on a value
  * 
  * @author Nathan Abramson - Art Technology Group
  * @author Shawn Bayern
  * @version $Change: 181177 $$DateTime: 2001/06/26 08:45:09 $$Author$
  **/
 
-public class BinaryOperatorExpression
-  extends Expression
-{
-  //-------------------------------------
+@SuppressWarnings({
+  "rawtypes"
+})
+public class BinaryOperatorExpression extends Expression {
+  // -------------------------------------
   // Properties
-  //-------------------------------------
+  // -------------------------------------
   // property expression
 
   Expression mExpression;
-  public Expression getExpression ()
-  { return mExpression; }
-  public void setExpression (Expression pExpression)
-  { mExpression = pExpression; }
 
-  //-------------------------------------
+  public Expression getExpression() {
+    return mExpression;
+  }
+
+  public void setExpression(Expression pExpression) {
+    mExpression = pExpression;
+  }
+
+  // -------------------------------------
   // property operators
 
   List mOperators;
-  public List getOperators ()
-  { return mOperators; }
-  public void setOperators (List pOperators)
-  { mOperators = pOperators; }
 
-  //-------------------------------------
+  public List getOperators() {
+    return mOperators;
+  }
+
+  public void setOperators(List pOperators) {
+    mOperators = pOperators;
+  }
+
+  // -------------------------------------
   // property expressions
 
   List mExpressions;
-  public List getExpressions ()
-  { return mExpressions; }
-  public void setExpressions (List pExpressions)
-  { mExpressions = pExpressions; }
 
-  //-------------------------------------
+  public List getExpressions() {
+    return mExpressions;
+  }
+
+  public void setExpressions(List pExpressions) {
+    mExpressions = pExpressions;
+  }
+
+  // -------------------------------------
   /**
    *
    * Constructor
    **/
-  public BinaryOperatorExpression (Expression pExpression,
-				   List pOperators,
-				   List pExpressions)
-  {
+  public BinaryOperatorExpression(Expression pExpression, List pOperators, List pExpressions) {
     mExpression = pExpression;
     mOperators = pOperators;
     mExpressions = pExpressions;
   }
 
-  //-------------------------------------
+  // -------------------------------------
   // Expression methods
-  //-------------------------------------
+  // -------------------------------------
   /**
    *
    * Returns the expression in the expression language syntax
    **/
-  public String getExpressionString ()
-  {
-    StringBuffer buf = new StringBuffer ();
-    buf.append ("(");
-    buf.append (mExpression.getExpressionString ());
-    for (int i = 0; i < mOperators.size (); i++) {
-      BinaryOperator operator = (BinaryOperator) mOperators.get (i);
-      Expression expression = (Expression) mExpressions.get (i);
-      buf.append (" ");
-      buf.append (operator.getOperatorSymbol ());
-      buf.append (" ");
-      buf.append (expression.getExpressionString ());
+  public String getExpressionString() {
+    StringBuffer buf = new StringBuffer();
+    buf.append("(");
+    buf.append(mExpression.getExpressionString());
+    for (int i = 0; i < mOperators.size(); i++) {
+      BinaryOperator operator = (BinaryOperator) mOperators.get(i);
+      Expression expression = (Expression) mExpressions.get(i);
+      buf.append(" ");
+      buf.append(operator.getOperatorSymbol());
+      buf.append(" ");
+      buf.append(expression.getExpressionString());
     }
-    buf.append (")");
+    buf.append(")");
 
-    return buf.toString ();
+    return buf.toString();
   }
 
-  //-------------------------------------
+  // -------------------------------------
   /**
    *
    * Evaluates to the literal value
    **/
-  public Object evaluate (VariableResolver pResolver,
-			  FunctionMapper functions,
-			  Logger pLogger)
-    throws ELException
-  {
-    Object value = mExpression.evaluate (pResolver, functions, pLogger);
-    for (int i = 0; i < mOperators.size (); i++) {
-      BinaryOperator operator = (BinaryOperator) mOperators.get (i);
+  public Object evaluate(VariableResolver pResolver, FunctionMapper functions, Logger pLogger)
+    throws ELException {
+    Object value = mExpression.evaluate(pResolver, functions, pLogger);
+    for (int i = 0; i < mOperators.size(); i++) {
+      BinaryOperator operator = (BinaryOperator) mOperators.get(i);
 
       // For the And/Or operators, we need to coerce to a boolean
       // before testing if we shouldEvaluate
-      if (operator.shouldCoerceToBoolean ()) {
-	value = Coercions.coerceToBoolean (value, pLogger);
+      if (operator.shouldCoerceToBoolean()) {
+        value = Coercions.coerceToBoolean(value, pLogger);
       }
 
-      if (operator.shouldEvaluate (value)) {
-	Expression expression = (Expression) mExpressions.get (i);
-	Object nextValue = expression.evaluate (pResolver,
-						functions,
-						pLogger);
+      if (operator.shouldEvaluate(value)) {
+        Expression expression = (Expression) mExpressions.get(i);
+        Object nextValue = expression.evaluate(pResolver, functions, pLogger);
 
-	value = operator.apply (value, nextValue, pLogger);
+        value = operator.apply(value, nextValue, pLogger);
       }
     }
     return value;
   }
 
-  //-------------------------------------
+  // -------------------------------------
 }

@@ -24,6 +24,9 @@ package org.jbpm.taskmgmt.def;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskMgmtDefinitionDbTest extends AbstractDbTestCase {
 
   ProcessDefinition processDefinition;

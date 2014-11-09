@@ -11,6 +11,9 @@ import desmoj.core.simulator.QueueBased;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class QueueStatisticsResult extends BaseResult { // org.jbpm.sim.report.dto.QueueStatisticsResult
 
   private static final long serialVersionUID = 8790401605841407111L;

@@ -2,6 +2,9 @@ package org.jbpm.tx;
 
 import org.jbpm.svc.Service;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TxService implements Service {
 
   private static final long serialVersionUID = 1L;

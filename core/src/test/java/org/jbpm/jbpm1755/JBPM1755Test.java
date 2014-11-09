@@ -1,7 +1,6 @@
 package org.jbpm.jbpm1755;
 
 import org.hibernate.LockMode;
-
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.Event;
 import org.jbpm.graph.def.EventCallback;
@@ -15,6 +14,9 @@ import org.jbpm.graph.node.Join;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-1755">JBPM-1755</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM1755Test extends AbstractDbTestCase {
 
   private ProcessDefinition processDefinition;
@@ -36,11 +38,11 @@ public class JBPM1755Test extends AbstractDbTestCase {
   }
 
   public void testUpgradeLock() {
-    launchProcessInstances(LockMode.UPGRADE);
+    launchProcessInstances(LockMode.PESSIMISTIC_WRITE);
   }
 
   public void testForceLock() {
-    launchProcessInstances(LockMode.FORCE);
+    launchProcessInstances(LockMode.PESSIMISTIC_FORCE_INCREMENT);
   }
 
   private void launchProcessInstances(LockMode lockMode) {
@@ -61,8 +63,8 @@ public class JBPM1755Test extends AbstractDbTestCase {
 
     for (int i = 0; i < INSTANCE_COUNT; i++) {
       long processInstanceId = processInstanceIds[i];
-      assertTrue("expected process instance " + processInstanceId + " to have ended",
-        jbpmContext.loadProcessInstance(processInstanceId).hasEnded());
+      assertTrue("expected process instance " + processInstanceId + " to have ended", jbpmContext.loadProcessInstance(processInstanceId)
+        .hasEnded());
     }
   }
 

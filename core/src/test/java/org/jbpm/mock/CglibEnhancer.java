@@ -24,6 +24,9 @@ package org.jbpm.mock;
 
 import net.sf.cglib.proxy.Enhancer;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CglibEnhancer {
   
   static Class[] recorderInterfaces = new Class[]{Recorded.class}; 

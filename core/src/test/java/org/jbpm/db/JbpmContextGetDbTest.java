@@ -1,5 +1,8 @@
 package org.jbpm.db;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmContextGetDbTest extends AbstractDbTestCase
 {
 

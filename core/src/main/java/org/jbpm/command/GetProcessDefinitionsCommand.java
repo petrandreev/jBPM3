@@ -11,6 +11,9 @@ import org.jbpm.graph.def.ProcessDefinition;
  * 
  * @author Bernd Ruecker (bernd.ruecker@camunda.com)
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class GetProcessDefinitionsCommand extends AbstractGetObjectBaseCommand {
 
   private static final long serialVersionUID = -1908847549444051495L;

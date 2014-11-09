@@ -46,6 +46,9 @@ import desmoj.core.simulator.SimTime;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmSimulationScenario {
   
   /**

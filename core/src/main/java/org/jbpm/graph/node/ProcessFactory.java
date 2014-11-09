@@ -26,6 +26,9 @@ import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.def.Transition;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class ProcessFactory {
 
   public static ProcessDefinition createProcessDefinition(String[] nodes, String[] transitions) {

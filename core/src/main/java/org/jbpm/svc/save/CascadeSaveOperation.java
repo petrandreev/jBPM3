@@ -31,6 +31,9 @@ import org.apache.commons.logging.LogFactory;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.exe.ProcessInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CascadeSaveOperation implements SaveOperation {
 
   private static final long serialVersionUID = 1L;

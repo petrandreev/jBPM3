@@ -32,6 +32,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * 
  * @author ??, Bernd Ruecker (bernd.ruecker@camunda.com)
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class TaskInstanceEndCommand extends AbstractBaseCommand {
 
   private static final long serialVersionUID = 5721341060757950369L;

@@ -58,6 +58,9 @@ import org.jbpm.util.Clock;
  * is one execution of a {@link org.jbpm.graph.def.ProcessDefinition}. To create a new process
  * execution of a process definition, just use the {@link #ProcessInstance(ProcessDefinition)}.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessInstance implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -32,6 +32,9 @@ import org.jbpm.context.exe.VariableInstance;
 import org.jbpm.context.exe.variableinstance.UnpersistableInstance;
 import org.jbpm.graph.exe.ProcessInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CheckUnpersistableVariablesOperation implements SaveOperation {
 
   private static final long serialVersionUID = 1L;

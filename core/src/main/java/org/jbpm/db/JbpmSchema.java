@@ -63,6 +63,9 @@ import org.jbpm.util.IoUtil;
 /**
  * utilities for the jBPM database schema.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmSchema {
 
   private final Configuration configuration;

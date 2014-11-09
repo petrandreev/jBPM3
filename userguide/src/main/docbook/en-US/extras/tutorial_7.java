@@ -1,3 +1,6 @@
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class HelloWorldDbTest extends TestCase {
 
   static JbpmConfiguration jbpmConfiguration = null; 

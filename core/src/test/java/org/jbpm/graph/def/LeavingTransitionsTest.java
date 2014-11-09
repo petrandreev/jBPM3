@@ -26,6 +26,9 @@ import java.util.List;
 
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class LeavingTransitionsTest extends AbstractJbpmTestCase {
   
   private Node node = new Node("n");

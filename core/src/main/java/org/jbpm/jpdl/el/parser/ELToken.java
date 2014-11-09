@@ -5,6 +5,9 @@ package org.jbpm.jpdl.el.parser;
  * Describes the input token stream.
  */
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ELToken {
 
   /**

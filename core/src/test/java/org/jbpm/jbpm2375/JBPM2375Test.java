@@ -14,6 +14,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author Alejandro Guizar
  * @since 30-Jun-2009
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2375Test extends AbstractDbTestCase {
 
   static boolean throwError;

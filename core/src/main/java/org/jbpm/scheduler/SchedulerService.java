@@ -26,6 +26,9 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.job.Timer;
 import org.jbpm.svc.Service;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface SchedulerService extends Service {
 
   void createTimer(Timer timer);

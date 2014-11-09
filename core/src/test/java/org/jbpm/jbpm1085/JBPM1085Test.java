@@ -30,6 +30,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * 
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-1085">JBPM-1085</a>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM1085Test extends AbstractDbTestCase {
 
   public void testJoinPersistence() {

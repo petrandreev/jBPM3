@@ -8,6 +8,9 @@ import desmoj.core.statistic.ValueStatistics;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ValueStatisticResult extends BaseResult {  // org.jbpm.sim.report.ValueStatisticResult
 
   private static final long serialVersionUID = 1818666790550287367L;

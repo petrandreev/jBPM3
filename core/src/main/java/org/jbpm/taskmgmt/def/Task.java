@@ -31,6 +31,9 @@ import org.jbpm.instantiation.Delegation;
 /**
  * defines a task and how the actor must be calculated at runtime.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Task extends GraphElement {
 
   private static final long serialVersionUID = 1L;

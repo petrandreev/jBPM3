@@ -29,6 +29,9 @@ import org.jbpm.JbpmException;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM3884Test extends AbstractJbpmTestCase {
   
   public void testAcccessToExternalEntitiesInJpdl() {

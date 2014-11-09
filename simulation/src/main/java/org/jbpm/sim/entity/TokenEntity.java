@@ -8,6 +8,9 @@ import org.jbpm.sim.event.WorkCompletionEvent;
 
 import desmoj.core.simulator.Model;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TokenEntity extends ResourceUsingEntity {
 
   private static Log log = LogFactory.getLog(TokenEntity.class);

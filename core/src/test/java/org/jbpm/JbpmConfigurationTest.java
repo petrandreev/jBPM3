@@ -29,6 +29,9 @@ import org.jbpm.configuration.ObjectFactoryImpl;
 import org.jbpm.configuration.ObjectFactoryParser;
 import org.jbpm.util.XmlException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmConfigurationTest extends AbstractJbpmTestCase {
 
   protected void setUp() throws Exception {

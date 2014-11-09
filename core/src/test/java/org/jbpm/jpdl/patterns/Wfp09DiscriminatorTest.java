@@ -29,6 +29,9 @@ import org.jbpm.graph.node.Join;
 /**
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_9.swf
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp09DiscriminatorTest extends AbstractJbpmTestCase {
 
   private static ProcessDefinition discriminatorProcessDefinition = createDiscriminatorProcessDefinition();

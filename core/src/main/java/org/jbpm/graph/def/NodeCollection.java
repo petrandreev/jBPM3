@@ -27,6 +27,9 @@ import java.util.*;
 /**
  * is a common supertype for a ProcessDefinition and a SuperState.
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public interface NodeCollection extends Serializable {
   
   /**

@@ -35,6 +35,9 @@ import org.jbpm.job.Timer;
  * 
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ExecuteJobCommand implements Command {
 
   private final long jobId;

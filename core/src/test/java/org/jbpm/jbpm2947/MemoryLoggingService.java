@@ -32,6 +32,9 @@ import org.jbpm.svc.ServiceFactory;
 /**
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class MemoryLoggingService implements LoggingService {
 
   private final List processLogs = new ArrayList();

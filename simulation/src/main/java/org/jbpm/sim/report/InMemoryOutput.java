@@ -31,6 +31,9 @@ import desmoj.core.statistic.ValueStatistics;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class InMemoryOutput implements MessageReceiver {
  
   private ScenarioReport report = null;

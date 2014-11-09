@@ -2,6 +2,9 @@ package org.jbpm.instantiation;
 
 import org.jbpm.JbpmConfiguration.Configs;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class UserCodeInterceptorConfig {
 
   private static UserCodeInterceptor userCodeInterceptor;

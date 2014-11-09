@@ -10,6 +10,9 @@ import org.jbpm.JbpmContext;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public abstract class AbstractCancelCommand extends AbstractBaseCommand {
 
   private static final long serialVersionUID = 1L;

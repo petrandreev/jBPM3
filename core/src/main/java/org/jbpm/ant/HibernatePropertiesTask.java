@@ -35,6 +35,9 @@ import org.hibernate.cfg.Configuration;
 /**
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class HibernatePropertiesTask extends Task {
 
   private String config;

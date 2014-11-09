@@ -32,6 +32,9 @@ import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class VariableInstanceDbTest extends AbstractDbTestCase {
 
   ProcessInstance processInstance;

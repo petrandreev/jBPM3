@@ -33,6 +33,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.persistence.db.DbPersistenceService;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SerializableInstanceDbTest extends AbstractDbTestCase {
 
   ProcessInstance processInstance;

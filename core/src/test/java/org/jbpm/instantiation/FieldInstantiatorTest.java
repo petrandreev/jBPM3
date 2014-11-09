@@ -38,6 +38,9 @@ import java.util.SortedSet;
 import org.dom4j.Element;
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class FieldInstantiatorTest extends AbstractJbpmTestCase {
 
   public FieldInstantiator fieldInstantiator = new FieldInstantiator();

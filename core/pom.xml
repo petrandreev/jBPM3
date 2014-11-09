@@ -6,11 +6,10 @@
 <!--  Distributable under LGPL license.                                     -->
 <!--  See terms of license at http://www.gnu.org.                           -->
 <!-- ====================================================================== -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <name>jBPM3 - Core</name>
-  <groupId>org.jbpm.jbpm3</groupId>
   <artifactId>jbpm-jpdl</artifactId>
   <packaging>jar</packaging>
 
@@ -44,7 +43,7 @@
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
-      <artifactId>hibernate</artifactId>
+      <artifactId>hibernate-core</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.jackrabbit</groupId>
@@ -114,11 +113,21 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>2.2.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
       <version>1.8.0.7</version>
     </dependency>
-    
   </dependencies>
 
   <!-- Reporting Plugins -->
@@ -126,9 +135,9 @@
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-		<artifactId>cobertura-maven-plugin</artifactId>
-		<version>2.5.1</version>
-	  </plugin>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.5.1</version>
+      </plugin>
     </plugins>
   </reporting>
 
@@ -146,7 +155,6 @@
         <directory>src/main/javadoc</directory>
       </resource>
     </resources>
-    
     <testResources>
       <testResource>
         <directory>src/test/resources</directory>
@@ -155,7 +163,6 @@
         <directory>src/test/config</directory>
       </testResource>
     </testResources>
-
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -174,7 +181,6 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
@@ -186,7 +192,6 @@
           </excludes>
         </configuration>
       </plugin>
-
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
@@ -204,7 +209,6 @@
               </tasks>
             </configuration>
           </execution>
-
           <execution>
             <id>gen-test-config</id>
             <phase>process-test-resources</phase>
@@ -221,7 +225,6 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <executions>
@@ -233,7 +236,6 @@
           </execution>
         </executions>
       </plugin>
-
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
@@ -245,7 +247,6 @@
           </excludes>
         </configuration>
       </plugin>
-      
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>

@@ -16,6 +16,9 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ChangeProcessInstanceVersionCommandTest extends AbstractDbTestCase {
 
   private ProcessDefinition pd1;

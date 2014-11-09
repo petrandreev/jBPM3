@@ -40,6 +40,9 @@ import org.jbpm.logging.log.ProcessLog;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2947">JBPM-2947</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CustomLoggingServiceTest extends AbstractDbTestCase {
 
   protected String getJbpmTestConfig() {

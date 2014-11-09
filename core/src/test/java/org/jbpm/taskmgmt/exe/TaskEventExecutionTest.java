@@ -28,6 +28,9 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskEventExecutionTest extends AbstractJbpmTestCase {
   
   static int counter = 0;

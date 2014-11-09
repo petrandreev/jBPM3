@@ -20,6 +20,9 @@ import org.jbpm.util.ArrayUtil;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public abstract class AbstractTokenBaseCommand implements Command {
 
   protected final Log log = LogFactory.getLog(getClass());

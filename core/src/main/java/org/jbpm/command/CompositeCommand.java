@@ -9,6 +9,9 @@ import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.util.ClassUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CompositeCommand implements Command {
 
   private static final long serialVersionUID = 1L;

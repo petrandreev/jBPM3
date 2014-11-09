@@ -49,6 +49,9 @@ import org.hibernate.util.JDBCExceptionReporter;
 
 import org.jbpm.JbpmException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class IdentitySchema {
 
   private static final String IDENTITY_TABLE_PATTERN = "JBPM_ID_%";

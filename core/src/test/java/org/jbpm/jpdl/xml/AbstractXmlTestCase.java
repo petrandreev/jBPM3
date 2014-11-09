@@ -30,6 +30,9 @@ import org.dom4j.XPath;
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 abstract class AbstractXmlTestCase extends AbstractJbpmTestCase {
 
   protected static Element toXmlAndParse(ProcessDefinition processDefinition,

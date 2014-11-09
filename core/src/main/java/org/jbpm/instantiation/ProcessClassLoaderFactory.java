@@ -24,6 +24,9 @@ import org.jbpm.graph.def.ProcessDefinition;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface ProcessClassLoaderFactory extends Serializable {
 
   public ClassLoader getProcessClassLoader(ProcessDefinition processDefinition);

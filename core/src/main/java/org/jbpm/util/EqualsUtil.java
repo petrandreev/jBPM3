@@ -24,6 +24,9 @@ package org.jbpm.util;
 import org.hibernate.proxy.HibernateProxy;
 
 /** @deprecated not in use anymore */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class EqualsUtil {
 
   private EqualsUtil() {

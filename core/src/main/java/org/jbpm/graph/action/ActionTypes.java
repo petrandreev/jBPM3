@@ -36,6 +36,9 @@ import org.jbpm.JbpmConfiguration.Configs;
 import org.jbpm.util.ClassLoaderUtil;
 import org.jbpm.util.XmlUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ActionTypes {
 
   private static Map typesByResource = new HashMap();

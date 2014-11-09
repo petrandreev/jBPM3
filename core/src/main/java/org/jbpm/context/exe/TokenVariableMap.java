@@ -26,10 +26,13 @@ import java.util.Map;
 import org.jbpm.graph.exe.Token;
 
 /**
- * is a jbpm-internal map of variableInstances related to one {@link Token}.
- * Each token has it's own map of variableInstances, thereby creating hierarchy
- * and scoping of process variableInstances.
+ * is a jbpm-internal map of variableInstances related to one {@link Token}. Each token has it's
+ * own map of variableInstances, thereby creating hierarchy and scoping of process
+ * variableInstances.
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class TokenVariableMap extends VariableContainer {
 
   private static final long serialVersionUID = 1L;
@@ -53,8 +56,8 @@ public class TokenVariableMap extends VariableContainer {
   }
 
   public String toString() {
-    return "TokenVariableMap" + (token != null ? '(' + token.getName() + ')'
-      : '@' + Integer.toHexString(hashCode()));
+    return "TokenVariableMap"
+      + (token != null ? '(' + token.getName() + ')' : '@' + Integer.toHexString(hashCode()));
   }
 
   // protected ////////////////////////////////////////////////////////////////

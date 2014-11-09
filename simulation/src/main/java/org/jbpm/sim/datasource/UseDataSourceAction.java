@@ -12,6 +12,9 @@ import org.jbpm.sim.jpdl.SimulationInstance;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class UseDataSourceAction extends Action {
 
   private String name;

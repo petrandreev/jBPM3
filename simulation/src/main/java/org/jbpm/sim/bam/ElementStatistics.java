@@ -7,6 +7,9 @@ import java.util.ArrayList;
  *
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ElementStatistics {
   
   private String name;

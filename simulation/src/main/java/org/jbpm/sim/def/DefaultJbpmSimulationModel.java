@@ -3,6 +3,9 @@ package org.jbpm.sim.def;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.sim.jpdl.SimulationJpdlXmlReader;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DefaultJbpmSimulationModel extends JbpmSimulationModel {
   
   private ProcessDefinition[] processDefinitions;

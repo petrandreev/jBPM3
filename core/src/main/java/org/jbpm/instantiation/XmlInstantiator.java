@@ -30,6 +30,9 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.jbpm.JbpmException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class XmlInstantiator implements Instantiator {
 
   private static final Class[] parameterTypes = new Class[] {Element.class};

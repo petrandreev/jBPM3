@@ -42,6 +42,9 @@ import org.jbpm.util.ArrayUtil;
 /**
  * ant task for deploying process archives.
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DeployProcessTask extends MatchingTask {
 
   private String jbpmCfg;

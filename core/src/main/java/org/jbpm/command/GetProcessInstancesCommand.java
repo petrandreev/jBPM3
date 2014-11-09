@@ -15,6 +15,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * 
  * @author Bernd Ruecker (bernd.ruecker@camunda.com)
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class GetProcessInstancesCommand extends AbstractGetObjectBaseCommand {
 
   private static final long serialVersionUID = -5601050489405283851L;

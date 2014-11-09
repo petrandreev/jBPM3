@@ -34,6 +34,9 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
  * 
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Page extends Node {
 
   private String viewId;

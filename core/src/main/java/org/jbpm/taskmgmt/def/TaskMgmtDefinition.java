@@ -30,6 +30,9 @@ import org.jbpm.taskmgmt.exe.*;
 /**
  * extends a process definition with information about tasks, swimlanes (for task assignment).
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskMgmtDefinition extends ModuleDefinition {
 
   private static final long serialVersionUID = 1L;

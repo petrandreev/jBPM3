@@ -32,6 +32,9 @@ import org.jbpm.graph.def.GraphElement;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class EventPropagationTest extends AbstractJbpmTestCase {
         
   ProcessDefinition processDefinition = null;

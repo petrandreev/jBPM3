@@ -22,7 +22,6 @@
 package org.jbpm.graph.node;
 
 import org.hibernate.LockMode;
-
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.db.AbstractDbTestCase;
@@ -36,6 +35,9 @@ import org.jbpm.svc.Services;
  * 
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JoinDbTest extends AbstractDbTestCase {
 
   protected JbpmConfiguration getJbpmConfiguration() {
@@ -44,8 +46,7 @@ public class JoinDbTest extends AbstractDbTestCase {
 
       JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
       try {
-        DbPersistenceServiceFactory persistenceServiceFactory = (DbPersistenceServiceFactory)
-          jbpmContext.getServiceFactory(Services.SERVICENAME_PERSISTENCE);
+        DbPersistenceServiceFactory persistenceServiceFactory = (DbPersistenceServiceFactory) jbpmContext.getServiceFactory(Services.SERVICENAME_PERSISTENCE);
         JbpmSchema jbpmSchema = new JbpmSchema(persistenceServiceFactory.getConfiguration());
         jbpmSchema.updateTable("JBPM_NODE");
       }
@@ -65,8 +66,7 @@ public class JoinDbTest extends AbstractDbTestCase {
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition name='lock mode'>"
       + "  <join name='read' lock='READ' />"
       + "  <join name='nowait' lock='UPGRADE_NOWAIT' />"
-      + "  <join name='upgrade' lock='pessimistic' />"
-      + "</process-definition>");
+      + "  <join name='upgrade' lock='pessimistic' />" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     processDefinition = graphSession.findLatestProcessDefinition("lock mode");
@@ -75,6 +75,6 @@ public class JoinDbTest extends AbstractDbTestCase {
     join = (Join) processDefinition.getNode("nowait");
     assertEquals(LockMode.UPGRADE_NOWAIT.toString(), join.getParentLockMode());
     join = (Join) processDefinition.getNode("upgrade");
-    assertEquals(LockMode.UPGRADE.toString(), join.getParentLockMode());
+    assertEquals(LockMode.PESSIMISTIC_WRITE.toString(), join.getParentLockMode());
   }
 }

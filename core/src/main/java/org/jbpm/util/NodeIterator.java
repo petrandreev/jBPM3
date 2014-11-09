@@ -10,6 +10,9 @@ import org.w3c.dom.Node;
  * 
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 class NodeIterator implements Iterator {
 
   private Node currentNode;

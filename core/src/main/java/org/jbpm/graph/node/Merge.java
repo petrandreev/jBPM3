@@ -33,6 +33,9 @@ import org.jbpm.graph.exe.*;
  * the same node).  maybe we should just leave this in for the sake 
  * of workflow patterns ?
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class Merge extends Node {
   
   private static final long serialVersionUID = 1L;

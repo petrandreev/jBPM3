@@ -31,6 +31,9 @@ import org.jbpm.db.hibernate.LimitedStringType;
 import org.jbpm.db.hibernate.LimitedTextType;
 import org.jbpm.graph.def.Action;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ActionLogDbTest extends AbstractDbTestCase {
 
   public void testActionLog() {

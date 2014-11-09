@@ -55,6 +55,9 @@ import org.jbpm.jpdl.JpdlException;
  * definitions with no custom nodes.
  * </p>
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JpdlXmlWriter {
 
   private static final String JPDL_NAMESPACE = "urn:jbpm.org:jpdl-3.2";

@@ -9,6 +9,9 @@ import org.jbpm.sim.datasource.ProcessDataFilter;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TutorialDataFilter implements ProcessDataFilter {
 
   public void changeProcessData(ExecutionContext ctx) {

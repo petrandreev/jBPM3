@@ -33,6 +33,9 @@ import org.jbpm.db.JbpmSchema;
  * @author Koen Aers
  * @deprecated superseded by {@link JbpmSchema}
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JbpmSchemaUpdate {
 
   private static final Log log = LogFactory.getLog(JbpmSchemaUpdate.class);

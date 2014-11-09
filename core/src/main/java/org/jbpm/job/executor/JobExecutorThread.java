@@ -15,6 +15,9 @@ import org.jbpm.job.Job;
 import org.jbpm.persistence.db.DbPersistenceService;
 import org.jbpm.persistence.db.StaleObjectLogConfigurer;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JobExecutorThread extends Thread implements Deactivable {
 
   private final JobExecutor jobExecutor;

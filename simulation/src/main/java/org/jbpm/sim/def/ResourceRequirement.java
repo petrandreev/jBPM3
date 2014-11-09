@@ -4,6 +4,9 @@ package org.jbpm.sim.def;
  * @author bernd.ruecker@camunda.com
  * TODO: rename
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ResourceRequirement {
 
   private String resourcePoolName;

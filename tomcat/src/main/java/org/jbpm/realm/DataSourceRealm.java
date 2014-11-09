@@ -48,6 +48,9 @@ import org.apache.naming.ContextBindings;
  * @see <a href="http://tomcat.apache.org/tomcat-6.0-doc/realm-howto.html">Realm How-To</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DataSourceRealm extends RealmBase {
 
   /** The JNDI name of the data source */

@@ -36,6 +36,9 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.util.ClassLoaderUtil;
 import org.jbpm.util.IoUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessArchiveDeploymentDbTest extends AbstractDbTestCase {
 
   public void testDeployProcess() throws Exception {

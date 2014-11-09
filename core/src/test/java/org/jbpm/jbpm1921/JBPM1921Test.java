@@ -36,6 +36,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-1921">JBPM-1921</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM1921Test extends AbstractDbTestCase {
 
   public void testFindByActorId() {

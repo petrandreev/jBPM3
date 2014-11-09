@@ -11,6 +11,9 @@ import desmoj.extensions.experimentation.ui.TimeSeriesPlotter;
 import desmoj.extensions.experimentation.util.AccessUtil;
 import desmoj.extensions.experimentation.util.ExperimentRunner;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DesmojExperimentRunner extends ExperimentRunner {
   
   public DesmojExperimentRunner() {

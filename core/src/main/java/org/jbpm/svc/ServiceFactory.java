@@ -23,6 +23,9 @@ package org.jbpm.svc;
 
 import java.io.Serializable;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface ServiceFactory extends Serializable {
 
   /** open a service.

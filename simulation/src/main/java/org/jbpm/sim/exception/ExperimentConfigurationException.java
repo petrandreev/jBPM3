@@ -6,6 +6,9 @@ package org.jbpm.sim.exception;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ExperimentConfigurationException extends RuntimeException {
 
   private static final long serialVersionUID = 2843165686280916208L;

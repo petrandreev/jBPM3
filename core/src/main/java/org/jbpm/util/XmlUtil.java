@@ -50,6 +50,9 @@ import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class XmlUtil {
 
   private static final DocumentBuilderFactory documentBuilderFactory = createDocumentBuilderFactory();

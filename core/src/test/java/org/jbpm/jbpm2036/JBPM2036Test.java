@@ -14,6 +14,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author Thomas.Diesler@jboss.com
  * @since 11-Feb-2009
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2036Test extends AbstractDbTestCase {
 
   public void testTimerAction() {

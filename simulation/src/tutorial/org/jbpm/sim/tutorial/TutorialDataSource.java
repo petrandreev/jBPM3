@@ -14,6 +14,9 @@ import org.jbpm.sim.exception.ExperimentConfigurationException;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TutorialDataSource implements ProcessDataSource {
 
   private int state = 0;

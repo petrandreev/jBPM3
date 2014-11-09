@@ -30,6 +30,9 @@ import org.jbpm.instantiation.Delegation;
 /**
  * is a process role (aka participant).
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Swimlane implements Serializable {
 
   private static final long serialVersionUID = 1L;

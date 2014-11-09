@@ -14,6 +14,9 @@ import org.jbpm.logging.log.ProcessLog;
  * 
  * @author Bernd Ruecker (bernd.ruecker@camunda.com)
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class GetProcessInstanceLogCommand extends AbstractBaseCommand {
 
   private static final long serialVersionUID = -2812852941518870502L;

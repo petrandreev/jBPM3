@@ -31,6 +31,9 @@ import org.jbpm.scheduler.SchedulerService;
  * @see <a href="https://jira.jboss.org/browse/JBPM-1709">JBPM-1709</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CleanUpProcessJob extends Job {
 
   private static final long serialVersionUID = 1L;

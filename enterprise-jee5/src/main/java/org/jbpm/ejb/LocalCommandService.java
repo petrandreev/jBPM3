@@ -26,5 +26,8 @@ import javax.ejb.Local;
 import org.jbpm.command.CommandService;
 
 @Local
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface LocalCommandService extends CommandService {
 }

@@ -8,6 +8,9 @@ import org.jbpm.sim.kpi.BusinessFigureCalculator;
  * 
  * @author ruecker
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class AlternativeCostsCalculator implements BusinessFigureCalculator {
   
   public Number calculate(ExecutionContext executionContext) {

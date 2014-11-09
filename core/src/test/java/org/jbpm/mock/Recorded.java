@@ -23,6 +23,9 @@ package org.jbpm.mock;
 
 import java.util.List;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public interface Recorded {
 
   List getInvocations();

@@ -32,6 +32,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2818">JBPM-2818</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2818Test extends AbstractDbTestCase {
 
   protected void setUp() throws Exception {

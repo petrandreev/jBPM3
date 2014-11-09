@@ -6,6 +6,9 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DispatcherAndJobExecutorMethodTest extends TestCase {
 
   private DispatcherThread dispatcherThread = null;

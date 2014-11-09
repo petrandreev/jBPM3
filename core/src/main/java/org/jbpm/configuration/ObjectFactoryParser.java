@@ -34,6 +34,9 @@ import org.jbpm.util.XmlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ObjectFactoryParser implements Serializable {
 
   private static final long serialVersionUID = 1L;

@@ -53,6 +53,9 @@ import org.jbpm.module.def.ModuleDefinition;
 import org.jbpm.taskmgmt.def.TaskMgmtDefinition;
 import org.jbpm.util.ClassLoaderUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessDefinition extends GraphElement implements NodeCollection {
 
   private static final long serialVersionUID = 1L;

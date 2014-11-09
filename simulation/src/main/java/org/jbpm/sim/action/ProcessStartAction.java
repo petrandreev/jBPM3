@@ -11,6 +11,9 @@ import org.jbpm.sim.jpdl.SimulationInstance;
  *
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ProcessStartAction extends Action {
 
   private static final long serialVersionUID = 6997732702890810365L;

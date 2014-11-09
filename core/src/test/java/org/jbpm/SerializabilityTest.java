@@ -31,6 +31,9 @@ import java.net.URL;
 
 import org.jbpm.util.ClassLoaderUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SerializabilityTest extends AbstractJbpmTestCase {
 
   static final String[] excusedClasses = {

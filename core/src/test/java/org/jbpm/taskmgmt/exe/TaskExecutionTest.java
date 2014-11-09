@@ -31,6 +31,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.def.Task;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskExecutionTest extends AbstractJbpmTestCase {
 
   public void testSignalLast() {

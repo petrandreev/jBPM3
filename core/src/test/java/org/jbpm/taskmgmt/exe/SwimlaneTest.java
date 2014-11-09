@@ -37,6 +37,9 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.def.AssignmentHandler;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SwimlaneTest extends AbstractJbpmTestCase {
 
   public void testStartStateSwimlaneInitialization() {

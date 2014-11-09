@@ -32,6 +32,9 @@ import org.apache.commons.logging.LogFactory;
 
 import org.jbpm.util.ClassLoaderUtil;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ObjectFactoryImpl implements ObjectFactory {
 
   private static final long serialVersionUID = 2L;

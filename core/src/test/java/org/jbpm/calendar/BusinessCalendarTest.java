@@ -26,6 +26,9 @@ import java.util.Date;
 
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class BusinessCalendarTest extends AbstractJbpmTestCase {
 
   static BusinessCalendar businessCalendar = new BusinessCalendar();

@@ -38,6 +38,9 @@ import org.jbpm.persistence.db.DbPersistenceService;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-1775">JBPM-1775</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM1775Test extends AbstractDbTestCase {
 
   public void testExceptionInAction() {

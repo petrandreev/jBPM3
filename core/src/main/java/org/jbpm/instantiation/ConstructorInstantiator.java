@@ -27,6 +27,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jbpm.JbpmException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ConstructorInstantiator implements Instantiator {
   
   private static final Class[] parameterTypes = new Class[] {String.class};

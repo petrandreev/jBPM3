@@ -23,6 +23,9 @@ package org.jbpm.graph.def;
 
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ParentTest extends AbstractJbpmTestCase {
   
   ProcessDefinition processDefinition = null;

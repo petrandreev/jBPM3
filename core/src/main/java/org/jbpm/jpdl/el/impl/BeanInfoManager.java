@@ -70,17 +70,18 @@ import org.jbpm.jpdl.el.ELException;
 /**
  * 
  * <p>
- * Manages the BeanInfo for one class - contains the BeanInfo, and also a
- * mapping from property name to BeanInfoProperty. There are also static methods
- * for accessing the BeanInfoManager for a class - those mappings are cached
- * permanently so that once the BeanInfoManager is calculated, it doesn't have
- * to be calculated again.
+ * Manages the BeanInfo for one class - contains the BeanInfo, and also a mapping from property
+ * name to BeanInfoProperty. There are also static methods for accessing the BeanInfoManager for
+ * a class - those mappings are cached permanently so that once the BeanInfoManager is
+ * calculated, it doesn't have to be calculated again.
  * 
  * @author Nathan Abramson - Art Technology Group
  * @author Tom Baeyens - JBoss
  * @version $Change: 181181 $$DateTime: 2001/06/26 09:55:09 $$Author$
  */
-
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class BeanInfoManager {
 
   // -------------------------------------
@@ -144,8 +145,8 @@ public class BeanInfoManager {
   // -------------------------------------
   /**
    * 
-   * Creates and registers the BeanInfoManager for the given class if it isn't
-   * already registered.
+   * Creates and registers the BeanInfoManager for the given class if it isn't already
+   * registered.
    */
   static synchronized BeanInfoManager createBeanInfoManager(Class pClass) {
     // Because this method is synchronized statically, the
@@ -167,32 +168,35 @@ public class BeanInfoManager {
   // -------------------------------------
   /**
    * 
-   * Returns the BeanInfoProperty for the specified property in the given class,
-   * or null if not found.
+   * Returns the BeanInfoProperty for the specified property in the given class, or null if not
+   * found.
    */
-  public static BeanInfoProperty getBeanInfoProperty(Class pClass, String pPropertyName, Logger pLogger) throws ELException {
+  public static BeanInfoProperty getBeanInfoProperty(Class pClass, String pPropertyName,
+    Logger pLogger) throws ELException {
     return getBeanInfoManager(pClass).getProperty(pPropertyName, pLogger);
   }
 
   // -------------------------------------
   /**
    * 
-   * Returns the BeanInfoIndexedProperty for the specified property in the given
-   * class, or null if not found.
+   * Returns the BeanInfoIndexedProperty for the specified property in the given class, or null
+   * if not found.
    */
-  public static BeanInfoIndexedProperty getBeanInfoIndexedProperty(Class pClass, String pIndexedPropertyName, Logger pLogger) throws ELException {
+  public static BeanInfoIndexedProperty getBeanInfoIndexedProperty(Class pClass,
+    String pIndexedPropertyName, Logger pLogger) throws ELException {
     return getBeanInfoManager(pClass).getIndexedProperty(pIndexedPropertyName, pLogger);
   }
 
-  public static BeanMethod getBeanMethod(Class pClass, String indexStr, Logger logger) throws ELException {
-    return getBeanInfoManager(pClass).getBeanMethod(indexStr,logger);
+  public static BeanMethod getBeanMethod(Class pClass, String indexStr, Logger logger)
+    throws ELException {
+    return getBeanInfoManager(pClass).getBeanMethod(indexStr, logger);
   }
 
   // -------------------------------------
   /**
    * 
-   * Makes sure that this class has been initialized, and synchronizes the
-   * initialization if it's required.
+   * Makes sure that this class has been initialized, and synchronizes the initialization if
+   * it's required.
    */
   void checkInitialized(Logger pLogger) throws ELException {
     if (!mInitialized) {
@@ -244,7 +248,8 @@ public class BeanInfoManager {
         EventSetDescriptor esd = esds[i];
         mEventSetByName.put(esd.getName(), esd);
       }
-    } catch (IntrospectionException exc) {
+    }
+    catch (IntrospectionException exc) {
       if (pLogger.isLoggingWarning()) {
         pLogger.logWarning(Constants.EXCEPTION_GETTING_BEANINFO, exc, mBeanClass.getName());
       }
@@ -252,15 +257,12 @@ public class BeanInfoManager {
 
     // parsing the bean methods
     Class scannedClass = mBeanClass;
-    while (scannedClass!=null) {
+    while (scannedClass != null) {
       Method[] methods = scannedClass.getDeclaredMethods();
-      for (int i=0; i<methods.length; i++) {
+      for (int i = 0; i < methods.length; i++) {
         Method method = methods[i];
-        if ( (!mMethodByName.containsKey(method.getName()))
-             && ( (method.getParameterTypes()==null)
-                  || (method.getParameterTypes().length==0)
-                )
-           ) {
+        if ((!mMethodByName.containsKey(method.getName()))
+          && ((method.getParameterTypes() == null) || (method.getParameterTypes().length == 0))) {
           mMethodByName.put(method.getName(), new BeanMethod(method));
         }
       }
@@ -281,8 +283,7 @@ public class BeanInfoManager {
   // -------------------------------------
   /**
    * 
-   * Returns the BeanInfoProperty for the given property name, or null if not
-   * found.
+   * Returns the BeanInfoProperty for the given property name, or null if not found.
    */
   public BeanInfoProperty getProperty(String pPropertyName, Logger pLogger) throws ELException {
     checkInitialized(pLogger);
@@ -292,10 +293,10 @@ public class BeanInfoManager {
   // -------------------------------------
   /**
    * 
-   * Returns the BeanInfoIndexedProperty for the given property name, or null if
-   * not found.
+   * Returns the BeanInfoIndexedProperty for the given property name, or null if not found.
    */
-  public BeanInfoIndexedProperty getIndexedProperty(String pIndexedPropertyName, Logger pLogger) throws ELException {
+  public BeanInfoIndexedProperty getIndexedProperty(String pIndexedPropertyName, Logger pLogger)
+    throws ELException {
     checkInitialized(pLogger);
     return (BeanInfoIndexedProperty) mIndexedPropertyByName.get(pIndexedPropertyName);
   }
@@ -308,10 +309,10 @@ public class BeanInfoManager {
   // -------------------------------------
   /**
    * 
-   * Returns the EventSetDescriptor for the given event set name, or null if not
-   * found.
+   * Returns the EventSetDescriptor for the given event set name, or null if not found.
    */
-  public EventSetDescriptor getEventSet(String pEventSetName, Logger pLogger) throws ELException {
+  public EventSetDescriptor getEventSet(String pEventSetName, Logger pLogger)
+    throws ELException {
     checkInitialized(pLogger);
     return (EventSetDescriptor) mEventSetByName.get(pEventSetName);
   }
@@ -325,8 +326,8 @@ public class BeanInfoManager {
   // -------------------------------------
   /**
    * 
-   * Returns a publicly-accessible version of the given method, by searching for
-   * a public declaring class.
+   * Returns a publicly-accessible version of the given method, by searching for a public
+   * declaring class.
    */
   static Method getPublicMethod(Method pMethod) {
     if (pMethod == null) {
@@ -343,7 +344,8 @@ public class BeanInfoManager {
     Method ret = getPublicMethod(cl, pMethod);
     if (ret != null) {
       return ret;
-    } else {
+    }
+    else {
       return pMethod;
     }
   }
@@ -351,9 +353,9 @@ public class BeanInfoManager {
   // -------------------------------------
   /**
    * 
-   * If the given class is public and has a Method that declares the same name
-   * and arguments as the given method, then that method is returned. Otherwise
-   * the superclass and interfaces are searched recursively.
+   * If the given class is public and has a Method that declares the same name and arguments as
+   * the given method, then that method is returned. Otherwise the superclass and interfaces are
+   * searched recursively.
    */
   static Method getPublicMethod(Class pClass, Method pMethod) {
     // See if this is a public class declaring the method
@@ -362,7 +364,8 @@ public class BeanInfoManager {
         Method m;
         try {
           m = pClass.getDeclaredMethod(pMethod.getName(), pMethod.getParameterTypes());
-        } catch (java.security.AccessControlException ex) {
+        }
+        catch (java.security.AccessControlException ex) {
           // kludge to accommodate J2EE RI's default settings
           // TODO: see if we can simply replace
           // getDeclaredMethod() with getMethod() ...?
@@ -371,7 +374,8 @@ public class BeanInfoManager {
         if (Modifier.isPublic(m.getModifiers())) {
           return m;
         }
-      } catch (NoSuchMethodException exc) {
+      }
+      catch (NoSuchMethodException exc) {
       }
     }
 

@@ -6,6 +6,9 @@ import org.jbpm.graph.def.Node;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.Token;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ExecuteActionJob extends Job {
 
   private static final long serialVersionUID = 1L;

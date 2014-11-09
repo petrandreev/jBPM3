@@ -25,6 +25,9 @@ import java.io.StringReader;
 
 import org.jbpm.AbstractJbpmTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SuperStateXmlTest extends AbstractJbpmTestCase {
 
     public void testJpdlXmlReader() {

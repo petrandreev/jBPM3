@@ -39,8 +39,9 @@ import org.hibernate.util.EqualsHelper;
 import org.hibernate.util.StringHelper;
 
 /**
- * Replacement for {@link org.hibernate.type.TextType} made to work around a <em>feature</em> in the
- * jConnect driver when setting a text parameter to <code>null</code>. Specifically, the call:
+ * Replacement for {@link org.hibernate.type.TextType} made to work around a <em>feature</em> in
+ * the jConnect driver when setting a text parameter to <code>null</code>. Specifically, the
+ * call:
  * 
  * <pre>
  * PreparedStatement st;
@@ -52,11 +53,14 @@ import org.hibernate.util.StringHelper;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-1818">JBPM-1818</a>
  * @author Alejandro Guizar
  */
+@SuppressWarnings({
+  "rawtypes"
+})
 public class SybaseTextType implements EnhancedUserType, Serializable {
 
   private transient Log log;
-  private static final boolean IS_VALUE_TRACING_ENABLED =
-      LogFactory.getLog(StringHelper.qualifier(Type.class.getName())).isTraceEnabled();
+  private static final boolean IS_VALUE_TRACING_ENABLED = LogFactory.getLog(StringHelper.qualifier(Type.class.getName()))
+    .isTraceEnabled();
 
   private static final long serialVersionUID = 1L;
 
@@ -91,8 +95,8 @@ public class SybaseTextType implements EnhancedUserType, Serializable {
     return false;
   }
 
-  public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException,
-      SQLException {
+  public Object nullSafeGet(ResultSet rs, String[] names, Object owner)
+    throws HibernateException, SQLException {
     return nullSafeGet(rs, names[0]);
   }
 
@@ -113,11 +117,13 @@ public class SybaseTextType implements EnhancedUserType, Serializable {
       }
     }
     catch (RuntimeException re) {
-      log().info("could not read column value from result set: " + name + "; " + re.getMessage());
+      log().info("could not read column value from result set: " + name + "; "
+        + re.getMessage());
       throw re;
     }
     catch (SQLException se) {
-      log().info("could not read column value from result set: " + name + "; " + se.getMessage());
+      log().info("could not read column value from result set: " + name + "; "
+        + se.getMessage());
       throw se;
     }
   }
@@ -154,8 +160,8 @@ public class SybaseTextType implements EnhancedUserType, Serializable {
     return sbuf.toString();
   }
 
-  public void nullSafeSet(PreparedStatement st, Object value, int index) throws HibernateException,
-      SQLException {
+  public void nullSafeSet(PreparedStatement st, Object value, int index)
+    throws HibernateException, SQLException {
     try {
       if (value == null) {
         if (IS_VALUE_TRACING_ENABLED) {
@@ -173,27 +179,19 @@ public class SybaseTextType implements EnhancedUserType, Serializable {
       }
     }
     catch (RuntimeException re) {
-      log().info("could not bind value '" +
-          nullSafeToString(value) +
-          "' to parameter: " +
-          index +
-          "; " +
-          re.getMessage());
+      log().info("could not bind value '" + nullSafeToString(value) + "' to parameter: "
+        + index + "; " + re.getMessage());
       throw re;
     }
     catch (SQLException se) {
-      log().info("could not bind value '" +
-          nullSafeToString(value) +
-          "' to parameter: " +
-          index +
-          "; " +
-          se.getMessage());
+      log().info("could not bind value '" + nullSafeToString(value) + "' to parameter: "
+        + index + "; " + se.getMessage());
       throw se;
     }
   }
 
   public void set(PreparedStatement st, Object value, int index) throws HibernateException,
-      SQLException {
+    SQLException {
     String str = (String) value;
     st.setCharacterStream(index, new StringReader(str), str.length());
   }
@@ -212,7 +210,9 @@ public class SybaseTextType implements EnhancedUserType, Serializable {
   }
 
   public int[] sqlTypes() {
-    return new int[] { sqlType() };
+    return new int[] {
+      sqlType()
+    };
   }
 
   public int sqlType() {

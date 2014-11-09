@@ -16,6 +16,9 @@ import org.jbpm.graph.node.DecisionHandler;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class DecideCheckHandler implements DecisionHandler {
 
   private static final long serialVersionUID = -509684687456418797L;

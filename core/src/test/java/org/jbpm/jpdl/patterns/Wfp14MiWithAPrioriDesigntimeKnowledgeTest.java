@@ -34,6 +34,9 @@ import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
 /**
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_13.swf
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp14MiWithAPrioriDesigntimeKnowledgeTest extends AbstractJbpmTestCase {
 
   public void testSituation1() {

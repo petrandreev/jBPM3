@@ -29,6 +29,9 @@ import org.jbpm.graph.exe.Token;
 /**
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_2.swf
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Wfp02ParallelSplitTest extends AbstractJbpmTestCase {
 
   public void testParallelSplit() {

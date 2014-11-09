@@ -44,6 +44,9 @@ import bsh.Interpreter;
 import bsh.ParseException;
 import bsh.TargetError;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class Script extends Action {
 
   private static final long serialVersionUID = 1L;

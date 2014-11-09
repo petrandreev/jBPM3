@@ -25,6 +25,9 @@ import java.util.List;
 
 import org.jbpm.db.AbstractDbTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class ExceptionHandlerDbTest extends AbstractDbTestCase {
 
   public void testExceptionClassName() {

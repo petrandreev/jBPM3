@@ -23,8 +23,6 @@ package org.jbpm.configuration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Element;
-
 import org.jbpm.context.exe.Converter;
 import org.jbpm.context.exe.JbpmType;
 import org.jbpm.context.exe.JbpmTypeMatcher;
@@ -32,7 +30,11 @@ import org.jbpm.context.exe.VariableInstance;
 import org.jbpm.db.hibernate.Converters;
 import org.jbpm.util.ClassLoaderUtil;
 import org.jbpm.util.XmlUtil;
+import org.w3c.dom.Element;
 
+@SuppressWarnings({
+  "rawtypes"
+})
 public class JbpmTypeObjectInfo extends AbstractObjectInfo {
 
   private static final long serialVersionUID = 1L;

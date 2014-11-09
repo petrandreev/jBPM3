@@ -53,6 +53,9 @@ import org.jbpm.util.ClassLoaderUtil;
  * @author Tom Baeyens
  * @author Jim Rigsbee
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JpdlParser implements Serializable {
 
   private static final long serialVersionUID = 1L;

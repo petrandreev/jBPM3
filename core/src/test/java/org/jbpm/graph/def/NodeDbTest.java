@@ -29,6 +29,9 @@ import java.util.List;
 
 import org.jbpm.db.AbstractDbTestCase;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class NodeDbTest extends AbstractDbTestCase {
 
   public void testNodeName() {

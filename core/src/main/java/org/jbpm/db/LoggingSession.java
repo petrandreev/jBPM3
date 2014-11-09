@@ -34,6 +34,9 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.logging.log.ProcessLog;
 import org.jbpm.persistence.JbpmPersistenceException;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class LoggingSession {
 
   final Session session;

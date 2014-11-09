@@ -24,6 +24,9 @@ package org.jbpm.graph.node;
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.taskmgmt.def.Task;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class TaskNodeTest extends AbstractJbpmTestCase {
   
   private TaskNode taskNode = new TaskNode();

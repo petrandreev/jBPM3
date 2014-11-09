@@ -9,6 +9,9 @@ import org.jbpm.sim.def.JbpmSimulationModel;
  * 
  * @author bernd.ruecker@camunda.com
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class SimulationInstance extends ModuleInstance {
   
   private static final long serialVersionUID = 1L;

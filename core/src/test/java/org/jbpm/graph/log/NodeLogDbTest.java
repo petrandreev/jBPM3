@@ -27,6 +27,9 @@ import java.util.Date;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.Node;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class NodeLogDbTest extends AbstractDbTestCase {
 
   public void testNodeLogNode() {

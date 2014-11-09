@@ -9,6 +9,9 @@ import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class CustomSubProcessResolverTest extends AbstractJbpmTestCase {
 
   private JbpmContext jbpmContext;

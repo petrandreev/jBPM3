@@ -44,6 +44,9 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2828">JBPM-2828</a>
  * @author Martin Putz
  */
+@SuppressWarnings({
+  "rawtypes", "unchecked"
+})
 public class JBPM2828Test extends AbstractDbTestCase {
 
   static final List listVariable = Arrays.asList(new String[] { "Bart", "Lisa",
