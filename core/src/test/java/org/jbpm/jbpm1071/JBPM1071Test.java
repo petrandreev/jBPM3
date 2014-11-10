@@ -16,7 +16,7 @@ import org.jbpm.graph.exe.Comment;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
-import edu.emory.mathcs.backport.java.util.concurrent.Semaphore;
+import java.util.concurrent.Semaphore;
 
 /**
  * Possible problem in concurrent signaling from multiple threads.

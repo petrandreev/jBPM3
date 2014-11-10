@@ -19,9 +19,9 @@ import org.apache.commons.logging.LogFactory;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.job.Job;
 
-import edu.emory.mathcs.backport.java.util.concurrent.locks.Condition;
-import edu.emory.mathcs.backport.java.util.concurrent.locks.Lock;
-import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @SuppressWarnings({
   "rawtypes", "unchecked"
@@ -187,9 +187,13 @@ public class JobExecutor implements Serializable {
     return name + '@' + getHostAddress() + ':' + DispatcherThread.DEFAULT_NAME;
   }
 
+  protected Thread createDispatcherThread(String threadName) {
+	    return new DispatcherThread(threadName, this);
+  }
+
   void startDispatcherThread() {
     String threadName = getDispatcherThreadName();
-    Thread dispatcherThread = new DispatcherThread(threadName, this);
+    Thread dispatcherThread = createDispatcherThread(threadName);
 
     if (log.isDebugEnabled()) log.debug("starting " + threadName);
     dispatcherThread.start();
@@ -199,9 +203,13 @@ public class JobExecutor implements Serializable {
     return name + '@' + getHostAddress() + ':' + LockMonitorThread.DEFAULT_NAME;
   }
 
+  protected Thread createLockMonitorThread(String threadName) {
+	    return new LockMonitorThread(threadName, this);
+  }
+  
   void startLockMonitorThread() {
     String threadName = getLockMonitorThreadName();
-    Thread lockMonitorThread = new LockMonitorThread(threadName, this);
+    Thread lockMonitorThread = createLockMonitorThread(threadName);
 
     if (log.isDebugEnabled()) log.debug("starting " + threadName);
     lockMonitorThread.start();

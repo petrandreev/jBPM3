@@ -44,10 +44,16 @@ public abstract class Job implements Serializable {
   public abstract boolean execute(JbpmContext jbpmContext) throws Exception;
 
   public String toStringLongFormat() {
-    return "Job(id=" + id + ", version=" + version + ", dueDate="
-      + (dueDate != null ? dueDate : null) + ", suspended=" + isSuspended + ", exclusive="
-      + isExclusive + ", lockOwner=" + lockOwner + ", lockTime=" + lockTime + ", exception="
-      + exception + ", retries=" + retries + ", configuration=" + configuration;
+    return "Job(id=" + id
+       + ", version=" + version
+       + ", dueDate=" + (dueDate != null ? dueDate : null)
+       + ", suspended=" + isSuspended
+       + ", exclusive=" + isExclusive
+       + ", lockOwner=" + lockOwner
+       + ", lockTime=" + lockTime
+       + ", exception=" + exception
+       + ", retries=" + retries
+       + ", configuration=" + configuration;
   }
 
   public ProcessInstance getProcessInstance() {

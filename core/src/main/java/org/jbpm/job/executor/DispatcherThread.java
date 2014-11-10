@@ -33,7 +33,7 @@ import org.jbpm.job.Job;
  * Acquires jobs and then dispatches them to the job executor thread pool.
  * 
  */
-class DispatcherThread extends Thread implements Deactivable {
+public class DispatcherThread extends Thread implements Deactivable {
 
   private final JobExecutor jobExecutor;
   private volatile boolean active = true;
@@ -41,11 +41,11 @@ class DispatcherThread extends Thread implements Deactivable {
   static final String DEFAULT_NAME = "Dispatcher";
   private static final Log log = LogFactory.getLog(DispatcherThread.class);
 
-  DispatcherThread(JobExecutor jobExecutor) {
+  public DispatcherThread(JobExecutor jobExecutor) {
     this(DEFAULT_NAME, jobExecutor);
   }
 
-  DispatcherThread(String name, JobExecutor jobExecutor) {
+  public DispatcherThread(String name, JobExecutor jobExecutor) {
     super(jobExecutor.getThreadGroup(), name);
     this.jobExecutor = jobExecutor;
   }
