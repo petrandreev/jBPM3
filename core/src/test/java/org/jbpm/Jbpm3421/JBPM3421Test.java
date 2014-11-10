@@ -1,4 +1,4 @@
-package org.jbpm.Jbpm3421;
+package org.jbpm.jbpm3421;
 
 import java.util.Iterator;
 

@@ -1,4 +1,4 @@
-package org.jbpm.Jbpm3421;
+package org.jbpm.jbpm3421;
 
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.Event;
