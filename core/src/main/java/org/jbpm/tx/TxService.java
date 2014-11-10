@@ -2,13 +2,10 @@ package org.jbpm.tx;
 
 import org.jbpm.svc.Service;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TxService implements Service {
 
   private static final long serialVersionUID = 1L;
-  
+
   boolean isRollbackOnly = false;
 
   public void close() {
@@ -17,6 +14,7 @@ public class TxService implements Service {
   public boolean isRollbackOnly() {
     return isRollbackOnly;
   }
+
   public void setRollbackOnly() {
     isRollbackOnly = true;
   }

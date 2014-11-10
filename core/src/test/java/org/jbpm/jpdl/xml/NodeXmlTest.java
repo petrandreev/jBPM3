@@ -30,7 +30,7 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.def.Transition;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class NodeXmlTest extends AbstractXmlTestCase {
 

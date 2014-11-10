@@ -14,30 +14,19 @@ import org.jbpm.graph.exe.Token;
  * @author bernd.ruecker@camunda.com
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class ProcessInstanceCommandTest extends AbstractDbTestCase {
 
   public void testCancelProcessInstanceCommand() throws Exception {
-    String xml = "<process-definition name='TestException'>"
-      + "   <start-state name='start'>"
-      + "      <transition to='fork' />"
-      + "   </start-state>"
-      + "   <fork name='fork'>"
+    String xml = "<process-definition name='TestException'>" + "   <start-state name='start'>"
+      + "      <transition to='fork' />" + "   </start-state>" + "   <fork name='fork'>"
       + "      <transition name='path1' to='path1' />"
-      + "      <transition name='path2' to='path2' />"
-      + "   </fork>"
-      + "   <state name='path1'>"
-      + "      <transition to='join' />"
-      + "   </state>"
-      + "   <state name='path2'>"
-      + "      <transition to='join' />"
-      + "   </state>"
-      + "   <join name='join'>"
-      + "      <transition to='end' />"
-      + "   </join>"
-      + "   <end-state name='end' />"
-      + "</process-definition>";
+      + "      <transition name='path2' to='path2' />" + "   </fork>"
+      + "   <state name='path1'>" + "      <transition to='join' />" + "   </state>"
+      + "   <state name='path2'>" + "      <transition to='join' />" + "   </state>"
+      + "   <join name='join'>" + "      <transition to='end' />" + "   </join>"
+      + "   <end-state name='end' />" + "</process-definition>";
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(xml);
     deployProcessDefinition(processDefinition);
 
@@ -67,26 +56,15 @@ public class ProcessInstanceCommandTest extends AbstractDbTestCase {
   }
 
   public void testSuspendResumeProcessInstanceCommand() throws Exception {
-    String xml = "<?xml version='1.0'?>"
-      + "<process-definition name='TestException'>"
-      + "   <start-state name='start'>"
-      + "      <transition to='fork' />"
-      + "   </start-state>"
-      + "   <fork name='fork'>"
+    String xml = "<?xml version='1.0'?>" + "<process-definition name='TestException'>"
+      + "   <start-state name='start'>" + "      <transition to='fork' />"
+      + "   </start-state>" + "   <fork name='fork'>"
       + "      <transition name='path1' to='path1' />"
-      + "      <transition name='path2' to='path2' />"
-      + "   </fork>"
-      + "   <state name='path1'>"
-      + "      <transition to='join' />"
-      + "   </state>"
-      + "   <state name='path2'>"
-      + "      <transition to='join' />"
-      + "   </state>"
-      + "   <join name='join'>"
-      + "      <transition to='end' />"
-      + "   </join>"
-      + "   <end-state name='end' />"
-      + "</process-definition>";
+      + "      <transition name='path2' to='path2' />" + "   </fork>"
+      + "   <state name='path1'>" + "      <transition to='join' />" + "   </state>"
+      + "   <state name='path2'>" + "      <transition to='join' />" + "   </state>"
+      + "   <join name='join'>" + "      <transition to='end' />" + "   </join>"
+      + "   <end-state name='end' />" + "</process-definition>";
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(xml);
     deployProcessDefinition(processDefinition);
 
@@ -105,8 +83,8 @@ public class ProcessInstanceCommandTest extends AbstractDbTestCase {
     }
 
     // execute SuspendProcessInstanceCommand
-    new SuspendProcessInstanceCommand().processInstanceId(
-      processInstance.getId()).execute(jbpmContext);
+    new SuspendProcessInstanceCommand().processInstanceId(processInstance.getId())
+      .execute(jbpmContext);
 
     // and verify
     assert processInstance.isSuspended() : processInstance;
@@ -127,8 +105,8 @@ public class ProcessInstanceCommandTest extends AbstractDbTestCase {
     }
 
     // execute ResumeProcessInstanceCommand
-    new ResumeProcessInstanceCommand().processInstanceId(
-      processInstance.getId()).execute(jbpmContext);
+    new ResumeProcessInstanceCommand().processInstanceId(processInstance.getId())
+      .execute(jbpmContext);
 
     // and verify
     assert !processInstance.isSuspended() : processInstance;

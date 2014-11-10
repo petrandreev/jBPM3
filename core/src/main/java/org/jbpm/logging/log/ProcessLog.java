@@ -28,7 +28,7 @@ import java.util.List;
 import org.jbpm.graph.exe.Token;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public abstract class ProcessLog implements Serializable {
 

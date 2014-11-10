@@ -29,7 +29,7 @@ import org.jbpm.taskmgmt.def.Swimlane;
  * is a process role for a one process instance.
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class SwimlaneInstance implements Assignable {
 

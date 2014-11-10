@@ -40,9 +40,6 @@ import org.jbpm.job.executor.JobExecutor;
  * @author Jiri Pechanec
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM1072Test extends AbstractDbTestCase {
 
   private static final int JOB_EXECUTOR_COUNT = 4;

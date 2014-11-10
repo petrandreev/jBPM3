@@ -4,9 +4,6 @@ import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class UnsafeSessionUsageTest extends AbstractDbTestCase {
 
   public void testTimerRepeat() {
@@ -23,8 +20,7 @@ public class UnsafeSessionUsageTest extends AbstractDbTestCase {
       + "    <transition to='b'/>"
       + "    <transition name='back' to='a'/>"
       + "  </state>"
-      + "  <state name='b'/>"
-      + "</process-definition>");
+      + "  <state name='b'/>" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = new ProcessInstance(processDefinition);

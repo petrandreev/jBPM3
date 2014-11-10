@@ -30,7 +30,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class SuspendAndResumeDbTest extends AbstractDbTestCase {
 

@@ -33,7 +33,7 @@ import org.jbpm.taskmgmt.exe.Assignable;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class TaskWithVariablesTest extends AbstractDbTestCase {
 

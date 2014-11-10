@@ -23,13 +23,10 @@ package org.jbpm.svc;
 
 import java.io.Serializable;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface ServiceFactory extends Serializable {
 
-  /** open a service.
-   * The service is to be closed on the Service object.
+  /**
+   * open a service. The service is to be closed on the Service object.
    */
   Service openService();
 

@@ -32,7 +32,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.def.AssignmentHandler;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class TaskAssignmentDbTest extends AbstractDbTestCase {
 

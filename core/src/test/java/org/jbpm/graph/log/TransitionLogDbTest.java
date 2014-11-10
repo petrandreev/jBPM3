@@ -25,19 +25,16 @@ import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.Transition;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TransitionLogDbTest extends AbstractDbTestCase {
 
   public void testTransitionLogTransition() {
     Transition transition = new Transition();
     session.save(transition);
-    
+
     TransitionLog transitionLog = new TransitionLog(transition, null);
     transitionLog = (TransitionLog) saveAndReload(transitionLog);
     assertNotNull(transitionLog.getTransition());
-    
+
     session.delete(transitionLog);
     session.delete(transition);
   }
@@ -45,11 +42,11 @@ public class TransitionLogDbTest extends AbstractDbTestCase {
   public void testTransitionLogSourceNode() {
     Node sourceNode = new Node();
     session.save(sourceNode);
-    
+
     TransitionLog transitionLog = new TransitionLog(null, sourceNode);
     transitionLog = (TransitionLog) saveAndReload(transitionLog);
     assertNotNull(transitionLog.getSourceNode());
-    
+
     session.delete(transitionLog);
     session.delete(sourceNode);
   }
@@ -57,7 +54,7 @@ public class TransitionLogDbTest extends AbstractDbTestCase {
   public void testTransitionLogDestinationNode() {
     Node destinationNode = new Node();
     session.save(destinationNode);
-    
+
     TransitionLog transitionLog = new TransitionLog(null, null);
     transitionLog.setDestinationNode(destinationNode);
     transitionLog = (TransitionLog) saveAndReload(transitionLog);

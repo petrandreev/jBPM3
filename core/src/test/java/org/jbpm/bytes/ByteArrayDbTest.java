@@ -25,9 +25,6 @@ import java.util.Arrays;
 
 import org.jbpm.db.AbstractDbTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ByteArrayDbTest extends AbstractDbTestCase {
 
   public void testManyBlocks() {
@@ -36,8 +33,7 @@ public class ByteArrayDbTest extends AbstractDbTestCase {
     session.save(byteArray);
 
     newTransaction();
-    ByteArray retrievedByteArray = (ByteArray) session.load(ByteArray.class, new Long(
-        byteArray.getId()));
+    ByteArray retrievedByteArray = (ByteArray) session.load(ByteArray.class, new Long(byteArray.getId()));
     assertEquals(byteArray.byteBlocks.size(), retrievedByteArray.getByteBlocks().size());
     assertTrue(Arrays.equals(byteArray.getBytes(), retrievedByteArray.getBytes()));
 
@@ -50,8 +46,7 @@ public class ByteArrayDbTest extends AbstractDbTestCase {
     session.save(byteArray);
 
     newTransaction();
-    ByteArray retrievedByteArray = (ByteArray) session.load(ByteArray.class, new Long(
-        byteArray.getId()));
+    ByteArray retrievedByteArray = (ByteArray) session.load(ByteArray.class, new Long(byteArray.getId()));
     assertTrue(retrievedByteArray.getBytes().length == 0);
 
     session.delete(retrievedByteArray);
@@ -63,14 +58,12 @@ public class ByteArrayDbTest extends AbstractDbTestCase {
     session.save(byteArray);
 
     newTransaction();
-    ByteArray retrievedByteArray = (ByteArray) session.load(ByteArray.class, new Long(
-        byteArray.getId()));
+    ByteArray retrievedByteArray = (ByteArray) session.load(ByteArray.class, new Long(byteArray.getId()));
     ByteArray copiedByteArray = new ByteArray(retrievedByteArray);
     session.save(copiedByteArray);
 
     newTransaction();
-    retrievedByteArray = (ByteArray) session.load(ByteArray.class, new Long(
-        retrievedByteArray.getId()));
+    retrievedByteArray = (ByteArray) session.load(ByteArray.class, new Long(retrievedByteArray.getId()));
     copiedByteArray = (ByteArray) session.load(ByteArray.class, new Long(copiedByteArray.getId()));
     assertNotSame(retrievedByteArray.getByteBlocks(), copiedByteArray.getByteBlocks());
 
@@ -92,8 +85,7 @@ public class ByteArrayDbTest extends AbstractDbTestCase {
     session.save(byteArray);
 
     newTransaction();
-    ByteArray retrievedByteArray = (ByteArray) session.load(ByteArray.class, new Long(
-        byteArray.getId()));
+    ByteArray retrievedByteArray = (ByteArray) session.load(ByteArray.class, new Long(byteArray.getId()));
     assertTrue(retrievedByteArray.getBytes().length == 0);
 
     session.delete(retrievedByteArray);

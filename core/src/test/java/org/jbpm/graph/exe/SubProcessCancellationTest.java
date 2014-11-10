@@ -7,7 +7,7 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class SubProcessCancellationTest extends AbstractDbTestCase {
 

@@ -46,9 +46,6 @@ import org.jbpm.util.JndiUtil;
  * @author Tom Baeyens
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JtaDbPersistenceServiceFactory extends DbPersistenceServiceFactory {
 
   private static final long serialVersionUID = 1L;

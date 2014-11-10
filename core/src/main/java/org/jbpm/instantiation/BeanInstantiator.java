@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.dom4j.Element;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class BeanInstantiator extends FieldInstantiator {
 

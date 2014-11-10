@@ -23,9 +23,6 @@ package org.jbpm.util;
 
 import org.jbpm.JbpmException;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class XmlException extends JbpmException {
 
   private static final long serialVersionUID = 1L;

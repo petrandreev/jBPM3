@@ -23,11 +23,8 @@ package org.jbpm.graph.def;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ParentTest extends AbstractJbpmTestCase {
-  
+
   ProcessDefinition processDefinition = null;
 
   public void testProcessDefinitionParent() {
@@ -35,17 +32,10 @@ public class ParentTest extends AbstractJbpmTestCase {
   }
 
   public void testNodeInProcessParents() {
-    processDefinition = ProcessDefinition.parseXmlString(
-      "<process-definition>" +
-      "  <start-state name='start'>" +
-      "    <transition to='state'/>" +
-      "  </start-state>" +
-      "  <state name='state'>" +
-      "    <transition to='end'/>" +
-      "  </state>" +
-      "  <end-state name='end'/>" +
-      "</process-definition>"
-    );
+    processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <start-state name='start'>" + "    <transition to='state'/>" + "  </start-state>"
+      + "  <state name='state'>" + "    <transition to='end'/>" + "  </state>"
+      + "  <end-state name='end'/>" + "</process-definition>");
 
     assertSame(processDefinition, processDefinition.getStartState().getParent());
     assertSame(processDefinition, processDefinition.getNode("state").getParent());
@@ -53,35 +43,24 @@ public class ParentTest extends AbstractJbpmTestCase {
   }
 
   public void testTransitionInProcessParents() {
-    processDefinition = ProcessDefinition.parseXmlString(
-      "<process-definition>" +
-      "  <start-state name='start'>" +
-      "    <transition to='state'/>" +
-      "  </start-state>" +
-      "  <state name='state'>" +
-      "    <transition to='end'/>" +
-      "  </state>" +
-      "  <end-state name='end'/>" +
-      "</process-definition>"
-    );
-    assertSame(processDefinition, processDefinition.getStartState().getDefaultLeavingTransition().getParent());
-    assertSame(processDefinition, processDefinition.getNode("state").getDefaultLeavingTransition().getParent());
+    processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <start-state name='start'>" + "    <transition to='state'/>" + "  </start-state>"
+      + "  <state name='state'>" + "    <transition to='end'/>" + "  </state>"
+      + "  <end-state name='end'/>" + "</process-definition>");
+    assertSame(processDefinition, processDefinition.getStartState()
+      .getDefaultLeavingTransition()
+      .getParent());
+    assertSame(processDefinition, processDefinition.getNode("state")
+      .getDefaultLeavingTransition()
+      .getParent());
   }
-  
+
   public void testNodeInSuperProcessParent() {
-    processDefinition = ProcessDefinition.parseXmlString(
-      "<process-definition>" +
-      "  <start-state name='start'>" +
-      "    <transition to='superstate/state'/>" +
-      "  </start-state>" +
-      "  <super-state name='superstate'>" +
-      "    <state name='state'>" +
-      "      <transition to='../end'/>" +
-      "    </state>" +
-      "  </super-state>" +
-      "  <end-state name='end'/>" +
-      "</process-definition>"
-    );
+    processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <start-state name='start'>" + "    <transition to='superstate/state'/>"
+      + "  </start-state>" + "  <super-state name='superstate'>" + "    <state name='state'>"
+      + "      <transition to='../end'/>" + "    </state>" + "  </super-state>"
+      + "  <end-state name='end'/>" + "</process-definition>");
 
     SuperState superState = (SuperState) processDefinition.getNode("superstate");
 
@@ -92,28 +71,27 @@ public class ParentTest extends AbstractJbpmTestCase {
   }
 
   public void testTransitionInSuperProcessParent() {
-    processDefinition = ProcessDefinition.parseXmlString(
-      "<process-definition>" +
-      "  <start-state name='start'>" +
-      "    <transition to='superstate/state'/>" +
-      "  </start-state>" +
-      "  <super-state name='superstate'>" +
-      "    <state name='state'>" +
-      "      <transition to='../end'/>" +
-      "      <transition name='loop' to='state'/>" +
-      "      <transition name='tostate2' to='state2'/>" +
-      "    </state>" +
-      "    <state name='state2' />" +
-      "  </super-state>" +
-      "  <end-state name='end'/>" +
-      "</process-definition>"
-    );
+    processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <start-state name='start'>" + "    <transition to='superstate/state'/>"
+      + "  </start-state>" + "  <super-state name='superstate'>" + "    <state name='state'>"
+      + "      <transition to='../end'/>" + "      <transition name='loop' to='state'/>"
+      + "      <transition name='tostate2' to='state2'/>" + "    </state>"
+      + "    <state name='state2' />" + "  </super-state>" + "  <end-state name='end'/>"
+      + "</process-definition>");
 
     SuperState superState = (SuperState) processDefinition.getNode("superstate");
 
-    assertSame(processDefinition, processDefinition.getStartState().getDefaultLeavingTransition().getParent());
-    assertSame(processDefinition, processDefinition.findNode("superstate/state").getDefaultLeavingTransition().getParent());
-    assertSame(superState, processDefinition.findNode("superstate/state").getLeavingTransition("loop").getParent());
-    assertSame(superState, processDefinition.findNode("superstate/state").getLeavingTransition("tostate2").getParent());
+    assertSame(processDefinition, processDefinition.getStartState()
+      .getDefaultLeavingTransition()
+      .getParent());
+    assertSame(processDefinition, processDefinition.findNode("superstate/state")
+      .getDefaultLeavingTransition()
+      .getParent());
+    assertSame(superState, processDefinition.findNode("superstate/state")
+      .getLeavingTransition("loop")
+      .getParent());
+    assertSame(superState, processDefinition.findNode("superstate/state")
+      .getLeavingTransition("tostate2")
+      .getParent());
   }
 }

@@ -4,9 +4,6 @@ import java.util.Arrays;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ByteUtilTest extends AbstractJbpmTestCase {
 
   public void testBytesToString() {

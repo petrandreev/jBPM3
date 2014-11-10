@@ -12,7 +12,7 @@ import org.jbpm.graph.node.DecisionHandler;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class AsyncTimerAndSubProcessDbTest extends AbstractDbTestCase {
 
@@ -43,17 +43,14 @@ public class AsyncTimerAndSubProcessDbTest extends AbstractDbTestCase {
       + "      <assignment actor-id='victim' />"
       + "    </task>"
       + "    <transition to='end'/>"
-      + "  </task-node>"
-      + "  <end-state name='end' />"
-      + "</process-definition>");
+      + "  </task-node>" + "  <end-state name='end' />" + "</process-definition>");
     deployProcessDefinition(subDefinition);
 
     ProcessDefinition superDefinition = ProcessDefinition.parseXmlString("<process-definition name='super'>"
       + "  <start-state name='start'>"
       + "    <transition to='decision'/>"
       + "  </start-state>"
-      + "  <decision name='decision'>"
-      + "    <handler class='"
+      + "  <decision name='decision'>" + "    <handler class='"
       + TimedDecisionHandler.class.getName()
       + "' />"
       + "    <transition name='default' to='timed' />"
@@ -74,8 +71,7 @@ public class AsyncTimerAndSubProcessDbTest extends AbstractDbTestCase {
       + "    <variable name='b'/>"
       + "    <transition to='decision' />"
       + "  </process-state>"
-      + "  <end-state name='end' />"
-      + "</process-definition>");
+      + "  <end-state name='end' />" + "</process-definition>");
     deployProcessDefinition(superDefinition);
 
     ProcessInstance superInstance = jbpmContext.newProcessInstanceForUpdate("super");

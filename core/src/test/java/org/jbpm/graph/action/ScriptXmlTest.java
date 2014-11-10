@@ -25,48 +25,41 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.ProcessDefinition;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ScriptXmlTest extends AbstractJbpmTestCase {
 
   public void testReadScriptExpression() {
-    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString( 
-      "<process-definition>" +
-      "  <script name='s'>" +
-      "    e = m * Math.pow(c,2);" +
-      "  </script>" +
-      "</process-definition>"
-    );
-    
+    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <script name='s'>"
+      + "    e = m * Math.pow(c,2);"
+      + "  </script>"
+      + "</process-definition>");
+
     Script script = (Script) processDefinition.getAction("s");
-    assertTextPresent("e = m * Math.pow(c,2);", script.getExpression() ); 
+    assertTextPresent("e = m * Math.pow(c,2);", script.getExpression());
   }
-  
+
   public void assertTextPresent(String text, String string) {
-    if (string.indexOf(text)==-1) {
-      fail("'"+text+"' is not present in '"+string+"'");
+    if (string.indexOf(text) == -1) {
+      fail("'" + text + "' is not present in '" + string + "'");
     }
   }
 
   public void testReadScriptWithVariables() {
-    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString( 
-      "<process-definition>" +
-      "  <node name='a'>" +
-      "    <script>" +
-      "      <variable name='a' access='read' />" +
-      "      <variable name='b' access='write' />" +
-      "      <variable name='c' />" +
-      "      <expression>e = m * Math.pow(c,2);</expression>" +
-      "    </script>" +
-      "  </node>" +
-      "</process-definition>"
-    );
-    
+    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <node name='a'>"
+      + "    <script>"
+      + "      <variable name='a' access='read' />"
+      + "      <variable name='b' access='write' />"
+      + "      <variable name='c' />"
+      + "      <expression>e = m * Math.pow(c,2);</expression>"
+      + "    </script>"
+      + "  </node>"
+      + "</process-definition>");
+
     Node node = processDefinition.getNode("a");
     Script script = (Script) node.getAction();
-    
-    assertEquals( 3, script.getVariableAccesses().size() ); 
-    assertTextPresent("e = m * Math.pow(c,2);", script.getExpression() ); 
+
+    assertEquals(3, script.getVariableAccesses().size());
+    assertTextPresent("e = m * Math.pow(c,2);", script.getExpression());
   }
 }

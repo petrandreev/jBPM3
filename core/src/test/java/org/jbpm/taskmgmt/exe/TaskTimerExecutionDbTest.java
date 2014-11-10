@@ -33,7 +33,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.job.Timer;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class TaskTimerExecutionDbTest extends AbstractDbTestCase {
 

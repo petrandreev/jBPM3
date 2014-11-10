@@ -27,7 +27,7 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.JbpmConfiguration;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class ByteArrayTest extends AbstractJbpmTestCase {
 

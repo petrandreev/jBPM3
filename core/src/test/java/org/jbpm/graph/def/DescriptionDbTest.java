@@ -3,15 +3,11 @@ package org.jbpm.graph.def;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.node.TaskNode;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DescriptionDbTest extends AbstractDbTestCase {
 
   public void testProcessDefinitionDescription() {
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
-      + "  <description>haleluja</description>"
-      + "</process-definition>");
+      + "  <description>haleluja</description>" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     assertEquals("haleluja", processDefinition.getDescription());

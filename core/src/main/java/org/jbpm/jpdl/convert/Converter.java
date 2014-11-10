@@ -48,7 +48,7 @@ import org.dom4j.io.XMLWriter;
 import org.jbpm.jpdl.par.ProcessArchive;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class Converter {
 

@@ -35,7 +35,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.tools.ant.Main;
-
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.util.IoUtil;
@@ -47,7 +46,7 @@ import org.jbpm.util.IoUtil;
  * @author Alejandro Guizar
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JBPM522Test extends AbstractDbTestCase {
 

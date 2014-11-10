@@ -5,9 +5,6 @@ import javax.transaction.Synchronization;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class MockTransaction implements Transaction {
 
   boolean wasCommitted = false;
@@ -36,7 +33,8 @@ public class MockTransaction implements Transaction {
     return (!wasCommitted) && (!wasRolledBack);
   }
 
-  public void registerSynchronization(Synchronization synchronization) throws HibernateException {
+  public void registerSynchronization(Synchronization synchronization)
+    throws HibernateException {
   }
 
   public void setTimeout(int seconds) {

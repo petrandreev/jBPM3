@@ -22,16 +22,12 @@
 package org.jbpm;
 
 import org.hibernate.SessionFactory;
-
 import org.jbpm.configuration.ConfigurationException;
 import org.jbpm.configuration.ObjectFactory;
 import org.jbpm.configuration.ObjectFactoryImpl;
 import org.jbpm.configuration.ObjectFactoryParser;
 import org.jbpm.util.XmlException;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JbpmConfigurationTest extends AbstractJbpmTestCase {
 
   protected void setUp() throws Exception {

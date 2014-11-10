@@ -24,7 +24,6 @@ package org.jboss.seam.pageflow;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Element;
-
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
@@ -34,9 +33,6 @@ import org.jbpm.jpdl.xml.JpdlXmlReader;
  * 
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class Page extends Node {
 
   private String viewId;

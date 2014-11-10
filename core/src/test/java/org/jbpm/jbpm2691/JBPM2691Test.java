@@ -37,7 +37,7 @@ import org.jbpm.job.Job;
  * @author Alejandro Guizar
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JBPM2691Test extends AbstractDbTestCase {
 

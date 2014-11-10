@@ -26,9 +26,6 @@ import java.security.Permission;
 
 import org.jbpm.svc.Service;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface AuthorizationService extends Service {
 
   /**

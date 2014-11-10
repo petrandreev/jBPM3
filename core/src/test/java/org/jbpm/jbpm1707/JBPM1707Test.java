@@ -35,7 +35,7 @@ import org.jbpm.jpdl.xml.Problem;
  * @author Alejandro Guizar
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JBPM1707Test extends AbstractJbpmTestCase {
 

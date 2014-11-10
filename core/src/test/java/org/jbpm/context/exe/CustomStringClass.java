@@ -21,9 +21,6 @@
  */
 package org.jbpm.context.exe;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class CustomStringClass {
 
   String id;

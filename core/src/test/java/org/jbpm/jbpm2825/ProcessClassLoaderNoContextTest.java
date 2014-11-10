@@ -34,9 +34,6 @@ import org.jbpm.instantiation.ProcessClassLoader;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2825">JBPM-2825</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ProcessClassLoaderNoContextTest extends AbstractDbTestCase {
 
   public void testProcessClassLoaderNoContext() {

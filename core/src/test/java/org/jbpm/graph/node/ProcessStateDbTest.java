@@ -22,7 +22,6 @@
 package org.jbpm.graph.node;
 
 import org.hibernate.criterion.Order;
-
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
@@ -30,9 +29,6 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.graph.log.ProcessStateLog;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ProcessStateDbTest extends AbstractDbTestCase {
 
   public void testProcessStateName() {

@@ -42,9 +42,6 @@ import org.jbpm.graph.exe.Token;
  * concurrent paths is demonstrated.
  * </p>
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class Wfp05SimpleMergeTest extends AbstractJbpmTestCase {
 
   private static ProcessDefinition simpleMergeProcessDefinition = createSimpleMergeProcessDefinition();

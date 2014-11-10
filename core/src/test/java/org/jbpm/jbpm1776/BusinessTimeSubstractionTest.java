@@ -34,9 +34,6 @@ import org.jbpm.calendar.Duration;
  * @see <a href="https://jira.jboss.org/browse/JBPM-1776">JBPM-1776</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class BusinessTimeSubstractionTest extends AbstractJbpmTestCase {
 
   static BusinessCalendar businessCalendar = new BusinessCalendar();

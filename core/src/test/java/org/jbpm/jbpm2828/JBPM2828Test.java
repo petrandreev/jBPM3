@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.criterion.Projections;
-
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.context.exe.variableinstance.ByteArrayInstance;
@@ -45,7 +44,7 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author Martin Putz
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JBPM2828Test extends AbstractDbTestCase {
 

@@ -34,7 +34,7 @@ import org.jbpm.graph.node.State;
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_17.swf
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class Wfp18InterleavedParallelRoutingTest extends AbstractJbpmTestCase {
   
@@ -81,9 +81,6 @@ public class Wfp18InterleavedParallelRoutingTest extends AbstractJbpmTestCase {
     new String[] {"d", "c", "b"}
   };
   
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
   public class ScenarioInterleaver implements InterleaveStart.Interleaver {
     public String selectNextTransition(Collection transitionNames) {
       // this piece of code is executed at runtime when a decision 

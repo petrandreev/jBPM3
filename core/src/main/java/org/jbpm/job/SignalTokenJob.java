@@ -9,28 +9,25 @@ import org.jbpm.graph.exe.Token;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2948">JBPM-2948</a>
  * @author Brad Davis
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class SignalTokenJob extends Job {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
   public SignalTokenJob() {
     // default constructor
-	}
+  }
 
-	public SignalTokenJob(Token token) {
-		super(token);
-	}
+  public SignalTokenJob(Token token) {
+    super(token);
+  }
 
-	public boolean execute(JbpmContext jbpmContext) throws Exception {
-		getToken().signal();
-		return true;
-	}
+  public boolean execute(JbpmContext jbpmContext) throws Exception {
+    getToken().signal();
+    return true;
+  }
 
-	public String toString() {
-		return "SignalTokenJob(" + getId() + ',' + getToken() + ')';
-	}
+  public String toString() {
+    return "SignalTokenJob(" + getId() + ',' + getToken() + ')';
+  }
 
 }

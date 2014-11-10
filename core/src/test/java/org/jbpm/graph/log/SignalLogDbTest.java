@@ -24,21 +24,16 @@ package org.jbpm.graph.log;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.Transition;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
-public class SignalLogDbTest extends AbstractDbTestCase
-{
+public class SignalLogDbTest extends AbstractDbTestCase {
 
-  public void testProcessInstanceCreateLog()
-  {
+  public void testProcessInstanceCreateLog() {
     Transition transition = new Transition();
     session.save(transition);
 
     SignalLog signalLog = new SignalLog(transition);
-    signalLog = (SignalLog)saveAndReload(signalLog);
+    signalLog = (SignalLog) saveAndReload(signalLog);
     assertNotNull(signalLog.getTransition());
-    
+
     session.delete(signalLog);
     session.delete(transition);
   }

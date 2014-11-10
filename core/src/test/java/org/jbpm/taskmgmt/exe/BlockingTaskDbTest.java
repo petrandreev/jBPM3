@@ -4,9 +4,6 @@ import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class BlockingTaskDbTest extends AbstractDbTestCase {
 
   public void testBlockingTask() {
@@ -19,9 +16,7 @@ public class BlockingTaskDbTest extends AbstractDbTestCase {
       + "    <transition name='approve' to='order'/>"
       + "    <transition name='reject'  to='cancelled'/>"
       + "  </task-node>"
-      + "  <state name='order' />"
-      + "  <state name='cancelled' />"
-      + "</process-definition>");
+      + "  <state name='order' />" + "  <state name='cancelled' />" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = jbpmContext.newProcessInstanceForUpdate("blockingprocess");

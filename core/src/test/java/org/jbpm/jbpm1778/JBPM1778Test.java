@@ -15,7 +15,7 @@ import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
  * @author Thomas.Diesler@jboss.com
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JBPM1778Test extends AbstractJbpmTestCase {
 
@@ -46,14 +46,9 @@ public class JBPM1778Test extends AbstractJbpmTestCase {
 
   private ProcessDefinition getProcessDefinition() {
     ProcessDefinition pd = ProcessDefinition.parseXmlString("<process-definition>"
-        + " <start-state>"
-        + "  <transition to='s' />"
-        + " </start-state>"
-        + " <state name='s'>"
-        + "  <transition to='end' />"
-        + " </state>"
-        + " <end-state name='end' />"
-        + "</process-definition>");
+      + " <start-state>" + "  <transition to='s' />" + " </start-state>" + " <state name='s'>"
+      + "  <transition to='end' />" + " </state>" + " <end-state name='end' />"
+      + "</process-definition>");
     return pd;
   }
 }

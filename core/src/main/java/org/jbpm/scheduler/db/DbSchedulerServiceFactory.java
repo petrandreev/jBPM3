@@ -24,13 +24,10 @@ package org.jbpm.scheduler.db;
 import org.jbpm.svc.Service;
 import org.jbpm.svc.ServiceFactory;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DbSchedulerServiceFactory implements ServiceFactory {
 
   private static final long serialVersionUID = 1L;
-  
+
   public Service openService() {
     return new DbSchedulerService();
   }

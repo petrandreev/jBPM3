@@ -23,11 +23,8 @@ package org.jbpm.graph.def;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class NodeTest extends AbstractJbpmTestCase {
-  
+
   public void testNameChange() {
     Node node = new Node();
     assertNull(node.getName());
@@ -41,7 +38,7 @@ public class NodeTest extends AbstractJbpmTestCase {
     Node node = new Node();
     ProcessDefinition processDefinition = new ProcessDefinition();
     processDefinition.addNode(node);
-    
+
     assertSame(node, processDefinition.getNode(null));
     node.setName("jos");
     assertNull(processDefinition.getNode(null));

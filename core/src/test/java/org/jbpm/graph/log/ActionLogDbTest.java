@@ -25,15 +25,11 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.hibernate.type.Type;
-
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.db.hibernate.LimitedStringType;
 import org.jbpm.db.hibernate.LimitedTextType;
 import org.jbpm.graph.def.Action;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ActionLogDbTest extends AbstractDbTestCase {
 
   public void testActionLog() {

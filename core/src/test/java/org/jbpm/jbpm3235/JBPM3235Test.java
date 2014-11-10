@@ -49,7 +49,7 @@ import org.jbpm.svc.Services;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-3235">JBPM-3235</a>
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JBPM3235Test extends AbstractDbTestCase {
 

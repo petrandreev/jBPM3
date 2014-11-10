@@ -28,9 +28,6 @@ import java.io.Serializable;
  * {@link org.jbpm.taskmgmt.exe.SwimlaneInstance}s used by 
  * the {@link org.jbpm.taskmgmt.def.AssignmentHandler} interface.
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface Assignable extends Serializable {
 
   /**

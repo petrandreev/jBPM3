@@ -37,9 +37,6 @@ import org.jbpm.taskmgmt.def.TaskMgmtDefinition;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2637">JBPM-2637</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM2637Test extends AbstractDbTestCase {
 
   protected void setUp() throws Exception {

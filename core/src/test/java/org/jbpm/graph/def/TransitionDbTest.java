@@ -23,9 +23,6 @@ package org.jbpm.graph.def;
 
 import org.jbpm.db.AbstractDbTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TransitionDbTest extends AbstractDbTestCase {
 
   public void testTranisitionName() {
@@ -46,8 +43,7 @@ public class TransitionDbTest extends AbstractDbTestCase {
       + "  <node name='n'>"
       + "    <transition name='t' to='m' />"
       + "  </node>"
-      + "  <node name='m' />"
-      + "</process-definition>");
+      + "  <node name='m' />" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     Node n = processDefinition.getNode("n");
@@ -60,8 +56,7 @@ public class TransitionDbTest extends AbstractDbTestCase {
       + "  <node name='n'>"
       + "    <transition name='t' to='m' />"
       + "  </node>"
-      + "  <node name='m' />"
-      + "</process-definition>");
+      + "  <node name='m' />" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     Node n = processDefinition.getNode("n");
@@ -94,10 +89,7 @@ public class TransitionDbTest extends AbstractDbTestCase {
       + "  <node name='n'>"
       + "    <transition to='m' />"
       + "    <transition to='o' />"
-      + "  </node>"
-      + "  <node name='m' />"
-      + "  <node name='o' />"
-      + "</process-definition>");
+      + "  </node>" + "  <node name='m' />" + "  <node name='o' />" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     Node n = processDefinition.getNode("n");

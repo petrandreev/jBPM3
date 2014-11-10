@@ -23,10 +23,6 @@ package org.jbpm.svc;
 
 import java.io.Serializable;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
-public interface Service extends Serializable
-{
+public interface Service extends Serializable {
   void close();
 }

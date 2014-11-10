@@ -11,7 +11,7 @@ import org.jbpm.jpdl.JpdlException;
 import org.jbpm.jpdl.xml.Problem;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JBPM3421Test extends TestCase {
 
@@ -24,16 +24,11 @@ public class JBPM3421Test extends TestCase {
   public void testCancelEventTimerAttributeIsvalid() {
     for (int i = 0; i < 3; ++i) {
       try {
-        ProcessDefinition.parseXmlString(
-          "<process-definition xmlns='" + jpdlNamespaces[i] + "' name='pd'>" 
-          + "  <task-node name='a'>" 
-          + "    <task name='clean ceiling'>"
+        ProcessDefinition.parseXmlString("<process-definition xmlns='" + jpdlNamespaces[i]
+          + "' name='pd'>" + "  <task-node name='a'>" + "    <task name='clean ceiling'>"
           + "      <timer duedate='2 business minutes' cancel-event='task-end'>"
           + "        <action class='org.jbpm.taskmgmt.exe.TaskEventExecutionTest$PlusPlus' />"
-          + "      </timer>" 
-          + "    </task>" 
-          + "  </task-node>" 
-          + "</process-definition>");
+          + "      </timer>" + "    </task>" + "  </task-node>" + "</process-definition>");
       }
       catch (JpdlException je) {
         Iterator iter = je.getProblems().iterator();
@@ -60,8 +55,5 @@ public class JBPM3421Test extends TestCase {
     }
     return null;
   }
-  
 
-
-  
 }

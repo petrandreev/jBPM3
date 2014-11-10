@@ -6,9 +6,6 @@ import org.jbpm.job.Job;
 import org.jbpm.job.executor.JobExecutor;
 import org.jbpm.job.executor.JobExecutorThread;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class CustomJobExecutorThread extends JobExecutorThread {
 
   private JobExecutor jobExecutor;

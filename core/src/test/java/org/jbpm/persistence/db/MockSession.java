@@ -27,7 +27,7 @@ import org.hibernate.stat.SessionStatistics;
 import org.hibernate.type.Type;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class MockSession implements org.hibernate.classic.Session {
 

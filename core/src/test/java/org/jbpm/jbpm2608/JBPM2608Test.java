@@ -40,7 +40,7 @@ import org.jbpm.job.Timer;
  * @author Alejandro Guizar
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JBPM2608Test extends AbstractDbTestCase {
 

@@ -10,9 +10,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author Alejandro Guizar
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2778">JBPM-2778</a>
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM2778Test extends AbstractDbTestCase {
 
   protected void setUp() throws Exception {

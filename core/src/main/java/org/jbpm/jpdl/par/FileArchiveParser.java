@@ -28,7 +28,7 @@ import org.jbpm.file.def.FileDefinition;
 import org.jbpm.graph.def.ProcessDefinition;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class FileArchiveParser implements ProcessArchiveParser {
 

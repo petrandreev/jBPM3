@@ -31,9 +31,6 @@ import org.jbpm.persistence.jta.JtaDbPersistenceServiceFactory;
  * @see <a href="https://issues.jboss.org/browse/JBPM-2984">JBPM-2984</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ConfigurationPropertyNameTest extends AbstractJbpmTestCase {
 
   private JbpmConfiguration jbpmConfiguration;

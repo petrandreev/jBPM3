@@ -24,9 +24,6 @@ package org.jbpm.util;
 import org.hibernate.proxy.HibernateProxy;
 
 /** @deprecated not in use anymore */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class EqualsUtil {
 
   private EqualsUtil() {
@@ -34,15 +31,14 @@ public class EqualsUtil {
   }
 
   /**
-   * hack to support comparing hibernate proxies against the real objects.
-   * since it falls back to ==, clients don't need to override hashcode.
+   * hack to support comparing hibernate proxies against the real objects. since it falls back
+   * to ==, clients don't need to override hashcode.
    *
    * @deprecated hack does not work
    * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2489">JBPM-2489</a>
    */
   public static boolean equals(Object thisObject, Object otherObject) {
-    return thisObject == otherObject
-      || otherObject instanceof HibernateProxy
+    return thisObject == otherObject || otherObject instanceof HibernateProxy
       && otherObject.equals(thisObject);
   }
 

@@ -30,9 +30,6 @@ import org.jbpm.graph.def.ProcessDefinition;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2774">JBPM-2774</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class PageflowParsingTest extends AbstractJbpmTestCase {
 
   public void testPageflow2_0() {

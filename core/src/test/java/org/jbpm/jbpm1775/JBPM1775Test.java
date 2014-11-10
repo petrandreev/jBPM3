@@ -22,7 +22,6 @@
 package org.jbpm.jbpm1775;
 
 import org.hibernate.TransactionException;
-
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.def.DelegationException;
@@ -38,9 +37,6 @@ import org.jbpm.persistence.db.DbPersistenceService;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-1775">JBPM-1775</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM1775Test extends AbstractDbTestCase {
 
   public void testExceptionInAction() {

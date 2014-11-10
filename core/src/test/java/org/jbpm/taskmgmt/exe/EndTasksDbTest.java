@@ -9,7 +9,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class EndTasksDbTest extends AbstractDbTestCase {
 
@@ -37,9 +37,7 @@ public class EndTasksDbTest extends AbstractDbTestCase {
       + "    </transition>"
       + "    <transition name='cancel'  to='cancelled'/>"
       + "  </task-node>"
-      + "  <state name='process' />"
-      + "  <state name='cancelled' />"
-      + "</process-definition>");
+      + "  <state name='process' />" + "  <state name='cancelled' />" + "</process-definition>");
 
     deployProcessDefinition(processDefinition);
 
@@ -67,9 +65,7 @@ public class EndTasksDbTest extends AbstractDbTestCase {
       + "    <transition name='reject'  to='cancelled'/>"
       + "    <transition name='cancel'  to='cancelled'/>"
       + "  </task-node>"
-      + "  <state name='process' />"
-      + "  <state name='cancelled' />"
-      + "</process-definition>");
+      + "  <state name='process' />" + "  <state name='cancelled' />" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = jbpmContext.newProcessInstanceForUpdate("endtasksprocess");
@@ -99,9 +95,7 @@ public class EndTasksDbTest extends AbstractDbTestCase {
       + "    <transition name='reject'  to='cancelled'/>"
       + "    <transition name='cancel'  to='cancelled'/>"
       + "  </task-node>"
-      + "  <state name='process' />"
-      + "  <state name='cancelled' />"
-      + "</process-definition>");
+      + "  <state name='process' />" + "  <state name='cancelled' />" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = jbpmContext.newProcessInstanceForUpdate("endtasksprocess");
@@ -131,9 +125,7 @@ public class EndTasksDbTest extends AbstractDbTestCase {
       + "    <transition name='reject'  to='cancelled'/>"
       + "    <transition name='cancel'  to='cancelled'/>"
       + "  </task-node>"
-      + "  <state name='process' />"
-      + "  <state name='cancelled' />"
-      + "</process-definition>");
+      + "  <state name='process' />" + "  <state name='cancelled' />" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = jbpmContext.newProcessInstanceForUpdate("endtasksprocess");

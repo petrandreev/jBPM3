@@ -28,15 +28,12 @@ import java.util.Date;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class HolidayTest extends AbstractJbpmTestCase {
 
   public void testHolidaySingleDayParsing() throws Exception {
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     Holiday holiday = new Holiday("21/07/2005", dateFormat, null);
-    
+
     Calendar calendar = Calendar.getInstance();
     calendar.set(Calendar.YEAR, 2005);
     calendar.set(Calendar.MONTH, Calendar.JULY);
@@ -48,7 +45,7 @@ public class HolidayTest extends AbstractJbpmTestCase {
     Date expectedFromDay = calendar.getTime();
 
     assertEquals(expectedFromDay, holiday.startDate);
-    
+
     calendar.set(Calendar.YEAR, 2005);
     calendar.set(Calendar.MONTH, Calendar.JULY);
     calendar.set(Calendar.DAY_OF_MONTH, 22);
@@ -76,7 +73,7 @@ public class HolidayTest extends AbstractJbpmTestCase {
     Date expectedFromDay = calendar.getTime();
 
     assertEquals(expectedFromDay, holiday.startDate);
-    
+
     calendar.set(Calendar.YEAR, 2005);
     calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
     calendar.set(Calendar.DAY_OF_MONTH, 1);

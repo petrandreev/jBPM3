@@ -32,7 +32,7 @@ import java.net.URL;
 import org.jbpm.util.ClassLoaderUtil;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class SerializabilityTest extends AbstractJbpmTestCase {
 

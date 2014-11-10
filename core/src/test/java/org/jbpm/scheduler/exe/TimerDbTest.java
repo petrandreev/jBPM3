@@ -27,7 +27,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.hibernate.criterion.Restrictions;
-
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ActionHandler;
@@ -40,7 +39,7 @@ import org.jbpm.job.Timer;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class TimerDbTest extends AbstractDbTestCase {
 

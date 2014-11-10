@@ -12,9 +12,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-983">JBPM-983</a>
  * @author Tom Baeyens
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM983Test extends AbstractDbTestCase {
 
   protected void setUp() throws Exception {
@@ -43,35 +40,23 @@ public class JBPM983Test extends AbstractDbTestCase {
     + "<process-definition xmlns='urn:jbpm.org:jpdl-3.2' name='subprocess'>"
     + "<start-state name='start-state1'>"
     + "   <description>start of the process</description>"
-    + "   <transition name='start-to-check' to='fileCheck'/>"
-    + "</start-state>"
-    + "<node name='fileCheck' async='true'>"
-    + "   <action name='action_filecheck' class='"
-    + TestAction.class.getName()
-    + "'>"
-    + "   </action>"
-    + "   <transition name='check-to-do' to='doWhatever'/>"
-    + "</node>"
-    + "<node name='doWhatever' async='true'>"
-    + "   <action name='action_do' class='"
-    + TestAction.class.getName()
-    + "'/>"
-    + "   <transition name='check-to-end' to='end-state-success'/>"
-    + "</node>"
+    + "   <transition name='start-to-check' to='fileCheck'/>" + "</start-state>"
+    + "<node name='fileCheck' async='true'>" + "   <action name='action_filecheck' class='"
+    + TestAction.class.getName() + "'>" + "   </action>"
+    + "   <transition name='check-to-do' to='doWhatever'/>" + "</node>"
+    + "<node name='doWhatever' async='true'>" + "   <action name='action_do' class='"
+    + TestAction.class.getName() + "'/>"
+    + "   <transition name='check-to-end' to='end-state-success'/>" + "</node>"
     + "<end-state name='end-state-success'>"
-    + "   <description>process finished normally</description>"
-    + "</end-state>"
+    + "   <description>process finished normally</description>" + "</end-state>"
     + "</process-definition>";
 
   static final String PROCESS_XML = "<?xml version='1.0'?>"
     + "<process-definition xmlns='urn:jbpm.org:jpdl-3.2' name='superprocess'>"
     + "<start-state name='start-state1'>"
     + "   <description>start of the process</description>"
-    + "   <transition name='start-to-check' to='fileCheck'/>"
-    + "</start-state>"
-    + ""
-    + "<node name='fileCheck' async='true'>"
-    + "   <action name='action_check' class='"
+    + "   <transition name='start-to-check' to='fileCheck'/>" + "</start-state>" + ""
+    + "<node name='fileCheck' async='true'>" + "   <action name='action_check' class='"
     + TestAction.class.getName()
     + "'/>"
     + "   <transition name='check-to-fork' to='fork1'/>"

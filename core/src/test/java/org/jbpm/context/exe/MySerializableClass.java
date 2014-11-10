@@ -23,9 +23,6 @@ package org.jbpm.context.exe;
 
 import java.io.Serializable;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class MySerializableClass implements Serializable {
 
   private static final long serialVersionUID = 1L;

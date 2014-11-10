@@ -8,7 +8,7 @@ import org.jbpm.jpdl.el.VariableResolver;
 import org.jbpm.jpdl.el.impl.ExpressionEvaluatorImpl;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class TestExpressionEvaluator extends ExpressionEvaluator {
 
@@ -16,10 +16,11 @@ public class TestExpressionEvaluator extends ExpressionEvaluator {
   private static ExpressionEvaluatorImpl realExpressionEvaluator = new ExpressionEvaluatorImpl();
 
   // public constructor
-  public TestExpressionEvaluator() { }
-  
-  public Expression parseExpression(String expression, Class expectedType, FunctionMapper fMapper) 
-    throws ELException {
+  public TestExpressionEvaluator() {
+  }
+
+  public Expression parseExpression(String expression, Class expectedType,
+    FunctionMapper fMapper) throws ELException {
     return realExpressionEvaluator.parseExpression(expression, expectedType, fMapper);
   }
 
@@ -27,18 +28,18 @@ public class TestExpressionEvaluator extends ExpressionEvaluator {
   public Object evaluate(String expression, Class expectedType, VariableResolver vResolver,
     FunctionMapper fMapper) throws ELException {
     Object result = realExpressionEvaluator.evaluate(expression, expectedType, vResolver, fMapper);
-    
+
     // return boolean if possible
-    if( result instanceof String ) { 
-        String resultStr = (String) result;
-        if( resultStr.toLowerCase().matches("test|false") ) { 
-          return new Boolean(resultStr.toLowerCase());
-        }
-        if( resultStr.matches(BAD_VALUE) ) { 
-          return this;
-        }
+    if (result instanceof String) {
+      String resultStr = (String) result;
+      if (resultStr.toLowerCase().matches("test|false")) {
+        return new Boolean(resultStr.toLowerCase());
+      }
+      if (resultStr.matches(BAD_VALUE)) {
+        return this;
+      }
     }
-    
+
     // return object (which is a string) otherwise
     return result;
   }

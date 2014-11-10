@@ -48,9 +48,6 @@ import org.jbpm.graph.exe.Token;
  * that leave the current state.
  * </p>
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class Wfp04ExclusiveChoiceTest extends AbstractJbpmTestCase {
 
   static ProcessDefinition exclusiveChoiceProcessDefinition =

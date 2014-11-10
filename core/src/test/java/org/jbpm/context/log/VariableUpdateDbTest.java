@@ -35,7 +35,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.logging.exe.LoggingInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class VariableUpdateDbTest extends AbstractDbTestCase {
 

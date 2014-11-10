@@ -26,9 +26,6 @@ import java.io.Serializable;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.exe.ProcessInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface SaveOperation extends Serializable {
   
   void save(ProcessInstance processInstance, JbpmContext jbpmContext);

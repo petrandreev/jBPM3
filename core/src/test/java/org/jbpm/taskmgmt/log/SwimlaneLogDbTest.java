@@ -24,9 +24,6 @@ package org.jbpm.taskmgmt.log;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.taskmgmt.exe.SwimlaneInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class SwimlaneLogDbTest extends AbstractDbTestCase {
 
   SwimlaneInstance swimlaneInstance = null;

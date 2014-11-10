@@ -24,10 +24,7 @@ package org.jbpm.logging;
 import org.jbpm.logging.log.ProcessLog;
 import org.jbpm.svc.Service;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface LoggingService extends Service {
-  
+
   void log(ProcessLog processLog);
 }

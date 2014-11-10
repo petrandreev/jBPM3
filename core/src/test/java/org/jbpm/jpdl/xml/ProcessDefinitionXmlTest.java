@@ -29,7 +29,7 @@ import org.jbpm.graph.node.EndState;
 import org.jbpm.graph.node.StartState;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class ProcessDefinitionXmlTest extends AbstractXmlTestCase {
 

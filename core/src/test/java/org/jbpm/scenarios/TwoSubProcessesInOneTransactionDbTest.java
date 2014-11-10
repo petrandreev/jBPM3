@@ -3,13 +3,12 @@ package org.jbpm.scenarios;
 import java.util.List;
 
 import org.hibernate.criterion.Restrictions;
-
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class TwoSubProcessesInOneTransactionDbTest extends AbstractDbTestCase {
 
@@ -18,8 +17,7 @@ public class TwoSubProcessesInOneTransactionDbTest extends AbstractDbTestCase {
       + "  <start-state>"
       + "    <transition to='end' />"
       + "  </start-state>"
-      + "  <end-state name='end' />"
-      + "</process-definition>");
+      + "  <end-state name='end' />" + "</process-definition>");
     deployProcessDefinition(subProcess);
 
     ProcessDefinition superProcess = ProcessDefinition.parseXmlString("<process-definition name='super'>"

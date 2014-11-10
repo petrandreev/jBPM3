@@ -12,7 +12,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class TaskVariableAccessDbTest extends AbstractDbTestCase {
 

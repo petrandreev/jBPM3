@@ -31,9 +31,6 @@ import org.jbpm.taskmgmt.exe.Assignable;
  * {@link org.jbpm.taskmgmt.exe.SwimlaneInstance}s to 
  * actors.
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface AssignmentHandler extends Serializable {
 
   /**

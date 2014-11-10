@@ -14,9 +14,6 @@ import org.jbpm.graph.node.Join;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-1755">JBPM-1755</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM1755Test extends AbstractDbTestCase {
 
   private ProcessDefinition processDefinition;

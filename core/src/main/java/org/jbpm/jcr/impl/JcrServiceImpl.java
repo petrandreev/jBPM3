@@ -29,9 +29,6 @@ import org.jbpm.jcr.JcrService;
 import org.jbpm.svc.Services;
 import org.jbpm.tx.TxService;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JcrServiceImpl implements JcrService {
 
   private static final long serialVersionUID = 1L;

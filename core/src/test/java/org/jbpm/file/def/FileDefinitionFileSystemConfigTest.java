@@ -24,26 +24,20 @@ package org.jbpm.file.def;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
-public class FileDefinitionFileSystemConfigTest extends
-    FileDefinitionDbConfigTest {
+public class FileDefinitionFileSystemConfigTest extends FileDefinitionDbConfigTest {
 
   JbpmContext jbpmContext;
 
   protected void setUp() throws Exception {
     super.setUp();
     String classDir = FileDefinitionFileSystemConfigTest.class.getProtectionDomain()
-        .getCodeSource()
-        .getLocation()
-        .getPath();
+      .getCodeSource()
+      .getLocation()
+      .getPath();
     JbpmConfiguration jbpmConfiguration = JbpmConfiguration.parseXmlString("<jbpm-configuration>"
-        + "  <jbpm-context name='default.jbpm.context' />"
-        + "    <string name='jbpm.files.dir'>"
-        + classDir.toString()
-        + "</string>"
-        + "</jbpm-configuration>");
+      + "  <jbpm-context name='default.jbpm.context' />"
+      + "    <string name='jbpm.files.dir'>"
+      + classDir.toString() + "</string>" + "</jbpm-configuration>");
     jbpmContext = jbpmConfiguration.createJbpmContext();
   }
 

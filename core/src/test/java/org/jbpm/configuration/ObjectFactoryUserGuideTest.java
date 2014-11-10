@@ -28,7 +28,7 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class ObjectFactoryUserGuideTest extends AbstractJbpmTestCase {
   

@@ -23,18 +23,15 @@ package org.jbpm.graph.def;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DefaultTransitionTest extends AbstractJbpmTestCase {
-  
+
   private Node n = new Node();
   private Node n2 = new Node();
   private Node n3 = new Node();
-  private Transition t = new Transition(); 
-  private Transition t1 = new Transition("one"); 
-  private Transition t2 = new Transition("two"); 
-  private Transition t3 = new Transition("three"); 
+  private Transition t = new Transition();
+  private Transition t1 = new Transition("one");
+  private Transition t2 = new Transition("two");
+  private Transition t3 = new Transition("three");
 
   public void testOneTransition() {
     n.addLeavingTransition(t);
@@ -82,7 +79,7 @@ public class DefaultTransitionTest extends AbstractJbpmTestCase {
     n3.addLeavingTransition(t2);
     n3.removeLeavingTransition(t2);
     n2.addLeavingTransition(t2);
-    
-    assertEquals( n2, n2.getDefaultLeavingTransition().getFrom() );
+
+    assertEquals(n2, n2.getDefaultLeavingTransition().getFrom());
   }
 }

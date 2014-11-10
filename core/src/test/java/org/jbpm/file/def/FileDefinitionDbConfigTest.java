@@ -28,9 +28,6 @@ import java.io.InputStream;
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.util.IoUtil;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class FileDefinitionDbConfigTest extends AbstractJbpmTestCase {
   
   private FileDefinition fileDefinition = new FileDefinition();

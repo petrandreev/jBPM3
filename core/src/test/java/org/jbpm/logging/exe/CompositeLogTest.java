@@ -29,9 +29,6 @@ import org.jbpm.logging.log.CompositeLog;
 import org.jbpm.logging.log.MessageLog;
 import org.jbpm.logging.log.ProcessLog;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class CompositeLogTest extends AbstractJbpmTestCase {
 
   public void testCompositeLogs() {

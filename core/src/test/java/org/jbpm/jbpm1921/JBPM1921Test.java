@@ -37,7 +37,7 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author Alejandro Guizar
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JBPM1921Test extends AbstractDbTestCase {
 

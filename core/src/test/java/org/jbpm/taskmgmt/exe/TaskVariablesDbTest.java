@@ -181,7 +181,10 @@ public class TaskVariablesDbTest extends AbstractDbTestCase {
       + "      <controller>"
       + "        <variable name='a' />"
       + "        <variable name='b' />"
-      + "      </controller>" + "    </task>" + "  </task-node>" + "</process-definition>");
+      + "      </controller>" 
+      + "    </task>" 
+      + "  </task-node>" 
+      + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
@@ -237,7 +240,8 @@ public class TaskVariablesDbTest extends AbstractDbTestCase {
       + "        <variable name='v' />"
       + "      </controller>"
       + "    </task>"
-      + "  </task-node>" + "</process-definition>");
+      + "  </task-node>" 
+      + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = new ProcessInstance(processDefinition);

@@ -23,24 +23,18 @@ package org.jbpm.graph.log;
 
 import org.jbpm.db.AbstractDbTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
-public class ProcessInstanceLogsDbTest extends AbstractDbTestCase
-{
+public class ProcessInstanceLogsDbTest extends AbstractDbTestCase {
 
-  public void testProcessInstanceCreateLog()
-  {
+  public void testProcessInstanceCreateLog() {
     ProcessInstanceCreateLog piLog = new ProcessInstanceCreateLog();
-    piLog = (ProcessInstanceCreateLog)saveAndReload(piLog);
+    piLog = (ProcessInstanceCreateLog) saveAndReload(piLog);
     assertNotNull(piLog);
     session.delete(piLog);
   }
 
-  public void testProcessInstanceEndLog()
-  {
+  public void testProcessInstanceEndLog() {
     ProcessInstanceEndLog piLog = new ProcessInstanceEndLog();
-    piLog = (ProcessInstanceEndLog)saveAndReload(piLog);
+    piLog = (ProcessInstanceEndLog) saveAndReload(piLog);
     assertNotNull(piLog);
     session.delete(piLog);
   }

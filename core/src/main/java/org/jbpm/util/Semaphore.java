@@ -4,15 +4,13 @@ import java.io.Serializable;
 
 /**
  * A counting semaphore. Conceptually, a semaphore maintains a set of permits. Each
- * {@linkplain #acquire acquire} blocks if necessary until a permit is available, and then takes it.
- * Each {@linkplain #release() release} adds a permit, potentially releasing a blocking acquirer.
+ * {@linkplain #acquire acquire} blocks if necessary until a permit is available, and then takes
+ * it. Each {@linkplain #release() release} adds a permit, potentially releasing a blocking
+ * acquirer.
  * 
  * @see <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/concurrent/Semaphore.html"
  * >java.util.concurrent.Semaphore</a>
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class Semaphore implements Serializable {
 
   private int permits;
@@ -22,8 +20,8 @@ public class Semaphore implements Serializable {
   /**
    * Creates a <tt>Semaphore</tt> with the given number of permits.
    * 
-   * @param permits the initial number of permits available. This value may be negative, in which
-   *        case releases must occur before any acquires will be granted.
+   * @param permits the initial number of permits available. This value may be negative, in
+   * which case releases must occur before any acquires will be granted.
    */
   public Semaphore(int permits) {
     this.permits = permits;
@@ -63,8 +61,8 @@ public class Semaphore implements Serializable {
   }
 
   /**
-   * Acquires the given number of permits from this semaphore, blocking until all are available, or
-   * the thread is {@link Thread#interrupt interrupted}.
+   * Acquires the given number of permits from this semaphore, blocking until all are available,
+   * or the thread is {@link Thread#interrupt interrupted}.
    * 
    * @param permits the number of permits to acquire
    * @throws InterruptedException if the current thread is interrupted
@@ -83,12 +81,12 @@ public class Semaphore implements Serializable {
   }
 
   /**
-   * Acquires a permit from this semaphore, if one becomes available within the given waiting time
-   * and the current thread has not been {@link Thread#interrupt interrupted}.
+   * Acquires a permit from this semaphore, if one becomes available within the given waiting
+   * time and the current thread has not been {@link Thread#interrupt interrupted}.
    * 
    * @param timeout the maximum time to wait for a permit
-   * @return <tt>true</tt> if a permit was acquired and <tt>false</tt> if the waiting time elapsed
-   *         before a permit was acquired.
+   * @return <tt>true</tt> if a permit was acquired and <tt>false</tt> if the waiting time
+   * elapsed before a permit was acquired.
    * @throws InterruptedException if the current thread is interrupted
    * @see Thread#interrupt
    */
@@ -97,13 +95,14 @@ public class Semaphore implements Serializable {
   }
 
   /**
-   * Acquires the given number of permits from this semaphore, if all become available within the
-   * given waiting time and the current thread has not been {@link Thread#interrupt interrupted}.
+   * Acquires the given number of permits from this semaphore, if all become available within
+   * the given waiting time and the current thread has not been {@link Thread#interrupt
+   * interrupted}.
    * 
    * @param permits the number of permits to acquire
    * @param timeout the maximum time to wait for the permits
    * @return <tt>true</tt> if all permits were acquired and <tt>false</tt> if the waiting time
-   *         elapsed before all permits were acquired.
+   * elapsed before all permits were acquired.
    * @throws InterruptedException if the current thread is interrupted
    * @throws IllegalArgumentException if permits less than zero.
    * @see Thread#interrupt

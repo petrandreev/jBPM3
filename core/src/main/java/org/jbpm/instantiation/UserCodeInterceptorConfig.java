@@ -2,9 +2,6 @@ package org.jbpm.instantiation;
 
 import org.jbpm.JbpmConfiguration.Configs;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class UserCodeInterceptorConfig {
 
   private static UserCodeInterceptor userCodeInterceptor;
@@ -15,8 +12,8 @@ public class UserCodeInterceptorConfig {
 
   public static UserCodeInterceptor getUserCodeInterceptor() {
     return userCodeInterceptor != null ? userCodeInterceptor
-      : Configs.hasObject("jbpm.user.code.interceptor") ?
-        (UserCodeInterceptor) Configs.getObject("jbpm.user.code.interceptor") : null;
+      : Configs.hasObject("jbpm.user.code.interceptor") ? (UserCodeInterceptor) Configs.getObject("jbpm.user.code.interceptor")
+        : null;
   }
 
   /** @deprecated Use the configuration entry <code>jbpm.user.code.interceptor</code> instead */

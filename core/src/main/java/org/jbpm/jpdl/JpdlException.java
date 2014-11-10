@@ -28,7 +28,7 @@ import org.jbpm.JbpmException;
 import org.jbpm.jpdl.xml.Problem;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JpdlException extends JbpmException {
 

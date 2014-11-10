@@ -25,17 +25,13 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.jpdl.JpdlException;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class XmlSchemaTest extends AbstractJbpmTestCase {
-  
+
   /**
-   * parses the xml file in the subdir 'files' that corresponds
-   * with the test method name.
+   * parses the xml file in the subdir 'files' that corresponds with the test method name.
    */
   private ProcessDefinition parseXmlForThisMethod() {
-    String resource = "org/jbpm/jpdl/xml/"+getName()+".xml";
+    String resource = "org/jbpm/jpdl/xml/" + getName() + ".xml";
     return ProcessDefinition.parseXmlResource(resource);
   }
 
@@ -43,13 +39,14 @@ public class XmlSchemaTest extends AbstractJbpmTestCase {
     try {
       parseXmlForThisMethod();
       fail("expected exception");
-    } catch (JpdlException e) {
+    }
+    catch (JpdlException e) {
       // OK
     }
   }
 
   public void testNoSchemaReference() {
-    // without a reference to the schema, the process definition is 
+    // without a reference to the schema, the process definition is
     // not validated and parsing succeeds
     parseXmlForThisMethod();
   }
@@ -58,7 +55,8 @@ public class XmlSchemaTest extends AbstractJbpmTestCase {
     try {
       parseXmlForThisMethod();
       fail("expected exception");
-    } catch (JpdlException e) {
+    }
+    catch (JpdlException e) {
       // OK
     }
   }
@@ -67,7 +65,8 @@ public class XmlSchemaTest extends AbstractJbpmTestCase {
     try {
       parseXmlForThisMethod();
       fail("expected exception");
-    } catch (JpdlException e) {
+    }
+    catch (JpdlException e) {
       // OK
     }
   }
@@ -77,7 +76,8 @@ public class XmlSchemaTest extends AbstractJbpmTestCase {
     try {
       parseXmlForThisMethod();
       fail("expected exception");
-    } catch (JpdlException e) {
+    }
+    catch (JpdlException e) {
       // OK
     }
   }
@@ -86,7 +86,8 @@ public class XmlSchemaTest extends AbstractJbpmTestCase {
     try {
       parseXmlForThisMethod();
       fail("expected exception");
-    } catch (JpdlException e) {
+    }
+    catch (JpdlException e) {
       // OK
     }
   }
@@ -95,7 +96,8 @@ public class XmlSchemaTest extends AbstractJbpmTestCase {
     try {
       parseXmlForThisMethod();
       fail("expected exception");
-    } catch (JpdlException e) {
+    }
+    catch (JpdlException e) {
       // OK
     }
   }
@@ -104,17 +106,41 @@ public class XmlSchemaTest extends AbstractJbpmTestCase {
     try {
       parseXmlForThisMethod();
       fail("expected exception");
-    } catch (JpdlException e) {
+    }
+    catch (JpdlException e) {
       // OK
     }
   }
 
-  public void testAction() {parseXmlForThisMethod();}
-  public void testDecision() {parseXmlForThisMethod();}
-  public void testEvent() {parseXmlForThisMethod();}
-  public void testStartState() {parseXmlForThisMethod();}
-  public void testTask() {parseXmlForThisMethod();}
-  public void testExceptionHandler() {parseXmlForThisMethod();}
-  public void testEndState() {parseXmlForThisMethod();}
-  public void testScript() {parseXmlForThisMethod();}
+  public void testAction() {
+    parseXmlForThisMethod();
+  }
+
+  public void testDecision() {
+    parseXmlForThisMethod();
+  }
+
+  public void testEvent() {
+    parseXmlForThisMethod();
+  }
+
+  public void testStartState() {
+    parseXmlForThisMethod();
+  }
+
+  public void testTask() {
+    parseXmlForThisMethod();
+  }
+
+  public void testExceptionHandler() {
+    parseXmlForThisMethod();
+  }
+
+  public void testEndState() {
+    parseXmlForThisMethod();
+  }
+
+  public void testScript() {
+    parseXmlForThisMethod();
+  }
 }

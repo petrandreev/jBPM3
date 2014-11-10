@@ -23,16 +23,14 @@ package org.jbpm.instantiation;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ConfigurationPropertyInstantiatorTest extends AbstractJbpmTestCase {
 
-  public ConfigurationPropertyInstantiator configurationPropertyInstantiator= new ConfigurationPropertyInstantiator();
-  
+  public ConfigurationPropertyInstantiator configurationPropertyInstantiator = new ConfigurationPropertyInstantiator();
+
   public static class ConfigurationPropertyClass {
     String configuration = null;
-    public void setConfiguration( String configuration ) {
+
+    public void setConfiguration(String configuration) {
       this.configuration = configuration;
     }
   }
@@ -40,17 +38,15 @@ public class ConfigurationPropertyInstantiatorTest extends AbstractJbpmTestCase 
   public void testConstructorInstantiator() {
     String configuration = "hello";
     ConfigurationPropertyClass o = (ConfigurationPropertyClass) configurationPropertyInstantiator.instantiate(ConfigurationPropertyClass.class, configuration);
-    assertEquals("hello", o.configuration );
+    assertEquals("hello", o.configuration);
   }
 
   /*
-  public static class ConfigurationPropertySubClass extends ConfigurationPropertyClass {
-  }
-
-  public void testConstructorInstantiatorSubClass() {
-    String configuration = "hello";
-    ConfigurationPropertySubClass o = (ConfigurationPropertySubClass) configurationPropertyInstantiator.instantiate(ConfigurationPropertySubClass.class, configuration);
-    assertEquals("hello", o.configuration );
-  }
-  */
+   * public static class ConfigurationPropertySubClass extends ConfigurationPropertyClass { }
+   * 
+   * public void testConstructorInstantiatorSubClass() { String configuration = "hello";
+   * ConfigurationPropertySubClass o = (ConfigurationPropertySubClass)
+   * configurationPropertyInstantiator.instantiate(ConfigurationPropertySubClass.class,
+   * configuration); assertEquals("hello", o.configuration ); }
+   */
 }

@@ -30,9 +30,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * 
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2010">JBPM-2010</a>
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM3213Test extends AbstractDbTestCase {
 
   protected void setUp() throws Exception {

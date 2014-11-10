@@ -38,9 +38,6 @@ import org.jbpm.job.Timer;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2603">JBPM-2603</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM2603Test extends AbstractDbTestCase {
 
   public void testStaticTimerAction() {

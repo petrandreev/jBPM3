@@ -31,7 +31,7 @@ import javax.sql.DataSource;
 import org.hsqldb.jdbc.jdbcDataSource;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class Jdbc {
   

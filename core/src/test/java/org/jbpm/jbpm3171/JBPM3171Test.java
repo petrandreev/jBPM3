@@ -33,9 +33,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/browse/JBPM-3171">JBPM-3171</a>
  * @author Martin Weiler
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM3171Test extends AbstractJbpmTestCase {
 
   ProcessDefinition processDefinition;

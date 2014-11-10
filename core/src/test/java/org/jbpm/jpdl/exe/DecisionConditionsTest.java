@@ -25,52 +25,43 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DecisionConditionsTest extends AbstractJbpmTestCase {
-  
-  ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
-    "<process-definition>" +
-    "  <start-state>" +
-    "    <transition to='d' />" +
-    "  </start-state>" +
-    "  <decision name='d'>" +
-    "    <transition to='forget about it'/>" +
-    "    <transition name='imporant lead' to='harras them'>" +
-    "      <condition>#{budget > 1000}</condition>" +
-    "    </transition>" +
-    "    <transition name='lead' to='put it in the lead db'>" +
-    "      <condition>#{budget > 100}</condition>" +
-    "    </transition>" +
-    "  </decision>" +
-    "  <state name='harras them' />" +
-    "  <state name='put it in the lead db' />" +
-    "  <state name='forget about it' />" +
-    "</process-definition>" );
-  
+
+  ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+    + "  <start-state>" + "    <transition to='d' />" + "  </start-state>"
+    + "  <decision name='d'>" + "    <transition to='forget about it'/>"
+    + "    <transition name='imporant lead' to='harras them'>"
+    + "      <condition>#{budget > 1000}</condition>" + "    </transition>"
+    + "    <transition name='lead' to='put it in the lead db'>"
+    + "      <condition>#{budget > 100}</condition>" + "    </transition>" + "  </decision>"
+    + "  <state name='harras them' />" + "  <state name='put it in the lead db' />"
+    + "  <state name='forget about it' />" + "</process-definition>");
+
   public void testBudgetHignerThenThousand() {
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
     processInstance.getContextInstance().setVariable("budget", new Integer(3500));
     processInstance.signal();
-    
-    assertEquals(processDefinition.getNode("harras them"), processInstance.getRootToken().getNode());
+
+    assertEquals(processDefinition.getNode("harras them"), processInstance.getRootToken()
+      .getNode());
   }
 
   public void testBudgetBetweenHundredAndThousand() {
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
     processInstance.getContextInstance().setVariable("budget", new Integer(350));
     processInstance.signal();
-    
-    assertEquals(processDefinition.getNode("put it in the lead db"), processInstance.getRootToken().getNode());
+
+    assertEquals(processDefinition.getNode("put it in the lead db"), processInstance.getRootToken()
+      .getNode());
   }
 
   public void testSmallBudget() {
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
     processInstance.getContextInstance().setVariable("budget", new Integer(35));
     processInstance.signal();
-    
-    assertEquals(processDefinition.getNode("forget about it"), processInstance.getRootToken().getNode());
+
+    assertEquals(processDefinition.getNode("forget about it"), processInstance.getRootToken()
+      .getNode());
   }
 
 }

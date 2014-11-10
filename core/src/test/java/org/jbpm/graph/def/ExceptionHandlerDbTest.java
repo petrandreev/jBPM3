@@ -26,7 +26,7 @@ import java.util.List;
 import org.jbpm.db.AbstractDbTestCase;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class ExceptionHandlerDbTest extends AbstractDbTestCase {
 
@@ -57,8 +57,7 @@ public class ExceptionHandlerDbTest extends AbstractDbTestCase {
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
       + "  <node name='a'>"
       + "    <exception-handler exception-class='org.coincidence.FatalAttractionException' />"
-      + "  </node>"
-      + "</process-definition>");
+      + "  </node>" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     Node node = processDefinition.getNode("a");
@@ -71,9 +70,7 @@ public class ExceptionHandlerDbTest extends AbstractDbTestCase {
       + "  <node name='a'>"
       + "    <transition name='self' to='a'>"
       + "      <exception-handler exception-class='org.coincidence.FatalAttractionException' />"
-      + "    </transition>"
-      + "  </node>"
-      + "</process-definition>");
+      + "    </transition>" + "  </node>" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     Transition transition = processDefinition.getNode("a").getLeavingTransition("self");
@@ -89,8 +86,7 @@ public class ExceptionHandlerDbTest extends AbstractDbTestCase {
       + "    <action class='two' />"
       + "    <action class='three' />"
       + "    <action class='four' />"
-      + "  </exception-handler>"
-      + "</process-definition>");
+      + "  </exception-handler>" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     ExceptionHandler exceptionHandler = (ExceptionHandler) processDefinition.getExceptionHandlers()

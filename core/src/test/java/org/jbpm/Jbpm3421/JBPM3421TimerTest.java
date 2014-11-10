@@ -6,9 +6,6 @@ import org.jbpm.graph.def.EventCallback;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM3421TimerTest extends AbstractDbTestCase {
 
   public void testCancelEventExecutionInTaskTimer() {
@@ -16,14 +13,14 @@ public class JBPM3421TimerTest extends AbstractDbTestCase {
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlResource("org/jbpm/jbpm3421/processdef.xml");
     deployProcessDefinition(processDefinition);
     startJobExecutor();
-    
+
     // test
     ProcessInstance processInstance = jbpmContext.newProcessInstanceForUpdate("jbpm3421");
     processInstance.getContextInstance().setVariable("eventCallback", new EventCallback());
     processInstance.signal();
     assertEquals("firstNode", processInstance.getRootToken().getNode().getName());
 
-    // Wait for timer and verify that it fired.. 
+    // Wait for timer and verify that it fired..
     newTransaction();
     EventCallback.waitForEvent(Event.EVENTTYPE_TIMER);
     long processInstanceId = processInstance.getId();
@@ -31,19 +28,19 @@ public class JBPM3421TimerTest extends AbstractDbTestCase {
       .getRootToken()
       .getNode()
       .getName());
-    
+
     // Task timer does not have a transition (timer fires == do nothing)
-    //  so we signal again
-    jbpmContext.loadProcessInstance(processInstanceId).signal(); 
-    
+    // so we signal again
+    jbpmContext.loadProcessInstance(processInstanceId).signal();
+
     // Wait for process to end
     newTransaction();
     EventCallback.waitForEvent(Event.EVENTTYPE_PROCESS_END);
     assertTrue(jbpmContext.loadProcessInstance(processInstanceId).hasEnded());
-    
+
     // clean up
     stopJobExecutor();
     EventCallback.clear();
   }
-  
+
 }

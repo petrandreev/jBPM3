@@ -33,7 +33,7 @@ import org.jbpm.context.exe.variableinstance.UnpersistableInstance;
 import org.jbpm.graph.exe.ProcessInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class CheckUnpersistableVariablesOperation implements SaveOperation {
 

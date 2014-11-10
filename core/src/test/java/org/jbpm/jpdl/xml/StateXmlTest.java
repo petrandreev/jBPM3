@@ -25,54 +25,48 @@ import org.dom4j.Element;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.node.State;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class StateXmlTest extends AbstractXmlTestCase {
 
   public void testMultipleStates() {
-    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString( 
-      "<process-definition>" +
-      "  <state name='one' />" +
-      "  <state name='two' />" +
-      "  <state name='three' />" +
-      "  <state name='four' />" +
-      "</process-definition>" 
-    );
+    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <state name='one' />"
+      + "  <state name='two' />"
+      + "  <state name='three' />"
+      + "  <state name='four' />" + "</process-definition>");
     assertEquals(4, processDefinition.getNodes().size());
     assertEquals(State.class, processDefinition.getNode("one").getClass());
   }
 
   public void testState() throws Exception {
     ProcessDefinition processDefinition = new ProcessDefinition();
-    processDefinition.addNode( new State() );
-    Element element = AbstractXmlTestCase.toXmlAndParse( processDefinition, "/process-definition/state[1]" );
+    processDefinition.addNode(new State());
+    Element element = AbstractXmlTestCase.toXmlAndParse(processDefinition, "/process-definition/state[1]");
     assertNotNull(element);
     assertEquals("state", element.getName());
     assertEquals(0, element.attributeCount());
   }
-  
+
   public void testStateName() throws Exception {
     ProcessDefinition processDefinition = new ProcessDefinition();
-    processDefinition.addNode( new State("mystate") );
-    Element element = AbstractXmlTestCase.toXmlAndParse( processDefinition, "/process-definition/state[1]" );
+    processDefinition.addNode(new State("mystate"));
+    Element element = AbstractXmlTestCase.toXmlAndParse(processDefinition, "/process-definition/state[1]");
     assertNotNull(element);
     assertEquals("state", element.getName());
     assertEquals(1, element.attributeCount());
     assertEquals("mystate", element.attributeValue("name"));
   }
-  
+
   public void testThreeStatesOrder() throws Exception {
     ProcessDefinition processDefinition = new ProcessDefinition();
-    processDefinition.addNode( new State("one") );
-    processDefinition.addNode( new State("two") );
-    processDefinition.addNode( new State("three") );
-    processDefinition.addNode( new State("four") );
-    Element element = AbstractXmlTestCase.toXmlAndParse( processDefinition );
+    processDefinition.addNode(new State("one"));
+    processDefinition.addNode(new State("two"));
+    processDefinition.addNode(new State("three"));
+    processDefinition.addNode(new State("four"));
+    Element element = AbstractXmlTestCase.toXmlAndParse(processDefinition);
     assertNotNull(element);
-    assertEquals( "one", ((Element)element.selectSingleNode("/process-definition/state[1]")).attributeValue("name"));
-    assertEquals( "two", ((Element)element.selectSingleNode("/process-definition/state[2]")).attributeValue("name"));
-    assertEquals( "three", ((Element)element.selectSingleNode("/process-definition/state[3]")).attributeValue("name"));
-    assertEquals( "four", ((Element)element.selectSingleNode("/process-definition/state[4]")).attributeValue("name"));
+    assertEquals("one", ((Element) element.selectSingleNode("/process-definition/state[1]")).attributeValue("name"));
+    assertEquals("two", ((Element) element.selectSingleNode("/process-definition/state[2]")).attributeValue("name"));
+    assertEquals("three", ((Element) element.selectSingleNode("/process-definition/state[3]")).attributeValue("name"));
+    assertEquals("four", ((Element) element.selectSingleNode("/process-definition/state[4]")).attributeValue("name"));
   }
 }

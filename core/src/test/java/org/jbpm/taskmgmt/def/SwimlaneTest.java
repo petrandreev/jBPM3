@@ -23,19 +23,16 @@ package org.jbpm.taskmgmt.def;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class SwimlaneTest extends AbstractJbpmTestCase {
 
   private Swimlane buyer = new Swimlane("buyer");
   private Task laundry = new Task("laundry");
   private Task dishes = new Task("dishes");
-  
+
   public void testSwimlaneAddTask() {
     buyer.addTask(laundry);
     buyer.addTask(dishes);
-    assertEquals(2,buyer.getTasks().size());
+    assertEquals(2, buyer.getTasks().size());
     assertTrue(buyer.getTasks().contains(laundry));
     assertTrue(buyer.getTasks().contains(dishes));
   }

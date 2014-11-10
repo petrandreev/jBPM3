@@ -23,9 +23,6 @@ package org.jbpm.security.permission;
 
 import java.security.BasicPermission;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class SubmitTaskParametersPermission extends BasicPermission {
 
   private static final long serialVersionUID = 1L;

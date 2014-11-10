@@ -31,9 +31,6 @@ import org.jbpm.graph.exe.Token;
  * 
  * Must the implicit termination be based on states only or also on tasks ?
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class Wfp12ImplicitTerminationTest extends AbstractJbpmTestCase {
   
   private static ProcessDefinition implicitTerminationProcessDefinition = createImplicitTerminationDefinition();

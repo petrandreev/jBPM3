@@ -55,7 +55,7 @@ import org.jbpm.JbpmConfiguration;
  * @deprecated Replaced by {@link org.jbpm.web.JobExecutorLauncher}
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JobExecutorServlet extends HttpServlet {
 

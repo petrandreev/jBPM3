@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.criterion.Projections;
-
 import org.jbpm.context.def.ContextDefinition;
 import org.jbpm.context.exe.VariableInstance;
 import org.jbpm.context.log.VariableDeleteLog;
@@ -41,7 +40,7 @@ import org.jbpm.logging.log.ProcessLog;
  * @author Alejandro Guizar
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class CustomLoggingServiceTest extends AbstractDbTestCase {
 

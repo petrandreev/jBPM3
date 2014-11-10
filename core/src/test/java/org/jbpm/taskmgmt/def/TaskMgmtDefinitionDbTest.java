@@ -24,9 +24,6 @@ package org.jbpm.taskmgmt.def;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TaskMgmtDefinitionDbTest extends AbstractDbTestCase {
 
   ProcessDefinition processDefinition;
@@ -72,8 +69,10 @@ public class TaskMgmtDefinitionDbTest extends AbstractDbTestCase {
     processDefinition = saveAndReload(processDefinition);
     taskMgmtDefinition = processDefinition.getTaskMgmtDefinition();
 
-    assertSame(taskMgmtDefinition, taskMgmtDefinition.getSwimlane("buyer").getTaskMgmtDefinition());
-    assertSame(taskMgmtDefinition, taskMgmtDefinition.getSwimlane("seller").getTaskMgmtDefinition());
+    assertSame(taskMgmtDefinition, taskMgmtDefinition.getSwimlane("buyer")
+      .getTaskMgmtDefinition());
+    assertSame(taskMgmtDefinition, taskMgmtDefinition.getSwimlane("seller")
+      .getTaskMgmtDefinition());
   }
 
   public void testTaskMgmtDefinitionAddTasks() {
@@ -95,7 +94,8 @@ public class TaskMgmtDefinitionDbTest extends AbstractDbTestCase {
     processDefinition = saveAndReload(processDefinition);
     taskMgmtDefinition = processDefinition.getTaskMgmtDefinition();
 
-    assertSame(taskMgmtDefinition, taskMgmtDefinition.getTask("laundry").getTaskMgmtDefinition());
+    assertSame(taskMgmtDefinition, taskMgmtDefinition.getTask("laundry")
+      .getTaskMgmtDefinition());
     assertSame(taskMgmtDefinition, taskMgmtDefinition.getTask("dishes").getTaskMgmtDefinition());
   }
 }

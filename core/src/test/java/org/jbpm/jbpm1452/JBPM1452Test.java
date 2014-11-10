@@ -33,9 +33,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-1452">JBPM-1452</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM1452Test extends AbstractDbTestCase {
 
   protected JbpmConfiguration getJbpmConfiguration() {

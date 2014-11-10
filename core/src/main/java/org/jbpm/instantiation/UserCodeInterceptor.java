@@ -9,14 +9,17 @@ import org.jbpm.taskmgmt.def.TaskControllerHandler;
 import org.jbpm.taskmgmt.exe.Assignable;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface UserCodeInterceptor {
-  
+
   void executeAction(Action action, ExecutionContext executionContext) throws Exception;
-  void executeAssignment(AssignmentHandler assignmentHandler, Assignable assignable, ExecutionContext executionContext) throws Exception;
-  void executeTaskControllerInitialization(TaskControllerHandler taskControllerHandler, TaskInstance taskInstance, ContextInstance contextInstance, Token token);
-  void executeTaskControllerSubmission(TaskControllerHandler taskControllerHandler, TaskInstance taskInstance, ContextInstance contextInstance, Token token);
+
+  void executeAssignment(AssignmentHandler assignmentHandler, Assignable assignable,
+    ExecutionContext executionContext) throws Exception;
+
+  void executeTaskControllerInitialization(TaskControllerHandler taskControllerHandler,
+    TaskInstance taskInstance, ContextInstance contextInstance, Token token);
+
+  void executeTaskControllerSubmission(TaskControllerHandler taskControllerHandler,
+    TaskInstance taskInstance, ContextInstance contextInstance, Token token);
 
 }

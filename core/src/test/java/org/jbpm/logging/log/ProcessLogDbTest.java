@@ -29,7 +29,7 @@ import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.exe.Token;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class ProcessLogDbTest extends AbstractDbTestCase {
 

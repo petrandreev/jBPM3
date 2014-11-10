@@ -24,7 +24,6 @@ package org.jbpm.jpdl.xml;
 import java.io.StringReader;
 
 import org.dom4j.Element;
-
 import org.jbpm.graph.def.Action;
 import org.jbpm.graph.def.Event;
 import org.jbpm.graph.def.Node;
@@ -35,9 +34,6 @@ import org.jbpm.jpdl.JpdlException;
 
 // TODO create validation paths for each element positive test and negative test
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ActionValidatingXmlTest extends AbstractXmlTestCase {
 
   private static final String jpdlNamespace = "urn:jbpm.org:jpdl-3.2";

@@ -1,38 +1,28 @@
 package org.jbpm.db;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
-public class JbpmContextGetDbTest extends AbstractDbTestCase
-{
+public class JbpmContextGetDbTest extends AbstractDbTestCase {
 
-  public void testUnexistingProcessInstance()
-  {
+  public void testUnexistingProcessInstance() {
     assertNull(jbpmContext.getProcessInstance(234234));
   }
 
-  public void testUnexistingProcessInstanceForUpdate()
-  {
+  public void testUnexistingProcessInstanceForUpdate() {
     assertNull(jbpmContext.getProcessInstanceForUpdate(234234));
   }
 
-  public void testUnexistingToken()
-  {
+  public void testUnexistingToken() {
     assertNull(jbpmContext.getToken(234234));
   }
 
-  public void testUnexistingTokenForUpdate()
-  {
+  public void testUnexistingTokenForUpdate() {
     assertNull(jbpmContext.getTokenForUpdate(234234));
   }
 
-  public void testUnexistingTaskInstance()
-  {
+  public void testUnexistingTaskInstance() {
     assertNull(jbpmContext.getTaskInstance(234234));
   }
 
-  public void testUnexistingTaskInstanceForUpdate()
-  {
+  public void testUnexistingTaskInstanceForUpdate() {
     assertNull(jbpmContext.getTaskInstanceForUpdate(234234));
   }
 }

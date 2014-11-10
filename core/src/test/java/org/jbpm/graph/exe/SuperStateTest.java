@@ -24,24 +24,17 @@ package org.jbpm.graph.exe;
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class SuperStateTest extends AbstractJbpmTestCase {
 
   public void testTakeSuperStateTransition() {
-    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
-      "<process-definition>" +
-      "  <start-state name='start'>" +
-      "    <transition to='superstate/insidesuperstate'/>" +
-      "  </start-state>" +
-      "  <super-state name='superstate'>" +
-      "    <state name='insidesuperstate' />" +
-      "    <transition to='s' />" +
-      "  </super-state>" +
-      "  <state name='s' />" +
-      "</process-definition>"
-    );
+    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <start-state name='start'>"
+      + "    <transition to='superstate/insidesuperstate'/>"
+      + "  </start-state>"
+      + "  <super-state name='superstate'>"
+      + "    <state name='insidesuperstate' />"
+      + "    <transition to='s' />"
+      + "  </super-state>" + "  <state name='s' />" + "</process-definition>");
     // create the process instance
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
     Token token = processInstance.getRootToken();
@@ -52,16 +45,12 @@ public class SuperStateTest extends AbstractJbpmTestCase {
   }
 
   public void testTransitionToSuperState() {
-    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
-      "<process-definition>" +
-      "  <start-state name='start'>" +
-      "    <transition to='superstate'/>" +
-      "  </start-state>" +
-      "  <super-state name='superstate'>" +
-      "    <state name='insidesuperstate' />" +
-      "  </super-state>" +
-      "</process-definition>"
-    );
+    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <start-state name='start'>"
+      + "    <transition to='superstate'/>"
+      + "  </start-state>"
+      + "  <super-state name='superstate'>"
+      + "    <state name='insidesuperstate' />" + "  </super-state>" + "</process-definition>");
     // create the process instance
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
     Token token = processInstance.getRootToken();

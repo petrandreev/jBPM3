@@ -25,26 +25,25 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class EndStateTest extends AbstractJbpmTestCase {
 
   public void testEndEvent() {
     // create the state definition graph
-    ProcessDefinition sd = new ProcessDefinition(
-        new String[]{"start-state start", 
-                     "end-state end"}, 
-        new String[]{"start --> end"});
-    
+    ProcessDefinition sd = new ProcessDefinition(new String[] {
+      "start-state start", "end-state end"
+    }, new String[] {
+      "start --> end"
+    });
+
     // run the process
     ProcessInstance si = new ProcessInstance(sd);
     si.signal();
     try {
       si.signal();
       fail("expected exception");
-    } catch (IllegalStateException e) {
-      //OK
+    }
+    catch (IllegalStateException e) {
+      // OK
     }
   }
 

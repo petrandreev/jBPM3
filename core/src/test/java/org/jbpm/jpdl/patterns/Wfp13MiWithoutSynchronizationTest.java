@@ -36,9 +36,6 @@ import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
  * is a combination of unsynchronized tasks and runtime calculation of the
  * tasks.
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class Wfp13MiWithoutSynchronizationTest extends AbstractJbpmTestCase {
 
   private ProcessDefinition pd;

@@ -23,14 +23,12 @@ package org.jbpm.instantiation;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DefaultInstantiatorTest extends AbstractJbpmTestCase {
-  
+
   public DefaultInstantiator defaultInstantiator = new DefaultInstantiator();
-  
-  public static class DefaultClassWithDefaultConstructor {}
+
+  public static class DefaultClassWithDefaultConstructor {
+  }
 
   public void testDefaultConstructor() {
     DefaultClassWithDefaultConstructor dcwdc = (DefaultClassWithDefaultConstructor) defaultInstantiator.instantiate(DefaultClassWithDefaultConstructor.class, null);

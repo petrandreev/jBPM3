@@ -33,7 +33,7 @@ import org.jbpm.graph.node.TaskNode;
 import org.jbpm.taskmgmt.def.Task;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class RuntimeTaskCreationTest extends AbstractJbpmTestCase {
 

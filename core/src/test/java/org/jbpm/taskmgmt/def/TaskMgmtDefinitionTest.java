@@ -23,17 +23,14 @@ package org.jbpm.taskmgmt.def;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TaskMgmtDefinitionTest extends AbstractJbpmTestCase {
-  
+
   TaskMgmtDefinition taskMgmtDefinition = new TaskMgmtDefinition();
   Swimlane buyer = new Swimlane("buyer");
   Swimlane seller = new Swimlane("seller");
   Task laudry = new Task("laundry");
   Task dishes = new Task("dishes");
-  
+
   public void testTaskMgmtDefinitionAddSwimlanes() {
     taskMgmtDefinition.addSwimlane(buyer);
     taskMgmtDefinition.addSwimlane(seller);
@@ -56,7 +53,7 @@ public class TaskMgmtDefinitionTest extends AbstractJbpmTestCase {
     assertTrue(taskMgmtDefinition.getTasks().containsValue(laudry));
     assertTrue(taskMgmtDefinition.getTasks().containsValue(dishes));
   }
-  
+
   public void testTaskMgmtDefinitionAddTasksInverseReference() {
     taskMgmtDefinition.addTask(laudry);
     taskMgmtDefinition.addTask(dishes);

@@ -25,9 +25,6 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class PersistenceConfigurationDbTest extends AbstractJbpmTestCase {
 
   public void testDisableHibernateTransactions() {
@@ -38,10 +35,7 @@ public class PersistenceConfigurationDbTest extends AbstractJbpmTestCase {
       + "        <bean class='org.jbpm.persistence.db.DbPersistenceServiceFactory'>"
       + "          <field name='isTransactionEnabled'><false /></field>"
       + "        </bean>"
-      + "      </factory>"
-      + "    </service>"
-      + "  </jbpm-context>"
-      + "</jbpm-configuration>");
+      + "      </factory>" + "    </service>" + "  </jbpm-context>" + "</jbpm-configuration>");
 
     DbPersistenceServiceFactory dbPersistenceServiceFactory = (DbPersistenceServiceFactory) jbpmConfiguration.getServiceFactory("persistence");
     assertFalse(dbPersistenceServiceFactory.isTransactionEnabled());

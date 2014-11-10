@@ -24,15 +24,11 @@ package org.jbpm.graph.node;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class EndStateDbTest extends AbstractDbTestCase {
 
   public void testEndState() {
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
-      + "  <end-state name='end' />"
-      + "</process-definition>");
+      + "  <end-state name='end' />" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     EndState endState = (EndState) processDefinition.getNode("end");
@@ -41,8 +37,7 @@ public class EndStateDbTest extends AbstractDbTestCase {
 
   public void testEndCompleteProcess() {
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
-      + "  <end-state name='end' end-complete-process='yes' />"
-      + "</process-definition>");
+      + "  <end-state name='end' end-complete-process='yes' />" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     EndState endState = (EndState) processDefinition.getNode("end");

@@ -32,9 +32,6 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
  * unset instead
  * 
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DefaultTaskInstanceFactoryImpl implements TaskInstanceFactory {
 
   private static final long serialVersionUID = 1L;

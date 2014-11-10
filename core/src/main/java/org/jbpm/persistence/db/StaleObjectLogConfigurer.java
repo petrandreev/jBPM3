@@ -24,9 +24,6 @@ package org.jbpm.persistence.db;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class StaleObjectLogConfigurer {
 
   private static final Log log = LogFactory.getLog(StaleObjectLogConfigurer.class);

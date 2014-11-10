@@ -23,16 +23,14 @@ package org.jbpm.instantiation;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ConstructorInstantiatorTest extends AbstractJbpmTestCase {
 
   public ConstructorInstantiator constructorInstantiator = new ConstructorInstantiator();
-  
+
   public static class StringConstructorClass {
     String input = null;
-    public StringConstructorClass( String input ) {
+
+    public StringConstructorClass(String input) {
       this.input = input;
     }
   }
@@ -40,6 +38,6 @@ public class ConstructorInstantiatorTest extends AbstractJbpmTestCase {
   public void testConstructorInstantiator() {
     String configuration = "hello";
     StringConstructorClass o = (StringConstructorClass) constructorInstantiator.instantiate(StringConstructorClass.class, configuration);
-    assertEquals("hello", o.input );
+    assertEquals("hello", o.input);
   }
 }

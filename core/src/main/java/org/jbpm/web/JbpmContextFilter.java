@@ -36,9 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JbpmContextFilter implements Filter, Serializable {
 
   private static final long serialVersionUID = 2L;

@@ -27,9 +27,6 @@ import javax.sql.DataSource;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JdbcProxyTest extends AbstractJbpmTestCase {
 
   public void testProxy() throws Exception {

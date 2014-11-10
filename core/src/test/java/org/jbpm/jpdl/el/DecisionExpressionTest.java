@@ -5,9 +5,6 @@ import org.jbpm.JbpmException;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DecisionExpressionTest extends AbstractJbpmTestCase {
 
   public static class Customer {
@@ -32,19 +29,12 @@ public class DecisionExpressionTest extends AbstractJbpmTestCase {
   }
 
   public ProcessDefinition createCustomerPriorityProcess() {
-    return ProcessDefinition.parseXmlString("<process-definition>"
-        + "  <start-state>"
-        + "    <transition to='d'/>"
-        + "  </start-state>"
-        + "  <decision name='d' expression='#{customer.priority}'>"
-        + "    <transition name='LOW' to='l' />"
-        + "    <transition name='MEDIUM' to='m' />"
-        + "    <transition name='HIGH' to='h' />"
-        + "  </decision>"
-        + "  <state name='l' />"
-        + "  <state name='m' />"
-        + "  <state name='h' />"
-        + "</process-definition>");
+    return ProcessDefinition.parseXmlString("<process-definition>" + "  <start-state>"
+      + "    <transition to='d'/>" + "  </start-state>"
+      + "  <decision name='d' expression='#{customer.priority}'>"
+      + "    <transition name='LOW' to='l' />" + "    <transition name='MEDIUM' to='m' />"
+      + "    <transition name='HIGH' to='h' />" + "  </decision>" + "  <state name='l' />"
+      + "  <state name='m' />" + "  <state name='h' />" + "</process-definition>");
   }
 
   public void testCustomerPriorityLow() {
@@ -90,17 +80,13 @@ public class DecisionExpressionTest extends AbstractJbpmTestCase {
   }
 
   public ProcessDefinition createBooleanExpressionProcess() {
-    return ProcessDefinition.parseXmlString("<process-definition>"
-        + "  <start-state>"
-        + "    <transition to='d'/>"
-        + "  </start-state>"
-        + "  <decision name='d' expression='#{customer.number > 5}'>"
-        + "    <transition name='true' to='high-numbered-customer' />"
-        + "    <transition name='false' to='low-numbered-customer' />"
-        + "  </decision>"
-        + "  <state name='high-numbered-customer' />"
-        + "  <state name='low-numbered-customer' />"
-        + "</process-definition>");
+    return ProcessDefinition.parseXmlString("<process-definition>" + "  <start-state>"
+      + "    <transition to='d'/>" + "  </start-state>"
+      + "  <decision name='d' expression='#{customer.number > 5}'>"
+      + "    <transition name='true' to='high-numbered-customer' />"
+      + "    <transition name='false' to='low-numbered-customer' />" + "  </decision>"
+      + "  <state name='high-numbered-customer' />"
+      + "  <state name='low-numbered-customer' />" + "</process-definition>");
   }
 
   public void testBooleanExpressionTrue() {
@@ -120,23 +106,16 @@ public class DecisionExpressionTest extends AbstractJbpmTestCase {
   }
 
   public ProcessDefinition createConditionProcess() {
-    return ProcessDefinition.parseXmlString("<process-definition>"
-        + "  <start-state>"
-        + "    <transition to='d'/>"
-        + "  </start-state>"
-        + "  <decision name='d'>"
-        + "    <transition to='high-numbered-customer'>"
-        + "      <condition  expression='#{customer.number > 5}' />"
-        + "    </transition>"
-        + "    <transition to='medium-numbered-customer'>"
-        + "      <condition expression='#{customer.number == 5}' />"
-        + "    </transition>"
-        + "    <transition to='low-numbered-customer' />"
-        + "  </decision>"
-        + "  <state name='high-numbered-customer' />"
-        + "  <state name='medium-numbered-customer' />"
-        + "  <state name='low-numbered-customer' />"
-        + "</process-definition>");
+    return ProcessDefinition.parseXmlString("<process-definition>" + "  <start-state>"
+      + "    <transition to='d'/>" + "  </start-state>" + "  <decision name='d'>"
+      + "    <transition to='high-numbered-customer'>"
+      + "      <condition  expression='#{customer.number > 5}' />" + "    </transition>"
+      + "    <transition to='medium-numbered-customer'>"
+      + "      <condition expression='#{customer.number == 5}' />" + "    </transition>"
+      + "    <transition to='low-numbered-customer' />" + "  </decision>"
+      + "  <state name='high-numbered-customer' />"
+      + "  <state name='medium-numbered-customer' />"
+      + "  <state name='low-numbered-customer' />" + "</process-definition>");
   }
 
   public void testConditionHigh() {

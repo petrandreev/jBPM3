@@ -37,7 +37,7 @@ import org.jbpm.util.ClassLoaderUtil;
 import org.jbpm.util.IoUtil;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class ProcessArchiveDeploymentDbTest extends AbstractDbTestCase {
 

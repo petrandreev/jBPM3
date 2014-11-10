@@ -24,7 +24,7 @@ package org.jbpm.mock;
 import java.util.List;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public interface Recorded {
 

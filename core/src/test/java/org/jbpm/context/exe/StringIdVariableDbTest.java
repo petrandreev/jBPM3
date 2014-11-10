@@ -32,9 +32,6 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.jbpm.svc.Services;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class StringIdVariableDbTest extends AbstractDbTestCase {
 
   @Override

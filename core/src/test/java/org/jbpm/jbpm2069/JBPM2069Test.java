@@ -34,9 +34,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2069">JBPM-2069</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM2069Test extends AbstractJbpmTestCase {
 
   ContextInstance contextInstance;

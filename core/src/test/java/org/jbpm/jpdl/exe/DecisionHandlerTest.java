@@ -28,9 +28,6 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.node.DecisionHandler;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DecisionHandlerTest extends AbstractJbpmTestCase {
 
   public static class LeadEvaluator implements DecisionHandler {

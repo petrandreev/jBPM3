@@ -41,7 +41,7 @@ import org.jbpm.jpdl.xml.Problem;
  * @author Marco Rietveld
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class SOA2010Test extends AbstractDbTestCase {
   

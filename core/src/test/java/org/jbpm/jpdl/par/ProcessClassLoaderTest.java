@@ -19,9 +19,6 @@ import org.jbpm.util.ClassLoaderUtil;
  * @author Tom Baeyens
  * @author bernd.ruecker@camunda.com
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ProcessClassLoaderTest extends AbstractJbpmTestCase {
 
   public static class TestClassLoader extends ClassLoader {
@@ -69,9 +66,7 @@ public class ProcessClassLoaderTest extends AbstractJbpmTestCase {
       + "    </transition>"
       + "  </start-state>"
       + "  <state name='state'>"
-      + "    <transition to='end'/>"
-      + "  </state>"
-      + "</process-definition>");
+      + "    <transition to='end'/>" + "  </state>" + "</process-definition>");
 
     // create the process instance
     ProcessInstance processInstance = new ProcessInstance(processDefinition);
@@ -120,9 +115,7 @@ public class ProcessClassLoaderTest extends AbstractJbpmTestCase {
         + "    </transition>"
         + "  </start-state>"
         + "  <state name='state'>"
-        + "    <transition to='end'/>"
-        + "  </state>"
-        + "</process-definition>");
+        + "    <transition to='end'/>" + "  </state>" + "</process-definition>");
 
       // create the process instance
       ProcessInstance processInstance = new ProcessInstance(processDefinition);
@@ -180,9 +173,7 @@ public class ProcessClassLoaderTest extends AbstractJbpmTestCase {
         + "    </transition>"
         + "  </start-state>"
         + "  <state name='state'>"
-        + "    <transition to='end'/>"
-        + "  </state>"
-        + "</process-definition>");
+        + "    <transition to='end'/>" + "  </state>" + "</process-definition>");
 
       // create the process instance
       ProcessInstance processInstance = new ProcessInstance(processDefinition);

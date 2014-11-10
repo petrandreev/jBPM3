@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.jbpm.JbpmContext;
 import org.jbpm.calendar.BusinessCalendar;
 import org.jbpm.calendar.Duration;
@@ -17,9 +16,6 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class Timer extends Job {
 
   private static final long serialVersionUID = 1L;

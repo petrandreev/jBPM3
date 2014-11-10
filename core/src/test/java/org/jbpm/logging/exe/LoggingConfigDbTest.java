@@ -9,7 +9,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.logging.log.ProcessLog;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class LoggingConfigDbTest extends AbstractDbTestCase {
 
@@ -26,16 +26,14 @@ public class LoggingConfigDbTest extends AbstractDbTestCase {
   }
 
   public void testLoggingconfiguration() {
-    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
-      "<process-definition name='test-log-process'>" +
-      "  <start-state>" +
-      "    <transition to='s' />" +
-      "  </start-state>" +
-      "  <state name='s'>" +
-      "    <transition to='s' />" +
-      "  </state>" +
-      "</process-definition>" 
-    );
+    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition name='test-log-process'>"
+      + "  <start-state>"
+      + "    <transition to='s' />"
+      + "  </start-state>"
+      + "  <state name='s'>"
+      + "    <transition to='s' />"
+      + "  </state>"
+      + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = jbpmContext.newProcessInstance("test-log-process");
@@ -43,7 +41,7 @@ public class LoggingConfigDbTest extends AbstractDbTestCase {
     processInstance.signal();
 
     processInstance = saveAndReload(processInstance);
-    
+
     newTransaction();
     List logs = session.createCriteria(ProcessLog.class).list();
     assertEquals(0, logs.size());

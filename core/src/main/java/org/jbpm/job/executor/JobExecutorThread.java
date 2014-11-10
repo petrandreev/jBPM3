@@ -15,14 +15,11 @@ import org.jbpm.job.Job;
 import org.jbpm.persistence.db.DbPersistenceService;
 import org.jbpm.persistence.db.StaleObjectLogConfigurer;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JobExecutorThread extends Thread implements Deactivable {
 
   private final JobExecutor jobExecutor;
   private volatile boolean active = true;
-  private Random random = new Random() ;
+  private Random random = new Random();
 
   public JobExecutorThread(String name, JobExecutor jobExecutor) {
     super(jobExecutor.getThreadGroup(), name);
@@ -60,7 +57,7 @@ public class JobExecutorThread extends Thread implements Deactivable {
       // reattach job to persistence context
       JobSession jobSession = jbpmContext.getJobSession();
       jobSession.reattachJob(job);
-      
+
       // register process instance for automatic save
       // https://jira.jboss.org/browse/JBPM-1015
       ProcessInstance processInstance = job.getProcessInstance();
@@ -90,7 +87,8 @@ public class JobExecutorThread extends Thread implements Deactivable {
   private void saveJobException(Job job, Exception exception) {
     // if this is a locking exception, keep it quiet
     if (DbPersistenceService.isLockingException(exception)) {
-      StaleObjectLogConfigurer.getStaleObjectExceptionsLog().error("failed to execute " + job, exception);
+      StaleObjectLogConfigurer.getStaleObjectExceptionsLog()
+        .error("failed to execute " + job, exception);
     }
     else {
       log.error("failed to execute " + job, exception);
@@ -110,8 +108,8 @@ public class JobExecutorThread extends Thread implements Deactivable {
       job.setLockOwner(null);
       job.setLockTime(null);
       int waitPeriod = jobExecutor.getRetryInterval() / 2;
-      waitPeriod += random.nextInt(waitPeriod) ;
-      job.setDueDate(new Date(System.currentTimeMillis() + waitPeriod)) ;
+      waitPeriod += random.nextInt(waitPeriod);
+      job.setDueDate(new Date(System.currentTimeMillis() + waitPeriod));
     }
     catch (RuntimeException e) {
       jbpmContext.setRollbackOnly();
@@ -144,9 +142,8 @@ public class JobExecutorThread extends Thread implements Deactivable {
       // unlock job
       job.setLockOwner(null);
       job.setLockTime(null);
-      if (job.getException() != null)
-      {
-    	  job.setRetries(job.getRetries()+1) ;
+      if (job.getException() != null) {
+        job.setRetries(job.getRetries() + 1);
       }
     }
     catch (RuntimeException e) {
@@ -180,13 +177,11 @@ public class JobExecutorThread extends Thread implements Deactivable {
   }
 
   private static final Log log = LogFactory.getLog(JobExecutorThread.class);
-  
+
   /**
-   * ====================
-   * CRUFT! CRUFT! CRUFT!
-   * ====================
+   * ==================== CRUFT! CRUFT! CRUFT! ====================
    */
-  
+
   /**
    * @deprecated use {@link #JobExecutorThread(String, JobExecutor)} instead
    */
@@ -196,7 +191,7 @@ public class JobExecutorThread extends Thread implements Deactivable {
     super(jobExecutor.getThreadGroup(), name);
     this.jobExecutor = jobExecutor;
   }
- 
+
   /**
    * @deprecated As of jBPM 3.2.3, replaced by {@link #deactivate()}
    */

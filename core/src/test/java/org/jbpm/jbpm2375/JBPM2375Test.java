@@ -14,9 +14,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author Alejandro Guizar
  * @since 30-Jun-2009
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM2375Test extends AbstractDbTestCase {
 
   static boolean throwError;
@@ -30,19 +27,12 @@ public class JBPM2375Test extends AbstractDbTestCase {
     + "  </start-state>"
     + "  <state name='state1'>"
     + "    <timer name='moveToNextStateAfter1second' duedate='1 second' transition='to_state2'/>"
-    + "    <transition to='state2' name='to_state2'/>"
-    + "  </state>"
+    + "    <transition to='state2' name='to_state2'/>" + "  </state>"
     + "  <state name='state2'>"
     + "    <timer name='moveToEndAfter1second' duedate='1 second' transition='to_end'/>"
-    + "    <event type='node-enter'>"
-    + "      <action name='exceptionTest' class='"
-    + TimerExceptionAction.class.getName()
-    + "'>"
-    + "      </action>"
-    + "    </event>"
-    + "    <transition to='end' name='to_end'/>"
-    + "  </state>"
-    + "  <end-state name='end' />"
+    + "    <event type='node-enter'>" + "      <action name='exceptionTest' class='"
+    + TimerExceptionAction.class.getName() + "'>" + "      </action>" + "    </event>"
+    + "    <transition to='end' name='to_end'/>" + "  </state>" + "  <end-state name='end' />"
     + "</process-definition>";
 
   protected void setUp() throws Exception {

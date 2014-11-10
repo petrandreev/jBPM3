@@ -27,7 +27,7 @@ import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.node.State;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class MultipleProcessDefinitionEventsDbTest extends AbstractDbTestCase {
 

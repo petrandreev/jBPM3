@@ -5,9 +5,6 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.job.executor.JobExecutor;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JobExecutorCustomizationTest extends AbstractDbTestCase {
 
   protected String getJbpmTestConfig() {
@@ -27,8 +24,7 @@ public class JobExecutorCustomizationTest extends AbstractDbTestCase {
       + "  <start-state name='start'>"
       + "    <transition to='end'/>"
       + "  </start-state>"
-      + "  <end-state name='end' async='true' />"
-      + "</process-definition>");
+      + "  <end-state name='end' async='true' />" + "</process-definition>");
     deployProcessDefinition(processDefinition);
 
     ProcessInstance processInstance = jbpmContext.newProcessInstanceForUpdate("custom job exec");

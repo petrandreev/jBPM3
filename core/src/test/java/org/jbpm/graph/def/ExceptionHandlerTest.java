@@ -28,9 +28,6 @@ import org.jbpm.graph.exe.ProcessInstance;
 /**
  * @author bernd.ruecker@camunda.com
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ExceptionHandlerTest extends AbstractJbpmTestCase {
 
   public static class NoExceptionAction implements ActionHandler {

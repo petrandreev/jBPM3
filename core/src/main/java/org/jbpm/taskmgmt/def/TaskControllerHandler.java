@@ -27,9 +27,6 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface TaskControllerHandler extends Serializable {
 
   /**

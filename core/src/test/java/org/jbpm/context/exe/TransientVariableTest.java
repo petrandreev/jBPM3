@@ -26,9 +26,6 @@ import org.jbpm.context.def.ContextDefinition;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TransientVariableTest extends AbstractJbpmTestCase {
 
   ProcessDefinition processDefinition = null;

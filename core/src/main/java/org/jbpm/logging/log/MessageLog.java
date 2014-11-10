@@ -21,15 +21,12 @@
  */
 package org.jbpm.logging.log;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class MessageLog extends ProcessLog {
 
   private static final long serialVersionUID = 1L;
-  
+
   String message = null;
-  
+
   public MessageLog() {
   }
 
@@ -38,7 +35,7 @@ public class MessageLog extends ProcessLog {
   }
 
   public String toString() {
-    return "message["+message+"]";
+    return "message[" + message + "]";
   }
 
   public String getMessage() {

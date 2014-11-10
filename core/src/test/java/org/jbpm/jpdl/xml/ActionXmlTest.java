@@ -35,7 +35,7 @@ import org.jbpm.graph.node.State;
 import org.jbpm.instantiation.Delegation;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class ActionXmlTest extends AbstractXmlTestCase {
   

@@ -23,11 +23,8 @@ package org.jbpm.jpdl.par;
 
 import java.io.Serializable;
 
-import org.jbpm.graph.def.*;
+import org.jbpm.graph.def.ProcessDefinition;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface ProcessArchiveParser extends Serializable {
 
   ProcessDefinition readFromArchive(ProcessArchive archive, ProcessDefinition processDefinition);

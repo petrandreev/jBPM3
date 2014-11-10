@@ -35,9 +35,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author Alejandro Guizar
  * @since 18-Feb-2009
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class PerformanceTest extends AbstractDbTestCase {
 
   private static final int WARMUP_INSTANCES = 100;

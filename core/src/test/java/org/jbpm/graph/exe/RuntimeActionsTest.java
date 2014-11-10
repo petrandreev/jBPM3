@@ -27,9 +27,6 @@ import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.def.Event;
 import org.jbpm.graph.def.ProcessDefinition;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class RuntimeActionsTest extends AbstractJbpmTestCase {
   
   private ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(

@@ -29,7 +29,7 @@ import org.jbpm.graph.def.Event;
 import org.jbpm.graph.def.ProcessDefinition;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class ActionDbTest extends AbstractDbTestCase {
 

@@ -32,7 +32,7 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.logging.exe.LoggingInstance;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class ActionLogTest extends AbstractJbpmTestCase {
   

@@ -24,9 +24,6 @@ package org.jbpm.security.authorization;
 import org.jbpm.svc.Service;
 import org.jbpm.svc.ServiceFactory;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class IdentityAuthorizationServiceFactory implements ServiceFactory {
 
   private static final long serialVersionUID = 1L;

@@ -26,9 +26,6 @@ import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.def.DelegationException;
 import org.jbpm.graph.def.ProcessDefinition;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ActionExceptionsTest extends AbstractJbpmTestCase {
 
   public static class FailingAction implements ActionHandler {

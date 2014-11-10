@@ -33,7 +33,7 @@ import org.jbpm.logging.LoggingService;
 import org.jbpm.logging.log.ProcessLog;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class SaveLogsOperation implements SaveOperation {
 

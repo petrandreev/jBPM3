@@ -30,9 +30,6 @@ import org.jbpm.job.Timer;
 import org.jbpm.job.executor.JobExecutor;
 import org.jbpm.scheduler.SchedulerService;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DbSchedulerService implements SchedulerService {
 
   private final JbpmContext jbpmContext;

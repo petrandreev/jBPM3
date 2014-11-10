@@ -31,9 +31,6 @@ import org.jbpm.JbpmException;
 import org.jbpm.jcr.impl.AbstractJcrServiceFactory;
 import org.jbpm.util.ClassLoaderUtil;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JackrabbitJcrServiceFactory extends AbstractJcrServiceFactory {
 
   private static final long serialVersionUID = 1L;

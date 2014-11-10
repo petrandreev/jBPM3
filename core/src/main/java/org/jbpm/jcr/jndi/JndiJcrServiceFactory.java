@@ -26,9 +26,6 @@ import javax.jcr.Repository;
 import org.jbpm.jcr.impl.AbstractJcrServiceFactory;
 import org.jbpm.util.JndiUtil;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JndiJcrServiceFactory extends AbstractJcrServiceFactory {
 
   private static final long serialVersionUID = 1L;

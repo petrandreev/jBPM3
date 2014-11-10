@@ -27,9 +27,6 @@ import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.scheduler.def.CancelTimerAction;
 import org.jbpm.scheduler.def.CreateTimerAction;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TimerXmlTest extends AbstractJbpmTestCase {
 
   public void testTimerCreateAction() {

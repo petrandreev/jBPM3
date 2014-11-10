@@ -24,34 +24,28 @@ package org.jbpm.graph.log;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.exe.Token;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
-public class TokenLogsDbTest extends AbstractDbTestCase
-{
+public class TokenLogsDbTest extends AbstractDbTestCase {
 
-  public void testTokenCreateLog()
-  {
+  public void testTokenCreateLog() {
     Token token = new Token();
     session.save(token);
 
     TokenCreateLog tokenCreateLog = new TokenCreateLog(token);
-    tokenCreateLog = (TokenCreateLog)saveAndReload(tokenCreateLog);
+    tokenCreateLog = (TokenCreateLog) saveAndReload(tokenCreateLog);
     assertNotNull(tokenCreateLog.getChild());
 
     jbpmContext.getSession().delete(tokenCreateLog);
     jbpmContext.getSession().delete(token);
   }
 
-  public void testTokenEndLog()
-  {
+  public void testTokenEndLog() {
     Token token = new Token();
     session.save(token);
 
     TokenEndLog tokenEndLog = new TokenEndLog(token);
-    tokenEndLog = (TokenEndLog)saveAndReload(tokenEndLog);
+    tokenEndLog = (TokenEndLog) saveAndReload(tokenEndLog);
     assertNotNull(tokenEndLog.getChild());
-    
+
     jbpmContext.getSession().delete(tokenEndLog);
     jbpmContext.getSession().delete(token);
   }

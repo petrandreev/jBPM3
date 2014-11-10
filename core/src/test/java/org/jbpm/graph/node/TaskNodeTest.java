@@ -24,11 +24,8 @@ package org.jbpm.graph.node;
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.taskmgmt.def.Task;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TaskNodeTest extends AbstractJbpmTestCase {
-  
+
   private TaskNode taskNode = new TaskNode();
   private Task laundry = new Task("laundry");
   private Task dishes = new Task("dishes");
@@ -36,6 +33,6 @@ public class TaskNodeTest extends AbstractJbpmTestCase {
   public void testAddTask() {
     taskNode.addTask(laundry);
     taskNode.addTask(dishes);
-    assertEquals(2,taskNode.getTasks().size());
+    assertEquals(2, taskNode.getTasks().size());
   }
 }

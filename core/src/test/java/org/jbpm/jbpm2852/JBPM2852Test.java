@@ -47,7 +47,7 @@ import org.subethamail.wiser.WiserMessage;
  * @author Alejandro Guizar
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class JBPM2852Test extends AbstractJbpmTestCase {
 

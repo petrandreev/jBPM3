@@ -26,7 +26,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class Problem implements Serializable {
 

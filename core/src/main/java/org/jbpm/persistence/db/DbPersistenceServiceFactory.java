@@ -29,7 +29,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-
 import org.jbpm.JbpmConfiguration.Configs;
 import org.jbpm.db.JbpmSchema;
 import org.jbpm.db.hibernate.HibernateHelper;
@@ -37,9 +36,6 @@ import org.jbpm.svc.Service;
 import org.jbpm.svc.ServiceFactory;
 import org.jbpm.util.JndiUtil;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DbPersistenceServiceFactory implements ServiceFactory {
 
   private static final long serialVersionUID = 1L;

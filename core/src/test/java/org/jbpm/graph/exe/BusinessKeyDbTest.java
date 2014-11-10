@@ -3,9 +3,6 @@ package org.jbpm.graph.exe;
 import org.jbpm.db.AbstractDbTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class BusinessKeyDbTest extends AbstractDbTestCase {
 
   public void testSimpleBusinessKey() {

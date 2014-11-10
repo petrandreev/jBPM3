@@ -32,9 +32,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2959">JBPM-2959</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM2959Test extends AbstractDbTestCase {
 
   private static final int INSTANCE_COUNT = 10;

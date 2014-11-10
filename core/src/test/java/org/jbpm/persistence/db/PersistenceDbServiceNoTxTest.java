@@ -8,9 +8,6 @@ import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.persistence.JbpmPersistenceException;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class PersistenceDbServiceNoTxTest extends AbstractJbpmTestCase {
 
   JbpmConfiguration jbpmConfiguration;
@@ -20,21 +17,20 @@ public class PersistenceDbServiceNoTxTest extends AbstractJbpmTestCase {
   protected void setUp() throws Exception {
     super.setUp();
     jbpmConfiguration = JbpmConfiguration.parseXmlString("<jbpm-configuration>"
-        + "  <jbpm-context>"
-        + "    <service name='tx' factory='org.jbpm.tx.TxServiceFactory' />"
-        + "    <service name='persistence'>"
-        + "      <factory>"
-        + "        <bean class='org.jbpm.persistence.db.DbPersistenceServiceFactory'>"
-        + "          <field name='isTransactionEnabled'><false /></field>"
-        + "        </bean>"
-        + "      </factory>"
-        + "    </service>"
-        + "    <service name='message' factory='org.jbpm.msg.db.DbMessageServiceFactory' />"
-        + "    <service name='scheduler' factory='org.jbpm.scheduler.db.DbSchedulerServiceFactory' />"
-        + "    <service name='logging' factory='org.jbpm.logging.db.DbLoggingServiceFactory' />"
-        + "    <service name='authentication' factory='org.jbpm.security.authentication.DefaultAuthenticationServiceFactory' />"
-        + "  </jbpm-context>"
-        + "</jbpm-configuration>");
+      + "  <jbpm-context>"
+      + "    <service name='tx' factory='org.jbpm.tx.TxServiceFactory' />"
+      + "    <service name='persistence'>"
+      + "      <factory>"
+      + "        <bean class='org.jbpm.persistence.db.DbPersistenceServiceFactory'>"
+      + "          <field name='isTransactionEnabled'><false /></field>"
+      + "        </bean>"
+      + "      </factory>"
+      + "    </service>"
+      + "    <service name='message' factory='org.jbpm.msg.db.DbMessageServiceFactory' />"
+      + "    <service name='scheduler' factory='org.jbpm.scheduler.db.DbSchedulerServiceFactory' />"
+      + "    <service name='logging' factory='org.jbpm.logging.db.DbLoggingServiceFactory' />"
+      + "    <service name='authentication' factory='org.jbpm.security.authentication.DefaultAuthenticationServiceFactory' />"
+      + "  </jbpm-context>" + "</jbpm-configuration>");
     jbpmContext = jbpmConfiguration.createJbpmContext();
     mockSessionFactory = new MockSessionFactory();
     jbpmContext.setSessionFactory(mockSessionFactory);

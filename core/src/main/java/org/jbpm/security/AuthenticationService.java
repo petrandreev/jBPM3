@@ -28,9 +28,6 @@ import org.jbpm.svc.Service;
  * 
  * @author Original author n.n. (maybe Tom?), bernd.ruecker@camunda.com
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface AuthenticationService extends Service {
 
   /**

@@ -30,9 +30,6 @@ import org.jbpm.svc.Service;
  * @author Jim Rigsbee
  *
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public interface JcrService extends Service {
 
     /**

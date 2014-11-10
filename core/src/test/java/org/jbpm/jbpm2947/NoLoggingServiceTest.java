@@ -22,7 +22,6 @@
 package org.jbpm.jbpm2947;
 
 import org.hibernate.criterion.Projections;
-
 import org.jbpm.context.def.ContextDefinition;
 import org.jbpm.context.exe.VariableInstance;
 import org.jbpm.db.AbstractDbTestCase;
@@ -35,9 +34,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2947">JBPM-2947</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class NoLoggingServiceTest extends AbstractDbTestCase {
 
   protected String getJbpmTestConfig() {

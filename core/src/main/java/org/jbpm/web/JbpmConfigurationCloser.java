@@ -46,9 +46,6 @@ import org.jbpm.JbpmConfiguration;
  * 
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JbpmConfigurationCloser implements ServletContextListener {
 
   private JbpmConfiguration jbpmConfiguration;

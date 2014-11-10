@@ -11,20 +11,12 @@ import org.jbpm.graph.exe.Token;
  * 
  * @author bernd.ruecker@camunda.com
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TokenCommandTest extends AbstractDbTestCase {
 
   public void testUnlockTokenCommand() throws Exception {
-    String xml = "<process-definition name='TestException'>"
-      + "   <start-state name='start'>"
-      + "      <transition to='wait' />"
-      + "   </start-state>"
-      + "   <state name='wait'>"
-      + "      <transition to='end' />"
-      + "   </state>"
-      + "   <end-state name='end' />"
+    String xml = "<process-definition name='TestException'>" + "   <start-state name='start'>"
+      + "      <transition to='wait' />" + "   </start-state>" + "   <state name='wait'>"
+      + "      <transition to='end' />" + "   </state>" + "   <end-state name='end' />"
       + "</process-definition>";
 
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(xml);
@@ -53,9 +45,7 @@ public class TokenCommandTest extends AbstractDbTestCase {
     processInstance.getRootToken().lock("TEST-OWNER");
 
     processInstance = saveAndReload(processInstance);
-    new UnlockTokenCommand().lockOwner("TEST-OWNER")
-    .tokenId(tokenId)
-    .execute(jbpmContext);
+    new UnlockTokenCommand().lockOwner("TEST-OWNER").tokenId(tokenId).execute(jbpmContext);
 
     // unlocking with wrong owner fails
     processInstance = saveAndReload(processInstance);
@@ -63,9 +53,7 @@ public class TokenCommandTest extends AbstractDbTestCase {
 
     processInstance = saveAndReload(processInstance);
     try {
-      new UnlockTokenCommand().lockOwner("OTHER-OWNER")
-      .tokenId(tokenId)
-      .execute(jbpmContext);
+      new UnlockTokenCommand().lockOwner("OTHER-OWNER").tokenId(tokenId).execute(jbpmContext);
       fail("CANNOT UNLOCK TOKEN exception expected");
     }
     catch (JbpmException ex) {

@@ -22,7 +22,6 @@
 package org.jbpm.jbpm2605;
 
 import org.hibernate.SessionFactory;
-
 import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
@@ -36,9 +35,6 @@ import org.jbpm.persistence.db.MockSessionFactory;
  * @see <a href="https://jira.jboss.org/browse/JBPM-2605">JBPM-2605</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM2605Test extends AbstractJbpmTestCase {
 
   public void testExternalSessionFactory() {

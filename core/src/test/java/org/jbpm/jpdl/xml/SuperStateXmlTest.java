@@ -25,28 +25,22 @@ import java.io.StringReader;
 
 import org.jbpm.AbstractJbpmTestCase;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class SuperStateXmlTest extends AbstractJbpmTestCase {
 
-    public void testJpdlXmlReader() {
-      JpdlXmlReader jpdlXmlReader = new JpdlXmlReader(new StringReader(
-        "<process-definition name='process'>" +
-        "  <start-state name='start'>" +
-        "    <transition to='state' />" + 
-        "  </start-state>" +
-        "  <state name='state'>" +
-        "    <transition to='super-state'/>" + 
-        "  </state>" +
-        "  <super-state name='super-state'>" +
-        "     <state name='state'>" + 
-        "         <transition to='end'/>" +
-        "     </state>" + 
-        "     <transition to='end'/>" +
-        "  </super-state>" + 
-        "  <end-state name='end'/>" +
-        "</process-definition>"));
-      jpdlXmlReader.readProcessDefinition();
-    }
+  public void testJpdlXmlReader() {
+    JpdlXmlReader jpdlXmlReader = new JpdlXmlReader(new StringReader("<process-definition name='process'>"
+      + "  <start-state name='start'>"
+      + "    <transition to='state' />"
+      + "  </start-state>"
+      + "  <state name='state'>"
+      + "    <transition to='super-state'/>"
+      + "  </state>"
+      + "  <super-state name='super-state'>"
+      + "     <state name='state'>"
+      + "         <transition to='end'/>"
+      + "     </state>"
+      + "     <transition to='end'/>"
+      + "  </super-state>" + "  <end-state name='end'/>" + "</process-definition>"));
+    jpdlXmlReader.readProcessDefinition();
+  }
 }

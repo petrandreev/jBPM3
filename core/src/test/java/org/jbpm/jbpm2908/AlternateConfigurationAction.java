@@ -6,9 +6,6 @@ import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class AlternateConfigurationAction implements ActionHandler {
 
   private static final long serialVersionUID = 1L;

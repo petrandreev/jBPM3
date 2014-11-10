@@ -27,7 +27,6 @@ import java.util.Random;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Element;
-
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.persistence.db.DbPersistenceService;
@@ -36,7 +35,7 @@ import org.jbpm.persistence.db.DbPersistenceService;
  * @author Alejandro Guizar
  */
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class EsbActionHandler implements ActionHandler {
 

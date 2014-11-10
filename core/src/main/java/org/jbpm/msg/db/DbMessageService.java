@@ -27,9 +27,6 @@ import org.jbpm.job.Job;
 import org.jbpm.job.executor.JobExecutor;
 import org.jbpm.msg.MessageService;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class DbMessageService implements MessageService {
 
   private static final long serialVersionUID = 1L;

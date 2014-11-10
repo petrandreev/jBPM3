@@ -39,9 +39,6 @@ import org.jbpm.graph.node.State;
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-2834">JBPM-2834</a>
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM2834Test extends AbstractJbpmTestCase {
 
   public void testDummyTest() {

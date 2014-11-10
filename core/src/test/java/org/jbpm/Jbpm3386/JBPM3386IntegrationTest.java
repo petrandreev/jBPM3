@@ -39,9 +39,6 @@ import org.jbpm.mail.Mail;
  * 
  * @see <a href="https://jira.jboss.org/jira/browse/JBPM-3386">JBPM-3386</a>
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM3386IntegrationTest extends AbstractJbpmTestCase {
 
   private static Random random = new Random();

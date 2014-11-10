@@ -31,7 +31,7 @@ import org.jbpm.graph.node.TaskNode;
 import org.jbpm.instantiation.Delegation;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class TaskControllerDbTest extends AbstractDbTestCase {
 

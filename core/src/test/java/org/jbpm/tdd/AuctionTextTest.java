@@ -29,9 +29,6 @@ import org.jbpm.graph.node.EndState;
 import org.jbpm.graph.node.StartState;
 import org.jbpm.graph.node.State;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class AuctionTextTest extends AbstractJbpmTestCase {
 
   // parse the process definition

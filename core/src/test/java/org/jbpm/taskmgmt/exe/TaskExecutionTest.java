@@ -32,7 +32,7 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.def.Task;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class TaskExecutionTest extends AbstractJbpmTestCase {
 

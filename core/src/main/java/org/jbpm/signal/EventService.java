@@ -5,16 +5,12 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.svc.Service;
 
 /**
- * An extension to the jBPM event architecture 
+ * An extension to the jBPM event architecture
  * 
  * @author thomas.diesler@jboss.com
  * @since 20-Dec-2008
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
-public interface EventService extends Service
-{
+public interface EventService extends Service {
   static String SERVICE_NAME = "event";
 
   void fireEvent(String eventType, GraphElement graphElement, ExecutionContext executionContext);

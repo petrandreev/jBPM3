@@ -35,9 +35,6 @@ import org.jbpm.svc.Services;
  * 
  * @author Alejandro Guizar
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JoinDbTest extends AbstractDbTestCase {
 
   protected JbpmConfiguration getJbpmConfiguration() {

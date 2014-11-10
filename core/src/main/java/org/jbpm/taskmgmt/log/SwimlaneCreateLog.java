@@ -23,9 +23,6 @@ package org.jbpm.taskmgmt.log;
 
 import org.jbpm.taskmgmt.exe.SwimlaneInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class SwimlaneCreateLog extends SwimlaneLog {
 
   private static final long serialVersionUID = 1L;
@@ -41,9 +38,9 @@ public class SwimlaneCreateLog extends SwimlaneLog {
   }
 
   public String toString() {
-    return "swimlane-create["+swimlaneInstance+"]";
+    return "swimlane-create[" + swimlaneInstance + "]";
   }
-  
+
   public String getSwimlaneActorId() {
     return swimlaneActorId;
   }

@@ -14,9 +14,6 @@ import org.jbpm.graph.exe.ProcessInstance;
  * @author Thomas.Diesler@jboss.com
  * @since 11-Feb-2009
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JBPM2036Test extends AbstractDbTestCase {
 
   public void testTimerAction() {
@@ -41,24 +38,16 @@ public class JBPM2036Test extends AbstractDbTestCase {
 
   private static ProcessDefinition getProcessDefinition() {
     return ProcessDefinition.parseXmlString("<process-definition name='jbpm2036'>"
-      + "  <start-state name='start'>"
-      + "    <transition to='midway'/>"
-      + "  </start-state>"
+      + "  <start-state name='start'>" + "    <transition to='midway'/>" + "  </start-state>"
       + "  <task-node name='midway' end-tasks='yes'>"
       + "    <timer name='chaos' duedate='2 seconds' repeat='5 seconds'>"
       + "      <action class='" + TimerAction.class.getName() + "'>"
-      + "        <leave>true</leave>"
-      + "      </action>"
-      + "    </timer>"
+      + "        <leave>true</leave>" + "      </action>" + "    </timer>"
       + "    <task name='doit'>"
       + "      <timer name='undead' duedate='1 second' repeat='5 seconds'>"
-      + "        <action class='" + TimerAction.class.getName() + "'/>"
-      + "      </timer>"
-      + "    </task>"
-      + "    <transition to='end'/>"
-      + "  </task-node>"
-      + "  <end-state name='end' />"
-      + "</process-definition>");
+      + "        <action class='" + TimerAction.class.getName() + "'/>" + "      </timer>"
+      + "    </task>" + "    <transition to='end'/>" + "  </task-node>"
+      + "  <end-state name='end' />" + "</process-definition>");
   }
 
   public static class TimerAction implements ActionHandler {

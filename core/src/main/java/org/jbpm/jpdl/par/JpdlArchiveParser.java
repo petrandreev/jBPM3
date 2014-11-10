@@ -28,9 +28,6 @@ import org.jbpm.jpdl.JpdlException;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.xml.sax.InputSource;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class JpdlArchiveParser implements ProcessArchiveParser {
 
   private static final long serialVersionUID = 1L;

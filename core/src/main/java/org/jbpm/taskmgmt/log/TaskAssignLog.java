@@ -23,9 +23,6 @@ package org.jbpm.taskmgmt.log;
 
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TaskAssignLog extends TaskLog {
 
   private static final long serialVersionUID = 1L;
@@ -43,12 +40,13 @@ public class TaskAssignLog extends TaskLog {
   }
 
   public String toString() {
-    return "task-assign["+taskNewActorId+","+taskInstance+"]";
+    return "task-assign[" + taskNewActorId + "," + taskInstance + "]";
   }
-  
+
   public String getTaskNewActorId() {
     return taskNewActorId;
   }
+
   public String getTaskOldActorId() {
     return taskOldActorId;
   }

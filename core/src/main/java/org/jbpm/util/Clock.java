@@ -4,9 +4,6 @@ import java.util.Date;
 
 import org.jbpm.JbpmConfiguration.Configs;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class Clock {
 
   private Clock() {
@@ -14,21 +11,16 @@ public class Clock {
   }
 
   /**
-   * @deprecated set configuration entry <code>jbpm.date.generator</code>
-   * instead
+   * @deprecated set configuration entry <code>jbpm.date.generator</code> instead
    */
   public static DateGenerator dateGenerator;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
   public interface DateGenerator {
     Date getCurrentTime();
   }
 
   /**
-   * @deprecated leave configuration entry <code>jbpm.date.generator</code>
-   * unset instead
+   * @deprecated leave configuration entry <code>jbpm.date.generator</code> unset instead
    */
   public static class DefaultDateGenerator implements DateGenerator {
     public Date getCurrentTime() {

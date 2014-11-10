@@ -26,14 +26,13 @@ import java.util.List;
 import org.jbpm.db.AbstractDbTestCase;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class EventDbTest extends AbstractDbTestCase {
 
   public void testEventEventType() {
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
-      + "  <event type='process-start' />"
-      + "</process-definition>");
+      + "  <event type='process-start' />" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     assertEquals("process-start", processDefinition.getEvent("process-start").getEventType());
@@ -41,8 +40,7 @@ public class EventDbTest extends AbstractDbTestCase {
 
   public void testEventGraphElementProcessDefinition() {
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
-      + "  <event type='process-start' />"
-      + "</process-definition>");
+      + "  <event type='process-start' />" + "</process-definition>");
     assertSame(processDefinition, processDefinition.getEvent("process-start").getGraphElement());
 
     processDefinition = saveAndReload(processDefinition);
@@ -83,8 +81,7 @@ public class EventDbTest extends AbstractDbTestCase {
       + "    <action class='b'/>"
       + "    <action class='c'/>"
       + "    <action class='d'/>"
-      + "  </event>"
-      + "</process-definition>");
+      + "  </event>" + "</process-definition>");
 
     processDefinition = saveAndReload(processDefinition);
     List actions = processDefinition.getEvent("process-start").getActions();

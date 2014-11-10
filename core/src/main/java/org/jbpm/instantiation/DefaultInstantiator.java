@@ -26,16 +26,17 @@ import org.apache.commons.logging.LogFactory;
 import org.jbpm.JbpmException;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class DefaultInstantiator implements Instantiator {
 
   public Object instantiate(Class clazz, String configuration) {
     try {
       return clazz.newInstance();
-    } catch (Exception e) {
-      log.error( "couldn't instantiate '" + clazz.getName() + "'", e );
-      throw new JbpmException( e );
+    }
+    catch (Exception e) {
+      log.error("couldn't instantiate '" + clazz.getName() + "'", e);
+      throw new JbpmException(e);
     }
   }
 

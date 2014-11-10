@@ -23,13 +23,10 @@ package org.jbpm.taskmgmt.log;
 
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class TaskEndLog extends TaskLog {
 
   private static final long serialVersionUID = 1L;
-  
+
   public TaskEndLog() {
   }
 
@@ -38,6 +35,6 @@ public class TaskEndLog extends TaskLog {
   }
 
   public String toString() {
-    return "task-end["+taskInstance+"]";
+    return "task-end[" + taskInstance + "]";
   }
 }

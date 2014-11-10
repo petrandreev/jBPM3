@@ -29,9 +29,6 @@ import org.jbpm.graph.exe.Token;
 /**
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_16.swf
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class Wfp17DeferredChoiceTest extends AbstractJbpmTestCase {
 
   public static ProcessDefinition deferredChoiceProcessDefinition = createDeferredChoiceProcessDefinition();

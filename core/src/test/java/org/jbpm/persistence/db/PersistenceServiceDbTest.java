@@ -38,7 +38,7 @@ import org.jbpm.mock.Recorded;
 import org.jbpm.svc.Services;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class PersistenceServiceDbTest extends AbstractJbpmTestCase {
 

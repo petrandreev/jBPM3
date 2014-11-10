@@ -9,9 +9,6 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public abstract class Job implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -47,16 +44,10 @@ public abstract class Job implements Serializable {
   public abstract boolean execute(JbpmContext jbpmContext) throws Exception;
 
   public String toStringLongFormat() {
-    return "Job(id=" + id
-       + ", version=" + version
-       + ", dueDate=" + (dueDate != null ? dueDate : null)
-       + ", suspended=" + isSuspended
-       + ", exclusive=" + isExclusive
-       + ", lockOwner=" + lockOwner
-       + ", lockTime=" + lockTime
-       + ", exception=" + exception
-       + ", retries=" + retries
-       + ", configuration=" + configuration;
+    return "Job(id=" + id + ", version=" + version + ", dueDate="
+      + (dueDate != null ? dueDate : null) + ", suspended=" + isSuspended + ", exclusive="
+      + isExclusive + ", lockOwner=" + lockOwner + ", lockTime=" + lockTime + ", exception="
+      + exception + ", retries=" + retries + ", configuration=" + configuration;
   }
 
   public ProcessInstance getProcessInstance() {

@@ -33,7 +33,7 @@ import org.jbpm.taskmgmt.def.Task;
 import org.jbpm.taskmgmt.def.TaskController;
 
 @SuppressWarnings({
-  "rawtypes", "unchecked"
+  "rawtypes"
 })
 public class TaskControllerXmlTest extends AbstractJbpmTestCase {
 

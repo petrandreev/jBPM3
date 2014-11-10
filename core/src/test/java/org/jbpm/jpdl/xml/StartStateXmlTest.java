@@ -25,34 +25,25 @@ import org.dom4j.Element;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.node.StartState;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class StartStateXmlTest extends AbstractXmlTestCase {
 
   public void testParseStartState() {
-    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString( 
-      "<process-definition>" +
-      "  <start-state />" +
-      "</process-definition>" 
-    );
+    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <start-state />" + "</process-definition>");
     assertNotNull(processDefinition.getStartState());
     assertSame(processDefinition.getStartState(), processDefinition.getNodes().get(0));
   }
 
   public void testParseStartStateName() {
-    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString( 
-      "<process-definition>" +
-      "  <start-state name='start'/>" +
-      "</process-definition>" 
-    );
+    ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
+      + "  <start-state name='start'/>" + "</process-definition>");
     assertEquals("start", processDefinition.getStartState().getName());
   }
 
   public void testWriteStartState() throws Exception {
     ProcessDefinition processDefinition = new ProcessDefinition();
-    processDefinition.setStartState( new StartState() );
-    Element element = AbstractXmlTestCase.toXmlAndParse( processDefinition, "/process-definition/start-state[1]" );
+    processDefinition.setStartState(new StartState());
+    Element element = AbstractXmlTestCase.toXmlAndParse(processDefinition, "/process-definition/start-state[1]");
     assertNotNull(element);
     assertEquals("start-state", element.getName());
     assertEquals(0, element.attributeCount());
@@ -60,12 +51,11 @@ public class StartStateXmlTest extends AbstractXmlTestCase {
 
   public void testWriteStartStateName() throws Exception {
     ProcessDefinition processDefinition = new ProcessDefinition();
-    processDefinition.setStartState( new StartState("mystartstate") );
-    Element element = AbstractXmlTestCase.toXmlAndParse( processDefinition, "/process-definition/start-state[1]" );
+    processDefinition.setStartState(new StartState("mystartstate"));
+    Element element = AbstractXmlTestCase.toXmlAndParse(processDefinition, "/process-definition/start-state[1]");
     assertEquals("start-state", element.getName());
     assertEquals(1, element.attributeCount());
     assertEquals("mystartstate", element.attributeValue("name"));
   }
-
 
 }

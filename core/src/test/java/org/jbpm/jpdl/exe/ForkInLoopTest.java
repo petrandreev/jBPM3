@@ -25,36 +25,31 @@ import org.jbpm.AbstractJbpmTestCase;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class ForkInLoopTest extends AbstractJbpmTestCase {
 
   public void testCycle() {
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString("<process-definition>"
-        + "  <start-state name='start'>"
-        + "    <transition to='a' />"
-        + "  </start-state>"
-        + "  <state name='a'>"
-        + "    <transition to='f' />"
-        + "  </state>"
-        + "  <fork name='f'>"
-        + "    <transition name='b' to='b' />"
-        + "    <transition name='c' to='c' />"
-        + "  </fork>"
-        + "  <state name='b'>"
-        + "    <transition to='j' />"
-        + "  </state>"
-        + "  <state name='c'>"
-        + "    <transition to='j' />"
-        + "  </state>"
-        + "  <join name='j'>"
-        + "    <transition to='d' />"
-        + "  </join>"
-        + "  <state name='d'>"
-        + "    <transition to='a' />"
-        + "  </state>"
-        + "</process-definition>");
+      + "  <start-state name='start'>"
+      + "    <transition to='a' />"
+      + "  </start-state>"
+      + "  <state name='a'>"
+      + "    <transition to='f' />"
+      + "  </state>"
+      + "  <fork name='f'>"
+      + "    <transition name='b' to='b' />"
+      + "    <transition name='c' to='c' />"
+      + "  </fork>"
+      + "  <state name='b'>"
+      + "    <transition to='j' />"
+      + "  </state>"
+      + "  <state name='c'>"
+      + "    <transition to='j' />"
+      + "  </state>"
+      + "  <join name='j'>"
+      + "    <transition to='d' />"
+      + "  </join>"
+      + "  <state name='d'>"
+      + "    <transition to='a' />" + "  </state>" + "</process-definition>");
 
     ProcessInstance pi = (ProcessInstance) processDefinition.createInstance();
 

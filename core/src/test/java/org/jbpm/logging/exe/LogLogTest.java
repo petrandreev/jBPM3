@@ -30,9 +30,6 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.logging.log.MessageLog;
 
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class LogLogTest extends AbstractJbpmTestCase {
   
   public static class MessageAction implements ActionHandler {

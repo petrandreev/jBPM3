@@ -28,9 +28,6 @@ import org.jbpm.svc.Services;
 /**
  * provides helper methods to access the authentication and authorization services.
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class SecurityHelper {
 
   private SecurityHelper() {

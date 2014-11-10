@@ -33,9 +33,6 @@ import org.jbpm.graph.node.Fork;
 /**
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_6.swf
  */
-@SuppressWarnings({
-  "rawtypes", "unchecked"
-})
 public class Wfp06MultiChoiceTest extends AbstractJbpmTestCase {
 
   private static ProcessDefinition multiChoiceProcessDefinition = createMultiChoiceProcessDefinition();
