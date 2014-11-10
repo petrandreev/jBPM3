@@ -24,11 +24,6 @@
   <dependencies>
     <!-- Compile Dependencies -->
     <dependency>
-      <groupId>backport-util-concurrent</groupId>
-      <artifactId>backport-util-concurrent</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>bsh</groupId>
       <artifactId>bsh</artifactId>
       <optional>true</optional>
@@ -103,13 +98,11 @@
     <dependency>
       <groupId>org.subethamail</groupId>
       <artifactId>subethasmtp-wiser</artifactId>
-      <classifier>java14</classifier>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.subethamail</groupId>
       <artifactId>subethasmtp-smtp</artifactId>
-      <classifier>java14</classifier>
       <scope>test</scope>
     </dependency>
     <dependency>

@@ -194,7 +194,6 @@ useful to develop and test jBPM applications</description>
       <fileset dir="@{assemblyDirectory}/lib" targetdir="$INSTALL_PATH/lib">
         <include name="antlr.jar" />
         <include name="asm.jar" />
-        <include name="backport-util-concurrent.jar" />
         <include name="bsh.jar" />
         <include name="cglib.jar" />
         <include name="commons-collections.jar" />
@@ -410,7 +409,6 @@ useful to develop and test jBPM applications</description>
         targetdir="${tomcatInstallPath}/webapps/jbpm-console/WEB-INF/lib">
         <include name="antlr.jar" />
         <include name="asm.jar" />
-        <include name="backport-util-concurrent.jar" />
         <include name="bsh.jar" />
         <include name="cglib.jar" />
         <include name="commons-collections.jar" />

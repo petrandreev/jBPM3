@@ -5,7 +5,6 @@
 
   <classpathentry path="lib/antlr.jar" />
   <classpathentry path="lib/asm.jar"/>
-  <classpathentry path="lib/backport-util-concurrent.jar" />
   <classpathentry path="lib/bsh.jar"/>
   <classpathentry path="lib/cglib.jar"/>
   <classpathentry path="lib/commons-collections.jar"/>

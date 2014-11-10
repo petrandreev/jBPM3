@@ -86,13 +86,11 @@
     <dependency>
       <groupId>org.subethamail</groupId>
       <artifactId>subethasmtp-smtp</artifactId>
-      <classifier>java14</classifier>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.subethamail</groupId>
       <artifactId>subethasmtp-wiser</artifactId>
-      <classifier>java14</classifier>
       <scope>test</scope>
     </dependency>
   </dependencies>
