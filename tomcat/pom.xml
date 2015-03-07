@@ -6,7 +6,7 @@
   <parent>
     <artifactId>jbpm</artifactId>
     <groupId>org.jbpm.jbpm3</groupId>
-    <version>3.2.14.SP1.hib36</version>
+    <version>3.2.14.SP1.hib43</version>
   </parent>
 
   <properties>
