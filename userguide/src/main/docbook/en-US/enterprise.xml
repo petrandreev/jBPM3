@@ -472,7 +472,7 @@
     </para>
 
     <para>
-        The <systemitem>HashtableCacheProvider</systemitem> can be replaced
+        The <systemitem>CachingRegionFactory</systemitem> can be replaced
         with other supported cache providers. (Refer to <ulink
         url="http://www.hibernate.org/hib_docs/v3/reference/en/html/performance.html#performance-cache"
         /> for more information.)

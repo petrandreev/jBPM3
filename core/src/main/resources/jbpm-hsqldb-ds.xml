@@ -4,7 +4,7 @@
   <local-tx-datasource>
     <jndi-name>JbpmDS</jndi-name>
 
-    <connection-url>jdbc:hsqldb:${jboss.server.data.dir}${/}hypersonic${/}jbpmDB</connection-url>
+    <connection-url>jdbc:hsqldb:${jboss.server.data.dir}${/}hypersonic${/}jbpmDB;hsqldb.tx=MVCC</connection-url>
     <driver-class>${jdbc.hsqldb.driver}</driver-class>
     <user-name>${jdbc.hsqldb.username}</user-name>
     <password>${jdbc.hsqldb.password}</password>

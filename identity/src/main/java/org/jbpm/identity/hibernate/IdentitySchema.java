@@ -36,17 +36,17 @@ import java.util.List;
 import java.util.Properties;
 
 import org.hibernate.HibernateException;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
-import org.hibernate.connection.ConnectionProvider;
-import org.hibernate.connection.ConnectionProviderFactory;
 import org.hibernate.dialect.Dialect;
-import org.hibernate.engine.Mapping;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.hibernate.engine.spi.Mapping;
 import org.hibernate.mapping.ForeignKey;
 import org.hibernate.mapping.Table;
+import org.hibernate.service.ServiceRegistry;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.hibernate.util.JDBCExceptionReporter;
-
 import org.jbpm.JbpmException;
 
 @SuppressWarnings({
@@ -58,12 +58,16 @@ public class IdentitySchema {
   private static final String[] TABLE_TYPES = {
     "TABLE"
   };
+  
+  private static final SqlExceptionHelper SQL_EXCEPTION_HELPER = new SqlExceptionHelper();
 
   private final Configuration configuration;
+  private final ServiceRegistry serviceRegistry;
   private ConnectionProvider connectionProvider;
 
   public IdentitySchema(Configuration configuration) {
     this.configuration = configuration;
+    this.serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
   }
 
   private Dialect getDialect() {
@@ -226,6 +230,7 @@ public class IdentitySchema {
     for (int i = 0; i < sql.length; i++) {
       printStream.println(sql[i] + getSqlDelimiter());
     }
+    printStream.close();
   }
 
   // sql script execution /////////////////////////////////////////////////////
@@ -263,15 +268,14 @@ public class IdentitySchema {
     if (connectionProvider != null) {
       try {
         if (connection != null) {
-          JDBCExceptionReporter.logAndClearWarnings(connection);
+          SQL_EXCEPTION_HELPER.logAndClearWarnings(connection);
           connectionProvider.closeConnection(connection);
         }
       }
       catch (SQLException e) {
-        JDBCExceptionReporter.logExceptions(e);
+        SQL_EXCEPTION_HELPER.logExceptions(e, "failed to close connection");
       }
       finally {
-        connectionProvider.close();
         connectionProvider = null;
       }
     }
@@ -279,7 +283,7 @@ public class IdentitySchema {
 
   private Connection createConnection() throws SQLException {
     try {
-      connectionProvider = ConnectionProviderFactory.newConnectionProvider(configuration.getProperties());
+      connectionProvider = serviceRegistry.getService(ConnectionProvider.class);
     }
     catch (HibernateException e) {
       throw new SQLException(e.getMessage());

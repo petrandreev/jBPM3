@@ -504,7 +504,7 @@ def hibernateDialect = [
 "sapdb":"org.hibernate.dialect.SAPDBDialect"
 ]
 
-def jdbcDriverDependency = [
+def jdbc.JDBCDriverDependency = [
 "hsqldb":       'hsqldb:hsqldb:1.8.0.7:',
 
 "db2-91":       'com.ibm:db2jcc:3.8.47:',
@@ -537,7 +537,7 @@ def jdbcDriverDependency = [
 // "sybase157":    'net.sourceforge.jtds:jtds:1.2.4:'
 ]
 
-def dependencyString = jdbcDriverDependency.get(database);
+def dependencyString = jdbc.JDBCDriverDependency.get(database);
 def dependency = new ArrayList<String>(3);
 
 (dependencyString =~ /([^:]+):/).each { match ->
@@ -576,7 +576,7 @@ def propertiesXmlTemplate =
   '        <jdbc.' + profileName + '.url>${jdbcUrl}</jdbc.' + profileName + '.url>\n' + 
   '        <jdbc.' + profileName + '.username>${dbUsername}</jdbc.' + profileName + '.username>\n' + 
   '        <jdbc.' + profileName + '.password>${dbPassword}</jdbc.' + profileName + '.password>\n' + 
-  '        <jdbc.' + profileName + '.driver>${jdbcDriver}</jdbc.' + profileName + '.driver>\n' + 
+  '        <jdbc.' + profileName + '.driver>${jdbc.JDBCDriver}</jdbc.' + profileName + '.driver>\n' + 
   '\n' + 
   '        <jdbc.' + profileName + '.dialect>${hibernateDialect}</jdbc.' + profileName + '.dialect>\n' + 
   '        <jdbc.' + profileName + '.schema>${dbSchema}</jdbc.' + profileName + '.schema>\n' + 
@@ -624,7 +624,7 @@ def dbInfo = database + ", " + buildTag + ", " + dbExpiry + " minutes."
 def sdf = new SimpleDateFormat( "HH:mm:ss [z]" )
 
 int dbAllocated = 0
-int jdbcDriverDownloaded = 0
+int jdbc.JDBCDriverDownloaded = 0
 
 def allocation = null
 File settingsXml = null
@@ -640,13 +640,13 @@ try {
     dbProps = localDbProps
   } else if( profileName.equals("hsqldb") ) { 
     dbProps = new Properties(); 
-    dbProps.setProperty('db.jdbc_class', "org.hsqldb.jdbcDriver" );
+    dbProps.setProperty('db.jdbc_class', "org.hsqldb.jdbc.JDBCDriver" );
     dbProps.setProperty('db.name', "jbpm3" );
     dbProps.setProperty('db.port', "" );
     dbProps.setProperty('db.hostname', "" );
     dbProps.setProperty('db.username', "sa" );
     dbProps.setProperty('db.password', "" );
-    dbProps.setProperty('db.jdbc_url', "jdbc:hsqldb:mem:jbpm3" );
+    dbProps.setProperty('db.jdbc_url', "jdbc:hsqldb:mem:jbpm3;hsqldb.tx=MVCC" );
   } else { 
     /**
      * allocate the database
@@ -726,10 +726,10 @@ try {
     }
   
     def jdbcLoader = new JDBCLoader( loaderInput.get(0), loaderInput.get(1), database, Integer.parseInt(loaderInput.get(2)) )
-    jdbcDriverDownloaded = 1
+    jdbc.JDBCDriverDownloaded = 1
     def driverFiles = jdbcLoader.load(destDir)
     File driverFile = driverFiles.toArray()[0]
-    jdbcDriverDownloaded = 2
+    jdbc.JDBCDriverDownloaded = 2
 
     out.println "JDBC driver downloaded to " + driverFile.absolutePath
 
@@ -794,7 +794,7 @@ try {
   "jdbcUrl":          dbProps.getProperty('db.jdbc_url'),
   "dbUsername":       dbProps.getProperty('db.username'),
   "dbPassword":       dbProps.getProperty('db.password'),
-  "jdbcDriver":       dbProps.getProperty('db.jdbc_class'),
+  "jdbc.JDBCDriver":       dbProps.getProperty('db.jdbc_class'),
 
   "hibernateDialect": hibernateDialect.get(profileName),  // ocram
   "dbSchema":         dbSchema,
@@ -813,7 +813,7 @@ try {
 
   out.println "-" * 80
   out.println "hibernateDialect   " + templateBinding['hibernateDialect']
-  out.println "jdbcDriver:        " + templateBinding['jdbcDriver']
+  out.println "jdbc.JDBCDriver:        " + templateBinding['jdbc.JDBCDriver']
   out.println "dbName:            " + templateBinding['dbName']
   out.println "dbPort:            " + templateBinding['dbPort']
   out.println "dbServer:          " + templateBinding['dbServer']
@@ -898,7 +898,7 @@ catch( Exception e ) {
   if( dbAllocated == 1 ) { 
     out.println "(Did not or) unable to allocate database [" + dbInfo + "]"
   }
-  if( jdbcDriverDownloaded == 1 ) { 
+  if( jdbc.JDBCDriverDownloaded == 1 ) { 
     out.println "Unable to download jdbc driver [" + jdbcInfo + "]"
   }
 

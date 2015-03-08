@@ -159,7 +159,7 @@
       <artifactId>ant</artifactId>
     </dependency>
     <dependency>
-      <groupId>bsh</groupId>
+      <groupId>org.beanshell</groupId>
       <artifactId>bsh</artifactId>
     </dependency>
     <dependency>
@@ -186,9 +186,9 @@
 
     <!-- Database Drivers -->
     <dependency>
-      <groupId>hsqldb</groupId>
+      <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
-      <version>1.8.0.7</version>
+      <version>2.3.2</version>
     </dependency>
     <dependency>
       <groupId>mysql</groupId>
@@ -233,7 +233,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <property name="project.version" value="${project.version}" />
                 <property name="project.build.dir" value="${project.build.directory}" />
                 <property name="project.build.assembly.dir" value="${assemblyDirectory}" />
@@ -246,7 +246,7 @@
                 <property name="tomcat.home" value="${tomcat.home}" />
                 <property name="database" value="${database}" />
                 <ant antfile="scripts/antrun-installer.xml" target="process-resources" />
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>

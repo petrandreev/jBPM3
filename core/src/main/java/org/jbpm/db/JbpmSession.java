@@ -102,7 +102,7 @@ public class JbpmSession {
 
   public Connection getConnection() {
     try {
-      return session.connection();
+      return new SessionConnectionProvider(session).connection();
     } catch (Exception e) {
       log.error(e);
       handleException();

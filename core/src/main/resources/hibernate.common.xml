@@ -26,8 +26,8 @@
     <property name="hibernate.cache.use_second_level_cache">true</property>
 
     <!-- Memory cache (begin) -->
-    <property name="hibernate.cache.provider_class">
-      org.hibernate.cache.HashtableCacheProvider
+    <property name="hibernate.cache.region.factory_class">
+      org.hibernate.testing.cache.CachingRegionFactory
     </property>
     <!-- Memory cache (end) -->
 

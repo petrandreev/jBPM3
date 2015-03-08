@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <Context>
   <Resource name="jdbc/JbpmDataSource" auth="Container" type="javax.sql.DataSource"
-    driverClassName="org.hsqldb.jdbcDriver"
-    url="jdbc:hsqldb:${catalina.base}/work/Catalina/localhost/jbpm-console/jbpmDB"
+    driverClassName="org.hsqldb.jdbc.JDBCDriver"
+    url="jdbc:hsqldb:${catalina.base}/work/Catalina/localhost/jbpm-console/jbpmDB;hsqldb.tx=MVCC"
     username="sa" password="" />
 
   <Realm className="org.jbpm.realm.DataSourceRealm" dataSourceName="jdbc/JbpmDataSource"

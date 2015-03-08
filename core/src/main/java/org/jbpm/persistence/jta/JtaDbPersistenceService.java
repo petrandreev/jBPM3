@@ -32,7 +32,8 @@ import javax.transaction.UserTransaction;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.engine.SessionFactoryImplementor;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.engine.transaction.jta.platform.spi.JtaPlatform;
 import org.jbpm.JbpmException;
 import org.jbpm.persistence.db.DbPersistenceService;
 
@@ -96,8 +97,8 @@ public class JtaDbPersistenceService extends DbPersistenceService {
   }
 
   private TransactionManager getTransactionManager() {
-    SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) getSessionFactory();
-    return sessionFactory.getTransactionManager();
+    final JtaPlatform jtaPlatform = ((SessionFactoryImplementor) getSessionFactory()).getServiceRegistry().getService( JtaPlatform.class );
+    return jtaPlatform.retrieveTransactionManager();
   }
 
   protected Exception commit() {

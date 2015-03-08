@@ -534,13 +534,13 @@
         <warning>    
             <para>
                 Do not use <application>Hibernate</application>'s
-                <classname>HashtableCacheProvider</classname> in a
+                <classname>CachingRegionFactory</classname> in a
                 production environment.
             </para>
                 
         <para>
             To use <classname>ehcache</classname> instead of the
-            <classname>HashtableCacheProvider</classname>, simply remove
+            <classname>CachingRegionFactory</classname>, simply remove
             the relevant line from the classpath and substitute
             <filename>ehcache.jar</filename> instead. Note that one might
             have to search for the right

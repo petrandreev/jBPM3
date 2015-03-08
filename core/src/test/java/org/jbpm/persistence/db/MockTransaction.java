@@ -4,33 +4,34 @@ import javax.transaction.Synchronization;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
+import org.hibernate.engine.transaction.spi.LocalStatus;
 
 public class MockTransaction implements Transaction {
 
-  boolean wasCommitted = false;
-  boolean wasRolledBack = false;
+  private LocalStatus localStatus = LocalStatus.NOT_ACTIVE;
 
   public void begin() throws HibernateException {
+    localStatus = LocalStatus.ACTIVE;
   }
 
   public void commit() throws HibernateException {
-    wasCommitted = true;
+    localStatus = LocalStatus.COMMITTED;
   }
 
   public void rollback() throws HibernateException {
-    wasRolledBack = true;
+    localStatus = LocalStatus.ROLLED_BACK;
   }
 
   public boolean wasCommitted() throws HibernateException {
-    return wasCommitted;
+    return localStatus == LocalStatus.COMMITTED;
   }
 
   public boolean wasRolledBack() throws HibernateException {
-    return wasRolledBack;
+    return localStatus == LocalStatus.ROLLED_BACK;
   }
 
   public boolean isActive() throws HibernateException {
-    return (!wasCommitted) && (!wasRolledBack);
+    return localStatus == LocalStatus.ACTIVE;
   }
 
   public void registerSynchronization(Synchronization synchronization)
@@ -40,4 +41,19 @@ public class MockTransaction implements Transaction {
   public void setTimeout(int seconds) {
   }
 
+  public boolean isInitiator() {
+    return false;
+  }
+
+  public LocalStatus getLocalStatus() {
+    return localStatus;
+  }
+
+  public boolean isParticipating() {
+    return false;
+  }
+
+  public int getTimeout() {
+    return -1;
+  }
 }

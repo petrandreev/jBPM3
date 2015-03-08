@@ -28,7 +28,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.hsqldb.jdbc.jdbcDataSource;
+import org.hsqldb.jdbc.JDBCDataSource;
 
 @SuppressWarnings({
   "rawtypes"
@@ -37,7 +37,7 @@ public class Jdbc {
   
   public static void clearHsqlInMemoryDatabase() {
     try {
-      Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:jbpm-mock-db");
+      Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:jbpm-mock-db;");
       PreparedStatement preparedStatement = connection.prepareStatement("SHUTDOWN");
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
@@ -46,7 +46,7 @@ public class Jdbc {
   }
   
   static Class[] recordedConnectionInterfaces = new Class[]{Connection.class, Recorded.class};
-  public static class MockDataSource extends jdbcDataSource {
+  public static class MockDataSource extends JDBCDataSource {
     private static final long serialVersionUID = 1L;
     public MockDataSource() {
       setDatabase("jdbc:hsqldb:mem:jbpm-mock-db");

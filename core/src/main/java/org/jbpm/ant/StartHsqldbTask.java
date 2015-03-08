@@ -21,8 +21,16 @@
  */
 package org.jbpm.ant;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.hibernate.service.ServiceRegistry;
 
 public class StartHsqldbTask extends Task {
   
@@ -37,7 +45,7 @@ public class StartHsqldbTask extends Task {
     try {
       // build the command string
       String command = "java -cp "+ lib +
-                       " org.hsqldb.Server " +
+                       " org.hsqldb.server.Server " +
                        " -database " + database + 
                        " -port "+port;
 
@@ -45,7 +53,6 @@ public class StartHsqldbTask extends Task {
       Thread launcher = new Launcher(this, command, "is online");
       launcher.start();
       launcher.join();
-      
     } catch (Exception e) {
       e.printStackTrace();
     }

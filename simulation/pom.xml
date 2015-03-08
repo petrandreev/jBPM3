@@ -67,7 +67,7 @@
 
     <!-- Test Dependencies -->
     <dependency>
-      <groupId>bsh</groupId>
+      <groupId>org.beanshell</groupId>
       <artifactId>bsh</artifactId>
       <scope>test</scope>
     </dependency>

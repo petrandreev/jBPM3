@@ -31,8 +31,8 @@ public class PersistenceDbServiceTest extends AbstractJbpmTestCase {
     assertNotNull(mockSession.transaction);
     jbpmContext.close();
 
-    assertTrue(mockSession.transaction.wasCommitted);
-    assertFalse(mockSession.transaction.wasRolledBack);
+    assertTrue(mockSession.transaction.wasCommitted());
+    assertFalse(mockSession.transaction.wasRolledBack());
     assertTrue(mockSession.isClosed);
     assertFalse(mockSession.isFlushed);
   }
@@ -43,8 +43,8 @@ public class PersistenceDbServiceTest extends AbstractJbpmTestCase {
     jbpmContext.setRollbackOnly();
     jbpmContext.close();
 
-    assertFalse(mockSession.transaction.wasCommitted);
-    assertTrue(mockSession.transaction.wasRolledBack);
+    assertFalse(mockSession.transaction.wasCommitted());
+    assertTrue(mockSession.transaction.wasRolledBack());
     assertTrue(mockSession.isClosed);
     assertFalse(mockSession.isFlushed);
   }
@@ -55,8 +55,8 @@ public class PersistenceDbServiceTest extends AbstractJbpmTestCase {
     jbpmContext.getConnection();
     jbpmContext.close();
 
-    assertTrue(mockSession.transaction.wasCommitted);
-    assertFalse(mockSession.transaction.wasRolledBack);
+    assertTrue(mockSession.transaction.wasCommitted());
+    assertFalse(mockSession.transaction.wasRolledBack());
     assertTrue(mockSession.isClosed);
     assertFalse(mockSession.isFlushed);
   }
@@ -68,8 +68,8 @@ public class PersistenceDbServiceTest extends AbstractJbpmTestCase {
     jbpmContext.getConnection();
     jbpmContext.close();
 
-    assertFalse(mockSession.transaction.wasCommitted);
-    assertTrue(mockSession.transaction.wasRolledBack);
+    assertFalse(mockSession.transaction.wasCommitted());
+    assertTrue(mockSession.transaction.wasRolledBack());
     assertTrue(mockSession.isClosed);
     assertFalse(mockSession.isFlushed);
   }
@@ -87,8 +87,8 @@ public class PersistenceDbServiceTest extends AbstractJbpmTestCase {
     assertNotNull(mockSession.transaction);
     jbpmContext.close();
 
-    assertTrue(mockSession.transaction.wasCommitted);
-    assertFalse(mockSession.transaction.wasRolledBack);
+    assertTrue(mockSession.transaction.wasCommitted());
+    assertFalse(mockSession.transaction.wasRolledBack());
     assertTrue(mockSession.isClosed);
     assertFalse(mockSession.isFlushed);
 
@@ -108,8 +108,8 @@ public class PersistenceDbServiceTest extends AbstractJbpmTestCase {
     jbpmContext.setRollbackOnly();
     jbpmContext.close();
 
-    assertFalse(mockSession.transaction.wasCommitted);
-    assertTrue(mockSession.transaction.wasRolledBack);
+    assertFalse(mockSession.transaction.wasCommitted());
+    assertTrue(mockSession.transaction.wasRolledBack());
     assertTrue(mockSession.isClosed);
     assertFalse(mockSession.isFlushed);
 
@@ -129,8 +129,8 @@ public class PersistenceDbServiceTest extends AbstractJbpmTestCase {
     jbpmContext.getConnection();
     jbpmContext.close();
 
-    assertTrue(mockSession.transaction.wasCommitted);
-    assertFalse(mockSession.transaction.wasRolledBack);
+    assertTrue(mockSession.transaction.wasCommitted());
+    assertFalse(mockSession.transaction.wasRolledBack());
     assertTrue(mockSession.isClosed);
     assertFalse(mockSession.isFlushed);
 
@@ -151,8 +151,8 @@ public class PersistenceDbServiceTest extends AbstractJbpmTestCase {
     jbpmContext.setRollbackOnly();
     jbpmContext.close();
 
-    assertFalse(mockSession.transaction.wasCommitted);
-    assertTrue(mockSession.transaction.wasRolledBack);
+    assertFalse(mockSession.transaction.wasCommitted());
+    assertTrue(mockSession.transaction.wasRolledBack());
     assertTrue(mockSession.isClosed);
     assertFalse(mockSession.isFlushed);
 

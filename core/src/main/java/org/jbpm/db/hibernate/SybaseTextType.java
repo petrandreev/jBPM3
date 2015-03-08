@@ -33,10 +33,12 @@ import java.sql.Types;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
+import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.internal.util.StringHelper;
+import org.hibernate.internal.util.compare.EqualsHelper;
+import org.hibernate.type.StringRepresentableType;
 import org.hibernate.type.Type;
 import org.hibernate.usertype.EnhancedUserType;
-import org.hibernate.util.EqualsHelper;
-import org.hibernate.util.StringHelper;
 
 /**
  * Replacement for {@link org.hibernate.type.TextType} made to work around a <em>feature</em> in
@@ -56,7 +58,7 @@ import org.hibernate.util.StringHelper;
 @SuppressWarnings({
   "rawtypes"
 })
-public class SybaseTextType implements EnhancedUserType, Serializable {
+public class SybaseTextType implements EnhancedUserType, StringRepresentableType, Serializable {
 
   private transient Log log;
   private static final boolean IS_VALUE_TRACING_ENABLED = LogFactory.getLog(StringHelper.qualifier(Type.class.getName()))
@@ -93,6 +95,10 @@ public class SybaseTextType implements EnhancedUserType, Serializable {
 
   public boolean isMutable() {
     return false;
+  }
+  
+  public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException, SQLException {
+    return nullSafeGet(rs, names[0]);
   }
 
   public Object nullSafeGet(ResultSet rs, String[] names, Object owner)
@@ -160,7 +166,7 @@ public class SybaseTextType implements EnhancedUserType, Serializable {
     return sbuf.toString();
   }
 
-  public void nullSafeSet(PreparedStatement st, Object value, int index)
+  public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
     throws HibernateException, SQLException {
     try {
       if (value == null) {
@@ -224,7 +230,7 @@ public class SybaseTextType implements EnhancedUserType, Serializable {
   }
 
   public Object fromXMLString(String xml) {
-    return xml != null && xml.length() > 0 ? fromStringValue(xml) : null;
+    return fromStringValue(xml);
   }
 
   public String toXMLString(Object value) {
@@ -240,6 +246,6 @@ public class SybaseTextType implements EnhancedUserType, Serializable {
   }
 
   public Object fromStringValue(String xml) {
-    return xml;
+    return xml != null && xml.length() > 0 ? fromStringValue(xml) : null;
   }
 }

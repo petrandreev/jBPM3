@@ -140,7 +140,7 @@ public class JobExecutor implements Serializable {
     // join deactivated threads
     for (Iterator i = threads.iterator(); i.hasNext();) {
       Thread thread = (Thread) i.next();
-      thread.join();
+      thread.join(1000);
     }
   }
 

@@ -188,7 +188,7 @@ public class JbpmSessionFactory {
       else {
         // use the client provided jdbc connection in
         // the created hibernate session.
-        session = getSessionFactory().openSession(jdbcConnection);
+        session = getSessionFactory().withOptions().connection(jdbcConnection).openSession();
       }
 
       dbSession = new JbpmSession(this, session);

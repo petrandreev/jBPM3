@@ -24,13 +24,17 @@
   <dependencies>
     <!-- Compile Dependencies -->
     <dependency>
-      <groupId>bsh</groupId>
+      <groupId>org.beanshell</groupId>
       <artifactId>bsh</artifactId>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
     </dependency>
     <dependency>
       <groupId>dom4j</groupId>
@@ -112,14 +116,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>javassist</groupId>
+      <groupId>org.javassist</groupId>
       <artifactId>javassist</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>1.8.0.7</version>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-testing</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -195,11 +199,11 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <property name="database" value="${database}" />
                 <property name="project.output.dir" value="${project.build.outputDirectory}" />
                 <ant antfile="scripts/antrun-config.xml" target="gen-hibernate-config" />
-              </tasks>
+              </target>
             </configuration>
           </execution>
           <execution>
@@ -209,11 +213,11 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <property name="project.output.dir" value="${project.build.outputDirectory}" />
                 <property name="project.test.output.dir" value="${project.build.testOutputDirectory}" />
                 <ant antfile="scripts/antrun-config.xml" target="gen-hibernate-test-config" />
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>

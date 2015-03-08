@@ -81,11 +81,11 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <property name="project.output.dir" value="${project.build.outputDirectory}" />
                 <ant antfile="scripts/antrun-jbpmschema.xml" target="create-schema" inheritRefs="true" />
                 <ant antfile="scripts/antrun-jbpmschema.xml" target="drop-schema" inheritRefs="true" />
-              </tasks>
+              </target>
             </configuration>
           </execution>
 
@@ -96,7 +96,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <property name="project.output.dir" value="${project.build.outputDirectory}" />
                 <property name="database" value="${database}" />
                 <condition property="skip">
@@ -111,7 +111,7 @@
                 </condition>
                 -->
                 <ant antfile="scripts/antrun-jbpmschema.xml" target="update-schema" inheritRefs="true" />
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
@@ -503,12 +503,12 @@
           				<goal>run</goal>
           			</goals>
                 <configuration>
-                  <tasks>
+                  <target>
                     <replace file="${previous.version.directory}/jbpm.jpdl.${database}.sql">
                       <replacetoken><![CDATA[go
 ]]></replacetoken>
                     </replace>
-                  </tasks>
+                  </target>
                 </configuration>
           		</execution>
           	</executions>

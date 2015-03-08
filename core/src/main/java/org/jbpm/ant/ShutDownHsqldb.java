@@ -6,9 +6,10 @@ import java.sql.Statement;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.connection.ConnectionProvider;
-import org.hibernate.engine.SessionFactoryImplementor;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.hibernate.service.ServiceRegistry;
 
 public class ShutDownHsqldb extends Task {
 
@@ -17,8 +18,8 @@ public class ShutDownHsqldb extends Task {
 
   public void execute() throws BuildException {
     Configuration configuration = AntHelper.getConfiguration(config, properties);
-    SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) configuration.buildSessionFactory();
-    ConnectionProvider connectionProvider = sessionFactory.getConnectionProvider();
+    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+    ConnectionProvider connectionProvider = serviceRegistry.getService(ConnectionProvider.class);
     try {
       Connection connection = connectionProvider.getConnection();
       Statement statement = connection.createStatement();
@@ -32,7 +33,6 @@ public class ShutDownHsqldb extends Task {
       throw new BuildException("could not shut down database", e);
     }
     finally {
-      connectionProvider.close();
     }
   }
 

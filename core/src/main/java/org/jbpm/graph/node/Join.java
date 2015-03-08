@@ -88,13 +88,19 @@ public class Join extends Node {
   public void read(Element element, JpdlXmlReader jpdlReader) {
     String lock = element.attributeValue("lock");
     if (lock != null) {
-      LockMode lockMode = LockMode.parse(lock);
-      if (lockMode != null)
-        parentLockMode = lockMode.toString();
-      else if ("pessimistic".equals(lock))
-        parentLockMode = LockMode.PESSIMISTIC_WRITE.toString();
-      else
-        jpdlReader.addError("invalid parent lock mode '" + lock + "'");
+      lock = lock.toUpperCase();
+      LockMode lockMode = null;
+      try {
+        lockMode = LockMode.valueOf(lock);
+      } catch (IllegalArgumentException iae) {
+        log.warn(iae.getMessage(), iae);
+      }
+        if (lockMode != null)
+          parentLockMode = lockMode.toString();
+        else if ("PESSIMISTIC".equals(lock))
+          parentLockMode = LockMode.PESSIMISTIC_WRITE.toString();
+        else
+          jpdlReader.addError("invalid parent lock mode '" + lock + "'");        
     }
   }
 
@@ -119,7 +125,7 @@ public class Join extends Node {
       Session session;
       if (jbpmContext != null && (session = jbpmContext.getSession()) != null) {
         // parse lock mode
-        LockMode lockMode = LockMode.parse(parentLockMode);
+        LockMode lockMode = LockMode.valueOf(parentLockMode.toUpperCase());
         // call load() instead of lock() to obtain an unversioned lock
         // https://jira.jboss.org/browse/SOA-1476
         ProcessInstance processInstance = (ProcessInstance) session.load(ProcessInstance.class, new Long(arrivingToken.getProcessInstance()

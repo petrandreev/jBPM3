@@ -38,15 +38,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
-import org.hibernate.engine.SessionFactoryImplementor;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.exception.LockAcquisitionException;
-
 import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.db.ContextSession;
 import org.jbpm.db.GraphSession;
 import org.jbpm.db.JobSession;
 import org.jbpm.db.LoggingSession;
+import org.jbpm.db.SessionConnectionProvider;
 import org.jbpm.db.TaskMgmtSession;
 import org.jbpm.persistence.JbpmPersistenceException;
 import org.jbpm.persistence.PersistenceService;
@@ -108,8 +108,7 @@ public class DbPersistenceService implements PersistenceService {
       }
       else {
         Connection connection = getConnection(false);
-        session = connection != null ? sessionFactory.openSession(connection)
-          : sessionFactory.openSession();
+        session = connection != null ? sessionFactory.withOptions().connection(connection).openSession() : sessionFactory.openSession();
         mustSessionBeFlushed = true;
         mustSessionBeClosed = true;
       }
@@ -168,7 +167,7 @@ public class DbPersistenceService implements PersistenceService {
         Session session = this.session;
         if (session != null || resolveSession && (session = getSession()) != null) {
           // get connection from session
-          connection = session.connection();
+          connection = new SessionConnectionProvider(session).connection();
           /*
            * If the session is using aggressive connection release (as in a CMT environment),
            * the application is responsible for closing the returned connection. Otherwise, the

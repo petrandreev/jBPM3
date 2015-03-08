@@ -9,12 +9,12 @@
 
     <!-- jdbc connection properties -->
     <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
-    <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
-    <property name="hibernate.connection.url">jdbc:hsqldb:.</property>
+    <property name="hibernate.connection.driver_class">org.hsqldb.jdbc.JDBCDriver</property>
+    <property name="hibernate.connection.url">jdbc:hsqldb:.;hsqldb.tx=MVCC</property>
     <property name="hibernate.connection.username">sa</property>
     <property name="hibernate.connection.password"></property>
     <property name="hibernate.show_sql">false</property>
-    <property name="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
+    <property name="hibernate.cache.region.factory_class">org.hibernate.testing.cache.CachingRegionFactory</property>
 
   </session-factory>
 </hibernate-configuration>

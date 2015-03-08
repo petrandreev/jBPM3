@@ -70,7 +70,7 @@ public class IdentitySessionFactory {
   }
 
   public IdentitySession openIdentitySession(Connection connection) {
-    return new IdentitySession(sessionFactory.openSession(connection));
+    return new IdentitySession(sessionFactory.withOptions().connection(connection).openSession());
   }
 
   public void evictCachedIdentities() {

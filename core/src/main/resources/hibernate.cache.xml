@@ -3,8 +3,8 @@
     <!-- # cache settings # -->
     <!-- ##################-->
 
-    <!-- strategy "nonstrict-read-write" is appropriate for HashtableCacheProvider -->
-    <!-- strategy "transactional" is appropriate for TreeCacheProvider -->
+    <!-- strategy "nonstrict-read-write" is appropriate for CachingRegionFactory -->
+    <!-- strategy "transactional" is appropriate for Infinispan -->
 
     <class-cache class="org.jbpm.bytes.ByteArray" usage="nonstrict-read-write" />
     <collection-cache collection="org.jbpm.bytes.ByteArray.byteBlocks" usage="nonstrict-read-write" />

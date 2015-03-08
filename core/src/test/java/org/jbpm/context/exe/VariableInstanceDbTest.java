@@ -150,7 +150,7 @@ public class VariableInstanceDbTest extends AbstractDbTestCase {
     contextInstance.setVariable("a", new Integer(3));
     processInstance = saveAndReload(processInstance);
     contextInstance = processInstance.getContextInstance();
-    assertEquals(new Integer(3), contextInstance.getVariable("a"));
+    assertEquals(""+contextInstance.getVariable("a").getClass().getName() ,  new Integer(3), contextInstance.getVariable("a"));
   }
 
   public void testDate() {

@@ -250,7 +250,7 @@ public class PersistenceServiceDbTest extends AbstractJbpmTestCase {
 
       DataSource dataSource = Jdbc.createRecordedDataSource();
       Connection connection = dataSource.getConnection();
-      Session session = sessionFactory.openSession(connection);
+      Session session = sessionFactory.withOptions().connection(connection).openSession();
 
       jbpmContext.setSession(session);
       jbpmContext.setRollbackOnly();
