@@ -42,7 +42,7 @@
 
     <!-- Dependency versions -->
     <cargo.version>1.4.12</cargo.version>
-    <hibernate.version>4.3.8.Final</hibernate.version>
+    <hibernate.version>4.3.10.Final</hibernate.version>
     <version.javassist>3.18.1-GA</version.javassist>
     <version.slf4j>1.7.2</version.slf4j>
 
@@ -416,7 +416,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
-        <version>1.7</version>
+        <version>1.8</version>
         <executions>
           <execution>
             <id>check-java-version</id>
